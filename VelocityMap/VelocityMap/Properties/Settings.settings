@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VelocityMap.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10.35.39.2</Value>
+    </Setting>
+    <Setting Name="Username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">lvuser</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RioLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/home/lvuser/Motion_Profiles/</Value>
+    </Setting>
+    <Setting Name="TrackWidth" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="MaxVel" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">3500</Value>
+    </Setting>
+    <Setting Name="MaxAcc" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">2500</Value>
+    </Setting>
+    <Setting Name="MaxRotVel" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="MaxRotAcc" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="MaxJerk" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">12000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
