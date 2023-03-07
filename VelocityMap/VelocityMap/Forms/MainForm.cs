@@ -19,6 +19,7 @@
 
     using MotionProfile.SegmentedProfile;
     using System.Windows.Controls;
+    using Renci.SshNet.Sftp;
 
 
     /// <summary>
@@ -822,63 +823,12 @@
             return splinePoints;
         }
 
-        private double findStartAngle(double x2, double x1, double y2, double y1)
-        {
-            double xDiff = x2 - x1;
-            double yDiff = y2 - y1;
-            return Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI;
-        }
-        /// <summary>
-        /// Returns the angle of this point by adding the angle change to the prevAngle.
-        /// </summary>
-
-        private double findAngleChange(double x2, double x1, double y2, double y1, double prevAngle)//, ControlPointDirection direction)
-        {
-            double target = findStartAngle(x2, x1, y2, y1);
-
-            double a = target - prevAngle;
-            double b = target - prevAngle + 360;
-            double y = target - prevAngle - 360;
-
-            double dir = a;
-
-            double directionOffset = 0;
-
-
-            if (Math.Abs(a)>Math.Abs(b))
-            {
-                dir = b;
-                if (Math.Abs(b) > Math.Abs(y))
-                {
-                    dir = y;
-                }
-            }
-            if(Math.Abs(a)>Math.Abs(y))
-            {
-                dir = y;
-            }
-
-            if (false)//direction == ControlPointDirection.REVERSE)
-            {
-                if (dir > 0)
-                {
-                    directionOffset = -180;
-                }
-                if (dir < 0)
-                {
-                    directionOffset = 180;
-                }
-            }
-
-            return (prevAngle + dir+ directionOffset);
-        }
-
         private void SaveAllProfiles(object sender, EventArgs e)
         {
             if (profiles.Count == 0) return;
 
             FolderBrowserDialog browser = new FolderBrowserDialog();
-            browser.Description = "Save all motion profiles to folder";
+            browser.Description = "Save all motion profiles to folder\n\nCAUTION: Existing profiles will be overridden!";
 
             if (browser.ShowDialog() != DialogResult.OK) return;
 
@@ -955,12 +905,11 @@
         {
             if (noSelectedProfile() || !selectedProfile.isValid())
             {
-                MessageBox.Show("Invalid profile to deploy", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                setStatus("Selected profile is invalid", true);
                 return;
             }
             Cursor = Cursors.WaitCursor;
 
-            //Create an sftp client that we will use to upload the file to the robot
             SftpClient sftp = new SftpClient(
                 Properties.Settings.Default.IpAddress,
                 Properties.Settings.Default.Username,
@@ -969,65 +918,45 @@
 
             try
             {
+                setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
+
+                if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
+
+                MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toJSON().ToString()));
+                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, selectedProfile.Name + ".mp"));
+
+                setStatus("Profile uploaded successfully", false);
+                sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
             {
-                Cursor = Cursors.Default;
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                MessageBox.Show(exception.Message, "SSH Connection Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                setStatus("Failed to establish connection", true);
             }
             catch (System.Net.Sockets.SocketException exception)
             {
-                Cursor = Cursors.Default;
                 Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
-                MessageBox.Show(exception.Message, "Socket Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                // Test for the directory already existing
-                sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
+                setStatus("Failed to establish connection", true);
             }
             catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
             {
-                Cursor = Cursors.Default;
                 Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
-                MessageBox.Show(exception.Message, "Permission Denied Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            catch (Renci.SshNet.Common.SftpPathNotFoundException exception)
-            {
-                Cursor = Cursors.Default;
-                Console.WriteLine("SftpPathNotFoundException, source: {0}", exception.StackTrace);
-                MessageBox.Show(exception.Message, "Path Not Found Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                setStatus("Permission denied", true);
             }
             catch (Exception exception)
             {
-                Cursor = Cursors.Default;
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
-                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                setStatus("Failed to upload profile to RIO", true);
             }
 
-            // Insert the profile's JSON data in bytes into a memory stream
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toJSON().ToString()));
-            sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, selectedProfile.Name + ".mp"));
-
             Cursor = Cursors.Default;
-            MessageBox.Show("Profile uploaded to robot successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            sftp.Disconnect();
         }
 
         private void LoadProfilesFromRIO(object sender, EventArgs e)
         {
-            // TODO: FIX
             Cursor = Cursors.WaitCursor;
 
-            //Create an sftp client that we will use to get the file list from the robot.
             SftpClient sftp = new SftpClient(
                 Properties.Settings.Default.IpAddress,
                 Properties.Settings.Default.Username,
@@ -1036,76 +965,66 @@
 
             try
             {
+                setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
+
                 if (!sftp.Exists(Properties.Settings.Default.RioLocation))
                 {
                     sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
-                    MessageBox.Show("No motion profiles found at specified RIO directory", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    setStatus("No motion profiles found at RIO directory", false);
                     return;
                 }
 
-                List<Renci.SshNet.Sftp.SftpFile> files = sftp.ListDirectory(Properties.Settings.Default.RioLocation).ToList();
-                foreach (Renci.SshNet.Sftp.SftpFile file in files)
+                bool foundFiles = false;
+                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
                 {
                     if (!file.Name.Contains(".mp")) continue;
-                    profileTable.Rows.Add(file.Name, file.LastWriteTime.ToString("HH:mm:ss dd/MM/yy"));
-                    //profiles.Add(new Profile(JObject.Parse(fileReader.ReadToEnd())));
+                    foundFiles = true;
+
+                    StreamReader reader = sftp.OpenText(file.FullName);
+                    profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
                     profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
                 }
-
+                if (foundFiles) setStatus("Profiles loaded from RIO", false);
+                else setStatus("No motion profiles found at RIO directory", false);
+                
                 sftp.Disconnect();
             }
-            catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
+            catch (Renci.SshNet.Common.SshConnectionException exception)
             {
-                //Make sure that the user has the access to make/put a file here.
-                Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                Cursor = Cursors.Default;
-                MessageBox.Show("Permission Denied By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
             }
-            catch (Renci.SshNet.Common.SftpPathNotFoundException e1)
+            catch (System.Net.Sockets.SocketException exception)
             {
-                //Make sure that the main directory they gave us actually exists.
-                Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                Cursor = Cursors.Default;
-                MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
             }
-            catch (Renci.SshNet.Common.SshConnectionException e1)
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
             {
-                //Make sure that we are connected to the robot.
-                Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                Cursor = Cursors.Default;
-                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
+                setStatus("Permission denied", true);
             }
-            catch (System.Net.Sockets.SocketException e1)
+            catch (Exception exception)
             {
-                //Make sure that we are connected to the robot.
-                Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                Cursor = Cursors.Default;
-                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
+                setStatus("Failed to load RIO profiles", true);
             }
+
             Cursor = Cursors.Default;
         }
 
         private void GridCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            switch (GridCheckBox.CheckState)
+            if (GridCheckBox.CheckState == CheckState.Unchecked)
             {
-                case CheckState.Checked:
-                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
-                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
-                    break;
-                case CheckState.Unchecked:
-                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-                    break;
-                case CheckState.Indeterminate:
-                    mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
-                    mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
-                    break;
+                mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+            }
+            else
+            {
+                mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
+                mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
             }
         }
         bool isFileMenuItemOpen = false;
