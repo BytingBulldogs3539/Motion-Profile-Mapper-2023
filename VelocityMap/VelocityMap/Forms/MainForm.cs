@@ -834,8 +834,8 @@
 
             foreach (Profile profile in profiles)
             {
-                string filePath = Path.Combine(browser.SelectedPath, profile.Name + ".mp"); //.Replace(' ', '_') + ".mp");
-                using (var writer = new System.IO.StreamWriter(filePath))
+                string filePath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
+                using (var writer = new StreamWriter(filePath))
                 {
                     writer.Write(profile.toJSON().ToString());
                 }
@@ -851,7 +851,7 @@
 
             SaveFileDialog browser = new SaveFileDialog();
             browser.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            browser.FileName = selectedProfile.Name; //.Replace(' ', '_');
+            browser.FileName = selectedProfile.Name.Replace(' ', '_');
             browser.Filter = "Motion Profile|*.mp;";
             browser.Title = "Save motion profile file";
 
@@ -862,7 +862,7 @@
                 Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
 
-            using (var writer = new System.IO.StreamWriter(filePath))
+            using (var writer = new StreamWriter(filePath))
             {
                 writer.Write(selectedProfile.toJSON().ToString());
             }
@@ -924,8 +924,8 @@
                 if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
 
                 MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toJSON().ToString()));
-                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, selectedProfile.Name + ".mp"));
-
+                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, "test_deploy.mp"));
+                
                 setStatus("Profile uploaded successfully", false);
                 sftp.Disconnect();
             }
@@ -1446,15 +1446,8 @@
 
         private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (profileTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "")
-            {
-                profileTable.Rows[e.RowIndex].Cells[0].Value = profiles[e.RowIndex].Name;
-            }
-            else
-            {
-                profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
-                ProfileEdit();
-            }
+            profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
+            ProfileEdit();
 
             editing = true;
             editedCell = e.RowIndex;
@@ -1668,7 +1661,72 @@
 
         private void saveToRioButton_Click(object sender, EventArgs e)
         {
+            if (profiles.Count == 0)
+            {
+                setStatus("No profiles to save to RIO", true);
+                return;
+            }
+            Cursor = Cursors.WaitCursor;
 
+            SftpClient sftp = new SftpClient(
+                Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username,
+                Properties.Settings.Default.Password
+            );
+
+            try
+            {
+                setStatus("Establishing RIO connection...", false);
+                sftp.Connect();
+
+                if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
+
+                bool invalidProfiles = false;
+                foreach (Profile profile in profiles)
+                {
+                    if (!profile.isValid())
+                    {
+                        invalidProfiles = true;
+                        continue;
+                    }
+                    MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJSON().ToString()));
+                    sftp.UploadFile(stream, Path.Combine(
+                        Properties.Settings.Default.RioLocation,
+                        profile.Name.Replace(' ', '_') + ".mp"
+                    ));
+                }
+
+                if (invalidProfiles) MessageBox.Show(
+                    "One or more profiles were not deployed due to being invalid",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                setStatus("Profile(s) uploaded successfully", false);
+                sftp.Disconnect();
+            }
+            catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (System.Net.Sockets.SocketException exception)
+            {
+                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
+            {
+                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
+                setStatus("Permission denied", true);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
+                setStatus("Failed to upload profile to RIO", true);
+            }
+
+            Cursor = Cursors.Default;
         }
     }
 }

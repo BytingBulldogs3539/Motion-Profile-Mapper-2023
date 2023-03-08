@@ -122,8 +122,9 @@ namespace MotionProfile.SegmentedProfile
 
             set
             {
-                if (value.Trim() == "") return;
-                this.name = value;
+                string newName = value.Trim();
+                if (newName == "" || newName == "test_deploy" || newName == "test deploy") return;
+                this.name = newName;
             }
         }
 

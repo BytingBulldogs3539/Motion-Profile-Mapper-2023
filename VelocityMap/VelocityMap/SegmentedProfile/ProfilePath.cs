@@ -106,7 +106,7 @@ namespace MotionProfile.SegmentedProfile
             set
             {
                 if (value.Trim() == "") return;
-                this.name = value;
+                this.name = value.Trim();
             }
         }
     }
