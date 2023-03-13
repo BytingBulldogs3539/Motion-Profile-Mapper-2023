@@ -867,7 +867,7 @@
                 writer.Write(selectedProfile.toJSON().ToString());
             }*/
 
-            string pointPath = Path.Combine(
+            /*string pointPath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
                 Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
             );
@@ -875,6 +875,16 @@
             using (var writer = new StreamWriter(pointPath))
             {
                 writer.Write(selectedProfile.toJava());
+            }*/
+
+            string txtPath = Path.Combine(
+                Path.GetDirectoryName(browser.FileName.Trim()),
+                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
+            );
+
+            using (var writer = new StreamWriter(txtPath))
+            {
+                writer.Write(selectedProfile.toTxt());
             }
         }
 
@@ -931,12 +941,13 @@
                 setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
 
+                setStatus("Uploading test profile...", false);
                 if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
 
-                MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toJSON().ToString()));
-                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, "test_deploy.mp"));
+                MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toTxt().ToString()));
+                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, "_test.txt"));
                 
-                setStatus("Profile uploaded successfully", false);
+                setStatus("Test profile uploaded successfully", false);
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
@@ -1699,8 +1710,15 @@
                         invalidProfiles = true;
                         continue;
                     }
-                    MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJSON().ToString()));
-                    sftp.UploadFile(stream, Path.Combine(
+                    // Upload java file to pre-compile for robot reading
+                    MemoryStream javaStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJava().ToString()));
+                    sftp.UploadFile(javaStream, Path.Combine(
+                        Properties.Settings.Default.RioLocation,
+                        profile.Name.Replace(' ', '_') + ".java"
+                    ));
+                    // Upload mp file for profiler to read for editing
+                    MemoryStream mpStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJSON().ToString()));
+                    sftp.UploadFile(mpStream, Path.Combine(
                         Properties.Settings.Default.RioLocation,
                         profile.Name.Replace(' ', '_') + ".mp"
                     ));

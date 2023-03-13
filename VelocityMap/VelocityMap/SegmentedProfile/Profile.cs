@@ -124,6 +124,21 @@ namespace MotionProfile.SegmentedProfile
             return profile;
         }
 
+        public string toTxt()
+        {
+            List<string> pathStrings = new List<string>();
+            foreach (ProfilePath path in this.paths)
+            {
+                string pathTxt = "";
+                foreach (ControlPoint point in path.controlPoints)
+                {
+                    pathTxt += $"{point.X} {point.Y} {point.TangentX} {point.TangentY} {point.Heading}\n";
+                }
+                pathStrings.Add(pathTxt);
+            }
+            return String.Join("@@@\n", pathStrings);
+        }
+
         public string newEdit()
         {
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
@@ -140,7 +155,7 @@ namespace MotionProfile.SegmentedProfile
             set
             {
                 string newName = value.Trim();
-                if (newName == "" || newName == "test_deploy" || newName == "test deploy") return;
+                if (newName == "") return;
                 this.name = newName;
             }
         }
