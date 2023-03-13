@@ -61,7 +61,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/home/lvuser/Motion_Profiles/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/home/lvuser/profiles/")]
         public string RioLocation {
             get {
                 return ((string)(this["RioLocation"]));

@@ -97,6 +97,19 @@ namespace MotionProfile.SegmentedProfile
             return pathJSON;
         }
 
+        public string toJava()
+        {
+            string path = "\t\t{\n";
+            List<string> pointStrings = new List<string>();
+            foreach (ControlPoint point in this.controlPoints)
+            {
+                pointStrings.Add(point.toJava());
+            }
+            path += String.Join(",\n", pointStrings) + "\n";
+            path += "\t\t}";
+            return path;
+        }
+
         public string Name
         {
             get

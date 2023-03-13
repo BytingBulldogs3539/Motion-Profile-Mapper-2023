@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RioLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/home/lvuser/Motion_Profiles/</Value>
+      <Value Profile="(Default)">/home/lvuser/profiles/</Value>
     </Setting>
     <Setting Name="TrackWidth" Type="System.Single" Scope="User">
       <Value Profile="(Default)">600</Value>

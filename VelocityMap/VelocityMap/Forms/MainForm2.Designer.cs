@@ -119,5 +119,15 @@ namespace VelocityMap.Forms {
                 return ((System.Drawing.Point)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=1176,Y=17}.
+        /// </summary>
+        internal static System.Drawing.Point TestTooltip_TrayLocation {
+            get {
+                object obj = ResourceManager.GetObject("TestTooltip.TrayLocation", resourceCulture);
+                return ((System.Drawing.Point)(obj));
+            }
+        }
     }
 }

@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
@@ -105,26 +105,28 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.aboutButton = new System.Windows.Forms.Button();
-            this.pathOrderUp = new FontAwesome.Sharp.IconButton();
-            this.pathOrderDown = new FontAwesome.Sharp.IconButton();
-            this.newPathButton = new FontAwesome.Sharp.IconButton();
-            this.deletePathButton = new FontAwesome.Sharp.IconButton();
-            this.newProfileButton = new FontAwesome.Sharp.IconButton();
-            this.deleteProfileButton = new FontAwesome.Sharp.IconButton();
-            this.editProfileButton = new FontAwesome.Sharp.IconButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.maxRotationAccelerationInput = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.maxRotationVelocityInput = new System.Windows.Forms.TextBox();
-            this.rioConectionButton = new FontAwesome.Sharp.IconButton();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.saveFileButton = new System.Windows.Forms.Button();
             this.saveAllButton = new System.Windows.Forms.Button();
             this.saveToRioButton = new System.Windows.Forms.Button();
             this.invertAll = new System.Windows.Forms.Button();
+            this.defaultsButton = new System.Windows.Forms.Button();
             this.editPathButton = new FontAwesome.Sharp.IconButton();
+            this.rioConectionButton = new FontAwesome.Sharp.IconButton();
+            this.editProfileButton = new FontAwesome.Sharp.IconButton();
+            this.deleteProfileButton = new FontAwesome.Sharp.IconButton();
+            this.newProfileButton = new FontAwesome.Sharp.IconButton();
+            this.deletePathButton = new FontAwesome.Sharp.IconButton();
+            this.newPathButton = new FontAwesome.Sharp.IconButton();
+            this.pathOrderDown = new FontAwesome.Sharp.IconButton();
+            this.pathOrderUp = new FontAwesome.Sharp.IconButton();
+            this.TestTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -223,34 +225,34 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainField.BackColor = System.Drawing.SystemColors.ControlLight;
-            chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartArea1.Name = "field";
-            this.mainField.ChartAreas.Add(chartArea1);
+            chartArea4.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea4.Name = "field";
+            this.mainField.ChartAreas.Add(chartArea4);
             this.mainField.Location = new System.Drawing.Point(1, 17);
             this.mainField.Name = "mainField";
-            series1.ChartArea = "field";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Name = "background";
-            series2.ChartArea = "field";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.LightGray;
-            series2.MarkerSize = 2;
-            series2.Name = "right";
-            series3.ChartArea = "field";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.LightGray;
-            series3.MarkerSize = 2;
-            series3.Name = "left";
-            series4.ChartArea = "field";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.Aqua;
-            series4.MarkerSize = 4;
-            series4.Name = "path";
-            this.mainField.Series.Add(series1);
-            this.mainField.Series.Add(series2);
-            this.mainField.Series.Add(series3);
-            this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 735);
+            series9.ChartArea = "field";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series9.Name = "background";
+            series10.ChartArea = "field";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Color = System.Drawing.Color.LightGray;
+            series10.MarkerSize = 2;
+            series10.Name = "right";
+            series11.ChartArea = "field";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series11.Color = System.Drawing.Color.LightGray;
+            series11.MarkerSize = 2;
+            series11.Name = "left";
+            series12.ChartArea = "field";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series12.Color = System.Drawing.Color.Aqua;
+            series12.MarkerSize = 4;
+            series12.Name = "path";
+            this.mainField.Series.Add(series9);
+            this.mainField.Series.Add(series10);
+            this.mainField.Series.Add(series11);
+            this.mainField.Series.Add(series12);
+            this.mainField.Size = new System.Drawing.Size(721, 723);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -286,7 +288,7 @@
             this.rioCommandsTable.RowTemplate.Height = 40;
             this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 208);
+            this.rioCommandsTable.Size = new System.Drawing.Size(310, 196);
             this.rioCommandsTable.TabIndex = 28;
             this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
             this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
@@ -331,37 +333,37 @@
             // 
             this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
-            chartArea2.AxisX.Interval = 0.5D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.MinorGrid.Enabled = true;
-            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea2.AxisX.Title = "Time (Seconds)";
-            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea2.Name = "ChartArea1";
-            this.kinematicsChart.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend1";
-            this.kinematicsChart.Legends.Add(legend1);
+            chartArea5.AxisX.Interval = 0.5D;
+            chartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea5.AxisX.MinorGrid.Enabled = true;
+            chartArea5.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea5.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea5.AxisX.Title = "Time (Seconds)";
+            chartArea5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea5.Name = "ChartArea1";
+            this.kinematicsChart.ChartAreas.Add(chartArea5);
+            legend3.Name = "Legend1";
+            this.kinematicsChart.Legends.Add(legend3);
             this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
             this.kinematicsChart.Name = "kinematicsChart";
-            series5.BorderWidth = 3;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Legend = "Legend1";
-            series5.Name = "Position";
-            series6.BorderWidth = 3;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Velocity";
-            series7.BorderWidth = 3;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Acceleration";
-            this.kinematicsChart.Series.Add(series5);
-            this.kinematicsChart.Series.Add(series6);
-            this.kinematicsChart.Series.Add(series7);
+            series13.BorderWidth = 3;
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series13.Legend = "Legend1";
+            series13.Name = "Position";
+            series14.BorderWidth = 3;
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series14.Legend = "Legend1";
+            series14.Name = "Velocity";
+            series15.BorderWidth = 3;
+            series15.ChartArea = "ChartArea1";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series15.Legend = "Legend1";
+            series15.Name = "Acceleration";
+            this.kinematicsChart.Series.Add(series13);
+            this.kinematicsChart.Series.Add(series14);
+            this.kinematicsChart.Series.Add(series15);
             this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
             this.kinematicsChart.TabIndex = 0;
             // 
@@ -380,27 +382,27 @@
             // 
             this.AngleChart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.AngleChart.BorderlineColor = System.Drawing.SystemColors.WindowFrame;
-            chartArea3.AxisX.Interval = 0.5D;
-            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea3.AxisX.MinorGrid.Enabled = true;
-            chartArea3.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea3.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea3.AxisX.Title = "Time (Seconds)";
-            chartArea3.AxisY.Interval = 5D;
-            chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea3.Name = "ChartArea1";
-            this.AngleChart.ChartAreas.Add(chartArea3);
-            legend2.Name = "Legend1";
-            this.AngleChart.Legends.Add(legend2);
+            chartArea6.AxisX.Interval = 0.5D;
+            chartArea6.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea6.AxisX.MinorGrid.Enabled = true;
+            chartArea6.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea6.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea6.AxisX.Title = "Time (Seconds)";
+            chartArea6.AxisY.Interval = 5D;
+            chartArea6.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea6.Name = "ChartArea1";
+            this.AngleChart.ChartAreas.Add(chartArea6);
+            legend4.Name = "Legend1";
+            this.AngleChart.Legends.Add(legend4);
             this.AngleChart.Location = new System.Drawing.Point(4, -2);
             this.AngleChart.Name = "AngleChart";
-            series8.BorderWidth = 3;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            series8.Legend = "Legend1";
-            series8.Name = "Angle";
-            this.AngleChart.Series.Add(series8);
+            series16.BorderWidth = 3;
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            series16.Legend = "Legend1";
+            series16.Name = "Angle";
+            this.AngleChart.Series.Add(series16);
             this.AngleChart.Size = new System.Drawing.Size(738, 795);
             this.AngleChart.TabIndex = 1;
             // 
@@ -481,7 +483,8 @@
             this.deploy.Name = "deploy";
             this.deploy.Size = new System.Drawing.Size(230, 50);
             this.deploy.TabIndex = 11;
-            this.deploy.Text = "Deploy";
+            this.deploy.Text = "Test";
+            this.TestTooltip.SetToolTip(this.deploy, "Deploys selected profile to RIO under \"Test.mp\"");
             this.deploy.UseVisualStyleBackColor = false;
             this.deploy.Click += new System.EventHandler(this.DeploySelectedProfile);
             // 
@@ -538,8 +541,8 @@
             this.ControlPointTable.AllowUserToDeleteRows = false;
             this.ControlPointTable.AllowUserToResizeColumns = false;
             this.ControlPointTable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
             this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -547,14 +550,14 @@
             this.ControlPointTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ControlPointTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.ControlPointTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ControlPointTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ControlPointTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.ControlPointTable.ColumnHeadersHeight = 28;
             this.ControlPointTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.ControlPointTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -572,8 +575,8 @@
             this.ControlPointTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.ControlPointTable.RowHeadersVisible = false;
             this.ControlPointTable.RowHeadersWidth = 20;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.ControlPointTable.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Black;
+            this.ControlPointTable.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.ControlPointTable.RowTemplate.Height = 40;
             this.ControlPointTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ControlPointTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -712,21 +715,21 @@
             this.profileTable.AllowUserToDeleteRows = false;
             this.profileTable.AllowUserToResizeColumns = false;
             this.profileTable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
             this.profileTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.profileTable.BackgroundColor = System.Drawing.Color.White;
             this.profileTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.profileTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.profileTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.profileTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.profileTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.profileTable.ColumnHeadersHeight = 28;
             this.profileTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
@@ -742,8 +745,8 @@
             this.profileTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.profileTable.RowHeadersVisible = false;
             this.profileTable.RowHeadersWidth = 20;
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            this.profileTable.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            this.profileTable.RowsDefaultCellStyle = dataGridViewCellStyle15;
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -849,8 +852,8 @@
             this.pathTable.AllowUserToDeleteRows = false;
             this.pathTable.AllowUserToResizeColumns = false;
             this.pathTable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.pathTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pathTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pathTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -858,14 +861,14 @@
             this.pathTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pathTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.pathTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pathTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pathTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.pathTable.ColumnHeadersHeight = 28;
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -881,8 +884,8 @@
             this.pathTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.pathTable.RowHeadersVisible = false;
             this.pathTable.RowHeadersWidth = 20;
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.Black;
+            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle18;
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -943,136 +946,6 @@
             this.aboutButton.Text = "About";
             this.aboutButton.UseVisualStyleBackColor = false;
             this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
-            // 
-            // pathOrderUp
-            // 
-            this.pathOrderUp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pathOrderUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pathOrderUp.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
-            this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
-            this.pathOrderUp.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
-            this.pathOrderUp.IconColor = System.Drawing.Color.Black;
-            this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.pathOrderUp.IconSize = 20;
-            this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pathOrderUp.Location = new System.Drawing.Point(1231, 312);
-            this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
-            this.pathOrderUp.Name = "pathOrderUp";
-            this.pathOrderUp.Size = new System.Drawing.Size(30, 30);
-            this.pathOrderUp.TabIndex = 44;
-            this.pathOrderUp.UseVisualStyleBackColor = false;
-            this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
-            // 
-            // pathOrderDown
-            // 
-            this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pathOrderDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pathOrderDown.ForeColor = System.Drawing.Color.DarkGray;
-            this.pathOrderDown.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
-            this.pathOrderDown.IconColor = System.Drawing.Color.Black;
-            this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.pathOrderDown.IconSize = 20;
-            this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.pathOrderDown.Location = new System.Drawing.Point(1266, 312);
-            this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
-            this.pathOrderDown.Name = "pathOrderDown";
-            this.pathOrderDown.Size = new System.Drawing.Size(30, 30);
-            this.pathOrderDown.TabIndex = 45;
-            this.pathOrderDown.UseVisualStyleBackColor = false;
-            this.pathOrderDown.Click += new System.EventHandler(this.pathOrderDown_Click);
-            // 
-            // newPathButton
-            // 
-            this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.newPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.newPathButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.newPathButton.IconColor = System.Drawing.Color.Black;
-            this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.newPathButton.IconSize = 20;
-            this.newPathButton.Location = new System.Drawing.Point(1097, 312);
-            this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.newPathButton.Name = "newPathButton";
-            this.newPathButton.Size = new System.Drawing.Size(30, 30);
-            this.newPathButton.TabIndex = 46;
-            this.newPathButton.UseVisualStyleBackColor = false;
-            this.newPathButton.Click += new System.EventHandler(this.newPathButton_Click);
-            // 
-            // deletePathButton
-            // 
-            this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deletePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deletePathButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deletePathButton.IconColor = System.Drawing.Color.Black;
-            this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deletePathButton.IconSize = 20;
-            this.deletePathButton.Location = new System.Drawing.Point(1167, 312);
-            this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.deletePathButton.Name = "deletePathButton";
-            this.deletePathButton.Size = new System.Drawing.Size(30, 30);
-            this.deletePathButton.TabIndex = 47;
-            this.deletePathButton.UseVisualStyleBackColor = false;
-            this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
-            // 
-            // newProfileButton
-            // 
-            this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.newProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.newProfileButton.IconColor = System.Drawing.Color.Black;
-            this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.newProfileButton.IconSize = 20;
-            this.newProfileButton.Location = new System.Drawing.Point(118, 694);
-            this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.newProfileButton.Name = "newProfileButton";
-            this.newProfileButton.Size = new System.Drawing.Size(30, 30);
-            this.newProfileButton.TabIndex = 48;
-            this.newProfileButton.UseVisualStyleBackColor = false;
-            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
-            // 
-            // deleteProfileButton
-            // 
-            this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deleteProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deleteProfileButton.IconColor = System.Drawing.Color.Black;
-            this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deleteProfileButton.IconSize = 20;
-            this.deleteProfileButton.Location = new System.Drawing.Point(188, 694);
-            this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.deleteProfileButton.Name = "deleteProfileButton";
-            this.deleteProfileButton.Size = new System.Drawing.Size(30, 30);
-            this.deleteProfileButton.TabIndex = 49;
-            this.deleteProfileButton.UseVisualStyleBackColor = false;
-            this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
-            // 
-            // editProfileButton
-            // 
-            this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.editProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.editProfileButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
-            this.editProfileButton.IconColor = System.Drawing.Color.Black;
-            this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.editProfileButton.IconSize = 20;
-            this.editProfileButton.Location = new System.Drawing.Point(153, 694);
-            this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.editProfileButton.Name = "editProfileButton";
-            this.editProfileButton.Size = new System.Drawing.Size(30, 30);
-            this.editProfileButton.TabIndex = 50;
-            this.editProfileButton.UseVisualStyleBackColor = false;
-            this.editProfileButton.Click += new System.EventHandler(this.editProfileButton_Click);
             // 
             // label7
             // 
@@ -1151,25 +1024,6 @@
             this.maxRotationVelocityInput.Size = new System.Drawing.Size(70, 23);
             this.maxRotationVelocityInput.TabIndex = 51;
             this.maxRotationVelocityInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // rioConectionButton
-            // 
-            this.rioConectionButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.rioConectionButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rioConectionButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rioConectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rioConectionButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.rioConectionButton.IconChar = FontAwesome.Sharp.IconChar.Cog;
-            this.rioConectionButton.IconColor = System.Drawing.Color.DarkCyan;
-            this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.rioConectionButton.IconSize = 25;
-            this.rioConectionButton.Location = new System.Drawing.Point(269, 150);
-            this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
-            this.rioConectionButton.Name = "rioConectionButton";
-            this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
-            this.rioConectionButton.TabIndex = 57;
-            this.rioConectionButton.UseVisualStyleBackColor = false;
-            this.rioConectionButton.Click += new System.EventHandler(this.rioConectionButton_Click);
             // 
             // loadFileButton
             // 
@@ -1255,6 +1109,23 @@
             this.invertAll.UseVisualStyleBackColor = false;
             this.invertAll.Click += new System.EventHandler(this.invertAll_Click);
             // 
+            // defaultsButton
+            // 
+            this.defaultsButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.defaultsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.defaultsButton.FlatAppearance.BorderSize = 0;
+            this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.defaultsButton.ForeColor = System.Drawing.Color.Black;
+            this.defaultsButton.Location = new System.Drawing.Point(103, 7);
+            this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
+            this.defaultsButton.Name = "defaultsButton";
+            this.defaultsButton.Size = new System.Drawing.Size(80, 28);
+            this.defaultsButton.TabIndex = 64;
+            this.defaultsButton.Text = "Defaults";
+            this.defaultsButton.UseVisualStyleBackColor = false;
+            this.defaultsButton.Click += new System.EventHandler(this.defaultsButton_Click);
+            // 
             // editPathButton
             // 
             this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -1273,11 +1144,167 @@
             this.editPathButton.UseVisualStyleBackColor = false;
             this.editPathButton.Click += new System.EventHandler(this.editPathButton_Click);
             // 
+            // rioConectionButton
+            // 
+            this.rioConectionButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.rioConectionButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.rioConectionButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rioConectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rioConectionButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.rioConectionButton.IconChar = FontAwesome.Sharp.IconChar.Cog;
+            this.rioConectionButton.IconColor = System.Drawing.Color.DarkCyan;
+            this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.rioConectionButton.IconSize = 25;
+            this.rioConectionButton.Location = new System.Drawing.Point(269, 150);
+            this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
+            this.rioConectionButton.Name = "rioConectionButton";
+            this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
+            this.rioConectionButton.TabIndex = 57;
+            this.rioConectionButton.UseVisualStyleBackColor = false;
+            this.rioConectionButton.Click += new System.EventHandler(this.rioConectionButton_Click);
+            // 
+            // editProfileButton
+            // 
+            this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.editProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.editProfileButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
+            this.editProfileButton.IconColor = System.Drawing.Color.Black;
+            this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.editProfileButton.IconSize = 20;
+            this.editProfileButton.Location = new System.Drawing.Point(153, 694);
+            this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.editProfileButton.Name = "editProfileButton";
+            this.editProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.editProfileButton.TabIndex = 50;
+            this.editProfileButton.UseVisualStyleBackColor = false;
+            this.editProfileButton.Click += new System.EventHandler(this.editProfileButton_Click);
+            // 
+            // deleteProfileButton
+            // 
+            this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deleteProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deleteProfileButton.IconColor = System.Drawing.Color.Black;
+            this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deleteProfileButton.IconSize = 20;
+            this.deleteProfileButton.Location = new System.Drawing.Point(188, 694);
+            this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deleteProfileButton.Name = "deleteProfileButton";
+            this.deleteProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.deleteProfileButton.TabIndex = 49;
+            this.deleteProfileButton.UseVisualStyleBackColor = false;
+            this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
+            // 
+            // newProfileButton
+            // 
+            this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.newProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            this.newProfileButton.IconColor = System.Drawing.Color.Black;
+            this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.newProfileButton.IconSize = 20;
+            this.newProfileButton.Location = new System.Drawing.Point(118, 694);
+            this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.newProfileButton.Name = "newProfileButton";
+            this.newProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.newProfileButton.TabIndex = 48;
+            this.newProfileButton.UseVisualStyleBackColor = false;
+            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
+            // 
+            // deletePathButton
+            // 
+            this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deletePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deletePathButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deletePathButton.IconColor = System.Drawing.Color.Black;
+            this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deletePathButton.IconSize = 20;
+            this.deletePathButton.Location = new System.Drawing.Point(1167, 312);
+            this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deletePathButton.Name = "deletePathButton";
+            this.deletePathButton.Size = new System.Drawing.Size(30, 30);
+            this.deletePathButton.TabIndex = 47;
+            this.deletePathButton.UseVisualStyleBackColor = false;
+            this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
+            // 
+            // newPathButton
+            // 
+            this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.newPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.newPathButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
+            this.newPathButton.IconColor = System.Drawing.Color.Black;
+            this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.newPathButton.IconSize = 20;
+            this.newPathButton.Location = new System.Drawing.Point(1097, 312);
+            this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.newPathButton.Name = "newPathButton";
+            this.newPathButton.Size = new System.Drawing.Size(30, 30);
+            this.newPathButton.TabIndex = 46;
+            this.newPathButton.UseVisualStyleBackColor = false;
+            this.newPathButton.Click += new System.EventHandler(this.newPathButton_Click);
+            // 
+            // pathOrderDown
+            // 
+            this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pathOrderDown.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pathOrderDown.ForeColor = System.Drawing.Color.DarkGray;
+            this.pathOrderDown.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
+            this.pathOrderDown.IconColor = System.Drawing.Color.Black;
+            this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.pathOrderDown.IconSize = 20;
+            this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.pathOrderDown.Location = new System.Drawing.Point(1266, 312);
+            this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
+            this.pathOrderDown.Name = "pathOrderDown";
+            this.pathOrderDown.Size = new System.Drawing.Size(30, 30);
+            this.pathOrderDown.TabIndex = 45;
+            this.pathOrderDown.UseVisualStyleBackColor = false;
+            this.pathOrderDown.Click += new System.EventHandler(this.pathOrderDown_Click);
+            // 
+            // pathOrderUp
+            // 
+            this.pathOrderUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pathOrderUp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pathOrderUp.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
+            this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
+            this.pathOrderUp.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
+            this.pathOrderUp.IconColor = System.Drawing.Color.Black;
+            this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.pathOrderUp.IconSize = 20;
+            this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.pathOrderUp.Location = new System.Drawing.Point(1231, 312);
+            this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
+            this.pathOrderUp.Name = "pathOrderUp";
+            this.pathOrderUp.Size = new System.Drawing.Size(30, 30);
+            this.pathOrderUp.TabIndex = 44;
+            this.pathOrderUp.UseVisualStyleBackColor = false;
+            this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
+            // 
+            // TestTooltip
+            // 
+            this.TestTooltip.AutoPopDelay = 10000;
+            this.TestTooltip.InitialDelay = 500;
+            this.TestTooltip.ReshowDelay = 100;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
+            this.Controls.Add(this.defaultsButton);
             this.Controls.Add(this.editPathButton);
             this.Controls.Add(this.invertAll);
             this.Controls.Add(this.saveToRioButton);
@@ -1421,6 +1448,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.Button defaultsButton;
+        private System.Windows.Forms.ToolTip TestTooltip;
     }
 }
 

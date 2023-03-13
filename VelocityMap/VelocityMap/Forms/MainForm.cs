@@ -855,9 +855,9 @@
             browser.Filter = "Motion Profile|*.mp;";
             browser.Title = "Save motion profile file";
 
-            if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length > 3) return;
+            if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 3) return;
 
-            string filePath = Path.Combine(
+            /*string filePath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
                 Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
@@ -865,6 +865,16 @@
             using (var writer = new StreamWriter(filePath))
             {
                 writer.Write(selectedProfile.toJSON().ToString());
+            }*/
+
+            string pointPath = Path.Combine(
+                Path.GetDirectoryName(browser.FileName.Trim()),
+                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
+            );
+
+            using (var writer = new StreamWriter(pointPath))
+            {
+                writer.Write(selectedProfile.toJava());
             }
         }
 
@@ -1727,6 +1737,12 @@
             }
 
             Cursor = Cursors.Default;
+        }
+
+        private void defaultsButton_Click(object sender, EventArgs e)
+        {
+            Forms.Defaults defaults = new Forms.Defaults();
+            defaults.Show();
         }
     }
 }

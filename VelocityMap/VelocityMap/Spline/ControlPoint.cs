@@ -71,6 +71,11 @@ namespace MotionProfile
             return pointJSON;
         }
 
+        public string toJava()
+        {
+            return $"\t\t\t{{{this.X}, {this.Y}, {this.TangentX}, {this.tangentY}, {this.heading}}}";
+        }
+
         public int Heading
         {
             get

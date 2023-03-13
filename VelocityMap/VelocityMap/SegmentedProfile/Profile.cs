@@ -107,6 +107,23 @@ namespace MotionProfile.SegmentedProfile
             return profile;
         }
 
+        public string toJava()
+        {
+            string profile = "public class Test {\n";
+
+            profile += "\tpublic final double[][][] paths = {\n";
+            List<string> pathStrings = new List<string>();
+            foreach (ProfilePath path in this.paths)
+            {
+                pathStrings.Add(path.toJava());
+            }
+            profile += String.Join(",\n", pathStrings) + "\n";
+            profile += "\t};\n";
+            profile += "}\n";
+
+            return profile;
+        }
+
         public string newEdit()
         {
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
