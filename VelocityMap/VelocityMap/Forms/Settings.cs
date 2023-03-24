@@ -32,7 +32,7 @@ namespace VelocityMap
             Properties.Settings.Default.IpAddress = this.ipaddress.Text;
             Properties.Settings.Default.Username = this.username.Text;
             Properties.Settings.Default.Password = this.password.Text;
-            Properties.Settings.Default.RioLocation = this.riopath.Text;
+            Properties.Settings.Default.RioLocation = this.riopath.Text + (this.riopath.Text.Last().ToString() == "/"? "" : "/");
 
             Properties.Settings.Default.Save();
 

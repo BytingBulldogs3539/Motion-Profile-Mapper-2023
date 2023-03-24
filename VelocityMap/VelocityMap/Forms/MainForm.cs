@@ -1470,6 +1470,7 @@
             profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
             ProfileEdit();
 
+            if (e.RowIndex == profileTable.RowCount - 1) return;
             editing = true;
             editedCell = e.RowIndex;
         }
@@ -1710,11 +1711,10 @@
                         invalidProfiles = true;
                         continue;
                     }
-                    // Upload java file to pre-compile for robot reading
-                    MemoryStream javaStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJava().ToString()));
+                    MemoryStream javaStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toTxt().ToString()));
                     sftp.UploadFile(javaStream, Path.Combine(
                         Properties.Settings.Default.RioLocation,
-                        profile.Name.Replace(' ', '_') + ".java"
+                        profile.Name.Replace(' ', '_') + ".txt"
                     ));
                     // Upload mp file for profiler to read for editing
                     MemoryStream mpStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJSON().ToString()));
