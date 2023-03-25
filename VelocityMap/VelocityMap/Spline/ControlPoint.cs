@@ -9,8 +9,8 @@ namespace MotionProfile
 {
     public class ControlPoint
     {
-        private int x;
-        private int y;
+        private double x;
+        private double y;
         private int heading;
 
         private double tangentX;
@@ -22,7 +22,7 @@ namespace MotionProfile
         /// <summary>
         /// Creates a new control point based on coordinates
         /// </summary>
-        public ControlPoint(int x, int y, int heading)
+        public ControlPoint(double x, double y, int heading)
         {
             this.x = x;
             this.y = y;
@@ -48,8 +48,8 @@ namespace MotionProfile
         /// <param name="pointJSON">JSON-formatted point object<see cref="JObject"/></param>
         public ControlPoint(JObject pointJSON)
         {
-            this.x = (int)pointJSON["x"];
-            this.y = (int)pointJSON["y"];
+            this.x = (double)pointJSON["x"];
+            this.y = (double)pointJSON["y"];
             this.heading = (int)pointJSON["heading"];
             this.tangentX = (double)pointJSON["dx"];
             this.tangentY = (double)pointJSON["dy"];
@@ -73,7 +73,12 @@ namespace MotionProfile
 
         public string toJava()
         {
-            return $"\t\t\t{{{this.X}, {this.Y}, {this.TangentX}, {this.tangentY}, {this.heading}}}";
+            return $"\t\t\t{{{this.Y}, {this.X}, {this.TangentY}, {this.TangentX}, {this.heading}}}";
+        }
+
+        public string toTxt()
+        {
+            return $"{this.Y} {this.X} {this.TangentY} {this.TangentX} {this.heading}\n";
         }
 
         public int Heading
@@ -88,11 +93,11 @@ namespace MotionProfile
             }
         }
 
-        public int X
+        public double X
         {
             get
             {
-                return this.x;
+                return Math.Round(this.x, 5);
             }
 
             set
@@ -101,11 +106,11 @@ namespace MotionProfile
             }
         }
 
-        public int Y
+        public double Y
         {
             get
             {
-                return this.y;
+                return Math.Round(this.y, 5);
             }
 
             set
@@ -136,16 +141,18 @@ namespace MotionProfile
 
         public void setTangents(double dx, double dy)
         {
+            this.tangentX = dx;
+            this.tangentY = dy;
             // REVERSED AND NEGATED BECAUSE THIS COORDINATE SYSTEM IS STUPID
-            this.tangentX = dy;
-            this.tangentY = -dx;
+            //this.tangentX = dy;
+            //this.tangentY = -dx;
         }
 
         public double TangentX
         {
             get
             {
-                return this.tangentX;
+                return Math.Round(this.tangentX, 5);
             }
         }
 
@@ -153,7 +160,7 @@ namespace MotionProfile
         {
             get
             {
-                return this.tangentY;
+                return Math.Round(this.tangentY, 5);
             }
         }
     }

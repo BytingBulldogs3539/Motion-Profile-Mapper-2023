@@ -67,13 +67,13 @@ namespace MotionProfile.SegmentedProfile
             this.paths.Insert(pathIndex + 1, temp);
         }
 
-        public void mirrorPath(ProfilePath pathToMirror, int fieldWidth)
+        public void mirrorPath(ProfilePath pathToMirror, double fieldWidth)
         {
             int index = this.paths.IndexOf(pathToMirror);
             this.paths[index].mirrorPoints(fieldWidth);
         }
 
-        public void mirrorAllPaths(int fieldWidth)
+        public void mirrorAllPaths(double fieldWidth)
         {
             foreach (ProfilePath path in this.paths)
             {
@@ -129,12 +129,7 @@ namespace MotionProfile.SegmentedProfile
             List<string> pathStrings = new List<string>();
             foreach (ProfilePath path in this.paths)
             {
-                string pathTxt = "";
-                foreach (ControlPoint point in path.controlPoints)
-                {
-                    pathTxt += $"{point.X} {point.Y} {point.TangentX} {point.TangentY} {point.Heading}\n";
-                }
-                pathStrings.Add(pathTxt);
+                pathStrings.Add(path.toTxt());
             }
             return String.Join("@@@\n", pathStrings);
         }

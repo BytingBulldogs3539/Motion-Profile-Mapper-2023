@@ -63,7 +63,7 @@ namespace MotionProfile.SegmentedProfile
             return ids;
         }
 
-        public void mirrorPoints(int fieldWidth)
+        public void mirrorPoints(double fieldWidth)
         {
             foreach (ControlPoint point in this.controlPoints)
             {
@@ -108,6 +108,16 @@ namespace MotionProfile.SegmentedProfile
             path += String.Join(",\n", pointStrings) + "\n";
             path += "\t\t}";
             return path;
+        }
+
+        public string toTxt()
+        {
+            string pathTxt = "";
+            foreach (ControlPoint point in this.controlPoints)
+            {
+                pathTxt += point.toTxt();
+            }
+            return pathTxt;
         }
 
         public string Name

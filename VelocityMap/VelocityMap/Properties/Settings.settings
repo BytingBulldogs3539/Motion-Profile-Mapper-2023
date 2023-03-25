@@ -15,7 +15,7 @@
       <Value Profile="(Default)">/home/lvuser/profiles/</Value>
     </Setting>
     <Setting Name="TrackWidth" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">600</Value>
+      <Value Profile="(Default)">0.6</Value>
     </Setting>
     <Setting Name="MaxVel" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3500</Value>

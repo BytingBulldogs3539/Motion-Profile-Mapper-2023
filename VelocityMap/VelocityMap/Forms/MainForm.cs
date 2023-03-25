@@ -32,13 +32,13 @@
         /// </summary>
         ///
         // OLD 2019: 8230
-        private int fieldHeight = 7908;
+        private double fieldHeight = 7.908;
 
         /// <summary>
         /// Defines the fieldWidth
         /// </summary>
         // OLD 2019: 8230
-        private int fieldWidth = 8016;
+        private double fieldWidth = 8.016;
 
         internal int padding = 1;
         public List<ControlPoint> controlPointArray = new List<ControlPoint>();
@@ -52,7 +52,7 @@
         public List<Profile> profiles = new List<Profile>();
         public int newProfileCount = 0; // lol
         public int newPathCount = 0;
-        public int pointSize = 100;
+        public double pointSize = 0.1;
 
         Profile selectedProfile = null;
         ProfilePath selectedPath = null;
@@ -87,11 +87,12 @@
         {
             mainField.ChartAreas["field"].Axes[0].Minimum = 0;
             mainField.ChartAreas["field"].Axes[0].Maximum = fieldWidth;
-            mainField.ChartAreas["field"].Axes[0].Interval = 1000;
+            mainField.ChartAreas["field"].Axes[0].Interval = 1;
+            mainField.ChartAreas["field"].Axes[0].IsReversed = true;
 
             mainField.ChartAreas["field"].Axes[1].Minimum = 0;
             mainField.ChartAreas["field"].Axes[1].Maximum = fieldHeight;
-            mainField.ChartAreas["field"].Axes[1].Interval = 1000;
+            mainField.ChartAreas["field"].Axes[1].Interval = 1;
 
             mainField.Series["background"].Points.AddXY(0, 0);
             mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
@@ -128,14 +129,14 @@
             else
             {
                 Chart chart = (Chart)sender;
-                int x = (int)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                int y = (int)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
                 if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
-                    placingPoint = new ControlPoint(x, y, 90);
+                    placingPoint = new ControlPoint(x, y, 0);
 
-                    ControlPointTable.Rows.Add(placingPoint.X, placingPoint.Y, placingPoint.Heading);
+                    ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Heading);
                     selectPoint(ControlPointTable.Rows.Count - 1);
                     DrawPoint(placingPoint, selectedPath);
                 }
@@ -161,8 +162,8 @@
             if (noSelectedProfile() || noSelectedPath()) return;
 
             Chart chart = (Chart)sender;
-            int clickedX = (int)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-            int clickedY = (int)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+            double clickedX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+            double clickedY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
             foreach (ProfilePath path in selectedProfile.paths)
             {
@@ -188,33 +189,34 @@
             //if the user is holding the left button while moving the mouse allow them to move the point.
             if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left))
             {
-                int newX = (int)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                int newY = (int)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double newX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                double newY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
                 clickedPoint.X = newX;
                 clickedPoint.Y = newY;
                 if (clickedPointPath == selectedPath)
                 {
-                    ControlPointTable.SelectedRows[0].Cells[0].Value = newX;
-                    ControlPointTable.SelectedRows[0].Cells[1].Value = newY;
+                    ControlPointTable.SelectedRows[0].Cells[0].Value = Math.Round(newX, 3);
+                    ControlPointTable.SelectedRows[0].Cells[1].Value = Math.Round(newY, 3);
                 }
 
                 DrawPath(clickedPointPath);
             }
             if (placingPoint != null)
             {
-                int x = (int)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                int y = (int)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
-                placingPoint.Heading = (int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI + 360) % 360;
+                //placingPoint.Heading = (int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI + 360) % 360;
+                placingPoint.Heading = (int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI + 360 + 270) % 360;
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Heading;
 
                 mainField.Series[placingPoint.Id].Points.Clear();
-                int x1 = (int)(placingPoint.X + pointSize * Math.Cos(placingPoint.Heading * Math.PI / 180));
-                int y1 = (int)(placingPoint.Y + pointSize * Math.Sin(placingPoint.Heading * Math.PI / 180));
+                double x1 = (double)(placingPoint.X + pointSize * Math.Cos((placingPoint.Heading - 270) * Math.PI / 180));
+                double y1 = (double)(placingPoint.Y + pointSize * Math.Sin((placingPoint.Heading - 270) * Math.PI / 180));
                 mainField.Series[placingPoint.Id].Points.AddXY(x1, y1);
-                int x2 = (int)(placingPoint.X + 600 * Math.Cos(placingPoint.Heading * Math.PI / 180));
-                int y2 = (int)(placingPoint.Y + 600 * Math.Sin(placingPoint.Heading * Math.PI / 180));
+                double x2 = (double)(placingPoint.X + 0.600 * Math.Cos((placingPoint.Heading - 270) * Math.PI / 180));
+                double y2 = (double)(placingPoint.Y + 0.600 * Math.Sin((placingPoint.Heading - 270) * Math.PI / 180));
                 mainField.Series[placingPoint.Id].Points.AddXY(x2, y2);
             }
         }
@@ -628,11 +630,11 @@
             }
             mainField.Series[point.Id].Points.Clear();
 
-            int x1 = (int)(point.X + pointSize * Math.Cos(point.Heading * Math.PI / 180));
-            int y1 = (int)(point.Y + pointSize * Math.Sin(point.Heading * Math.PI / 180));
+            double x1 = (double)(point.X + pointSize * Math.Cos((point.Heading - 270) * Math.PI / 180));
+            double y1 = (double)(point.Y + pointSize * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x1, y1);
-            int x2 = (int)(point.X + (path == selectedPath ? 600 : 300) * Math.Cos(point.Heading * Math.PI / 180));
-            int y2 = (int)(point.Y + (path == selectedPath ? 600 : 300) * Math.Sin(point.Heading * Math.PI / 180));
+            double x2 = (double)(point.X + (path == selectedPath ? 0.600 : 0.300) * Math.Cos((point.Heading - 270) * Math.PI / 180));
+            double y2 = (double)(point.Y + (path == selectedPath ? 0.600 : 0.300) * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
         }
 
@@ -692,7 +694,7 @@
                 (double)Properties.Settings.Default.MaxVel,
                 (double)Properties.Settings.Default.MaxAcc,
                 (double)Properties.Settings.Default.MaxJerk,
-                .025
+                .0025
             ).GeneratePoints(SplinePath.getLength());
             List<ControlPointSegment> splineSegments = SplinePath.GenSpline(path.controlPoints, velocityPoints);
 
@@ -727,18 +729,18 @@
 
                 foreach (SplinePoint point in segment.points)
                 {
-                    mainField.Series[path.id + "-path"].Points.AddXY((int)point.X, (int)point.Y);
+                    mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
                     pointList.Add(point);
                 }
             }
 
             foreach (SplinePoint point in buildOffsetPoints(-Properties.Settings.Default.TrackWidth, pointList))
             {
-                mainField.Series[path.id + "-left"].Points.AddXY((int)point.X, (int)point.Y);
+                mainField.Series[path.id + "-left"].Points.AddXY(point.X, point.Y);
             }
             foreach (SplinePoint point in buildOffsetPoints(Properties.Settings.Default.TrackWidth, pointList))
             {
-                mainField.Series[path.id + "-right"].Points.AddXY((int)point.X, (int)point.Y);
+                mainField.Series[path.id + "-right"].Points.AddXY(point.X, point.Y);
             }
 
             if (path != selectedPath) return;
@@ -800,7 +802,7 @@
                 {
                     foreach (ControlPoint point in selectedPath.controlPoints)
                     {
-                        ControlPointTable.Rows.Add(point.X, point.Y, point.Heading);
+                        ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Heading);
                     }
                 }
             }
@@ -1610,7 +1612,7 @@
             {
                 foreach (ControlPoint point in selectedPath.controlPoints)
                 {
-                    ControlPointTable.Rows.Add((int)point.X, (int)point.Y, (int)point.Heading);
+                    ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Heading);
                 }
                 pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Selected = true;
             }
@@ -1761,6 +1763,14 @@
         {
             Forms.Defaults defaults = new Forms.Defaults();
             defaults.Show();
+        }
+
+        private void previewButton_Click(object sender, EventArgs e)
+        {
+            if (noSelectedProfile()) return;
+
+            Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', '\t'));
+            preview.Show();
         }
     }
 }
