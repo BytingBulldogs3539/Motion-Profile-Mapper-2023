@@ -92,6 +92,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MainForm.resx</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PathSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PathSettings.Designer.cs">
+      <DependentUpon>PathSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Preview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +155,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MainForm2.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PathSettings.resx">
+      <DependentUpon>PathSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preview.resx">
       <DependentUpon>Preview.cs</DependentUpon>

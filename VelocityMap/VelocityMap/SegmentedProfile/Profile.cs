@@ -131,7 +131,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 pathStrings.Add(path.toTxt());
             }
-            return String.Join("@@@\n", pathStrings);
+            return String.Join("\n", pathStrings);
         }
 
         public string newEdit()

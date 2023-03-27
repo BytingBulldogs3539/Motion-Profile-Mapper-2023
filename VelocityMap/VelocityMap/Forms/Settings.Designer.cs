@@ -50,7 +50,7 @@
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.save.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.Black;
-            this.save.Location = new System.Drawing.Point(257, 158);
+            this.save.Location = new System.Drawing.Point(267, 158);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(90, 25);
             this.save.TabIndex = 0;
@@ -64,7 +64,7 @@
             this.ipaddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ipaddress.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ipaddress.ForeColor = System.Drawing.Color.Black;
-            this.ipaddress.Location = new System.Drawing.Point(105, 38);
+            this.ipaddress.Location = new System.Drawing.Point(115, 38);
             this.ipaddress.Name = "ipaddress";
             this.ipaddress.Size = new System.Drawing.Size(242, 23);
             this.ipaddress.TabIndex = 1;
@@ -75,7 +75,7 @@
             this.username.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.username.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username.ForeColor = System.Drawing.Color.Black;
-            this.username.Location = new System.Drawing.Point(105, 65);
+            this.username.Location = new System.Drawing.Point(115, 65);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(242, 23);
             this.username.TabIndex = 2;
@@ -86,7 +86,7 @@
             this.password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.password.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.password.ForeColor = System.Drawing.Color.Black;
-            this.password.Location = new System.Drawing.Point(105, 92);
+            this.password.Location = new System.Drawing.Point(115, 92);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(242, 23);
             this.password.TabIndex = 3;
@@ -97,7 +97,7 @@
             this.riopath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.riopath.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.riopath.ForeColor = System.Drawing.Color.Black;
-            this.riopath.Location = new System.Drawing.Point(105, 119);
+            this.riopath.Location = new System.Drawing.Point(115, 119);
             this.riopath.Name = "riopath";
             this.riopath.Size = new System.Drawing.Size(242, 23);
             this.riopath.TabIndex = 4;
@@ -107,7 +107,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(11, 40);
+            this.label1.Location = new System.Drawing.Point(21, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 5;
@@ -119,7 +119,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(17, 67);
+            this.label2.Location = new System.Drawing.Point(27, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 17);
             this.label2.TabIndex = 6;
@@ -131,7 +131,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(20, 94);
+            this.label3.Location = new System.Drawing.Point(30, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 7;
@@ -150,7 +150,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(25, 121);
+            this.label5.Location = new System.Drawing.Point(35, 121);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 17);
             this.label5.TabIndex = 9;
@@ -163,7 +163,7 @@
             this.cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
-            this.cancel.Location = new System.Drawing.Point(161, 158);
+            this.cancel.Location = new System.Drawing.Point(171, 158);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(90, 25);
             this.cancel.TabIndex = 10;
@@ -187,7 +187,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(365, 197);
+            this.ClientSize = new System.Drawing.Size(383, 197);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.label5);

@@ -66,8 +66,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.AngleChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFilesDialog = new System.Windows.Forms.OpenFileDialog();
-            this.maxVelocityInput = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.ClearCP = new System.Windows.Forms.Button();
             this.invert = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -79,9 +77,6 @@
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlPointTable = new System.Windows.Forms.DataGridView();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.refresh_button = new System.Windows.Forms.Button();
             this.MainStrip = new System.Windows.Forms.MenuStrip();
@@ -96,21 +91,11 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rioFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.label11 = new System.Windows.Forms.Label();
-            this.maxAccelerationInput = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.pathTable = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.aboutButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.maxRotationAccelerationInput = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.maxRotationVelocityInput = new System.Windows.Forms.TextBox();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.saveFileButton = new System.Windows.Forms.Button();
             this.saveAllButton = new System.Windows.Forms.Button();
@@ -128,6 +113,9 @@
             this.newPathButton = new FontAwesome.Sharp.IconButton();
             this.pathOrderDown = new FontAwesome.Sharp.IconButton();
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -253,7 +241,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 720);
+            this.mainField.Size = new System.Drawing.Size(721, 719);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -289,7 +277,7 @@
             this.rioCommandsTable.RowTemplate.Height = 40;
             this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 193);
+            this.rioCommandsTable.Size = new System.Drawing.Size(310, 192);
             this.rioCommandsTable.TabIndex = 28;
             this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
             this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
@@ -410,33 +398,6 @@
             // openFilesDialog
             // 
             this.openFilesDialog.FileName = "openFileDialog1";
-            // 
-            // maxVelocityInput
-            // 
-            this.maxVelocityInput.BackColor = System.Drawing.Color.White;
-            this.maxVelocityInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxVelocityInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maxVelocityInput.ForeColor = System.Drawing.Color.Black;
-            this.maxVelocityInput.Location = new System.Drawing.Point(211, 42);
-            this.maxVelocityInput.Margin = new System.Windows.Forms.Padding(1);
-            this.maxVelocityInput.Name = "maxVelocityInput";
-            this.maxVelocityInput.Size = new System.Drawing.Size(70, 23);
-            this.maxVelocityInput.TabIndex = 4;
-            this.maxVelocityInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maxVelocityInput.TextChanged += new System.EventHandler(this.maxVelocityInput_TextChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label1.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(10, 45);
-            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 17);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Max Velocity";
             // 
             // ClearCP
             // 
@@ -585,43 +546,6 @@
             this.ControlPointTable.TabIndex = 2;
             this.ControlPointTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
             this.ControlPointTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
-            this.ControlPointTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPointTable_CellValueChanged);
-            this.ControlPointTable.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.ControlPointTable_RowsAdded);
-            this.ControlPointTable.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.ControlPointsTable_RowStateChange);
-            // 
-            // x
-            // 
-            this.x.DataPropertyName = "X";
-            this.x.Frozen = true;
-            this.x.HeaderText = "X";
-            this.x.MinimumWidth = 30;
-            this.x.Name = "x";
-            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.x.Width = 80;
-            // 
-            // y
-            // 
-            this.y.DataPropertyName = "Y";
-            this.y.Frozen = true;
-            this.y.HeaderText = "Y";
-            this.y.MinimumWidth = 30;
-            this.y.Name = "y";
-            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.y.Width = 80;
-            // 
-            // Direction
-            // 
-            this.Direction.DataPropertyName = "Direction";
-            this.Direction.Frozen = true;
-            this.Direction.HeaderText = "Heading";
-            this.Direction.MaxInputLength = 1;
-            this.Direction.MinimumWidth = 30;
-            this.Direction.Name = "Direction";
-            this.Direction.ReadOnly = true;
-            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Direction.ToolTipText = "Robot direction";
-            this.Direction.Width = 74;
             // 
             // label10
             // 
@@ -629,7 +553,7 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(123, 243);
+            this.label10.Location = new System.Drawing.Point(122, 150);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(86, 25);
             this.label10.TabIndex = 23;
@@ -643,7 +567,7 @@
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refresh_button.ForeColor = System.Drawing.Color.DarkCyan;
-            this.refresh_button.Location = new System.Drawing.Point(13, 150);
+            this.refresh_button.Location = new System.Drawing.Point(12, 55);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(252, 50);
             this.refresh_button.TabIndex = 25;
@@ -738,7 +662,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 273);
+            this.profileTable.Location = new System.Drawing.Point(13, 176);
             this.profileTable.Margin = new System.Windows.Forms.Padding(1);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -751,7 +675,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 415);
+            this.profileTable.Size = new System.Drawing.Size(310, 505);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -793,59 +717,6 @@
             this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
             this.loadToolStripMenuItem1.Text = "Load";
             this.loadToolStripMenuItem1.Click += new System.EventHandler(this.RioFilesLoad);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label11.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(10, 69);
-            this.label11.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(125, 17);
-            this.label11.TabIndex = 31;
-            this.label11.Text = "Max Acceleration";
-            // 
-            // maxAccelerationInput
-            // 
-            this.maxAccelerationInput.BackColor = System.Drawing.Color.White;
-            this.maxAccelerationInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxAccelerationInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maxAccelerationInput.ForeColor = System.Drawing.Color.Black;
-            this.maxAccelerationInput.Location = new System.Drawing.Point(211, 66);
-            this.maxAccelerationInput.Margin = new System.Windows.Forms.Padding(1);
-            this.maxAccelerationInput.Name = "maxAccelerationInput";
-            this.maxAccelerationInput.Size = new System.Drawing.Size(70, 23);
-            this.maxAccelerationInput.TabIndex = 30;
-            this.maxAccelerationInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maxAccelerationInput.TextChanged += new System.EventHandler(this.maxAccelerationInput_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label2.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(284, 71);
-            this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 14);
-            this.label2.TabIndex = 32;
-            this.label2.Text = "m/s²";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label3.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(284, 47);
-            this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 14);
-            this.label3.TabIndex = 33;
-            this.label3.Text = "m/s";
             // 
             // pathTable
             // 
@@ -939,7 +810,7 @@
             this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.aboutButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutButton.ForeColor = System.Drawing.Color.Black;
-            this.aboutButton.Location = new System.Drawing.Point(10, 7);
+            this.aboutButton.Location = new System.Drawing.Point(13, 12);
             this.aboutButton.Margin = new System.Windows.Forms.Padding(1);
             this.aboutButton.Name = "aboutButton";
             this.aboutButton.Size = new System.Drawing.Size(73, 28);
@@ -947,84 +818,6 @@
             this.aboutButton.Text = "About";
             this.aboutButton.UseVisualStyleBackColor = false;
             this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label7.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(284, 95);
-            this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 14);
-            this.label7.TabIndex = 56;
-            this.label7.Text = "m/s";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label8.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(284, 119);
-            this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(37, 14);
-            this.label8.TabIndex = 55;
-            this.label8.Text = "m/s²";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label9.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(10, 117);
-            this.label9.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(190, 17);
-            this.label9.TabIndex = 54;
-            this.label9.Text = "Max Rotation Acceleration";
-            // 
-            // maxRotationAccelerationInput
-            // 
-            this.maxRotationAccelerationInput.BackColor = System.Drawing.Color.White;
-            this.maxRotationAccelerationInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxRotationAccelerationInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maxRotationAccelerationInput.ForeColor = System.Drawing.Color.Black;
-            this.maxRotationAccelerationInput.Location = new System.Drawing.Point(211, 114);
-            this.maxRotationAccelerationInput.Margin = new System.Windows.Forms.Padding(1);
-            this.maxRotationAccelerationInput.Name = "maxRotationAccelerationInput";
-            this.maxRotationAccelerationInput.Size = new System.Drawing.Size(70, 23);
-            this.maxRotationAccelerationInput.TabIndex = 53;
-            this.maxRotationAccelerationInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label12.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(10, 93);
-            this.label12.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(159, 17);
-            this.label12.TabIndex = 52;
-            this.label12.Text = "Max Rotation Velocity";
-            // 
-            // maxRotationVelocityInput
-            // 
-            this.maxRotationVelocityInput.BackColor = System.Drawing.Color.White;
-            this.maxRotationVelocityInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxRotationVelocityInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maxRotationVelocityInput.ForeColor = System.Drawing.Color.Black;
-            this.maxRotationVelocityInput.Location = new System.Drawing.Point(211, 90);
-            this.maxRotationVelocityInput.Margin = new System.Windows.Forms.Padding(1);
-            this.maxRotationVelocityInput.Name = "maxRotationVelocityInput";
-            this.maxRotationVelocityInput.Size = new System.Drawing.Size(70, 23);
-            this.maxRotationVelocityInput.TabIndex = 51;
-            this.maxRotationVelocityInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // loadFileButton
             // 
@@ -1034,7 +827,7 @@
             this.loadFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFileButton.ForeColor = System.Drawing.Color.Black;
-            this.loadFileButton.Location = new System.Drawing.Point(13, 204);
+            this.loadFileButton.Location = new System.Drawing.Point(12, 109);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(310, 30);
@@ -1118,12 +911,12 @@
             this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaultsButton.ForeColor = System.Drawing.Color.Black;
-            this.defaultsButton.Location = new System.Drawing.Point(103, 7);
+            this.defaultsButton.Location = new System.Drawing.Point(90, 12);
             this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
             this.defaultsButton.Name = "defaultsButton";
-            this.defaultsButton.Size = new System.Drawing.Size(80, 28);
+            this.defaultsButton.Size = new System.Drawing.Size(232, 28);
             this.defaultsButton.TabIndex = 64;
-            this.defaultsButton.Text = "Defaults";
+            this.defaultsButton.Text = "Default Constraints";
             this.defaultsButton.UseVisualStyleBackColor = false;
             this.defaultsButton.Click += new System.EventHandler(this.defaultsButton_Click);
             // 
@@ -1156,11 +949,11 @@
             this.editPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.editPathButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
+            this.editPathButton.IconChar = FontAwesome.Sharp.IconChar.Cog;
             this.editPathButton.IconColor = System.Drawing.Color.Black;
             this.editPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editPathButton.IconSize = 20;
-            this.editPathButton.Location = new System.Drawing.Point(1132, 312);
+            this.editPathButton.Location = new System.Drawing.Point(1137, 312);
             this.editPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.editPathButton.Name = "editPathButton";
             this.editPathButton.Size = new System.Drawing.Size(30, 30);
@@ -1179,7 +972,7 @@
             this.rioConectionButton.IconColor = System.Drawing.Color.DarkCyan;
             this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.rioConectionButton.IconSize = 25;
-            this.rioConectionButton.Location = new System.Drawing.Point(269, 150);
+            this.rioConectionButton.Location = new System.Drawing.Point(268, 55);
             this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
             this.rioConectionButton.Name = "rioConectionButton";
             this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
@@ -1251,7 +1044,7 @@
             this.deletePathButton.IconColor = System.Drawing.Color.Black;
             this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deletePathButton.IconSize = 20;
-            this.deletePathButton.Location = new System.Drawing.Point(1167, 312);
+            this.deletePathButton.Location = new System.Drawing.Point(1172, 312);
             this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
             this.deletePathButton.Name = "deletePathButton";
             this.deletePathButton.Size = new System.Drawing.Size(30, 30);
@@ -1269,7 +1062,7 @@
             this.newPathButton.IconColor = System.Drawing.Color.Black;
             this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newPathButton.IconSize = 20;
-            this.newPathButton.Location = new System.Drawing.Point(1097, 312);
+            this.newPathButton.Location = new System.Drawing.Point(1102, 312);
             this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.newPathButton.Name = "newPathButton";
             this.newPathButton.Size = new System.Drawing.Size(30, 30);
@@ -1317,6 +1110,39 @@
             this.pathOrderUp.UseVisualStyleBackColor = false;
             this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
             // 
+            // x
+            // 
+            this.x.DataPropertyName = "X";
+            this.x.Frozen = true;
+            this.x.HeaderText = "X";
+            this.x.MinimumWidth = 30;
+            this.x.Name = "x";
+            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.x.Width = 80;
+            // 
+            // y
+            // 
+            this.y.DataPropertyName = "Y";
+            this.y.Frozen = true;
+            this.y.HeaderText = "Y";
+            this.y.MinimumWidth = 30;
+            this.y.Name = "y";
+            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.y.Width = 80;
+            // 
+            // Direction
+            // 
+            this.Direction.DataPropertyName = "Direction";
+            this.Direction.Frozen = true;
+            this.Direction.HeaderText = "Heading";
+            this.Direction.MaxInputLength = 3;
+            this.Direction.MinimumWidth = 30;
+            this.Direction.Name = "Direction";
+            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Direction.ToolTipText = "Robot direction";
+            this.Direction.Width = 74;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1331,12 +1157,6 @@
             this.Controls.Add(this.saveFileButton);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.rioConectionButton);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.maxRotationAccelerationInput);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.maxRotationVelocityInput);
             this.Controls.Add(this.editProfileButton);
             this.Controls.Add(this.deleteProfileButton);
             this.Controls.Add(this.newProfileButton);
@@ -1348,16 +1168,10 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pathTable);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.maxAccelerationInput);
             this.Controls.Add(this.profileTable);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.deploy);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.maxVelocityInput);
             this.Controls.Add(this.invert);
             this.Controls.Add(this.ClearCP);
             this.Controls.Add(this.ControlPointTable);
@@ -1366,12 +1180,14 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Byting Bulldogs (3539) - Motion Profiler Creator";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.MoreData.ResumeLayout(false);
             this.Field.ResumeLayout(false);
             this.Field.PerformLayout();
@@ -1398,8 +1214,6 @@
         private System.Windows.Forms.TabPage Field;
         private System.Windows.Forms.OpenFileDialog openFilesDialog;
         private System.Windows.Forms.DataVisualization.Charting.Chart mainField;
-        private System.Windows.Forms.TextBox maxVelocityInput;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button ClearCP;
         private System.Windows.Forms.Button invert;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
@@ -1425,14 +1239,10 @@
         private System.Windows.Forms.DataGridView profileTable;
         private System.Windows.Forms.ContextMenuStrip rioFilesContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox maxAccelerationInput;
         private System.Windows.Forms.TabPage Data;
         private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataVisualization.Charting.Chart AngleChart;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView pathTable;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1447,12 +1257,6 @@
         private FontAwesome.Sharp.IconButton newProfileButton;
         private FontAwesome.Sharp.IconButton deleteProfileButton;
         private FontAwesome.Sharp.IconButton editProfileButton;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox maxRotationAccelerationInput;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox maxRotationVelocityInput;
         private System.Windows.Forms.CheckBox showPathsCheckbox;
         private FontAwesome.Sharp.IconButton rioConectionButton;
         private System.Windows.Forms.Button loadFileButton;
@@ -1465,11 +1269,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Button defaultsButton;
         private System.Windows.Forms.ToolTip TestTooltip;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.Button previewButton;
     }
 }
 

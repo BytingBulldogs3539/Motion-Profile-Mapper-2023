@@ -18,10 +18,10 @@
       <Value Profile="(Default)">0.6</Value>
     </Setting>
     <Setting Name="MaxVel" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">3500</Value>
+      <Value Profile="(Default)">2000</Value>
     </Setting>
     <Setting Name="MaxAcc" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">2500</Value>
+      <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="MaxRotVel" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>

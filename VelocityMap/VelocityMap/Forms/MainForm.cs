@@ -20,6 +20,7 @@
     using MotionProfile.SegmentedProfile;
     using System.Windows.Controls;
     using Renci.SshNet.Sftp;
+    using VelocityMap.Forms;
 
 
     /// <summary>
@@ -102,11 +103,6 @@
             mainField.Images.Add(backImage);
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
             mainField.ChartAreas["field"].BackImage = "Background";
-
-            maxVelocityInput.Text = Properties.Settings.Default.MaxVel.ToString();
-            maxAccelerationInput.Text = Properties.Settings.Default.MaxAcc.ToString();
-            maxRotationVelocityInput.Text = Properties.Settings.Default.MaxRotVel.ToString();
-            maxRotationAccelerationInput.Text = Properties.Settings.Default.MaxRotAcc.ToString();
         }
 
         private void selectPoint(int index)
@@ -119,14 +115,7 @@
             if (clickedPoint != null || e.Button != MouseButtons.Left) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            if (placingPoint != null)
-            {
-                selectedPath.addControlPoint(placingPoint);
-                placingPoint = null;
-                ProfileEdit();
-                UpdateField();
-            }
-            else
+            if (placingPoint == null)
             {
                 Chart chart = (Chart)sender;
                 double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
@@ -139,7 +128,14 @@
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Heading);
                     selectPoint(ControlPointTable.Rows.Count - 1);
                     DrawPoint(placingPoint, selectedPath);
-                }
+                }                
+            }
+            else
+            {
+                selectedPath.addControlPoint(placingPoint);
+                placingPoint = null;
+                ProfileEdit();
+                UpdateField();
             }
         }
 
@@ -257,24 +253,6 @@
         /// <summary>
         /// The event that is called when a rows state is changed ex: the row is selected.
         /// </summary>
-        private void ControlPointsTable_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            if (e.Row.Cells[0].Value == null && e.Row.Cells[1].Value == null && e.Row.Cells[2].Value == null) return;
-
-            if (e.Row.Cells[0].Value == null || e.Row.Cells[0].Value.ToString() == "") e.Row.Cells[0].Value = 100;
-            if (e.Row.Cells[1].Value == null || e.Row.Cells[1].Value.ToString() == "") e.Row.Cells[1].Value = 100;
-            if (e.Row.Cells[2].Value == null || e.Row.Cells[2].Value.ToString() == "") e.Row.Cells[2].Value = 0;
-
-            //If the state change is not a selection we don't care about it.
-            if (e.StateChanged != DataGridViewElementStates.Selected) return;
-
-            //Check to see if the row is selected because the selected event contains both unselecting and selecting.
-            if (e.Row.Selected == true) UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when a rows state is changed ex: the row is selected.
-        /// </summary>
         private void CommandPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
             // Disabled
@@ -309,59 +287,44 @@
             }
         }
 
-        /// <summary>
-        /// The event that is called when the user stopes editing a cell.
-        /// </summary>
         private void ControlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            //Check to see if the user is editing a cell that is in the third column.
-
-            if (ControlPointTable.CurrentRow.Cells[0].Value == null && ControlPointTable.CurrentRow.Cells[1].Value == null && ControlPointTable.CurrentRow.Cells[1].Value == null)
-            {
-                return;
-            }
-            if (ControlPointTable.CurrentRow.Cells[0].Value == null || ControlPointTable.CurrentRow.Cells[0].Value.ToString() == "")
-            {
-                ControlPointTable.CurrentRow.Cells[0].Value = 100;
-            }
-            if (ControlPointTable.CurrentRow.Cells[1].Value == null || ControlPointTable.CurrentRow.Cells[1].Value.ToString() == "")
-            {
-                ControlPointTable.CurrentRow.Cells[1].Value = 100;
-            }
-            if (ControlPointTable.CurrentRow.Cells[2].Value == null || ControlPointTable.CurrentRow.Cells[2].Value.ToString() == "")
-            {
-                ControlPointTable.CurrentRow.Cells[2].Value = "+";
-            }
-
             try
             {
-                float.Parse(ControlPointTable.CurrentRow.Cells[0].Value.ToString());
+                double newValue = double.Parse(ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                switch (e.ColumnIndex)
+                {
+                    case 0:
+                        selectedPath.controlPoints[e.RowIndex].X = newValue;
+                        break;
+                    case 1:
+                        selectedPath.controlPoints[e.RowIndex].Y = newValue;
+                        break;
+                    case 2:
+                        selectedPath.controlPoints[e.RowIndex].Heading = (int)newValue;
+                        break;
+                }
+                UpdateField();
             }
             catch (Exception)
             {
-                ControlPointTable.CurrentRow.Cells[0].Value = 100;
-            }
-            try
-            {
-                float.Parse(ControlPointTable.CurrentRow.Cells[1].Value.ToString());
-            }
-            catch (Exception)
-            {
-                ControlPointTable.CurrentRow.Cells[1].Value = 100;
-            }
-
-            if (e.ColumnIndex == 2)
-            {
-                //If the cell contains a + or a - the ignore it. Else change the cell text to be a + signs.
-                if (ControlPointTable.CurrentCell.Value.ToString() == "+" || ControlPointTable.CurrentCell.Value.ToString() == "-")
+                setStatus("Data values must be numbers", true);
+                switch (e.ColumnIndex)
                 {
-                }
-                else
-                {
-                    ControlPointTable.CurrentCell.Value = "+";
+                    case 0:
+                        ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
+                            = Math.Round(selectedPath.controlPoints[e.RowIndex].X, 3);
+                        break;
+                    case 1:
+                        ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
+                            = Math.Round(selectedPath.controlPoints[e.RowIndex].Y, 3);
+                        break;
+                    case 2:
+                        ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
+                            = selectedPath.controlPoints[e.RowIndex].Heading;
+                        break;
                 }
             }
-            UpdateField();
         }
         private void CommandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -1157,7 +1120,7 @@
 
                     JObject o = JObject.Parse(json);
 
-                    maxVelocityInput.Text = (string)o["Max Velocity"];
+                    //maxVelocityInput.Text = (string)o["Max Velocity"];
                     //wheel.Text = (string)o["Wheel Diameter"];
 
                     //profileNameInput.Text = (string)o["Profile Name"];
@@ -1234,44 +1197,6 @@
             return false;
         }
 
-        private void ControlPointTable_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            //updateControlPointArray();
-        }
-
-        private void ControlPointTable_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            //updateControlPointArray();
-        }
-        private void updateControlPointArray()
-        {
-            controlPointArray.Clear();
-            foreach (DataGridViewRow row in ControlPointTable.Rows)
-            {
-                //Make sure that the row contains something that we care about.
-                //If the x cell is not empty.
-                if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[2].Value == null)
-                {
-                    continue;
-                }
-                if (row.Cells[0].Value == null || row.Cells[0].Value.ToString().Equals(""))
-                {
-                    row.Cells[0].Value = 0;
-                }
-                if (row.Cells[1].Value == null || row.Cells[1].Value.ToString().Equals(""))
-                {
-                    row.Cells[1].Value = 0;
-                }
-                if (row.Cells[2].Value == null || row.Cells[2].Value.ToString().Equals(""))
-                {
-                    row.Cells[2].Value = 0;
-                }
-
-                //Add the data to the control point array.
-                //controlPointArray.Add(new ControlPoint(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()), '+', row.Selected));
-            }
-            //DrawControlPoints();
-        }
         public String[] indexcolors = new String[]{
         "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
         "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -1640,7 +1565,10 @@
 
         private void editPathButton_Click(object sender, EventArgs e)
         {
-            if (pathTable.CurrentCell != null) pathTable.BeginEdit(false);
+            if (noSelectedProfile() || noSelectedPath()) return;
+
+            PathSettings settings = new PathSettings(selectedPath);
+            settings.Show();
         }
 
         private void ProfileEdit()
@@ -1653,34 +1581,6 @@
         private double distance(SplinePoint p1, SplinePoint p2)
         {
             return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
-        }
-
-        private void maxVelocityInput_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.MaxVel = double.Parse(maxVelocityInput.Text);
-                Properties.Settings.Default.Save();
-                setStatus("", false);
-            }
-            catch (Exception)
-            {
-                setStatus("Max velocity must be a number", true);
-            }
-        }
-
-        private void maxAccelerationInput_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Properties.Settings.Default.MaxAcc = double.Parse(maxAccelerationInput.Text);
-                Properties.Settings.Default.Save();
-                setStatus("", false);
-            }
-            catch (Exception)
-            {
-                setStatus("Max acceleration must be a number", true);
-            }
         }
 
         private void saveToRioButton_Click(object sender, EventArgs e)
@@ -1771,6 +1671,16 @@
 
             Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', '\t'));
             preview.Show();
+        }
+
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 27 && placingPoint != null)
+            {
+                placingPoint = null;
+                ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
+                UpdateField();
+            }
         }
     }
 }

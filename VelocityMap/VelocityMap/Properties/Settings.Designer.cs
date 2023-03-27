@@ -85,7 +85,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
         public double MaxVel {
             get {
                 return ((double)(this["MaxVel"]));
@@ -97,7 +97,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public double MaxAcc {
             get {
                 return ((double)(this["MaxAcc"]));

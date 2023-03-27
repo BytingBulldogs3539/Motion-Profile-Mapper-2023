@@ -13,6 +13,9 @@ namespace MotionProfile.SegmentedProfile
         public List<ControlPoint> controlPoints;
         public string id;
 
+        public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
+        public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
+
         /// <summary>
         /// Creates a new blank profile path
         /// </summary>
@@ -26,11 +29,14 @@ namespace MotionProfile.SegmentedProfile
         /// <summary>
         /// Loads a profile path from a path JSON representation
         /// </summary>
-        /// <param name="pathJSON">JSON-formatted path object<see cref="JObject"/></param>
+        /// <param name="pathJSON">JSON-formatted path object</param>
         public ProfilePath(JObject pathJSON)
         {
             this.name = (string)pathJSON["name"];
             this.id = (string)pathJSON["id"];
+            this.maxVel = (double)pathJSON["maxVelocity"];
+            this.maxAcc = (double)pathJSON["maxAcceleration"];
+
             this.controlPoints = new List<ControlPoint>();
 
             foreach (JObject point in pathJSON["points"])
@@ -76,7 +82,7 @@ namespace MotionProfile.SegmentedProfile
             this.controlPoints.Clear();
         }
 
-        public Boolean isEmpty()
+        public bool isEmpty()
         {
             return this.controlPoints.Count == 0;
         }
@@ -86,6 +92,8 @@ namespace MotionProfile.SegmentedProfile
             JObject pathJSON = new JObject();
             pathJSON["name"] = this.name;
             pathJSON["id"] = this.id;
+            pathJSON["maxVelocity"] = this.maxVel;
+            pathJSON["maxAcceleration"] = this.maxAcc;
 
             JArray pointsJSON = new JArray();
             foreach (ControlPoint point in this.controlPoints)
@@ -112,12 +120,12 @@ namespace MotionProfile.SegmentedProfile
 
         public string toTxt()
         {
-            string pathTxt = "";
+            string pathTxt = $"{this.maxVel / 1000.0} {this.maxAcc / 1000.0}\n";
             foreach (ControlPoint point in this.controlPoints)
             {
                 pathTxt += point.toTxt();
             }
-            return pathTxt;
+            return pathTxt + "@@@";
         }
 
         public string Name
