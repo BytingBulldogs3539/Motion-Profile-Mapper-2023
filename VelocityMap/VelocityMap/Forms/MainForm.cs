@@ -46,10 +46,6 @@
         //public OutputPoints outputPoints = new OutputPoints();
 
         // new
-        public double maxVelocity = 0;
-        public double maxAcceleration = 0;
-        public double maxJerk = 0;
-
         public List<Profile> profiles = new List<Profile>();
         public int newProfileCount = 0; // lol
         public int newPathCount = 0;
@@ -654,9 +650,9 @@
 
             SplinePath.GenSpline(path.controlPoints);
             List<VelocityPoint> velocityPoints = new VelocityGenerator(
-                (double)Properties.Settings.Default.MaxVel,
-                (double)Properties.Settings.Default.MaxAcc,
-                (double)Properties.Settings.Default.MaxJerk,
+                (double)Properties.Settings.Default.MaxVel * 1000,
+                (double)Properties.Settings.Default.MaxAcc * 1000,
+                (double)Properties.Settings.Default.MaxJerk * 1000,
                 .0025
             ).GeneratePoints(SplinePath.getLength());
             List<ControlPointSegment> splineSegments = SplinePath.GenSpline(path.controlPoints, velocityPoints);

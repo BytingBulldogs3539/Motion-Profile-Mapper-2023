@@ -15,13 +15,13 @@
       <Value Profile="(Default)">/home/lvuser/profiles/</Value>
     </Setting>
     <Setting Name="TrackWidth" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.6</Value>
+      <Value Profile="(Default)">0.711</Value>
     </Setting>
     <Setting Name="MaxVel" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">2000</Value>
+      <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="MaxAcc" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1000</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="MaxRotVel" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="MaxJerk" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">12000</Value>
+      <Value Profile="(Default)">12</Value>
     </Setting>
   </Settings>
 </SettingsFile>

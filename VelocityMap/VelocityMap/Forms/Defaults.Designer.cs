@@ -67,7 +67,7 @@ namespace VelocityMap.Forms
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
             this.cancel.Location = new System.Drawing.Point(159, 164);
-            this.cancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(120, 31);
             this.cancel.TabIndex = 22;
@@ -141,10 +141,11 @@ namespace VelocityMap.Forms
             this.defMaxRotAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxRotAccInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxRotAccInput.Location = new System.Drawing.Point(236, 125);
-            this.defMaxRotAccInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defMaxRotAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxRotAccInput.Name = "defMaxRotAccInput";
             this.defMaxRotAccInput.Size = new System.Drawing.Size(133, 23);
             this.defMaxRotAccInput.TabIndex = 16;
+            this.defMaxRotAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // defMaxRotVelInput
             // 
@@ -153,10 +154,11 @@ namespace VelocityMap.Forms
             this.defMaxRotVelInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxRotVelInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxRotVelInput.Location = new System.Drawing.Point(236, 98);
-            this.defMaxRotVelInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defMaxRotVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxRotVelInput.Name = "defMaxRotVelInput";
             this.defMaxRotVelInput.Size = new System.Drawing.Size(133, 23);
             this.defMaxRotVelInput.TabIndex = 15;
+            this.defMaxRotVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // defMaxAccInput
             // 
@@ -165,10 +167,11 @@ namespace VelocityMap.Forms
             this.defMaxAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxAccInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxAccInput.Location = new System.Drawing.Point(236, 71);
-            this.defMaxAccInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defMaxAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxAccInput.Name = "defMaxAccInput";
             this.defMaxAccInput.Size = new System.Drawing.Size(133, 23);
             this.defMaxAccInput.TabIndex = 14;
+            this.defMaxAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // defMaxVelInput
             // 
@@ -177,10 +180,11 @@ namespace VelocityMap.Forms
             this.defMaxVelInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxVelInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxVelInput.Location = new System.Drawing.Point(236, 44);
-            this.defMaxVelInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defMaxVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxVelInput.Name = "defMaxVelInput";
             this.defMaxVelInput.Size = new System.Drawing.Size(133, 23);
             this.defMaxVelInput.TabIndex = 13;
+            this.defMaxVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // save
             // 
@@ -190,7 +194,7 @@ namespace VelocityMap.Forms
             this.save.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.Black;
             this.save.Location = new System.Drawing.Point(287, 164);
-            this.save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.save.Margin = new System.Windows.Forms.Padding(4);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(120, 31);
             this.save.TabIndex = 12;
@@ -272,7 +276,7 @@ namespace VelocityMap.Forms
             this.Controls.Add(this.defMaxAccInput);
             this.Controls.Add(this.defMaxVelInput);
             this.Controls.Add(this.save);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Defaults";
             this.Text = "Movement Defaults";
             this.ResumeLayout(false);

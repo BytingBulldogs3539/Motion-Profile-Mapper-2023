@@ -20,6 +20,7 @@ namespace VelocityMap.Forms
             this.pathMaxVelInput.Text = path.maxVel.ToString();
             this.pathMaxAccInput.Text = path.maxAcc.ToString();
             this.path = path;
+            this.Text = path.Name + " Constraints";
         }
 
         private void save_Click(object sender, EventArgs e)

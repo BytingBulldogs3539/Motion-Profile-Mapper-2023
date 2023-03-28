@@ -196,6 +196,7 @@ namespace VelocityMap.Forms
             this.pathMaxRotAccInput.Name = "pathMaxRotAccInput";
             this.pathMaxRotAccInput.Size = new System.Drawing.Size(133, 23);
             this.pathMaxRotAccInput.TabIndex = 65;
+            this.pathMaxRotAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pathMaxRotVelInput
             // 
@@ -208,6 +209,7 @@ namespace VelocityMap.Forms
             this.pathMaxRotVelInput.Name = "pathMaxRotVelInput";
             this.pathMaxRotVelInput.Size = new System.Drawing.Size(133, 23);
             this.pathMaxRotVelInput.TabIndex = 64;
+            this.pathMaxRotVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pathMaxAccInput
             // 
@@ -220,6 +222,7 @@ namespace VelocityMap.Forms
             this.pathMaxAccInput.Name = "pathMaxAccInput";
             this.pathMaxAccInput.Size = new System.Drawing.Size(133, 23);
             this.pathMaxAccInput.TabIndex = 63;
+            this.pathMaxAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // pathMaxVelInput
             // 
@@ -232,6 +235,7 @@ namespace VelocityMap.Forms
             this.pathMaxVelInput.Name = "pathMaxVelInput";
             this.pathMaxVelInput.Size = new System.Drawing.Size(133, 23);
             this.pathMaxVelInput.TabIndex = 62;
+            this.pathMaxVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // save
             // 

@@ -120,7 +120,7 @@ namespace MotionProfile.SegmentedProfile
 
         public string toTxt()
         {
-            string pathTxt = $"{this.maxVel / 1000.0} {this.maxAcc / 1000.0}\n";
+            string pathTxt = $"{this.maxVel} {this.maxAcc}\n";
             foreach (ControlPoint point in this.controlPoints)
             {
                 pathTxt += point.toTxt();

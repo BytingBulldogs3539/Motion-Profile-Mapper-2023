@@ -73,7 +73,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.711")]
         public float TrackWidth {
             get {
                 return ((float)(this["TrackWidth"]));
@@ -85,7 +85,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public double MaxVel {
             get {
                 return ((double)(this["MaxVel"]));
@@ -97,7 +97,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public double MaxAcc {
             get {
                 return ((double)(this["MaxAcc"]));
@@ -133,7 +133,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("12000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public double MaxJerk {
             get {
                 return ((double)(this["MaxJerk"]));
