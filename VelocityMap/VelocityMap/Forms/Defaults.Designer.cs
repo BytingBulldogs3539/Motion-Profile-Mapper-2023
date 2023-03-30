@@ -29,6 +29,7 @@ namespace VelocityMap.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Defaults));
             this.label6 = new System.Windows.Forms.Label();
             this.cancel = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -52,7 +53,7 @@ namespace VelocityMap.Forms
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(117, 12);
+            this.label6.Location = new System.Drawing.Point(117, 14);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(191, 17);
@@ -136,8 +137,9 @@ namespace VelocityMap.Forms
             // 
             // defMaxRotAccInput
             // 
-            this.defMaxRotAccInput.BackColor = System.Drawing.Color.White;
+            this.defMaxRotAccInput.BackColor = System.Drawing.Color.LightGray;
             this.defMaxRotAccInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.defMaxRotAccInput.Enabled = false;
             this.defMaxRotAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxRotAccInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxRotAccInput.Location = new System.Drawing.Point(236, 125);
@@ -149,8 +151,9 @@ namespace VelocityMap.Forms
             // 
             // defMaxRotVelInput
             // 
-            this.defMaxRotVelInput.BackColor = System.Drawing.Color.White;
+            this.defMaxRotVelInput.BackColor = System.Drawing.Color.LightGray;
             this.defMaxRotVelInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.defMaxRotVelInput.Enabled = false;
             this.defMaxRotVelInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defMaxRotVelInput.ForeColor = System.Drawing.Color.Black;
             this.defMaxRotVelInput.Location = new System.Drawing.Point(236, 98);
@@ -276,8 +279,10 @@ namespace VelocityMap.Forms
             this.Controls.Add(this.defMaxAccInput);
             this.Controls.Add(this.defMaxVelInput);
             this.Controls.Add(this.save);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Defaults";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Movement Defaults";
             this.ResumeLayout(false);
             this.PerformLayout();

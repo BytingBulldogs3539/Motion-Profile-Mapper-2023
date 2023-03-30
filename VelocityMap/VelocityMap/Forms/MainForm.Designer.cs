@@ -77,6 +77,9 @@
             this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlPointTable = new System.Windows.Forms.DataGridView();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.refresh_button = new System.Windows.Forms.Button();
             this.MainStrip = new System.Windows.Forms.MenuStrip();
@@ -92,7 +95,6 @@
             this.rioFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pathTable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.aboutButton = new System.Windows.Forms.Button();
@@ -113,9 +115,8 @@
             this.newPathButton = new FontAwesome.Sharp.IconButton();
             this.pathOrderDown = new FontAwesome.Sharp.IconButton();
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -241,7 +242,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 719);
+            this.mainField.Size = new System.Drawing.Size(721, 716);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -277,7 +278,7 @@
             this.rioCommandsTable.RowTemplate.Height = 40;
             this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 192);
+            this.rioCommandsTable.Size = new System.Drawing.Size(310, 189);
             this.rioCommandsTable.TabIndex = 28;
             this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
             this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
@@ -413,6 +414,7 @@
             this.ClearCP.Size = new System.Drawing.Size(115, 28);
             this.ClearCP.TabIndex = 3;
             this.ClearCP.Text = "Clear";
+            this.TestTooltip.SetToolTip(this.ClearCP, "Clear all points in selected path");
             this.ClearCP.UseVisualStyleBackColor = false;
             this.ClearCP.Click += new System.EventHandler(this.ClearCP_Click);
             // 
@@ -429,7 +431,8 @@
             this.invert.Name = "invert";
             this.invert.Size = new System.Drawing.Size(115, 28);
             this.invert.TabIndex = 3;
-            this.invert.Text = "Mirror path";
+            this.invert.Text = "Mirror";
+            this.TestTooltip.SetToolTip(this.invert, "Mirror the selected path");
             this.invert.UseVisualStyleBackColor = false;
             this.invert.Click += new System.EventHandler(this.Invert_Click);
             // 
@@ -446,7 +449,7 @@
             this.deploy.Size = new System.Drawing.Size(234, 50);
             this.deploy.TabIndex = 11;
             this.deploy.Text = "Test";
-            this.TestTooltip.SetToolTip(this.deploy, "Deploys selected profile to RIO under \"Test.mp\"");
+            this.TestTooltip.SetToolTip(this.deploy, "Deploy selected profile to RIO under \"_test\"");
             this.deploy.UseVisualStyleBackColor = false;
             this.deploy.Click += new System.EventHandler(this.DeploySelectedProfile);
             // 
@@ -529,7 +532,7 @@
             this.ControlPointTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.ControlPointTable.EnableHeadersVisualStyles = false;
             this.ControlPointTable.GridColor = System.Drawing.Color.Silver;
-            this.ControlPointTable.Location = new System.Drawing.Point(1084, 374);
+            this.ControlPointTable.Location = new System.Drawing.Point(1084, 369);
             this.ControlPointTable.Margin = new System.Windows.Forms.Padding(1);
             this.ControlPointTable.MultiSelect = false;
             this.ControlPointTable.Name = "ControlPointTable";
@@ -542,10 +545,43 @@
             this.ControlPointTable.RowTemplate.Height = 40;
             this.ControlPointTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ControlPointTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ControlPointTable.Size = new System.Drawing.Size(234, 307);
+            this.ControlPointTable.Size = new System.Drawing.Size(234, 321);
             this.ControlPointTable.TabIndex = 2;
             this.ControlPointTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
             this.ControlPointTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
+            // 
+            // x
+            // 
+            this.x.DataPropertyName = "X";
+            this.x.Frozen = true;
+            this.x.HeaderText = "X";
+            this.x.MinimumWidth = 30;
+            this.x.Name = "x";
+            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.x.Width = 80;
+            // 
+            // y
+            // 
+            this.y.DataPropertyName = "Y";
+            this.y.Frozen = true;
+            this.y.HeaderText = "Y";
+            this.y.MinimumWidth = 30;
+            this.y.Name = "y";
+            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.y.Width = 80;
+            // 
+            // Direction
+            // 
+            this.Direction.DataPropertyName = "Direction";
+            this.Direction.Frozen = true;
+            this.Direction.HeaderText = "Heading";
+            this.Direction.MaxInputLength = 3;
+            this.Direction.MinimumWidth = 30;
+            this.Direction.Name = "Direction";
+            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Direction.ToolTipText = "Robot direction";
+            this.Direction.Width = 74;
             // 
             // label10
             // 
@@ -569,9 +605,10 @@
             this.refresh_button.ForeColor = System.Drawing.Color.DarkCyan;
             this.refresh_button.Location = new System.Drawing.Point(12, 55);
             this.refresh_button.Name = "refresh_button";
-            this.refresh_button.Size = new System.Drawing.Size(252, 50);
+            this.refresh_button.Size = new System.Drawing.Size(253, 50);
             this.refresh_button.TabIndex = 25;
             this.refresh_button.Text = "Load from RIO";
+            this.TestTooltip.SetToolTip(this.refresh_button, "Load profiles from RIO location");
             this.refresh_button.UseVisualStyleBackColor = false;
             this.refresh_button.Click += new System.EventHandler(this.LoadProfilesFromRIO);
             // 
@@ -744,6 +781,7 @@
             this.pathTable.ColumnHeadersHeight = 28;
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Index,
             this.dataGridViewTextBoxColumn5});
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
@@ -767,17 +805,6 @@
             this.pathTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellEndEdit);
             this.pathTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_RowEnter);
             // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn5.Frozen = true;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn5.Width = 234;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -796,7 +823,7 @@
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(1108, 349);
+            this.label5.Location = new System.Drawing.Point(1108, 344);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(185, 20);
             this.label5.TabIndex = 36;
@@ -833,6 +860,7 @@
             this.loadFileButton.Size = new System.Drawing.Size(310, 30);
             this.loadFileButton.TabIndex = 58;
             this.loadFileButton.Text = "Load from local files";
+            this.TestTooltip.SetToolTip(this.loadFileButton, "Load profiles from local file system");
             this.loadFileButton.UseVisualStyleBackColor = false;
             this.loadFileButton.Click += new System.EventHandler(this.LoadProfilesFromFiles);
             // 
@@ -849,7 +877,8 @@
             this.saveFileButton.Name = "saveFileButton";
             this.saveFileButton.Size = new System.Drawing.Size(153, 30);
             this.saveFileButton.TabIndex = 59;
-            this.saveFileButton.Text = "Save profile to files";
+            this.saveFileButton.Text = "Save to files";
+            this.TestTooltip.SetToolTip(this.saveFileButton, "Save selected profile to local file system");
             this.saveFileButton.UseVisualStyleBackColor = false;
             this.saveFileButton.Click += new System.EventHandler(this.SaveSelectedProfile);
             // 
@@ -867,6 +896,7 @@
             this.saveAllButton.Size = new System.Drawing.Size(153, 30);
             this.saveAllButton.TabIndex = 60;
             this.saveAllButton.Text = "Save all to files";
+            this.TestTooltip.SetToolTip(this.saveAllButton, "Save all profiles to local file system");
             this.saveAllButton.UseVisualStyleBackColor = false;
             this.saveAllButton.Click += new System.EventHandler(this.SaveAllProfiles);
             // 
@@ -883,6 +913,7 @@
             this.saveToRioButton.Size = new System.Drawing.Size(310, 50);
             this.saveToRioButton.TabIndex = 61;
             this.saveToRioButton.Text = "Save to RIO";
+            this.TestTooltip.SetToolTip(this.saveToRioButton, "Overwrite current profiles to RIO location");
             this.saveToRioButton.UseVisualStyleBackColor = false;
             this.saveToRioButton.Click += new System.EventHandler(this.saveToRioButton_Click);
             // 
@@ -900,6 +931,7 @@
             this.invertAll.Size = new System.Drawing.Size(115, 28);
             this.invertAll.TabIndex = 62;
             this.invertAll.Text = "Mirror all";
+            this.TestTooltip.SetToolTip(this.invertAll, "Mirror all selected profile paths");
             this.invertAll.UseVisualStyleBackColor = false;
             this.invertAll.Click += new System.EventHandler(this.invertAll_Click);
             // 
@@ -940,6 +972,7 @@
             this.previewButton.Size = new System.Drawing.Size(115, 28);
             this.previewButton.TabIndex = 65;
             this.previewButton.Text = "Preview";
+            this.TestTooltip.SetToolTip(this.previewButton, "Preview information to be sent to robot");
             this.previewButton.UseVisualStyleBackColor = false;
             this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
@@ -953,11 +986,12 @@
             this.editPathButton.IconColor = System.Drawing.Color.Black;
             this.editPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editPathButton.IconSize = 20;
-            this.editPathButton.Location = new System.Drawing.Point(1137, 312);
+            this.editPathButton.Location = new System.Drawing.Point(1131, 304);
             this.editPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.editPathButton.Name = "editPathButton";
-            this.editPathButton.Size = new System.Drawing.Size(30, 30);
+            this.editPathButton.Size = new System.Drawing.Size(47, 30);
             this.editPathButton.TabIndex = 63;
+            this.TestTooltip.SetToolTip(this.editPathButton, "Path settings");
             this.editPathButton.UseVisualStyleBackColor = false;
             this.editPathButton.Click += new System.EventHandler(this.editPathButton_Click);
             // 
@@ -977,6 +1011,7 @@
             this.rioConectionButton.Name = "rioConectionButton";
             this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
             this.rioConectionButton.TabIndex = 57;
+            this.TestTooltip.SetToolTip(this.rioConectionButton, "RIO connection settings");
             this.rioConectionButton.UseVisualStyleBackColor = false;
             this.rioConectionButton.Click += new System.EventHandler(this.rioConectionButton_Click);
             // 
@@ -990,11 +1025,12 @@
             this.editProfileButton.IconColor = System.Drawing.Color.Black;
             this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editProfileButton.IconSize = 20;
-            this.editProfileButton.Location = new System.Drawing.Point(153, 694);
+            this.editProfileButton.Location = new System.Drawing.Point(116, 681);
             this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.editProfileButton.Name = "editProfileButton";
-            this.editProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.editProfileButton.Size = new System.Drawing.Size(104, 30);
             this.editProfileButton.TabIndex = 50;
+            this.TestTooltip.SetToolTip(this.editProfileButton, "Edit profile");
             this.editProfileButton.UseVisualStyleBackColor = false;
             this.editProfileButton.Click += new System.EventHandler(this.editProfileButton_Click);
             // 
@@ -1005,14 +1041,15 @@
             this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
             this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deleteProfileButton.IconColor = System.Drawing.Color.Black;
+            this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 20;
-            this.deleteProfileButton.Location = new System.Drawing.Point(188, 694);
+            this.deleteProfileButton.Location = new System.Drawing.Point(220, 681);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
-            this.deleteProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.deleteProfileButton.Size = new System.Drawing.Size(103, 30);
             this.deleteProfileButton.TabIndex = 49;
+            this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete profile");
             this.deleteProfileButton.UseVisualStyleBackColor = false;
             this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
             // 
@@ -1023,14 +1060,15 @@
             this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
             this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.newProfileButton.IconColor = System.Drawing.Color.Black;
+            this.newProfileButton.IconColor = System.Drawing.Color.Green;
             this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newProfileButton.IconSize = 20;
-            this.newProfileButton.Location = new System.Drawing.Point(118, 694);
+            this.newProfileButton.Location = new System.Drawing.Point(13, 681);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
-            this.newProfileButton.Size = new System.Drawing.Size(30, 30);
+            this.newProfileButton.Size = new System.Drawing.Size(103, 30);
             this.newProfileButton.TabIndex = 48;
+            this.TestTooltip.SetToolTip(this.newProfileButton, "Create new profile");
             this.newProfileButton.UseVisualStyleBackColor = false;
             this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
             // 
@@ -1041,14 +1079,15 @@
             this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
             this.deletePathButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deletePathButton.IconColor = System.Drawing.Color.Black;
+            this.deletePathButton.IconColor = System.Drawing.Color.Firebrick;
             this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deletePathButton.IconSize = 20;
-            this.deletePathButton.Location = new System.Drawing.Point(1172, 312);
+            this.deletePathButton.Location = new System.Drawing.Point(1178, 304);
             this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
             this.deletePathButton.Name = "deletePathButton";
-            this.deletePathButton.Size = new System.Drawing.Size(30, 30);
+            this.deletePathButton.Size = new System.Drawing.Size(48, 30);
             this.deletePathButton.TabIndex = 47;
+            this.TestTooltip.SetToolTip(this.deletePathButton, "Delete path");
             this.deletePathButton.UseVisualStyleBackColor = false;
             this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
             // 
@@ -1059,14 +1098,15 @@
             this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
             this.newPathButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.newPathButton.IconColor = System.Drawing.Color.Black;
+            this.newPathButton.IconColor = System.Drawing.Color.Green;
             this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newPathButton.IconSize = 20;
-            this.newPathButton.Location = new System.Drawing.Point(1102, 312);
+            this.newPathButton.Location = new System.Drawing.Point(1084, 304);
             this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.newPathButton.Name = "newPathButton";
-            this.newPathButton.Size = new System.Drawing.Size(30, 30);
+            this.newPathButton.Size = new System.Drawing.Size(47, 30);
             this.newPathButton.TabIndex = 46;
+            this.TestTooltip.SetToolTip(this.newPathButton, "Add new path");
             this.newPathButton.UseVisualStyleBackColor = false;
             this.newPathButton.Click += new System.EventHandler(this.newPathButton_Click);
             // 
@@ -1075,17 +1115,20 @@
             this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderDown.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pathOrderDown.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
             this.pathOrderDown.ForeColor = System.Drawing.Color.DarkGray;
             this.pathOrderDown.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
             this.pathOrderDown.IconColor = System.Drawing.Color.Black;
             this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pathOrderDown.IconSize = 20;
             this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.pathOrderDown.Location = new System.Drawing.Point(1266, 312);
+            this.pathOrderDown.Location = new System.Drawing.Point(1273, 304);
             this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
             this.pathOrderDown.Name = "pathOrderDown";
-            this.pathOrderDown.Size = new System.Drawing.Size(30, 30);
+            this.pathOrderDown.Rotation = 180D;
+            this.pathOrderDown.Size = new System.Drawing.Size(47, 30);
             this.pathOrderDown.TabIndex = 45;
+            this.TestTooltip.SetToolTip(this.pathOrderDown, "Move path order down");
             this.pathOrderDown.UseVisualStyleBackColor = false;
             this.pathOrderDown.Click += new System.EventHandler(this.pathOrderDown_Click);
             // 
@@ -1095,53 +1138,39 @@
             this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderUp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pathOrderUp.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
             this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
             this.pathOrderUp.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
             this.pathOrderUp.IconColor = System.Drawing.Color.Black;
             this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pathOrderUp.IconSize = 20;
             this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pathOrderUp.Location = new System.Drawing.Point(1231, 312);
+            this.pathOrderUp.Location = new System.Drawing.Point(1226, 304);
             this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
             this.pathOrderUp.Name = "pathOrderUp";
-            this.pathOrderUp.Size = new System.Drawing.Size(30, 30);
+            this.pathOrderUp.Rotation = 180D;
+            this.pathOrderUp.Size = new System.Drawing.Size(47, 30);
             this.pathOrderUp.TabIndex = 44;
+            this.TestTooltip.SetToolTip(this.pathOrderUp, "Move path order up");
             this.pathOrderUp.UseVisualStyleBackColor = false;
             this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
             // 
-            // x
+            // Index
             // 
-            this.x.DataPropertyName = "X";
-            this.x.Frozen = true;
-            this.x.HeaderText = "X";
-            this.x.MinimumWidth = 30;
-            this.x.Name = "x";
-            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.x.Width = 80;
+            this.Index.HeaderText = "Index";
+            this.Index.MinimumWidth = 6;
+            this.Index.Name = "Index";
+            this.Index.ReadOnly = true;
+            this.Index.Width = 50;
             // 
-            // y
+            // dataGridViewTextBoxColumn5
             // 
-            this.y.DataPropertyName = "Y";
-            this.y.Frozen = true;
-            this.y.HeaderText = "Y";
-            this.y.MinimumWidth = 30;
-            this.y.Name = "y";
-            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.y.Width = 80;
-            // 
-            // Direction
-            // 
-            this.Direction.DataPropertyName = "Direction";
-            this.Direction.Frozen = true;
-            this.Direction.HeaderText = "Heading";
-            this.Direction.MaxInputLength = 3;
-            this.Direction.MinimumWidth = 30;
-            this.Direction.Name = "Direction";
-            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Direction.ToolTipText = "Robot direction";
-            this.Direction.Width = 74;
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn5.Width = 234;
             // 
             // MainForm
             // 
@@ -1269,11 +1298,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Button defaultsButton;
         private System.Windows.Forms.ToolTip TestTooltip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Index;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
     }
 }
 

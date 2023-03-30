@@ -91,6 +91,16 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Boolean similar to True.
+        /// </summary>
+        internal static bool Index_UserAddedColumn {
+            get {
+                object obj = ResourceManager.GetObject("Index.UserAddedColumn", resourceCulture);
+                return ((bool)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Point similar to {X=572,Y=17}.
         /// </summary>
         internal static System.Drawing.Point MainStrip_TrayLocation {

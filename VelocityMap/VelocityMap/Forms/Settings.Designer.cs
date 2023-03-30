@@ -204,6 +204,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RIO Connection Settings";
             this.ResumeLayout(false);
             this.PerformLayout();

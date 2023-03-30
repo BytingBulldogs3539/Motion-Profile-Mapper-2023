@@ -755,7 +755,7 @@
             {
                 foreach (ProfilePath path in selectedProfile.paths)
                 {
-                    pathTable.Rows.Add(path.Name);
+                    pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", path.Name);
                 }
                 if (!noSelectedPath())
                 {
@@ -1341,7 +1341,7 @@
             {
                 foreach (ProfilePath path in selectedProfile.paths)
                 {
-                    pathTable.Rows.Add(path.Name);
+                    pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", path.Name);
                 }
                 profileTable.Rows[profiles.IndexOf(selectedProfile)].Selected = true;
             }
@@ -1400,7 +1400,7 @@
 
         private void editProfileButton_Click(object sender, EventArgs e)
         {
-            if (profileTable.CurrentCell != null) profileTable.BeginEdit(false);
+            if (!noSelectedProfile() && profileTable.CurrentCell != null) profileTable.BeginEdit(false);
         }
 
         private void newPathButton_Click(object sender, EventArgs e)
@@ -1409,7 +1409,7 @@
             
             string newPathName = "new path " + ++newPathCount;
             selectedProfile.newPath(newPathName);
-            int newIndex = pathTable.Rows.Add(newPathName);
+            int newIndex = pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", newPathName);
 
             //if (newIndex > 0) selectPath(newIndex);
             selectPath(newIndex);
@@ -1430,6 +1430,7 @@
             int pathIndex = selectedProfile.paths.IndexOf(selectedPath);
             selectedProfile.paths.RemoveAt(pathIndex);
             pathTable.Rows.RemoveAt(pathIndex);
+            selectProfile();
             selectPath(Math.Min(pathIndex, selectedProfile.paths.Count - 1));
             ProfileEdit();
         }
@@ -1455,9 +1456,10 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
+            ProfilePath tempPath = selectedPath;
             selectedProfile.movePathOrderUp(selectedPath);
             selectProfile();
-            selectPath();
+            selectPath(selectedProfile.paths.IndexOf(tempPath));
             ProfileEdit();
         }
 
@@ -1466,9 +1468,9 @@
             if (noSelectedProfile() || noSelectedPath()) return;
 
             selectedProfile.movePathOrderDown(selectedPath);
-
+            ProfilePath tempPath = selectedPath;
             selectProfile();
-            selectPath();
+            selectPath(selectedProfile.paths.IndexOf(tempPath));
             ProfileEdit();
         }
 
@@ -1525,6 +1527,7 @@
 
         private void selectPath(int index = -1)
         {
+            // -1 reselects current path i think
             ControlPointTable.Rows.Clear();
 
             if (index != -1) selectedPath = selectedProfile.paths[index];
@@ -1563,7 +1566,7 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            PathSettings settings = new PathSettings(selectedPath);
+            PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[1]);
             settings.Show();
         }
 
@@ -1676,6 +1679,11 @@
                 placingPoint = null;
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
+            }
+            else if (e.KeyChar == 8 && !noSelectedPath() && ControlPointTable.SelectedRows.Count > 0)
+            {
+                selectedPath.controlPoints.RemoveAt(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
+                selectPath();
             }
         }
     }
