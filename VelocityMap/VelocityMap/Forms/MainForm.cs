@@ -802,10 +802,15 @@
 
             foreach (Profile profile in profiles)
             {
-                string filePath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
-                using (var writer = new StreamWriter(filePath))
+                string mpPath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
+                string javaPath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".java");
+                using (var writer = new StreamWriter(mpPath))
                 {
                     writer.Write(profile.toJSON().ToString());
+                }
+                using (var writer = new StreamWriter(javaPath))
+                {
+                    writer.Write(profile.toJava());
                 }
             }
         }
@@ -825,34 +830,24 @@
 
             if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 3) return;
 
-            /*string filePath = Path.Combine(
+            // Write mp file to load from
+            string filePath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
                 Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
-
             using (var writer = new StreamWriter(filePath))
             {
                 writer.Write(selectedProfile.toJSON().ToString());
-            }*/
+            }
 
-            /*string pointPath = Path.Combine(
+            // Write java file to pre-compile into robot
+            string pointPath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
                 Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
             );
-
             using (var writer = new StreamWriter(pointPath))
             {
                 writer.Write(selectedProfile.toJava());
-            }*/
-
-            string txtPath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
-                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
-            );
-
-            using (var writer = new StreamWriter(txtPath))
-            {
-                writer.Write(selectedProfile.toTxt());
             }
         }
 
@@ -1070,7 +1065,6 @@
 
         private void RioFilesLoad(object sender, EventArgs e)
         {
-
             if (profileTable.Rows[RioFilesRowIndex].Cells[0].Value == null)
             {
                 return;
@@ -1444,15 +1438,15 @@
 
         private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "")
+            if (pathTable.Rows[e.RowIndex].Cells[1].Value.ToString().Trim() == "")
             {
-                pathTable.Rows[e.RowIndex].Cells[0].Value = selectedProfile.paths[e.RowIndex].Name;
+                pathTable.Rows[e.RowIndex].Cells[1].Value = selectedProfile.paths[e.RowIndex].Name;
             }
             else
             {
-                ProfilePath selpa = selectedProfile.paths[e.RowIndex];
-                selpa.Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString();
-                //selectedProfile.paths[e.RowIndex].Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString();
+                ProfilePath editedPath = selectedProfile.paths[e.RowIndex];
+                editedPath.Name = pathTable.Rows[e.RowIndex].Cells[1].Value.ToString().Trim();
+                //selectedProfile.paths[e.RowIndex].Name = pathTable.Rows[e.RowIndex].Cells[1].Value.ToString();
             }
             editing = true;
             editedCell = e.RowIndex;
@@ -1702,7 +1696,8 @@
                 UpdateField();
             }
             else if (e.KeyChar == 8 && !noSelectedPath() && ControlPointTable.SelectedRows.Count > 0
-                && !profileTable.IsCurrentCellInEditMode && !pathTable.IsCurrentCellInEditMode)
+                && !profileTable.IsCurrentCellInEditMode && !pathTable.IsCurrentCellInEditMode
+                && !ControlPointTable.IsCurrentCellInEditMode)
             {
                 selectedPath.controlPoints.RemoveAt(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
                 selectPath();
@@ -1717,6 +1712,13 @@
         private void radioBlue_CheckedChanged(object sender, EventArgs e)
         {
             setBackground(true, false);
+        }
+
+        private void duplicateProfileButton_Click(object sender, EventArgs e)
+        {
+            profiles.Add(new Profile(selectedProfile));
+            profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+            selectProfile(profiles.Count - 1);
         }
     }
 }

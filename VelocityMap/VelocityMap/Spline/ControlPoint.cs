@@ -39,7 +39,7 @@ namespace MotionProfile
             this.x = other.X;
             this.y = other.Y;
             this.heading = other.Heading;
-            this.id = other.Id;
+            this.id = Guid.NewGuid().ToString();
         }
 
         /// <summary>

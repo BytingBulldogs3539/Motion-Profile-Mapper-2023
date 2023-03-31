@@ -120,6 +120,7 @@
             this.pathOrderDown = new FontAwesome.Sharp.IconButton();
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.duplicateProfileButton = new FontAwesome.Sharp.IconButton();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -651,7 +652,7 @@
             this.MainStrip.Location = new System.Drawing.Point(0, 0);
             this.MainStrip.Name = "MainStrip";
             this.MainStrip.Padding = new System.Windows.Forms.Padding(0);
-            this.MainStrip.Size = new System.Drawing.Size(1330, 30);
+            this.MainStrip.Size = new System.Drawing.Size(1330, 24);
             this.MainStrip.TabIndex = 26;
             this.MainStrip.Text = "menuStrip1";
             // 
@@ -1074,10 +1075,10 @@
             this.editProfileButton.IconColor = System.Drawing.Color.Black;
             this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editProfileButton.IconSize = 20;
-            this.editProfileButton.Location = new System.Drawing.Point(116, 681);
+            this.editProfileButton.Location = new System.Drawing.Point(90, 681);
             this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.editProfileButton.Name = "editProfileButton";
-            this.editProfileButton.Size = new System.Drawing.Size(104, 30);
+            this.editProfileButton.Size = new System.Drawing.Size(78, 30);
             this.editProfileButton.TabIndex = 50;
             this.TestTooltip.SetToolTip(this.editProfileButton, "Edit profile");
             this.editProfileButton.UseVisualStyleBackColor = false;
@@ -1093,10 +1094,10 @@
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 20;
-            this.deleteProfileButton.Location = new System.Drawing.Point(220, 681);
+            this.deleteProfileButton.Location = new System.Drawing.Point(246, 681);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
-            this.deleteProfileButton.Size = new System.Drawing.Size(103, 30);
+            this.deleteProfileButton.Size = new System.Drawing.Size(77, 30);
             this.deleteProfileButton.TabIndex = 49;
             this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete profile");
             this.deleteProfileButton.UseVisualStyleBackColor = false;
@@ -1115,7 +1116,7 @@
             this.newProfileButton.Location = new System.Drawing.Point(13, 681);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
-            this.newProfileButton.Size = new System.Drawing.Size(103, 30);
+            this.newProfileButton.Size = new System.Drawing.Size(77, 30);
             this.newProfileButton.TabIndex = 48;
             this.TestTooltip.SetToolTip(this.newProfileButton, "Create new profile");
             this.newProfileButton.UseVisualStyleBackColor = false;
@@ -1212,11 +1213,31 @@
             this.panel1.Size = new System.Drawing.Size(134, 73);
             this.panel1.TabIndex = 44;
             // 
+            // duplicateProfileButton
+            // 
+            this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.duplicateProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.duplicateProfileButton.IconChar = FontAwesome.Sharp.IconChar.Copy;
+            this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
+            this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.duplicateProfileButton.IconSize = 20;
+            this.duplicateProfileButton.Location = new System.Drawing.Point(168, 681);
+            this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.duplicateProfileButton.Name = "duplicateProfileButton";
+            this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
+            this.duplicateProfileButton.TabIndex = 66;
+            this.TestTooltip.SetToolTip(this.duplicateProfileButton, "Duplicate profile");
+            this.duplicateProfileButton.UseVisualStyleBackColor = false;
+            this.duplicateProfileButton.Click += new System.EventHandler(this.duplicateProfileButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
+            this.Controls.Add(this.duplicateProfileButton);
             this.Controls.Add(this.previewButton);
             this.Controls.Add(this.defaultsButton);
             this.Controls.Add(this.editPathButton);
@@ -1349,6 +1370,7 @@
         private System.Windows.Forms.RadioButton radioRed;
         private System.Windows.Forms.RadioButton radioBlue;
         private System.Windows.Forms.Panel panel1;
+        private FontAwesome.Sharp.IconButton duplicateProfileButton;
     }
 }
 

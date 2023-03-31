@@ -40,6 +40,18 @@ namespace MotionProfile.SegmentedProfile
             }
         }
 
+        public Profile(Profile other)
+        {
+            this.name = other.name;
+            this.edited = other.edited;
+            this.paths = new List<ProfilePath>();
+
+            foreach (ProfilePath path in other.paths)
+            {
+                this.paths.Add(new ProfilePath(path));
+            }
+        }
+
         public void newPath(string name)
         {
             this.paths.Add(new ProfilePath(name));

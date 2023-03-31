@@ -45,6 +45,18 @@ namespace MotionProfile.SegmentedProfile
             }
         }
 
+        public ProfilePath(ProfilePath other)
+        {
+            this.name = other.name;
+            this.id = Guid.NewGuid().ToString();
+            this.controlPoints = new List<ControlPoint>();
+
+            foreach (ControlPoint point in other.controlPoints)
+            {
+                this.controlPoints.Add(new ControlPoint(point));
+            }
+        }
+
         public ControlPoint addControlPoint(int x, int y, int heading)
         {
             ControlPoint newPoint = new ControlPoint(x, y, heading);
