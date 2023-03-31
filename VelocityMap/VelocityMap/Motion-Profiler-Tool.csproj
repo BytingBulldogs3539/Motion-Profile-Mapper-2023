@@ -194,6 +194,17 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\2019-field.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2023-red-colored.png" />
+    <None Include="Resources\2023-red.png" />
+    <None Include="Resources\2023-blue-colored.png" />
+    <None Include="Resources\2023-blue.png" />
+    <None Include="Resources\2023-red.bmp" />
+    <Content Include="Resources\blue.png" />
+    <Content Include="Resources\blue_colored.png" />
+    <Content Include="Resources\red.png" />
+    <Content Include="Resources\red_colored.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

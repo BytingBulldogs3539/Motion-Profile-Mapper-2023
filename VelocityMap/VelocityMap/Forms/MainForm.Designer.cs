@@ -54,6 +54,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
+            this.radioRed = new System.Windows.Forms.RadioButton();
+            this.radioBlue = new System.Windows.Forms.RadioButton();
             this.showPathsCheckbox = new System.Windows.Forms.CheckBox();
             this.infoLabel = new System.Windows.Forms.Label();
             this.GridCheckBox = new System.Windows.Forms.CheckBox();
@@ -95,6 +97,8 @@
             this.rioFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pathTable = new System.Windows.Forms.DataGridView();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.aboutButton = new System.Windows.Forms.Button();
@@ -115,8 +119,7 @@
             this.newPathButton = new FontAwesome.Sharp.IconButton();
             this.pathOrderDown = new FontAwesome.Sharp.IconButton();
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -131,6 +134,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             this.rioFilesContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MoreData
@@ -151,6 +155,7 @@
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Field.Controls.Add(this.panel1);
             this.Field.Controls.Add(this.showPathsCheckbox);
             this.Field.Controls.Add(this.infoLabel);
             this.Field.Controls.Add(this.GridCheckBox);
@@ -165,6 +170,32 @@
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
+            // radioRed
+            // 
+            this.radioRed.AutoSize = true;
+            this.radioRed.Checked = true;
+            this.radioRed.ForeColor = System.Drawing.Color.Black;
+            this.radioRed.Location = new System.Drawing.Point(12, 13);
+            this.radioRed.Name = "radioRed";
+            this.radioRed.Size = new System.Drawing.Size(107, 21);
+            this.radioRed.TabIndex = 66;
+            this.radioRed.TabStop = true;
+            this.radioRed.Text = "Red alliance";
+            this.radioRed.UseVisualStyleBackColor = true;
+            this.radioRed.CheckedChanged += new System.EventHandler(this.radioRed_CheckedChanged);
+            // 
+            // radioBlue
+            // 
+            this.radioBlue.AutoSize = true;
+            this.radioBlue.ForeColor = System.Drawing.Color.Black;
+            this.radioBlue.Location = new System.Drawing.Point(12, 40);
+            this.radioBlue.Name = "radioBlue";
+            this.radioBlue.Size = new System.Drawing.Size(109, 21);
+            this.radioBlue.TabIndex = 67;
+            this.radioBlue.Text = "Blue alliance";
+            this.radioBlue.UseVisualStyleBackColor = true;
+            this.radioBlue.CheckedChanged += new System.EventHandler(this.radioBlue_CheckedChanged);
+            // 
             // showPathsCheckbox
             // 
             this.showPathsCheckbox.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -172,7 +203,7 @@
             this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(354, 760);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(418, 742);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
             this.showPathsCheckbox.Size = new System.Drawing.Size(139, 22);
@@ -200,7 +231,7 @@
             this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.GridCheckBox.Location = new System.Drawing.Point(281, 760);
+            this.GridCheckBox.Location = new System.Drawing.Point(335, 742);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
             this.GridCheckBox.Size = new System.Drawing.Size(71, 22);
@@ -242,7 +273,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 716);
+            this.mainField.Size = new System.Drawing.Size(721, 714);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -278,7 +309,7 @@
             this.rioCommandsTable.RowTemplate.Height = 40;
             this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 189);
+            this.rioCommandsTable.Size = new System.Drawing.Size(310, 187);
             this.rioCommandsTable.TabIndex = 28;
             this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
             this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
@@ -620,7 +651,7 @@
             this.MainStrip.Location = new System.Drawing.Point(0, 0);
             this.MainStrip.Name = "MainStrip";
             this.MainStrip.Padding = new System.Windows.Forms.Padding(0);
-            this.MainStrip.Size = new System.Drawing.Size(1330, 24);
+            this.MainStrip.Size = new System.Drawing.Size(1330, 30);
             this.MainStrip.TabIndex = 26;
             this.MainStrip.Text = "menuStrip1";
             // 
@@ -804,6 +835,24 @@
             this.pathTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellDoubleClick);
             this.pathTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellEndEdit);
             this.pathTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_RowEnter);
+            // 
+            // Index
+            // 
+            this.Index.HeaderText = "Index";
+            this.Index.MinimumWidth = 6;
+            this.Index.Name = "Index";
+            this.Index.ReadOnly = true;
+            this.Index.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn5.Width = 234;
             // 
             // label4
             // 
@@ -1154,23 +1203,14 @@
             this.pathOrderUp.UseVisualStyleBackColor = false;
             this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
             // 
-            // Index
+            // panel1
             // 
-            this.Index.HeaderText = "Index";
-            this.Index.MinimumWidth = 6;
-            this.Index.Name = "Index";
-            this.Index.ReadOnly = true;
-            this.Index.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn5.Width = 234;
+            this.panel1.Controls.Add(this.radioBlue);
+            this.panel1.Controls.Add(this.radioRed);
+            this.panel1.Location = new System.Drawing.Point(177, 714);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(134, 73);
+            this.panel1.TabIndex = 44;
             // 
             // MainForm
             // 
@@ -1232,6 +1272,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
             this.rioFilesContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1304,6 +1346,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.RadioButton radioRed;
+        private System.Windows.Forms.RadioButton radioBlue;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

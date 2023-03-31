@@ -94,11 +94,18 @@
             mainField.Series["background"].Points.AddXY(0, 0);
             mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
 
-            Bitmap b = new Bitmap(VelocityMap.Properties.Resources._2019_field);
-            NamedImage backImage = new NamedImage("Background", b);
-            mainField.Images.Add(backImage);
+            mainField.Images.Add(new NamedImage("red", new Bitmap(VelocityMap.Properties.Resources._2023_red)));
+            mainField.Images.Add(new NamedImage("red-colored", new Bitmap(VelocityMap.Properties.Resources._2023_red_colored)));
+            mainField.Images.Add(new NamedImage("blue", new Bitmap(VelocityMap.Properties.Resources._2023_blue)));
+            mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
-            mainField.ChartAreas["field"].BackImage = "Background";
+            mainField.ChartAreas["field"].BackImage = "red";
+        }
+
+        private void setBackground(bool blue, bool colored)
+        {
+            mainField.ChartAreas["field"].BackImage = 
+                (blue? "blue" : "red") + (colored? "-colored" : "");
         }
 
         private void selectPoint(int index)
@@ -1604,16 +1611,17 @@
 
                 if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
 
-                bool invalidProfiles = false;
+                List<Profile> invalidProfiles = new List<Profile>();
                 foreach (Profile profile in profiles)
                 {
                     if (!profile.isValid())
                     {
-                        invalidProfiles = true;
+                        invalidProfiles.Add(profile);
                         continue;
                     }
-                    MemoryStream javaStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toTxt().ToString()));
-                    sftp.UploadFile(javaStream, Path.Combine(
+                    // Upload txt file for robot to read in auton
+                    MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toTxt().ToString()));
+                    sftp.UploadFile(txtStream, Path.Combine(
                         Properties.Settings.Default.RioLocation,
                         profile.Name.Replace(' ', '_') + ".txt"
                     ));
@@ -1625,13 +1633,26 @@
                     ));
                 }
 
-                if (invalidProfiles) MessageBox.Show(
+                setStatus("Verifying file contents...", false);
+                bool verified = true;
+                foreach (Profile profile in profiles)
+                {
+                    if (invalidProfiles.Contains(profile)) continue;
+                    StreamReader reader = sftp.OpenText(
+                        Path.Combine(Properties.Settings.Default.RioLocation, profile.Name.Replace(' ', '_') + ".txt")
+                    );
+                    if (profile.toTxt() != reader.ReadToEnd()) verified = false;
+                }
+
+                if (invalidProfiles.Count > 0) MessageBox.Show(
                     "One or more profiles were not deployed due to being invalid",
                     "Warning",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-                setStatus("Profile(s) uploaded successfully", false);
+
+                if (verified) setStatus("Profile(s) uploaded and verified successfully", false);
+                else setStatus("Failed to verify uploaded file content", true);
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
@@ -1680,11 +1701,22 @@
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
             }
-            else if (e.KeyChar == 8 && !noSelectedPath() && ControlPointTable.SelectedRows.Count > 0)
+            else if (e.KeyChar == 8 && !noSelectedPath() && ControlPointTable.SelectedRows.Count > 0
+                && !profileTable.IsCurrentCellInEditMode && !pathTable.IsCurrentCellInEditMode)
             {
                 selectedPath.controlPoints.RemoveAt(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
                 selectPath();
             }
+        }
+
+        private void radioRed_CheckedChanged(object sender, EventArgs e)
+        {
+            setBackground(false, false);
+        }
+
+        private void radioBlue_CheckedChanged(object sender, EventArgs e)
+        {
+            setBackground(true, false);
         }
     }
 }
