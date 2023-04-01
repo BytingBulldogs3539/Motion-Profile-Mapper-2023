@@ -221,53 +221,6 @@
             }
         }
 
-        /// <summary>
-        /// The currently selected row from the commandPointList table.
-        /// </summary>
-        private int commandRowIndex;
-
-        /// <summary>
-        /// The currently selected row from the RioFilesList table.
-        /// </summary>
-        private int RioFilesRowIndex;
-
-        /// <summary>
-        /// The event that is called when a rows state is changed ex: the row is selected.
-        /// </summary>
-        private void CommandPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            // Disabled
-            return;
-
-            if (e.StateChanged != DataGridViewElementStates.Selected)
-            {
-                return;
-            }
-
-            foreach (DataGridViewRow row in rioCommandsTable.Rows)
-            {
-                if (RowContainData(row, true))
-                {
-                    if (mainField.Series["path"].Points.Count >= int.Parse(row.Cells[0].Value.ToString()))
-                    {
-                        DataPoint p = mainField.Series["path"].Points[int.Parse(row.Cells[0].Value.ToString())];
-                        p.Color = Color.Red;
-                    }
-                }
-            }
-
-            if (RowContainData(e.Row, true))
-            {
-                if (mainField.Series["path"].Points.Count >= int.Parse(e.Row.Cells[0].Value.ToString()))
-                {
-                    DataPoint p = mainField.Series["path"].Points[int.Parse(e.Row.Cells[0].Value.ToString())];
-                    p.Color = Color.Blue;
-                    p.MarkerStyle = MarkerStyle.Triangle;
-                    p.MarkerSize = 10;
-                }
-            }
-        }
-
         private void ControlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -307,267 +260,24 @@
                 }
             }
         }
-        private void CommandPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            // Disabled
-            return;
-
-            try
-            {
-                int.Parse(rioCommandsTable.CurrentRow.Cells[0].Value.ToString());
-            }
-            catch (Exception)
-            {
-                rioCommandsTable.CurrentRow.Cells[0].Value = 0;
-            }
-
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user releases the mouse button while above the controlpoints cell.
-        /// </summary>
-        private void ControlPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            // Disabled
-            return;
-
-            //make sure that the button that was released was the right mouse button.
-            if (e.Button == MouseButtons.Right)
-            {
-                //Make sure that the cell that was selected was a cell that is real
-                if (e.RowIndex >= 0)
-                {
-                    //on mouse up select that row.
-                    this.ControlPointTable.Rows[e.RowIndex].Selected = true;
-                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
-                    //this.clickedPointIndex = e.RowIndex;
-                    //set the tables currentcell to the cell we just clicked.
-                    this.ControlPointTable.CurrentCell = this.ControlPointTable.Rows[e.RowIndex].Cells[1];
-                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
-                    var relativeMousePosition = this.ControlPointTable.PointToClient(System.Windows.Forms.Cursor.Position);
-                    this.contextMenuStrip2.Show(this.ControlPointTable, relativeMousePosition);
-                }
-            }
-
-        }
-        private void CommandPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            // Disabled
-            return;
-
-            //make sure that the button that was released was the right mouse button.
-            if (e.Button == MouseButtons.Right)
-            {
-                //Make sure that the cell that was selected was a cell that is real
-                if (e.RowIndex >= 0)
-                {
-                    //on mouse up select that row.
-                    this.rioCommandsTable.Rows[e.RowIndex].Selected = true;
-                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
-                    this.commandRowIndex = e.RowIndex;
-                    //set the tables currentcell to the cell we just clicked.
-                    this.rioCommandsTable.CurrentCell = this.rioCommandsTable.Rows[e.RowIndex].Cells[1];
-                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
-                    var relativeMousePosition = this.rioCommandsTable.PointToClient(System.Windows.Forms.Cursor.Position);
-                    this.commandPointListMenuStrip.Show(this.rioCommandsTable, relativeMousePosition);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the delete button in the context strip.
-        /// </summary>
-        private void Delete_Click(object sender, EventArgs e)
-        {
-            //Delete the row that is selected.
-            //ControlPointTable.Rows.RemoveAt(clickedPointIndex);
-            //Reload the points because we just deleted one and we need the rest of the program to know.
-            UpdateField();
-        }
-
-        private void Delete_Click_commandPoints(object sender, EventArgs e)
-        {
-            //Make sure we are not deleting the always blank last row.
-            if (commandRowIndex != rioCommandsTable.RowCount - 1)
-            {
-                //Delete the row that is selected.
-                rioCommandsTable.Rows.RemoveAt(commandRowIndex);
-            }
-            //Reload the points because we just deleted one and we need the rest of the program to know.
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the insert above button in the context stip.
-        /// </summary>
-        private void InsertAbove_Click(object sender, EventArgs e)
-        {
-            //insert a new row at the selected index. (this will push the current index down one.)
-            mainField.Series["cp"].Points.AddXY(100, 100);
-            //ControlPointTable.Rows.Insert(clickedPointIndex, 100, 100, "+");
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the insert above button in the context stip.
-        /// </summary>
-        private void InsertAbove_Click_commandPoints(object sender, EventArgs e)
-        {
-            //insert a new row at the selected index. (this will push the current index down one.)
-            rioCommandsTable.Rows.Insert(commandRowIndex);
-
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the insert below button in the context stip.
-        /// </summary>
-
-        private void InsertBelow_Click(object sender, EventArgs e)
-        {
-            //insert a new row at the selected index plus one.
-            //ControlPointTable.Rows.Insert(clickedPointIndex + 1, 100, 100, "+");
-            mainField.Series["cp"].Points.AddXY(100, 100);
-
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the insert below button in the context stip.
-        /// </summary>
-
-        private void InsertBelow_Click_commandPoints(object sender, EventArgs e)
-        {
-            //insert a new row at the selected index plus one.
-            if (!(rioCommandsTable.Rows.Count >= commandRowIndex))
-                rioCommandsTable.Rows.Insert(commandRowIndex + 1);
-
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the move up button in the context stip.
-        /// </summary>
-        private void BtnUp_Click(object sender, EventArgs e)
-        {
-            //lets convert our object name because I copied this from the internet and am to lazy to change it.
-            DataGridView dgv = ControlPointTable;
-            try
-            {
-                int totalRows = dgv.Rows.Count;
-                // get index of the row for the selected cell
-                int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (rowIndex == 0)
-                    return;
-                // get index of the column for the selected cell
-                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
-                DataGridViewRow selectedRow = dgv.Rows[rowIndex];
-                dgv.Rows.Remove(selectedRow);
-                dgv.Rows.Insert(rowIndex - 1, selectedRow);
-                dgv.ClearSelection();
-                dgv.Rows[rowIndex - 1].Cells[colIndex].Selected = true;
-            }
-            catch { }
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the move up button in the context stip.
-        /// </summary>
-        private void BtnUp_Click_commandPoints(object sender, EventArgs e)
-        {
-            //lets convert our object name because I copied this from the internet and am to lazy to change it.
-            DataGridView dgv = rioCommandsTable;
-            try
-            {
-                int totalRows = dgv.Rows.Count;
-                // get index of the row for the selected cell
-                int commandRowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (commandRowIndex == 0)
-                    return;
-                // get index of the column for the selected cell
-                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
-                DataGridViewRow selectedRow = dgv.Rows[commandRowIndex];
-                dgv.Rows.Remove(selectedRow);
-                dgv.Rows.Insert(commandRowIndex - 1, selectedRow);
-                dgv.ClearSelection();
-                dgv.Rows[commandRowIndex - 1].Cells[colIndex].Selected = true;
-            }
-            catch { }
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the move down button in the context stip.
-        /// </summary>
-        private void BtnDown_Click(object sender, EventArgs e)
-        {
-            DataGridView dgv = ControlPointTable;
-            try
-            {
-                //lets convert our object name because I copied this from the internet and am to lazy to change it.
-
-                int totalRows = dgv.Rows.Count;
-                // get index of the row for the selected cell
-                int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (rowIndex == totalRows - 2)
-                    return;
-
-                // get index of the column for the selected cell
-                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
-                DataGridViewRow selectedRow = dgv.Rows[rowIndex];
-                dgv.Rows.Remove(selectedRow);
-                dgv.Rows.Insert(rowIndex + 1, selectedRow);
-                dgv.ClearSelection();
-                dgv.Rows[rowIndex + 1].Cells[colIndex].Selected = true;
-            }
-            catch { }
-            UpdateField();
-        }
-
-        /// <summary>
-        /// The event that is called when the user clicks the move down button in the context stip.
-        /// </summary>
-        private void BtnDown_Click_commandPoints(object sender, EventArgs e)
-        {
-            DataGridView dgv = rioCommandsTable;
-            try
-            {
-                //lets convert our object name because I copied this from the internet and am to lazy to change it.
-
-                int totalRows = dgv.Rows.Count;
-                // get index of the row for the selected cell
-                int commandRowIndex = dgv.SelectedCells[0].OwningRow.Index;
-                if (commandRowIndex == totalRows - 2)
-                    return;
-                // get index of the column for the selected cell
-                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
-                DataGridViewRow selectedRow = dgv.Rows[commandRowIndex];
-                dgv.Rows.Remove(selectedRow);
-                dgv.Rows.Insert(commandRowIndex + 1, selectedRow);
-                dgv.ClearSelection();
-                dgv.Rows[commandRowIndex + 1].Cells[colIndex].Selected = true;
-            }
-            catch { }
-
-        }
 
         private void DrawPoint(ControlPoint point, ProfilePath path)
         {
             mainField.Series[path.id + "-points"].Points.AddXY(point.X, point.Y);
 
-            if (mainField.Series.IndexOf(point.Id) == -1)
-            {
-                mainField.Series.Add(point.Id);
-                mainField.Series[point.Id].ChartType = SeriesChartType.Line;
-                mainField.Series[point.Id].Color = path == selectedPath ? Color.Red : Color.DarkRed;
-                mainField.Series[point.Id].BorderWidth = 2;
-            }
-            mainField.Series[point.Id].Points.Clear();
+            int seriesIndex = mainField.Series.IndexOf(point.Id);
+            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
+
+            mainField.Series.Add(point.Id);
+            mainField.Series[point.Id].ChartType = SeriesChartType.Line;
+            mainField.Series[point.Id].BorderWidth = 2;
+            mainField.Series[point.Id].Color = path == selectedPath ? Color.Red : Color.DarkRed;
 
             double x1 = (double)(point.X + pointSize * Math.Cos((point.Heading - 270) * Math.PI / 180));
             double y1 = (double)(point.Y + pointSize * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x1, y1);
-            double x2 = (double)(point.X + (path == selectedPath ? 0.600 : 0.300) * Math.Cos((point.Heading - 270) * Math.PI / 180));
-            double y2 = (double)(point.Y + (path == selectedPath ? 0.600 : 0.300) * Math.Sin((point.Heading - 270) * Math.PI / 180));
+            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Heading - 270) * Math.PI / 180));
+            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
         }
 
@@ -589,19 +299,21 @@
             mainField.Series[path.id + "-path"].ChartType = SeriesChartType.Line;
             mainField.Series[path.id + "-path"].Color = path == selectedPath ? Color.Aqua : Color.Blue;
             mainField.Series[path.id + "-path"].MarkerSize = 2;
+            mainField.Series[path.id + "-path"].BorderWidth = 2;
 
             mainField.Series.Add(path.id + "-left");
             mainField.Series[path.id + "-left"].ChartArea = "field";
             mainField.Series[path.id + "-left"].ChartType = SeriesChartType.Line;
             mainField.Series[path.id + "-left"].Color = Color.LightGray;
             mainField.Series[path.id + "-left"].MarkerSize = 2;
-            //mainField.Series[path.id + "-left"].BorderWidth = 2;
+            mainField.Series[path.id + "-left"].BorderWidth = 2;
 
             mainField.Series.Add(path.id + "-right");
             mainField.Series[path.id + "-right"].ChartArea = "field";
             mainField.Series[path.id + "-right"].ChartType = SeriesChartType.Line;
             mainField.Series[path.id + "-right"].Color = Color.LightGray;
             mainField.Series[path.id + "-right"].MarkerSize = 2;
+            mainField.Series[path.id + "-right"].BorderWidth = 2;
 
             mainField.Series.Add(path.id + "-points");
             mainField.Series[path.id + "-points"].ChartArea = "field";
@@ -617,7 +329,6 @@
 
             if (path.controlPoints.Count < 2) return;
 
-            //outputPoints = new OutputPoints();
             double Posoffset = 0;
             double Timeoffset = 0;
             List<SplinePoint> pointList = new List<SplinePoint>();
@@ -710,8 +421,11 @@
 
             foreach (ProfilePath path in selectedProfile.paths)
             {
+                if (path == selectedPath) continue;
                 DrawPath(path);
             }
+            if (!noSelectedPath()) DrawPath(selectedPath);
+
             setStatus("", false);
         }
 
@@ -862,63 +576,6 @@
             Cursor = Cursors.Default;
         }
 
-        /// <summary>
-        /// Deploys the currently selected profile directly to the robot for testing
-        /// </summary>
-        private void DeploySelectedProfile(object sender, EventArgs e)
-        {
-            // OLD: NO LONGER USING THIS METHOD TO DEPLOY FOR TESTING
-            if (noSelectedProfile() || !selectedProfile.isValid())
-            {
-                setStatus("Selected profile is invalid", true);
-                return;
-            }
-            Cursor = Cursors.WaitCursor;
-
-            SftpClient sftp = new SftpClient(
-                Properties.Settings.Default.IpAddress,
-                Properties.Settings.Default.Username,
-                Properties.Settings.Default.Password
-            );
-
-            try
-            {
-                setStatus("Establishing RIO connection...", false);
-                sftp.Connect();
-
-                setStatus("Uploading test profile...", false);
-                if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
-
-                MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(selectedProfile.toTxt().ToString()));
-                sftp.UploadFile(stream, Path.Combine(Properties.Settings.Default.RioLocation, "_test.txt"));
-                
-                setStatus("Test profile uploaded successfully", false);
-                sftp.Disconnect();
-            }
-            catch (Renci.SshNet.Common.SshConnectionException exception)
-            {
-                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
-            }
-            catch (System.Net.Sockets.SocketException exception)
-            {
-                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
-            }
-            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
-            {
-                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
-                setStatus("Permission denied", true);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
-                setStatus("Failed to upload profile to RIO", true);
-            }
-
-            Cursor = Cursors.Default;
-        }
-
         private void LoadProfilesFromRIO(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -992,188 +649,6 @@
                 mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
                 mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
             }
-        }
-        bool isFileMenuItemOpen = false;
-
-        private void FileToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            TSMI.ForeColor = Color.Black;
-            isFileMenuItemOpen = true;
-        }
-
-        private void FileToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            TSMI.ForeColor = Color.White;
-            isFileMenuItemOpen = false;
-        }
-
-        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            TSMI.ForeColor = Color.Black;
-        }
-
-        private void FileToolStripMenuItem_MouseLeave(object sender, EventArgs e)
-        {
-            ToolStripMenuItem TSMI = sender as ToolStripMenuItem;
-            if (isFileMenuItemOpen)
-                TSMI.ForeColor = Color.Black;
-            else
-                TSMI.ForeColor = Color.White;
-        }
-
-        private void RioFiles_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            //make sure that the button that was released was the right mouse button.
-            if (e.Button == MouseButtons.Right)
-            {
-                //Make sure that the cell that was selected was a cell that is real
-                if (e.RowIndex >= 0)
-                {
-                    //on mouse up select that row.
-                    this.profileTable.Rows[e.RowIndex].Selected = true;
-                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
-                    //this.clickedPointIndex = e.RowIndex;
-                    //set the tables currentcell to the cell we just clicked.
-                    this.profileTable.CurrentCell = this.profileTable.Rows[e.RowIndex].Cells[1];
-                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
-                    var relativeMousePosition = this.ControlPointTable.PointToClient(System.Windows.Forms.Cursor.Position);
-                    this.rioFilesContextMenuStrip.Show(this.ControlPointTable, relativeMousePosition);
-                }
-            }
-        }
-
-        private void RioFilesLoad(object sender, EventArgs e)
-        {
-            if (profileTable.Rows[RioFilesRowIndex].Cells[0].Value == null)
-            {
-                return;
-            }
-            if (profileTable.Rows[RioFilesRowIndex].Cells[0].Value.ToString().Equals(""))
-            {
-                return;
-            }
-            if (!MessageBox.Show("Your current profile will be over written are you sure you would like to contine?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning).Equals(DialogResult.Yes))
-                return;
-            SftpClient sftp = new SftpClient(Properties.Settings.Default.IpAddress, Properties.Settings.Default.Username, Properties.Settings.Default.Password);
-
-            try
-            {
-                sftp.Connect();
-            }
-            catch (Exception e1)
-            {
-                //Make sure that we are connected to the robot.
-                Console.WriteLine("IOException source: {0}", e1.StackTrace);
-                MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            String RioProfilePath = Path.Combine(Properties.Settings.Default.RioLocation, profileTable.Rows[RioFilesRowIndex].Cells[0].Value.ToString().Replace(".json", ".mp"));
-            String tempFileName = Path.Combine(Path.GetTempPath(), profileTable.Rows[RioFilesRowIndex].Cells[0].Value.ToString());
-            if (!sftp.Exists(Properties.Settings.Default.RioLocation))
-            {
-                MessageBox.Show("Could not find motion profile path on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (!sftp.Exists(RioProfilePath))
-            {
-                MessageBox.Show("Could not find specified motion profile on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            try
-            {
-                using (var file = File.OpenWrite(tempFileName))
-                {
-                    sftp.DownloadFile(RioProfilePath, file);
-
-                }
-                using (var reader1 = new System.IO.StreamReader(tempFileName))
-                {
-                    //First clear out our points.
-                    ControlPointTable.Rows.Clear();
-                    rioCommandsTable.Rows.Clear();
-                    //Read the file and load our points and other variables.
-                    string json = reader1.ReadToEnd();
-
-                    JObject o = JObject.Parse(json);
-
-                    //maxVelocityInput.Text = (string)o["Max Velocity"];
-                    //wheel.Text = (string)o["Wheel Diameter"];
-
-                    //profileNameInput.Text = (string)o["Profile Name"];
-
-                    JArray a = (JArray)o["Points"];
-
-                    for (int x = 0; x <= a.Count - 1; x++)
-                    {
-                        ControlPointTable.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
-                    }
-
-                    JArray CommandPointsArray = (JArray)o["CommandPoints"];
-
-                    for (int x = 0; x <= CommandPointsArray.Count - 1; x++)
-                    {
-                        rioCommandsTable.Rows.Add(int.Parse((string)CommandPointsArray[x][0]), (string)CommandPointsArray[x][1]);
-                    }
-                }
-                //Run the apply so that it looks like where we left off.
-                UpdateField();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not download specified motion profile on rio!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
-
-        }
-
-        private void RioFiles_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            if (e.StateChanged != DataGridViewElementStates.Selected)
-            {
-                return;
-            }
-            if (e.Row.Selected == true)
-            {
-                RioFilesRowIndex = e.Row.Index;
-            }
-        }
-
-        private void About_Click(object sender, EventArgs e)
-        {
-            AboutBox about = new AboutBox();
-            about.Show();
-        }
-
-        private Boolean RowContainData(DataGridViewRow row, Boolean scanWholeRow)
-        {
-            if (!scanWholeRow)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value != null)
-                        if (!cell.Value.ToString().Equals(""))
-                            return true;
-                }
-            }
-            else
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value == null)
-                    {
-                        return false;
-                    }
-                    if (cell.Value.ToString().Equals(""))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
         }
 
         private void selectProfile(int index = -1)
@@ -1545,6 +1020,8 @@
 
         private void duplicateProfileButton_Click(object sender, EventArgs e)
         {
+            if (noSelectedProfile()) return;
+
             profiles.Add(new Profile(selectedProfile));
             profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
             selectProfile(profiles.Count - 1);

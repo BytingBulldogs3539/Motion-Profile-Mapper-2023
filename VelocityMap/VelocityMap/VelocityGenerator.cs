@@ -40,21 +40,13 @@ namespace MotionProfile.Spline
             for (double time = 0; time < s_curve[6].t0 + s_curve[6].t; time += dt)
             {
                 VelocityPoint point = new VelocityPoint();
-                if (true)//direction == ControlPointDirection.FORWARD)
-                {
-                    point.Pos = s_curve_pos(s_curve, time);
-                    point.Vel = s_curve_vel(s_curve, time);
-                    point.Acc = s_curve_acc(s_curve, time);
-                    point.Jerk = s_curve_jerk(s_curve, time);
-                }
-                if (false)//direction == ControlPointDirection.REVERSE)
-                {
-                    point.Pos = -s_curve_pos(s_curve, time);
-                    point.Vel = -s_curve_vel(s_curve, time);
-                    point.Acc = -s_curve_acc(s_curve, time);
-                    point.Jerk = -s_curve_jerk(s_curve, time);
-                }
+
+                point.Pos = s_curve_pos(s_curve, time);
+                point.Vel = s_curve_vel(s_curve, time);
+                point.Acc = s_curve_acc(s_curve, time);
+                point.Jerk = s_curve_jerk(s_curve, time);
                 point.Time = time;
+
                 list.Add(point);
             }
             return list;

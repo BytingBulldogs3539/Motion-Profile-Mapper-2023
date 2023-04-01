@@ -61,26 +61,6 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=694,Y=17}.
-        /// </summary>
-        internal static System.Drawing.Point commandPointListMenuStrip_TrayLocation {
-            get {
-                object obj = ResourceManager.GetObject("commandPointListMenuStrip.TrayLocation", resourceCulture);
-                return ((System.Drawing.Point)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=386,Y=17}.
-        /// </summary>
-        internal static System.Drawing.Point contextMenuStrip2_TrayLocation {
-            get {
-                object obj = ResourceManager.GetObject("contextMenuStrip2.TrayLocation", resourceCulture);
-                return ((System.Drawing.Point)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Point similar to {X=182,Y=17}.
         /// </summary>
         internal static System.Drawing.Point folderBrowserDialog1_TrayLocation {
@@ -101,31 +81,11 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=572,Y=17}.
-        /// </summary>
-        internal static System.Drawing.Point MainStrip_TrayLocation {
-            get {
-                object obj = ResourceManager.GetObject("MainStrip.TrayLocation", resourceCulture);
-                return ((System.Drawing.Point)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
         /// </summary>
         internal static System.Drawing.Point openFilesDialog_TrayLocation {
             get {
                 object obj = ResourceManager.GetObject("openFilesDialog.TrayLocation", resourceCulture);
-                return ((System.Drawing.Point)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=948,Y=17}.
-        /// </summary>
-        internal static System.Drawing.Point rioFilesContextMenuStrip_TrayLocation {
-            get {
-                object obj = ResourceManager.GetObject("rioFilesContextMenuStrip.TrayLocation", resourceCulture);
                 return ((System.Drawing.Point)(obj));
             }
         }

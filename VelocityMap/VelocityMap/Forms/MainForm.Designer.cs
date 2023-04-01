@@ -61,8 +61,6 @@
             this.infoLabel = new System.Windows.Forms.Label();
             this.GridCheckBox = new System.Windows.Forms.CheckBox();
             this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.rioCommandsTable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rioCommandsLabel = new System.Windows.Forms.Label();
             this.Data = new System.Windows.Forms.TabPage();
             this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -71,30 +69,15 @@
             this.openFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.previewButton = new System.Windows.Forms.Button();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlPointTable = new System.Windows.Forms.DataGridView();
             this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.refresh_button = new System.Windows.Forms.Button();
-            this.MainStrip = new System.Windows.Forms.MenuStrip();
-            this.commandPointListMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.profileTable = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rioFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pathTable = new System.Windows.Forms.DataGridView();
             this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -125,16 +108,12 @@
             this.Field.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rioCommandsTable)).BeginInit();
             this.Data.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).BeginInit();
-            this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
-            this.commandPointListMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
-            this.rioFilesContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -161,7 +140,6 @@
             this.Field.Controls.Add(this.infoLabel);
             this.Field.Controls.Add(this.GridCheckBox);
             this.Field.Controls.Add(this.mainField);
-            this.Field.Controls.Add(this.rioCommandsTable);
             this.Field.Controls.Add(this.rioCommandsLabel);
             this.Field.Location = new System.Drawing.Point(4, 26);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
@@ -283,57 +261,13 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 709);
+            this.mainField.Size = new System.Drawing.Size(721, 707);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
             this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
             this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
             this.mainField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseUp);
-            // 
-            // rioCommandsTable
-            // 
-            this.rioCommandsTable.AllowUserToResizeColumns = false;
-            this.rioCommandsTable.AllowUserToResizeRows = false;
-            this.rioCommandsTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rioCommandsTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.rioCommandsTable.BackgroundColor = System.Drawing.Color.White;
-            this.rioCommandsTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rioCommandsTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.rioCommandsTable.ColumnHeadersHeight = 28;
-            this.rioCommandsTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.rioCommandsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1});
-            this.rioCommandsTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.rioCommandsTable.Enabled = false;
-            this.rioCommandsTable.GridColor = System.Drawing.Color.Silver;
-            this.rioCommandsTable.Location = new System.Drawing.Point(28, 513);
-            this.rioCommandsTable.Margin = new System.Windows.Forms.Padding(1);
-            this.rioCommandsTable.MultiSelect = false;
-            this.rioCommandsTable.Name = "rioCommandsTable";
-            this.rioCommandsTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.rioCommandsTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.rioCommandsTable.RowHeadersVisible = false;
-            this.rioCommandsTable.RowHeadersWidth = 20;
-            this.rioCommandsTable.RowTemplate.Height = 40;
-            this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 182);
-            this.rioCommandsTable.TabIndex = 28;
-            this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
-            this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
-            this.rioCommandsTable.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.CommandPoints_RowStateChange);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "Command Name";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 300;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn1.Width = 300;
             // 
             // rioCommandsLabel
             // 
@@ -458,53 +392,6 @@
             this.previewButton.UseVisualStyleBackColor = false;
             this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem,
-            this.moveUpToolStripMenuItem,
-            this.moveDownToolStripMenuItem,
-            this.insertAboveToolStripMenuItem,
-            this.insertBelowToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 124);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
-            // 
-            // moveUpToolStripMenuItem
-            // 
-            this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
-            this.moveUpToolStripMenuItem.Text = "Move Up";
-            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.BtnUp_Click);
-            // 
-            // moveDownToolStripMenuItem
-            // 
-            this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
-            this.moveDownToolStripMenuItem.Text = "Move Down";
-            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.BtnDown_Click);
-            // 
-            // insertAboveToolStripMenuItem
-            // 
-            this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
-            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
-            this.insertAboveToolStripMenuItem.Text = "Insert Above";
-            this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.InsertAbove_Click);
-            // 
-            // insertBelowToolStripMenuItem
-            // 
-            this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
-            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
-            this.insertBelowToolStripMenuItem.Text = "Insert Below";
-            this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.InsertBelow_Click);
-            // 
             // ControlPointTable
             // 
             this.ControlPointTable.AllowUserToAddRows = false;
@@ -553,7 +440,6 @@
             this.ControlPointTable.Size = new System.Drawing.Size(234, 341);
             this.ControlPointTable.TabIndex = 2;
             this.ControlPointTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
-            this.ControlPointTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
             // 
             // x
             // 
@@ -608,7 +494,7 @@
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refresh_button.ForeColor = System.Drawing.Color.DarkCyan;
-            this.refresh_button.Location = new System.Drawing.Point(12, 55);
+            this.refresh_button.Location = new System.Drawing.Point(12, 54);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(253, 50);
             this.refresh_button.TabIndex = 25;
@@ -616,65 +502,6 @@
             this.TestTooltip.SetToolTip(this.refresh_button, "Load profiles from RIO location");
             this.refresh_button.UseVisualStyleBackColor = false;
             this.refresh_button.Click += new System.EventHandler(this.LoadProfilesFromRIO);
-            // 
-            // MainStrip
-            // 
-            this.MainStrip.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.MainStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.MainStrip.Location = new System.Drawing.Point(0, 0);
-            this.MainStrip.Name = "MainStrip";
-            this.MainStrip.Padding = new System.Windows.Forms.Padding(0);
-            this.MainStrip.Size = new System.Drawing.Size(1330, 24);
-            this.MainStrip.TabIndex = 26;
-            this.MainStrip.Text = "menuStrip1";
-            // 
-            // commandPointListMenuStrip
-            // 
-            this.commandPointListMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.commandPointListMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5});
-            this.commandPointListMenuStrip.Name = "contextMenuStrip2";
-            this.commandPointListMenuStrip.Size = new System.Drawing.Size(162, 124);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 24);
-            this.toolStripMenuItem1.Text = "Delete";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.Delete_Click_commandPoints);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 24);
-            this.toolStripMenuItem2.Text = "Move Up";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.BtnUp_Click_commandPoints);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 24);
-            this.toolStripMenuItem3.Text = "Move Down";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.BtnDown_Click_commandPoints);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(161, 24);
-            this.toolStripMenuItem4.Text = "Insert Above";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.InsertAbove_Click_commandPoints);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(161, 24);
-            this.toolStripMenuItem5.Text = "Insert Below";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.InsertBelow_Click_commandPoints);
             // 
             // profileTable
             // 
@@ -721,9 +548,7 @@
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
-            this.profileTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.RioFiles_CellMouseUp);
             this.profileTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_RowEnter);
-            this.profileTable.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.RioFiles_RowStateChange);
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -744,21 +569,6 @@
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn3.Width = 165;
-            // 
-            // rioFilesContextMenuStrip
-            // 
-            this.rioFilesContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.rioFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem1});
-            this.rioFilesContextMenuStrip.Name = "rioFilesContextMenuStrip";
-            this.rioFilesContextMenuStrip.Size = new System.Drawing.Size(112, 28);
-            // 
-            // loadToolStripMenuItem1
-            // 
-            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(111, 24);
-            this.loadToolStripMenuItem1.Text = "Load";
-            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.RioFilesLoad);
             // 
             // pathTable
             // 
@@ -860,7 +670,7 @@
             this.loadFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFileButton.ForeColor = System.Drawing.Color.Black;
-            this.loadFileButton.Location = new System.Drawing.Point(12, 109);
+            this.loadFileButton.Location = new System.Drawing.Point(12, 108);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(310, 30);
@@ -1014,7 +824,7 @@
             this.rioConectionButton.IconColor = System.Drawing.Color.DarkCyan;
             this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.rioConectionButton.IconSize = 25;
-            this.rioConectionButton.Location = new System.Drawing.Point(268, 55);
+            this.rioConectionButton.Location = new System.Drawing.Point(268, 54);
             this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
             this.rioConectionButton.Name = "rioConectionButton";
             this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
@@ -1272,7 +1082,6 @@
             this.Controls.Add(this.previewButton);
             this.Controls.Add(this.ControlPointTable);
             this.Controls.Add(this.MoreData);
-            this.Controls.Add(this.MainStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1290,16 +1099,12 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rioCommandsTable)).EndInit();
             this.Data.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).EndInit();
-            this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
-            this.commandPointListMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
-            this.rioFilesContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1314,27 +1119,11 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart mainField;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button previewButton;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem insertAboveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem insertBelowToolStripMenuItem;
         private System.Windows.Forms.DataGridView ControlPointTable;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button refresh_button;
-        private System.Windows.Forms.MenuStrip MainStrip;
         private System.Windows.Forms.CheckBox GridCheckBox;
-        private System.Windows.Forms.DataGridView rioCommandsTable;
-        private System.Windows.Forms.ContextMenuStrip commandPointListMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.DataGridView profileTable;
-        private System.Windows.Forms.ContextMenuStrip rioFilesContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
         private System.Windows.Forms.TabPage Data;
         private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
         private System.Windows.Forms.TabPage tabPage1;
@@ -1344,7 +1133,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label rioCommandsLabel;
         private System.Windows.Forms.Label infoLabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private FontAwesome.Sharp.IconButton pathOrderUp;
         private FontAwesome.Sharp.IconButton pathOrderDown;
         private FontAwesome.Sharp.IconButton newPathButton;
