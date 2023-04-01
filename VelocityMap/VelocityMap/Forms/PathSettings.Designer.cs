@@ -125,7 +125,7 @@ namespace VelocityMap.Forms
             this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(120, 31);
-            this.cancel.TabIndex = 71;
+            this.cancel.TabIndex = 100;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = false;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
@@ -227,8 +227,9 @@ namespace VelocityMap.Forms
             this.pathMaxAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.pathMaxAccInput.Name = "pathMaxAccInput";
             this.pathMaxAccInput.Size = new System.Drawing.Size(133, 23);
-            this.pathMaxAccInput.TabIndex = 63;
+            this.pathMaxAccInput.TabIndex = 85;
             this.pathMaxAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pathMaxAccInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pathMaxAccInput_KeyPress);
             // 
             // pathMaxVelInput
             // 
@@ -240,8 +241,9 @@ namespace VelocityMap.Forms
             this.pathMaxVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.pathMaxVelInput.Name = "pathMaxVelInput";
             this.pathMaxVelInput.Size = new System.Drawing.Size(133, 23);
-            this.pathMaxVelInput.TabIndex = 62;
+            this.pathMaxVelInput.TabIndex = 80;
             this.pathMaxVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pathMaxVelInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pathMaxVelInput_KeyPress);
             // 
             // save
             // 
@@ -254,7 +256,7 @@ namespace VelocityMap.Forms
             this.save.Margin = new System.Windows.Forms.Padding(4);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(120, 31);
-            this.save.TabIndex = 61;
+            this.save.TabIndex = 110;
             this.save.Text = "Save";
             this.save.UseVisualStyleBackColor = false;
             this.save.Click += new System.EventHandler(this.save_Click);
@@ -271,6 +273,7 @@ namespace VelocityMap.Forms
             this.pathNameInput.Size = new System.Drawing.Size(249, 23);
             this.pathNameInput.TabIndex = 77;
             this.pathNameInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.pathNameInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pathNameInput_KeyPress);
             // 
             // label11
             // 

@@ -54,8 +54,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
-            this.radioRed = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.radioBlue = new System.Windows.Forms.RadioButton();
+            this.radioRed = new System.Windows.Forms.RadioButton();
             this.showPathsCheckbox = new System.Windows.Forms.CheckBox();
             this.infoLabel = new System.Windows.Forms.Label();
             this.GridCheckBox = new System.Windows.Forms.CheckBox();
@@ -68,10 +69,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.AngleChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFilesDialog = new System.Windows.Forms.OpenFileDialog();
-            this.ClearCP = new System.Windows.Forms.Button();
-            this.invert = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.deploy = new System.Windows.Forms.Button();
+            this.previewButton = new System.Windows.Forms.Button();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,15 +100,14 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.aboutButton = new System.Windows.Forms.Button();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.saveFileButton = new System.Windows.Forms.Button();
             this.saveAllButton = new System.Windows.Forms.Button();
             this.saveToRioButton = new System.Windows.Forms.Button();
-            this.invertAll = new System.Windows.Forms.Button();
             this.defaultsButton = new System.Windows.Forms.Button();
             this.TestTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.previewButton = new System.Windows.Forms.Button();
+            this.shiftPathButton = new FontAwesome.Sharp.IconButton();
+            this.duplicateProfileButton = new FontAwesome.Sharp.IconButton();
             this.editPathButton = new FontAwesome.Sharp.IconButton();
             this.rioConectionButton = new FontAwesome.Sharp.IconButton();
             this.editProfileButton = new FontAwesome.Sharp.IconButton();
@@ -119,10 +117,13 @@
             this.newPathButton = new FontAwesome.Sharp.IconButton();
             this.pathOrderDown = new FontAwesome.Sharp.IconButton();
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.duplicateProfileButton = new FontAwesome.Sharp.IconButton();
+            this.deletePointButton = new FontAwesome.Sharp.IconButton();
+            this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
+            this.invertAllPathsButton = new FontAwesome.Sharp.IconButton();
+            this.infoButton = new FontAwesome.Sharp.IconButton();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rioCommandsTable)).BeginInit();
             this.Data.SuspendLayout();
@@ -135,7 +136,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             this.rioFilesContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MoreData
@@ -171,6 +171,27 @@
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioBlue);
+            this.panel1.Controls.Add(this.radioRed);
+            this.panel1.Location = new System.Drawing.Point(177, 714);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(134, 73);
+            this.panel1.TabIndex = 44;
+            // 
+            // radioBlue
+            // 
+            this.radioBlue.AutoSize = true;
+            this.radioBlue.ForeColor = System.Drawing.Color.Black;
+            this.radioBlue.Location = new System.Drawing.Point(12, 40);
+            this.radioBlue.Name = "radioBlue";
+            this.radioBlue.Size = new System.Drawing.Size(109, 21);
+            this.radioBlue.TabIndex = 67;
+            this.radioBlue.Text = "Blue alliance";
+            this.radioBlue.UseVisualStyleBackColor = true;
+            this.radioBlue.CheckedChanged += new System.EventHandler(this.radioBlue_CheckedChanged);
+            // 
             // radioRed
             // 
             this.radioRed.AutoSize = true;
@@ -184,18 +205,6 @@
             this.radioRed.Text = "Red alliance";
             this.radioRed.UseVisualStyleBackColor = true;
             this.radioRed.CheckedChanged += new System.EventHandler(this.radioRed_CheckedChanged);
-            // 
-            // radioBlue
-            // 
-            this.radioBlue.AutoSize = true;
-            this.radioBlue.ForeColor = System.Drawing.Color.Black;
-            this.radioBlue.Location = new System.Drawing.Point(12, 40);
-            this.radioBlue.Name = "radioBlue";
-            this.radioBlue.Size = new System.Drawing.Size(109, 21);
-            this.radioBlue.TabIndex = 67;
-            this.radioBlue.Text = "Blue alliance";
-            this.radioBlue.UseVisualStyleBackColor = true;
-            this.radioBlue.CheckedChanged += new System.EventHandler(this.radioBlue_CheckedChanged);
             // 
             // showPathsCheckbox
             // 
@@ -274,7 +283,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 714);
+            this.mainField.Size = new System.Drawing.Size(721, 709);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -310,7 +319,7 @@
             this.rioCommandsTable.RowTemplate.Height = 40;
             this.rioCommandsTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.rioCommandsTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.rioCommandsTable.Size = new System.Drawing.Size(310, 187);
+            this.rioCommandsTable.Size = new System.Drawing.Size(310, 182);
             this.rioCommandsTable.TabIndex = 28;
             this.rioCommandsTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CommandPoints_CellEndEdit);
             this.rioCommandsTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CommandPoints_CellMouseUp);
@@ -432,58 +441,22 @@
             // 
             this.openFilesDialog.FileName = "openFileDialog1";
             // 
-            // ClearCP
+            // previewButton
             // 
-            this.ClearCP.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClearCP.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ClearCP.FlatAppearance.BorderSize = 0;
-            this.ClearCP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClearCP.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ClearCP.ForeColor = System.Drawing.Color.Black;
-            this.ClearCP.Location = new System.Drawing.Point(1084, 736);
-            this.ClearCP.Margin = new System.Windows.Forms.Padding(1);
-            this.ClearCP.Name = "ClearCP";
-            this.ClearCP.Size = new System.Drawing.Size(115, 28);
-            this.ClearCP.TabIndex = 3;
-            this.ClearCP.Text = "Clear";
-            this.TestTooltip.SetToolTip(this.ClearCP, "Clear all points in selected path");
-            this.ClearCP.UseVisualStyleBackColor = false;
-            this.ClearCP.Click += new System.EventHandler(this.ClearCP_Click);
-            // 
-            // invert
-            // 
-            this.invert.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.invert.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.invert.FlatAppearance.BorderSize = 0;
-            this.invert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.invert.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invert.ForeColor = System.Drawing.Color.Black;
-            this.invert.Location = new System.Drawing.Point(1084, 704);
-            this.invert.Margin = new System.Windows.Forms.Padding(1);
-            this.invert.Name = "invert";
-            this.invert.Size = new System.Drawing.Size(115, 28);
-            this.invert.TabIndex = 3;
-            this.invert.Text = "Mirror";
-            this.TestTooltip.SetToolTip(this.invert, "Mirror the selected path");
-            this.invert.UseVisualStyleBackColor = false;
-            this.invert.Click += new System.EventHandler(this.Invert_Click);
-            // 
-            // deploy
-            // 
-            this.deploy.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deploy.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deploy.FlatAppearance.BorderSize = 0;
-            this.deploy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deploy.Font = new System.Drawing.Font("Verdana", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deploy.ForeColor = System.Drawing.Color.SlateBlue;
-            this.deploy.Location = new System.Drawing.Point(1084, 768);
-            this.deploy.Name = "deploy";
-            this.deploy.Size = new System.Drawing.Size(234, 50);
-            this.deploy.TabIndex = 11;
-            this.deploy.Text = "Test";
-            this.TestTooltip.SetToolTip(this.deploy, "Deploy selected profile to RIO under \"_test\"");
-            this.deploy.UseVisualStyleBackColor = false;
-            this.deploy.Click += new System.EventHandler(this.DeploySelectedProfile);
+            this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.previewButton.FlatAppearance.BorderSize = 0;
+            this.previewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.previewButton.Font = new System.Drawing.Font("Verdana", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.previewButton.ForeColor = System.Drawing.Color.SlateBlue;
+            this.previewButton.Location = new System.Drawing.Point(1084, 768);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(234, 50);
+            this.previewButton.TabIndex = 11;
+            this.previewButton.Text = "Preview";
+            this.TestTooltip.SetToolTip(this.previewButton, "Preview robot file data");
+            this.previewButton.UseVisualStyleBackColor = false;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
             // contextMenuStrip2
             // 
@@ -564,7 +537,7 @@
             this.ControlPointTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.ControlPointTable.EnableHeadersVisualStyles = false;
             this.ControlPointTable.GridColor = System.Drawing.Color.Silver;
-            this.ControlPointTable.Location = new System.Drawing.Point(1084, 369);
+            this.ControlPointTable.Location = new System.Drawing.Point(1084, 385);
             this.ControlPointTable.Margin = new System.Windows.Forms.Padding(1);
             this.ControlPointTable.MultiSelect = false;
             this.ControlPointTable.Name = "ControlPointTable";
@@ -577,7 +550,7 @@
             this.ControlPointTable.RowTemplate.Height = 40;
             this.ControlPointTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ControlPointTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ControlPointTable.Size = new System.Drawing.Size(234, 321);
+            this.ControlPointTable.Size = new System.Drawing.Size(234, 341);
             this.ControlPointTable.TabIndex = 2;
             this.ControlPointTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlPoints_CellEndEdit);
             this.ControlPointTable.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ControlPoints_CellMouseUp);
@@ -621,7 +594,7 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(122, 150);
+            this.label10.Location = new System.Drawing.Point(122, 147);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(86, 25);
             this.label10.TabIndex = 23;
@@ -744,7 +717,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 505);
+            this.profileTable.Size = new System.Drawing.Size(310, 516);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -818,7 +791,7 @@
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
             this.pathTable.GridColor = System.Drawing.Color.Silver;
-            this.pathTable.Location = new System.Drawing.Point(1084, 37);
+            this.pathTable.Location = new System.Drawing.Point(1084, 38);
             this.pathTable.Margin = new System.Windows.Forms.Padding(1);
             this.pathTable.MultiSelect = false;
             this.pathTable.Name = "pathTable";
@@ -831,7 +804,7 @@
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.pathTable.Size = new System.Drawing.Size(236, 267);
+            this.pathTable.Size = new System.Drawing.Size(236, 283);
             this.pathTable.TabIndex = 34;
             this.pathTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellDoubleClick);
             this.pathTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellEndEdit);
@@ -861,7 +834,7 @@
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label4.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(1130, 12);
+            this.label4.Location = new System.Drawing.Point(1130, 13);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 20);
             this.label4.TabIndex = 35;
@@ -873,28 +846,11 @@
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(1108, 344);
+            this.label5.Location = new System.Drawing.Point(1108, 361);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(185, 20);
             this.label5.TabIndex = 36;
             this.label5.Text = "Selected Path Points";
-            // 
-            // aboutButton
-            // 
-            this.aboutButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.aboutButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.aboutButton.FlatAppearance.BorderSize = 0;
-            this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aboutButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutButton.ForeColor = System.Drawing.Color.Black;
-            this.aboutButton.Location = new System.Drawing.Point(13, 12);
-            this.aboutButton.Margin = new System.Windows.Forms.Padding(1);
-            this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(73, 28);
-            this.aboutButton.TabIndex = 40;
-            this.aboutButton.Text = "About";
-            this.aboutButton.UseVisualStyleBackColor = false;
-            this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
             // 
             // loadFileButton
             // 
@@ -967,24 +923,6 @@
             this.saveToRioButton.UseVisualStyleBackColor = false;
             this.saveToRioButton.Click += new System.EventHandler(this.saveToRioButton_Click);
             // 
-            // invertAll
-            // 
-            this.invertAll.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.invertAll.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.invertAll.FlatAppearance.BorderSize = 0;
-            this.invertAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.invertAll.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.invertAll.ForeColor = System.Drawing.Color.Black;
-            this.invertAll.Location = new System.Drawing.Point(1203, 704);
-            this.invertAll.Margin = new System.Windows.Forms.Padding(1);
-            this.invertAll.Name = "invertAll";
-            this.invertAll.Size = new System.Drawing.Size(115, 28);
-            this.invertAll.TabIndex = 62;
-            this.invertAll.Text = "Mirror all";
-            this.TestTooltip.SetToolTip(this.invertAll, "Mirror all selected profile paths");
-            this.invertAll.UseVisualStyleBackColor = false;
-            this.invertAll.Click += new System.EventHandler(this.invertAll_Click);
-            // 
             // defaultsButton
             // 
             this.defaultsButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -993,10 +931,10 @@
             this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaultsButton.ForeColor = System.Drawing.Color.Black;
-            this.defaultsButton.Location = new System.Drawing.Point(90, 12);
+            this.defaultsButton.Location = new System.Drawing.Point(65, 12);
             this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
             this.defaultsButton.Name = "defaultsButton";
-            this.defaultsButton.Size = new System.Drawing.Size(232, 28);
+            this.defaultsButton.Size = new System.Drawing.Size(258, 30);
             this.defaultsButton.TabIndex = 64;
             this.defaultsButton.Text = "Default Constraints";
             this.defaultsButton.UseVisualStyleBackColor = false;
@@ -1008,23 +946,43 @@
             this.TestTooltip.InitialDelay = 500;
             this.TestTooltip.ReshowDelay = 100;
             // 
-            // previewButton
+            // shiftPathButton
             // 
-            this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.previewButton.FlatAppearance.BorderSize = 0;
-            this.previewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.previewButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.previewButton.ForeColor = System.Drawing.Color.Black;
-            this.previewButton.Location = new System.Drawing.Point(1203, 736);
-            this.previewButton.Margin = new System.Windows.Forms.Padding(1);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(115, 28);
-            this.previewButton.TabIndex = 65;
-            this.previewButton.Text = "Preview";
-            this.TestTooltip.SetToolTip(this.previewButton, "Preview information to be sent to robot");
-            this.previewButton.UseVisualStyleBackColor = false;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.shiftPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.shiftPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.shiftPathButton.IconChar = FontAwesome.Sharp.IconChar.Arrows;
+            this.shiftPathButton.IconColor = System.Drawing.Color.Black;
+            this.shiftPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.shiftPathButton.IconSize = 22;
+            this.shiftPathButton.Location = new System.Drawing.Point(1084, 726);
+            this.shiftPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.shiftPathButton.Name = "shiftPathButton";
+            this.shiftPathButton.Size = new System.Drawing.Size(59, 30);
+            this.shiftPathButton.TabIndex = 68;
+            this.TestTooltip.SetToolTip(this.shiftPathButton, "Shift all path points");
+            this.shiftPathButton.UseVisualStyleBackColor = false;
+            this.shiftPathButton.Click += new System.EventHandler(this.shiftPathButton_Click);
+            // 
+            // duplicateProfileButton
+            // 
+            this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.duplicateProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.duplicateProfileButton.IconChar = FontAwesome.Sharp.IconChar.Copy;
+            this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
+            this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.duplicateProfileButton.IconSize = 24;
+            this.duplicateProfileButton.Location = new System.Drawing.Point(168, 692);
+            this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.duplicateProfileButton.Name = "duplicateProfileButton";
+            this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
+            this.duplicateProfileButton.TabIndex = 66;
+            this.TestTooltip.SetToolTip(this.duplicateProfileButton, "Duplicate profile");
+            this.duplicateProfileButton.UseVisualStyleBackColor = false;
+            this.duplicateProfileButton.Click += new System.EventHandler(this.duplicateProfileButton_Click);
             // 
             // editPathButton
             // 
@@ -1036,7 +994,7 @@
             this.editPathButton.IconColor = System.Drawing.Color.Black;
             this.editPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editPathButton.IconSize = 20;
-            this.editPathButton.Location = new System.Drawing.Point(1131, 304);
+            this.editPathButton.Location = new System.Drawing.Point(1131, 321);
             this.editPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.editPathButton.Name = "editPathButton";
             this.editPathButton.Size = new System.Drawing.Size(47, 30);
@@ -1074,8 +1032,8 @@
             this.editProfileButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
             this.editProfileButton.IconColor = System.Drawing.Color.Black;
             this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.editProfileButton.IconSize = 20;
-            this.editProfileButton.Location = new System.Drawing.Point(90, 681);
+            this.editProfileButton.IconSize = 24;
+            this.editProfileButton.Location = new System.Drawing.Point(90, 692);
             this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.editProfileButton.Name = "editProfileButton";
             this.editProfileButton.Size = new System.Drawing.Size(78, 30);
@@ -1093,13 +1051,13 @@
             this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deleteProfileButton.IconSize = 20;
-            this.deleteProfileButton.Location = new System.Drawing.Point(246, 681);
+            this.deleteProfileButton.IconSize = 24;
+            this.deleteProfileButton.Location = new System.Drawing.Point(246, 692);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
             this.deleteProfileButton.Size = new System.Drawing.Size(77, 30);
             this.deleteProfileButton.TabIndex = 49;
-            this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete profile");
+            this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete selected profile");
             this.deleteProfileButton.UseVisualStyleBackColor = false;
             this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
             // 
@@ -1112,8 +1070,8 @@
             this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Plus;
             this.newProfileButton.IconColor = System.Drawing.Color.Green;
             this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.newProfileButton.IconSize = 20;
-            this.newProfileButton.Location = new System.Drawing.Point(13, 681);
+            this.newProfileButton.IconSize = 24;
+            this.newProfileButton.Location = new System.Drawing.Point(13, 692);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
             this.newProfileButton.Size = new System.Drawing.Size(77, 30);
@@ -1132,12 +1090,12 @@
             this.deletePathButton.IconColor = System.Drawing.Color.Firebrick;
             this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deletePathButton.IconSize = 20;
-            this.deletePathButton.Location = new System.Drawing.Point(1178, 304);
+            this.deletePathButton.Location = new System.Drawing.Point(1272, 321);
             this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
             this.deletePathButton.Name = "deletePathButton";
             this.deletePathButton.Size = new System.Drawing.Size(48, 30);
             this.deletePathButton.TabIndex = 47;
-            this.TestTooltip.SetToolTip(this.deletePathButton, "Delete path");
+            this.TestTooltip.SetToolTip(this.deletePathButton, "Delete selected path");
             this.deletePathButton.UseVisualStyleBackColor = false;
             this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
             // 
@@ -1151,7 +1109,7 @@
             this.newPathButton.IconColor = System.Drawing.Color.Green;
             this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newPathButton.IconSize = 20;
-            this.newPathButton.Location = new System.Drawing.Point(1084, 304);
+            this.newPathButton.Location = new System.Drawing.Point(1084, 321);
             this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
             this.newPathButton.Name = "newPathButton";
             this.newPathButton.Size = new System.Drawing.Size(47, 30);
@@ -1172,7 +1130,7 @@
             this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pathOrderDown.IconSize = 20;
             this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.pathOrderDown.Location = new System.Drawing.Point(1273, 304);
+            this.pathOrderDown.Location = new System.Drawing.Point(1225, 321);
             this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
             this.pathOrderDown.Name = "pathOrderDown";
             this.pathOrderDown.Rotation = 180D;
@@ -1194,7 +1152,7 @@
             this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.pathOrderUp.IconSize = 20;
             this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pathOrderUp.Location = new System.Drawing.Point(1226, 304);
+            this.pathOrderUp.Location = new System.Drawing.Point(1178, 321);
             this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
             this.pathOrderUp.Name = "pathOrderUp";
             this.pathOrderUp.Rotation = 180D;
@@ -1204,44 +1162,95 @@
             this.pathOrderUp.UseVisualStyleBackColor = false;
             this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
             // 
-            // panel1
+            // deletePointButton
             // 
-            this.panel1.Controls.Add(this.radioBlue);
-            this.panel1.Controls.Add(this.radioRed);
-            this.panel1.Location = new System.Drawing.Point(177, 714);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(134, 73);
-            this.panel1.TabIndex = 44;
+            this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deletePointButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deletePointButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deletePointButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deletePointButton.IconColor = System.Drawing.Color.Firebrick;
+            this.deletePointButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deletePointButton.IconSize = 22;
+            this.deletePointButton.Location = new System.Drawing.Point(1259, 726);
+            this.deletePointButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deletePointButton.Name = "deletePointButton";
+            this.deletePointButton.Size = new System.Drawing.Size(59, 30);
+            this.deletePointButton.TabIndex = 69;
+            this.TestTooltip.SetToolTip(this.deletePointButton, "Delete selected point");
+            this.deletePointButton.UseVisualStyleBackColor = false;
+            this.deletePointButton.Click += new System.EventHandler(this.deletePointButton_Click);
             // 
-            // duplicateProfileButton
+            // mirrorPathButton
             // 
-            this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.duplicateProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.duplicateProfileButton.IconChar = FontAwesome.Sharp.IconChar.Copy;
-            this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
-            this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.duplicateProfileButton.IconSize = 20;
-            this.duplicateProfileButton.Location = new System.Drawing.Point(168, 681);
-            this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.duplicateProfileButton.Name = "duplicateProfileButton";
-            this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
-            this.duplicateProfileButton.TabIndex = 66;
-            this.TestTooltip.SetToolTip(this.duplicateProfileButton, "Duplicate profile");
-            this.duplicateProfileButton.UseVisualStyleBackColor = false;
-            this.duplicateProfileButton.Click += new System.EventHandler(this.duplicateProfileButton_Click);
+            this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.mirrorPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mirrorPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.mirrorPathButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
+            this.mirrorPathButton.IconColor = System.Drawing.SystemColors.HotTrack;
+            this.mirrorPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.mirrorPathButton.IconSize = 22;
+            this.mirrorPathButton.Location = new System.Drawing.Point(1143, 726);
+            this.mirrorPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.mirrorPathButton.Name = "mirrorPathButton";
+            this.mirrorPathButton.Size = new System.Drawing.Size(58, 30);
+            this.mirrorPathButton.TabIndex = 70;
+            this.TestTooltip.SetToolTip(this.mirrorPathButton, "Mirror selected path");
+            this.mirrorPathButton.UseVisualStyleBackColor = false;
+            this.mirrorPathButton.Click += new System.EventHandler(this.mirrorPathButton_Click);
+            // 
+            // invertAllPathsButton
+            // 
+            this.invertAllPathsButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.invertAllPathsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.invertAllPathsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.invertAllPathsButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.invertAllPathsButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
+            this.invertAllPathsButton.IconColor = System.Drawing.Color.Black;
+            this.invertAllPathsButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.invertAllPathsButton.IconSize = 22;
+            this.invertAllPathsButton.Location = new System.Drawing.Point(1201, 726);
+            this.invertAllPathsButton.Margin = new System.Windows.Forms.Padding(0);
+            this.invertAllPathsButton.Name = "invertAllPathsButton";
+            this.invertAllPathsButton.Size = new System.Drawing.Size(58, 30);
+            this.invertAllPathsButton.TabIndex = 71;
+            this.TestTooltip.SetToolTip(this.invertAllPathsButton, "Mirror all profile paths");
+            this.invertAllPathsButton.UseVisualStyleBackColor = false;
+            this.invertAllPathsButton.Click += new System.EventHandler(this.invertAllPathsButton_Click);
+            // 
+            // infoButton
+            // 
+            this.infoButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.infoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.infoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.infoButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.infoButton.IconChar = FontAwesome.Sharp.IconChar.Info;
+            this.infoButton.IconColor = System.Drawing.Color.Black;
+            this.infoButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.infoButton.IconSize = 20;
+            this.infoButton.Location = new System.Drawing.Point(13, 12);
+            this.infoButton.Margin = new System.Windows.Forms.Padding(0);
+            this.infoButton.Name = "infoButton";
+            this.infoButton.Size = new System.Drawing.Size(47, 30);
+            this.infoButton.TabIndex = 72;
+            this.TestTooltip.SetToolTip(this.infoButton, "Path settings");
+            this.infoButton.UseVisualStyleBackColor = false;
+            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
+            this.Controls.Add(this.infoButton);
+            this.Controls.Add(this.invertAllPathsButton);
+            this.Controls.Add(this.mirrorPathButton);
+            this.Controls.Add(this.deletePointButton);
+            this.Controls.Add(this.shiftPathButton);
             this.Controls.Add(this.duplicateProfileButton);
-            this.Controls.Add(this.previewButton);
             this.Controls.Add(this.defaultsButton);
             this.Controls.Add(this.editPathButton);
-            this.Controls.Add(this.invertAll);
             this.Controls.Add(this.saveToRioButton);
             this.Controls.Add(this.saveAllButton);
             this.Controls.Add(this.saveFileButton);
@@ -1254,16 +1263,13 @@
             this.Controls.Add(this.newPathButton);
             this.Controls.Add(this.pathOrderDown);
             this.Controls.Add(this.pathOrderUp);
-            this.Controls.Add(this.aboutButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pathTable);
             this.Controls.Add(this.profileTable);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.deploy);
-            this.Controls.Add(this.invert);
-            this.Controls.Add(this.ClearCP);
+            this.Controls.Add(this.previewButton);
             this.Controls.Add(this.ControlPointTable);
             this.Controls.Add(this.MoreData);
             this.Controls.Add(this.MainStrip);
@@ -1281,6 +1287,8 @@
             this.MoreData.ResumeLayout(false);
             this.Field.ResumeLayout(false);
             this.Field.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rioCommandsTable)).EndInit();
             this.Data.ResumeLayout(false);
@@ -1293,8 +1301,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
             this.rioFilesContextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1306,10 +1312,8 @@
         private System.Windows.Forms.TabPage Field;
         private System.Windows.Forms.OpenFileDialog openFilesDialog;
         private System.Windows.Forms.DataVisualization.Charting.Chart mainField;
-        private System.Windows.Forms.Button ClearCP;
-        private System.Windows.Forms.Button invert;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button deploy;
+        private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
@@ -1338,7 +1342,6 @@
         private System.Windows.Forms.DataGridView pathTable;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button aboutButton;
         private System.Windows.Forms.Label rioCommandsLabel;
         private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -1355,13 +1358,11 @@
         private System.Windows.Forms.Button saveFileButton;
         private System.Windows.Forms.Button saveAllButton;
         private System.Windows.Forms.Button saveToRioButton;
-        private System.Windows.Forms.Button invertAll;
         private FontAwesome.Sharp.IconButton editPathButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Button defaultsButton;
         private System.Windows.Forms.ToolTip TestTooltip;
-        private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
@@ -1371,6 +1372,11 @@
         private System.Windows.Forms.RadioButton radioBlue;
         private System.Windows.Forms.Panel panel1;
         private FontAwesome.Sharp.IconButton duplicateProfileButton;
+        private FontAwesome.Sharp.IconButton shiftPathButton;
+        private FontAwesome.Sharp.IconButton deletePointButton;
+        private FontAwesome.Sharp.IconButton mirrorPathButton;
+        private FontAwesome.Sharp.IconButton invertAllPathsButton;
+        private FontAwesome.Sharp.IconButton infoButton;
     }
 }
 

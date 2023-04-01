@@ -89,6 +89,15 @@ namespace MotionProfile.SegmentedProfile
             }
         }
 
+        public void shiftPoints(double dx, double dy)
+        {
+            foreach (ControlPoint point in this.controlPoints)
+            {
+                point.X += dx;
+                point.Y += dy;
+            }
+        }
+
         public void clearPoints()
         {
             this.controlPoints.Clear();

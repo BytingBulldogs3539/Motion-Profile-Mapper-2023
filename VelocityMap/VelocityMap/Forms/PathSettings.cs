@@ -24,6 +24,8 @@ namespace VelocityMap.Forms
             this.Text = path.Name + " Settings";
             this.pathNameInput.Text = path.Name;
             this.pathTableCell = pathTable;
+
+            ActiveControl = pathNameInput;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -56,6 +58,21 @@ namespace VelocityMap.Forms
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void pathNameInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter) save_Click(null, null);
+        }
+
+        private void pathMaxVelInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter) save_Click(null, null);
+        }
+
+        private void pathMaxAccInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter) save_Click(null, null);
         }
     }
 }
