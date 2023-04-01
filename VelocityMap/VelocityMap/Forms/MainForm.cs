@@ -443,7 +443,7 @@
             {
                 foreach (ProfilePath path in selectedProfile.paths)
                 {
-                    pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", path.Name);
+                    pathTable.Rows.Add(path.Name);
                 }
                 if (!noSelectedPath())
                 {
@@ -661,7 +661,7 @@
             {
                 foreach (ProfilePath path in selectedProfile.paths)
                 {
-                    pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", path.Name);
+                    pathTable.Rows.Add(path.Name);
                 }
                 profileTable.Rows[profiles.IndexOf(selectedProfile)].Selected = true;
             }
@@ -729,7 +729,7 @@
             
             string newPathName = "new path " + ++newPathCount;
             selectedProfile.newPath(newPathName);
-            int newIndex = pathTable.Rows.Add($"[ {pathTable.RowCount + 1} ]", newPathName);
+            int newIndex = pathTable.Rows.Add(newPathName);
 
             //if (newIndex > 0) selectPath(newIndex);
             selectPath(newIndex);
@@ -757,15 +757,15 @@
 
         private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (pathTable.Rows[e.RowIndex].Cells[1].Value.ToString().Trim() == "")
+            if (pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "")
             {
-                pathTable.Rows[e.RowIndex].Cells[1].Value = selectedProfile.paths[e.RowIndex].Name;
+                pathTable.Rows[e.RowIndex].Cells[0].Value = selectedProfile.paths[e.RowIndex].Name;
             }
             else
             {
                 ProfilePath editedPath = selectedProfile.paths[e.RowIndex];
-                editedPath.Name = pathTable.Rows[e.RowIndex].Cells[1].Value.ToString().Trim();
-                //selectedProfile.paths[e.RowIndex].Name = pathTable.Rows[e.RowIndex].Cells[1].Value.ToString();
+                editedPath.Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
+                //selectedProfile.paths[e.RowIndex].Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString();
             }
             editing = true;
             editedCell = e.RowIndex;
@@ -886,7 +886,7 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[1]);
+            PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[0]);
             settings.Show();
         }
 
@@ -1071,6 +1071,22 @@
         {
             AboutBox about = new AboutBox();
             about.Show();
+        }
+
+        private void pathTable_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            var grid = sender as DataGridView;
+            var rowIdx = (e.RowIndex + 1).ToString();
+
+            var centerFormat = new StringFormat()
+            {
+                // right alignment might actually make more sense for numbers
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
+
+            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
+            e.Graphics.DrawString(rowIdx, pathTable.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
         }
     }
 }

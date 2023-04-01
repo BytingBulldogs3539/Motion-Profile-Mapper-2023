@@ -51,6 +51,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
@@ -79,8 +80,6 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathTable = new System.Windows.Forms.DataGridView();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
@@ -104,6 +103,7 @@
             this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
             this.invertAllPathsButton = new FontAwesome.Sharp.IconButton();
             this.infoButton = new FontAwesome.Sharp.IconButton();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -596,7 +596,6 @@
             this.pathTable.ColumnHeadersHeight = 28;
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Index,
             this.dataGridViewTextBoxColumn5});
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
@@ -607,10 +606,16 @@
             this.pathTable.Name = "pathTable";
             this.pathTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pathTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.pathTable.RowHeadersVisible = false;
-            this.pathTable.RowHeadersWidth = 20;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.pathTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -619,24 +624,7 @@
             this.pathTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellDoubleClick);
             this.pathTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_CellEndEdit);
             this.pathTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_RowEnter);
-            // 
-            // Index
-            // 
-            this.Index.HeaderText = "Index";
-            this.Index.MinimumWidth = 6;
-            this.Index.Name = "Index";
-            this.Index.ReadOnly = true;
-            this.Index.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn5.Width = 234;
+            this.pathTable.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.pathTable_RowPostPaint);
             // 
             // label4
             // 
@@ -1048,6 +1036,16 @@
             this.infoButton.UseVisualStyleBackColor = false;
             this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
             // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn5.Width = 234;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1154,8 +1152,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Index;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.RadioButton radioRed;
         private System.Windows.Forms.RadioButton radioBlue;
         private System.Windows.Forms.Panel panel1;
@@ -1165,6 +1161,7 @@
         private FontAwesome.Sharp.IconButton mirrorPathButton;
         private FontAwesome.Sharp.IconButton invertAllPathsButton;
         private FontAwesome.Sharp.IconButton infoButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
     }
 }
 
