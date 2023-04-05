@@ -51,7 +51,7 @@
         public int newProfileCount = 0; // lol
         public int newPathCount = 0;
         public double pointSize = 0.1;
-        public bool generateSpline = false;
+        public bool splineMode = false;
 
         Profile selectedProfile = null;
         ProfilePath selectedPath = null;
@@ -265,6 +265,11 @@
         private void DrawPoint(ControlPoint point, ProfilePath path)
         {
             mainField.Series[path.id + "-points"].Points.AddXY(point.X, point.Y);
+            if (path == selectedPath)
+            {
+                mainField.Series[path.id + "-points"].Points.Last().Label =
+                    mainField.Series[path.id + "-points"].Points.Count.ToString();
+            }
 
             int seriesIndex = mainField.Series.IndexOf(point.Id);
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
@@ -280,6 +285,10 @@
             double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Heading - 270) * Math.PI / 180));
             double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
+            
+            if (splineMode || point == placingPoint) return;
+            mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
+            mainField.Series[path.id + "-padding"].Points.AddXY(point.X, point.Y);
 
             /*mainField.Annotations.Add(new TextAnnotation() 
                 {
@@ -298,14 +307,19 @@
 
             int seriesIndex = mainField.Series.IndexOf(path.id + "-path");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.id + "-left");
-            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.id + "-right");
-            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
             seriesIndex = mainField.Series.IndexOf(path.id + "-points");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
+            seriesIndex = mainField.Series.IndexOf(path.id + "-padding");
+            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
-            mainField.Annotations.Clear();
+            //mainField.Annotations.Clear();
+
+            mainField.Series.Add(path.id + "-padding");
+            mainField.Series[path.id + "-padding"].ChartArea = "field";
+            mainField.Series[path.id + "-padding"].ChartType = SeriesChartType.Line;
+            mainField.Series[path.id + "-padding"].Color = Color.FromArgb(80, Color.Black);
+            mainField.Series[path.id + "-padding"].MarkerSize = 2;
+            mainField.Series[path.id + "-padding"].BorderWidth = (int)(80 * Properties.Settings.Default.TrackWidth);
 
             mainField.Series.Add(path.id + "-path");
             mainField.Series[path.id + "-path"].ChartArea = "field";
@@ -313,6 +327,26 @@
             mainField.Series[path.id + "-path"].Color = path == selectedPath ? Color.Aqua : Color.Blue;
             mainField.Series[path.id + "-path"].MarkerSize = 2;
             mainField.Series[path.id + "-path"].BorderWidth = 2;
+
+            mainField.Series.Add(path.id + "-points");
+            mainField.Series[path.id + "-points"].ChartArea = "field";
+            mainField.Series[path.id + "-points"].ChartType = SeriesChartType.Point;
+            mainField.Series[path.id + "-points"].Color = path == selectedPath ? Color.Lime : Color.Green;
+            mainField.Series[path.id + "-points"].MarkerSize = 10;
+            mainField.Series[path.id + "-points"].MarkerStyle = MarkerStyle.Diamond;
+            mainField.Series[path.id + "-points"].LabelForeColor = Color.White;
+
+            foreach (ControlPoint point in path.controlPoints)
+            {
+                DrawPoint(point, path);
+            }
+
+            if (path.controlPoints.Count < 2 || !splineMode) return;
+
+            seriesIndex = mainField.Series.IndexOf(path.id + "-left");
+            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
+            seriesIndex = mainField.Series.IndexOf(path.id + "-right");
+            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
             mainField.Series.Add(path.id + "-left");
             mainField.Series[path.id + "-left"].ChartArea = "field";
@@ -327,25 +361,6 @@
             mainField.Series[path.id + "-right"].Color = Color.LightGray;
             mainField.Series[path.id + "-right"].MarkerSize = 2;
             mainField.Series[path.id + "-right"].BorderWidth = 2;
-
-            mainField.Series.Add(path.id + "-points");
-            mainField.Series[path.id + "-points"].ChartArea = "field";
-            mainField.Series[path.id + "-points"].ChartType = SeriesChartType.Point;
-            mainField.Series[path.id + "-points"].Color = path == selectedPath ? Color.Lime : Color.Green;
-            mainField.Series[path.id + "-points"].MarkerSize = 10;
-            mainField.Series[path.id + "-points"].MarkerStyle = MarkerStyle.Diamond;
-
-            foreach (ControlPoint point in path.controlPoints)
-            {
-                DrawPoint(point, path);
-            }
-
-            if (path.controlPoints.Count < 2) return;
-
-            if (!generateSpline)
-            {
-
-            }
 
             double Posoffset = 0;
             double Timeoffset = 0;
@@ -1098,18 +1113,24 @@
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, pathTable.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
         }
-
-        private void radioLine_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void reverseButton_Click(object sender, EventArgs e)
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             selectedPath.controlPoints.Reverse();
             selectPath();
+        }
+
+        private void radioLine_CheckedChanged(object sender, EventArgs e)
+        {
+            splineMode = false;
+            UpdateField();
+        }
+
+        private void radioSpline_CheckedChanged(object sender, EventArgs e)
+        {
+            splineMode = true;
+            UpdateField();
         }
     }
 }

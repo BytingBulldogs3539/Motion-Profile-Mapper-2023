@@ -158,7 +158,7 @@
             // 
             this.panel2.Controls.Add(this.radioSpline);
             this.panel2.Controls.Add(this.radioLine);
-            this.panel2.Location = new System.Drawing.Point(477, 714);
+            this.panel2.Location = new System.Drawing.Point(486, 709);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(89, 73);
             this.panel2.TabIndex = 45;
@@ -173,6 +173,7 @@
             this.radioSpline.TabIndex = 67;
             this.radioSpline.Text = "Spline";
             this.radioSpline.UseVisualStyleBackColor = true;
+            this.radioSpline.CheckedChanged += new System.EventHandler(this.radioSpline_CheckedChanged);
             // 
             // radioLine
             // 
@@ -192,7 +193,7 @@
             // 
             this.panel1.Controls.Add(this.radioBlue);
             this.panel1.Controls.Add(this.radioRed);
-            this.panel1.Location = new System.Drawing.Point(177, 714);
+            this.panel1.Location = new System.Drawing.Point(197, 709);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(134, 73);
             this.panel1.TabIndex = 44;
@@ -230,7 +231,7 @@
             this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(325, 738);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(345, 748);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
             this.showPathsCheckbox.Size = new System.Drawing.Size(139, 22);
@@ -258,7 +259,7 @@
             this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.GridCheckBox.Location = new System.Drawing.Point(325, 714);
+            this.GridCheckBox.Location = new System.Drawing.Point(345, 724);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
             this.GridCheckBox.Size = new System.Drawing.Size(139, 22);
@@ -300,7 +301,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 705);
+            this.mainField.Size = new System.Drawing.Size(721, 704);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
