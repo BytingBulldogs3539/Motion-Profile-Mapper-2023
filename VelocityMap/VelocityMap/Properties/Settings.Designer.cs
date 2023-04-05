@@ -142,5 +142,17 @@ namespace VelocityMap.Properties {
                 this["MaxJerk"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SnapNewPaths {
+            get {
+                return ((bool)(this["SnapNewPaths"]));
+            }
+            set {
+                this["SnapNewPaths"] = value;
+            }
+        }
     }
 }

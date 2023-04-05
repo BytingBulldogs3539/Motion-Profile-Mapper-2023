@@ -19,6 +19,7 @@ namespace VelocityMap.Forms
             this.defMaxAccInput.Text = Properties.Settings.Default.MaxAcc.ToString();
             this.defMaxRotVelInput.Text = Properties.Settings.Default.MaxRotVel.ToString();
             this.defMaxRotAccInput.Text = Properties.Settings.Default.MaxRotAcc.ToString();
+            this.snapPathsCheckbox.Checked = Properties.Settings.Default.SnapNewPaths;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -69,6 +70,11 @@ namespace VelocityMap.Forms
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void snapPathsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.SnapNewPaths = snapPathsCheckbox.Checked;
         }
     }
 }

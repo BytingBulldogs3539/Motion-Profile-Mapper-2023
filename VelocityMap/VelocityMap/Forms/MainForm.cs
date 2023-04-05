@@ -51,6 +51,7 @@
         public int newProfileCount = 0; // lol
         public int newPathCount = 0;
         public double pointSize = 0.1;
+        public bool generateSpline = false;
 
         Profile selectedProfile = null;
         ProfilePath selectedPath = null;
@@ -279,6 +280,16 @@
             double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Heading - 270) * Math.PI / 180));
             double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
+
+            /*mainField.Annotations.Add(new TextAnnotation() 
+                {
+                    Text = (path.controlPoints.IndexOf(point) + 1).ToString(),
+                    Alignment = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.White,
+                    X = point.X,
+                    Y = point.Y
+                }
+            );*/
         }
 
         private void DrawPath(ProfilePath path)
@@ -293,6 +304,8 @@
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
             seriesIndex = mainField.Series.IndexOf(path.id + "-points");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
+
+            mainField.Annotations.Clear();
 
             mainField.Series.Add(path.id + "-path");
             mainField.Series[path.id + "-path"].ChartArea = "field";
@@ -328,6 +341,11 @@
             }
 
             if (path.controlPoints.Count < 2) return;
+
+            if (!generateSpline)
+            {
+
+            }
 
             double Posoffset = 0;
             double Timeoffset = 0;
@@ -1054,17 +1072,9 @@
         private void mirrorPathButton_Click(object sender, EventArgs e)
         {
             if (noSelectedProfile() || noSelectedPath()) return;
-            selectedProfile.mirrorPath(selectedPath, fieldWidth);
-            selectPath();
-            ProfileEdit();
-        }
 
-        private void invertAllPathsButton_Click(object sender, EventArgs e)
-        {
-            if (noSelectedProfile() || noSelectedPath()) return;
-            selectedProfile.mirrorAllPaths(fieldWidth);
-            selectPath();
-            ProfileEdit();
+            MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, ProfileEdit, fieldWidth);
+            mirrorPath.Show();
         }
 
         private void infoButton_Click(object sender, EventArgs e)
@@ -1087,6 +1097,19 @@
 
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, pathTable.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+        }
+
+        private void radioLine_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void reverseButton_Click(object sender, EventArgs e)
+        {
+            if (noSelectedProfile() || noSelectedPath()) return;
+
+            selectedPath.controlPoints.Reverse();
+            selectPath();
         }
     }
 }

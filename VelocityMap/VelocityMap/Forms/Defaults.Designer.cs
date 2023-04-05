@@ -46,6 +46,7 @@ namespace VelocityMap.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.snapPathsCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label6
@@ -67,7 +68,7 @@ namespace VelocityMap.Forms
             this.cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
-            this.cancel.Location = new System.Drawing.Point(159, 164);
+            this.cancel.Location = new System.Drawing.Point(159, 186);
             this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(120, 31);
@@ -196,7 +197,7 @@ namespace VelocityMap.Forms
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.save.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.Black;
-            this.save.Location = new System.Drawing.Point(287, 164);
+            this.save.Location = new System.Drawing.Point(287, 186);
             this.save.Margin = new System.Windows.Forms.Padding(4);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(120, 31);
@@ -257,12 +258,24 @@ namespace VelocityMap.Forms
             this.label10.TabIndex = 57;
             this.label10.Text = "m/s²";
             // 
+            // snapPathsCheckbox
+            // 
+            this.snapPathsCheckbox.AutoSize = true;
+            this.snapPathsCheckbox.Location = new System.Drawing.Point(236, 156);
+            this.snapPathsCheckbox.Name = "snapPathsCheckbox";
+            this.snapPathsCheckbox.Size = new System.Drawing.Size(131, 21);
+            this.snapPathsCheckbox.TabIndex = 61;
+            this.snapPathsCheckbox.Text = "Snap new paths";
+            this.snapPathsCheckbox.UseVisualStyleBackColor = true;
+            this.snapPathsCheckbox.CheckedChanged += new System.EventHandler(this.snapPathsCheckbox_CheckedChanged);
+            // 
             // Defaults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(420, 208);
+            this.ClientSize = new System.Drawing.Size(420, 230);
+            this.Controls.Add(this.snapPathsCheckbox);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label9);
@@ -307,5 +320,6 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox snapPathsCheckbox;
     }
 }

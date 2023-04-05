@@ -55,6 +55,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MoreData = new System.Windows.Forms.TabControl();
             this.Field = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.radioSpline = new System.Windows.Forms.RadioButton();
+            this.radioLine = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioBlue = new System.Windows.Forms.RadioButton();
             this.radioRed = new System.Windows.Forms.RadioButton();
@@ -80,6 +83,7 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathTable = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
@@ -101,11 +105,11 @@
             this.pathOrderUp = new FontAwesome.Sharp.IconButton();
             this.deletePointButton = new FontAwesome.Sharp.IconButton();
             this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
-            this.invertAllPathsButton = new FontAwesome.Sharp.IconButton();
             this.infoButton = new FontAwesome.Sharp.IconButton();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.reverseButton = new FontAwesome.Sharp.IconButton();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
             this.Data.SuspendLayout();
@@ -135,6 +139,7 @@
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Field.Controls.Add(this.panel2);
             this.Field.Controls.Add(this.panel1);
             this.Field.Controls.Add(this.showPathsCheckbox);
             this.Field.Controls.Add(this.infoLabel);
@@ -148,6 +153,40 @@
             this.Field.Size = new System.Drawing.Size(726, 800);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.radioSpline);
+            this.panel2.Controls.Add(this.radioLine);
+            this.panel2.Location = new System.Drawing.Point(477, 714);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(89, 73);
+            this.panel2.TabIndex = 45;
+            // 
+            // radioSpline
+            // 
+            this.radioSpline.AutoSize = true;
+            this.radioSpline.ForeColor = System.Drawing.Color.Black;
+            this.radioSpline.Location = new System.Drawing.Point(12, 40);
+            this.radioSpline.Name = "radioSpline";
+            this.radioSpline.Size = new System.Drawing.Size(68, 21);
+            this.radioSpline.TabIndex = 67;
+            this.radioSpline.Text = "Spline";
+            this.radioSpline.UseVisualStyleBackColor = true;
+            // 
+            // radioLine
+            // 
+            this.radioLine.AutoSize = true;
+            this.radioLine.Checked = true;
+            this.radioLine.ForeColor = System.Drawing.Color.Black;
+            this.radioLine.Location = new System.Drawing.Point(12, 13);
+            this.radioLine.Name = "radioLine";
+            this.radioLine.Size = new System.Drawing.Size(56, 21);
+            this.radioLine.TabIndex = 66;
+            this.radioLine.TabStop = true;
+            this.radioLine.Text = "Line";
+            this.radioLine.UseVisualStyleBackColor = true;
+            this.radioLine.CheckedChanged += new System.EventHandler(this.radioLine_CheckedChanged);
             // 
             // panel1
             // 
@@ -191,7 +230,7 @@
             this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(418, 742);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(325, 738);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
             this.showPathsCheckbox.Size = new System.Drawing.Size(139, 22);
@@ -219,12 +258,12 @@
             this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.GridCheckBox.Location = new System.Drawing.Point(335, 742);
+            this.GridCheckBox.Location = new System.Drawing.Point(325, 714);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(71, 22);
+            this.GridCheckBox.Size = new System.Drawing.Size(139, 22);
             this.GridCheckBox.TabIndex = 27;
-            this.GridCheckBox.Text = "Grid";
+            this.GridCheckBox.Text = "Show grid";
             this.GridCheckBox.UseVisualStyleBackColor = false;
             this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
             // 
@@ -261,7 +300,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 707);
+            this.mainField.Size = new System.Drawing.Size(721, 705);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -626,6 +665,16 @@
             this.pathTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.pathTable_RowEnter);
             this.pathTable.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.pathTable_RowPostPaint);
             // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
+            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn5.Width = 234;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -986,7 +1035,7 @@
             this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mirrorPathButton.ForeColor = System.Drawing.Color.DarkGray;
             this.mirrorPathButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
-            this.mirrorPathButton.IconColor = System.Drawing.SystemColors.HotTrack;
+            this.mirrorPathButton.IconColor = System.Drawing.Color.Black;
             this.mirrorPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
             this.mirrorPathButton.IconSize = 22;
             this.mirrorPathButton.Location = new System.Drawing.Point(1143, 726);
@@ -994,28 +1043,9 @@
             this.mirrorPathButton.Name = "mirrorPathButton";
             this.mirrorPathButton.Size = new System.Drawing.Size(58, 30);
             this.mirrorPathButton.TabIndex = 70;
-            this.TestTooltip.SetToolTip(this.mirrorPathButton, "Mirror selected path");
+            this.TestTooltip.SetToolTip(this.mirrorPathButton, "Mirror paths");
             this.mirrorPathButton.UseVisualStyleBackColor = false;
             this.mirrorPathButton.Click += new System.EventHandler(this.mirrorPathButton_Click);
-            // 
-            // invertAllPathsButton
-            // 
-            this.invertAllPathsButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.invertAllPathsButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.invertAllPathsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.invertAllPathsButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.invertAllPathsButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
-            this.invertAllPathsButton.IconColor = System.Drawing.Color.Black;
-            this.invertAllPathsButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.invertAllPathsButton.IconSize = 22;
-            this.invertAllPathsButton.Location = new System.Drawing.Point(1201, 726);
-            this.invertAllPathsButton.Margin = new System.Windows.Forms.Padding(0);
-            this.invertAllPathsButton.Name = "invertAllPathsButton";
-            this.invertAllPathsButton.Size = new System.Drawing.Size(58, 30);
-            this.invertAllPathsButton.TabIndex = 71;
-            this.TestTooltip.SetToolTip(this.invertAllPathsButton, "Mirror all profile paths");
-            this.invertAllPathsButton.UseVisualStyleBackColor = false;
-            this.invertAllPathsButton.Click += new System.EventHandler(this.invertAllPathsButton_Click);
             // 
             // infoButton
             // 
@@ -1036,23 +1066,33 @@
             this.infoButton.UseVisualStyleBackColor = false;
             this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
             // 
-            // dataGridViewTextBoxColumn5
+            // reverseButton
             // 
-            this.dataGridViewTextBoxColumn5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Path Name";
-            this.dataGridViewTextBoxColumn5.MinimumWidth = 234;
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn5.Width = 234;
+            this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.reverseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reverseButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.reverseButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
+            this.reverseButton.IconColor = System.Drawing.Color.Black;
+            this.reverseButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.reverseButton.IconSize = 22;
+            this.reverseButton.Location = new System.Drawing.Point(1201, 726);
+            this.reverseButton.Margin = new System.Windows.Forms.Padding(0);
+            this.reverseButton.Name = "reverseButton";
+            this.reverseButton.Rotation = 90D;
+            this.reverseButton.Size = new System.Drawing.Size(58, 30);
+            this.reverseButton.TabIndex = 73;
+            this.TestTooltip.SetToolTip(this.reverseButton, "Reverse path point order");
+            this.reverseButton.UseVisualStyleBackColor = false;
+            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
+            this.Controls.Add(this.reverseButton);
             this.Controls.Add(this.infoButton);
-            this.Controls.Add(this.invertAllPathsButton);
             this.Controls.Add(this.mirrorPathButton);
             this.Controls.Add(this.deletePointButton);
             this.Controls.Add(this.shiftPathButton);
@@ -1094,6 +1134,8 @@
             this.MoreData.ResumeLayout(false);
             this.Field.ResumeLayout(false);
             this.Field.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
@@ -1159,9 +1201,12 @@
         private FontAwesome.Sharp.IconButton shiftPathButton;
         private FontAwesome.Sharp.IconButton deletePointButton;
         private FontAwesome.Sharp.IconButton mirrorPathButton;
-        private FontAwesome.Sharp.IconButton invertAllPathsButton;
         private FontAwesome.Sharp.IconButton infoButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.RadioButton radioSpline;
+        private System.Windows.Forms.RadioButton radioLine;
+        private FontAwesome.Sharp.IconButton reverseButton;
     }
 }
 

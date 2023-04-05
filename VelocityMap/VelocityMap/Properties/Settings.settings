@@ -32,5 +32,8 @@
     <Setting Name="MaxJerk" Type="System.Double" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
+    <Setting Name="SnapNewPaths" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
