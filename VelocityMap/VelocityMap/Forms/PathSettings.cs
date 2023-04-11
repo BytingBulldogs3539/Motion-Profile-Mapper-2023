@@ -24,6 +24,7 @@ namespace VelocityMap.Forms
             this.Text = path.Name + " Settings";
             this.pathNameInput.Text = path.Name;
             this.pathTableCell = pathTable;
+            this.snapToPrevBox.Checked = path.snapToPrevious;
 
             ActiveControl = pathNameInput;
         }
@@ -51,6 +52,7 @@ namespace VelocityMap.Forms
 
             this.path.Name = this.pathNameInput.Text;
             this.pathTableCell.Value = this.path.Name;
+            this.path.snapToPrevious = this.snapToPrevBox.Checked;
 
             this.Close();
         }

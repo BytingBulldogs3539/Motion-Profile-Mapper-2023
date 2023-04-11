@@ -59,6 +59,8 @@
 
         ControlPoint clickedPoint = null;
         ProfilePath clickedPointPath = null;
+        ControlPoint snappedPoint = null;
+        ProfilePath snappedPointPath = null;
 
         bool editing = false;
         int editedCell = -1;
@@ -149,6 +151,9 @@
             if (clickedPoint != null)
             {
                 clickedPoint = null;
+                clickedPointPath = null;
+                snappedPoint = null;
+                snappedPointPath = null;
                 UpdateField();
                 ProfileEdit();
             }
@@ -175,6 +180,22 @@
                         clickedPoint = point;
                         clickedPointPath = path;
                         if (clickedPointPath == selectedPath) selectPoint(path.controlPoints.IndexOf(point));
+
+                        if (clickedPoint == clickedPointPath.controlPoints[0] 
+                            && clickedPointPath.snapToPrevious)
+                        {
+                            int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
+                            snappedPointPath = selectedProfile.paths[pathIndex - 1];
+                            snappedPoint = snappedPointPath.controlPoints.Last();
+                        }
+                        else if (clickedPoint == clickedPointPath.controlPoints.Last() 
+                            && clickedPointPath != selectedProfile.paths.Last())
+                        {
+                            int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
+                            snappedPointPath = selectedProfile.paths[pathIndex + 1];
+                            if (selectedProfile.paths[pathIndex + 1].snapToPrevious)
+                                snappedPoint = snappedPointPath.controlPoints[0];
+                        }
                     }
                 }
             }
@@ -195,6 +216,12 @@
 
                 clickedPoint.X = newX;
                 clickedPoint.Y = newY;
+                if (snappedPoint != null)
+                {
+                    snappedPoint.X = newX;
+                    snappedPoint.Y = newY;
+                }
+
                 if (clickedPointPath == selectedPath)
                 {
                     ControlPointTable.SelectedRows[0].Cells[0].Value = Math.Round(newX, 3);
@@ -202,6 +229,7 @@
                 }
 
                 DrawPath(clickedPointPath);
+                if (snappedPoint != null) DrawPath(snappedPointPath);
             }
             if (placingPoint != null)
             {
@@ -761,10 +789,12 @@
             if (noSelectedProfile()) return;
             
             string newPathName = "new path " + ++newPathCount;
-            selectedProfile.newPath(newPathName);
-            int newIndex = pathTable.Rows.Add(newPathName);
 
-            //if (newIndex > 0) selectPath(newIndex);
+            if (Properties.Settings.Default.SnapNewPaths && selectedProfile.paths.Count > 0)
+                selectedProfile.newPath(newPathName, selectedProfile.paths.Last());
+            else selectedProfile.newPath(newPathName);
+
+            int newIndex = pathTable.Rows.Add(newPathName);
             selectPath(newIndex);
             ProfileEdit();
         }
@@ -894,7 +924,11 @@
                 pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Selected = true;
             }
 
-            if (!noPointsInPath()) selectPoint(ControlPointTable.Rows.Count - 1);
+            if (!noPointsInPath())
+            {
+                selectPoint(ControlPointTable.Rows.Count - 1);
+                if (selectedPath.snapToPrevious) ControlPointTable.Rows[0].ReadOnly = true;
+            }
 
             UpdateField();
         }
@@ -1080,7 +1114,7 @@
         {
             if (noSelectedPath() && ControlPointTable.SelectedRows.Count == 0) return;
 
-            selectedPath.controlPoints.RemoveAt(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
+            selectedPath.deleteControlPoint(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
             selectPath();
         }
 

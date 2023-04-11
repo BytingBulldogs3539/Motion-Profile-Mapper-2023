@@ -13,17 +13,20 @@ namespace MotionProfile.SegmentedProfile
         public List<ControlPoint> controlPoints;
         public string id;
 
+        public bool snapToPrevious = VelocityMap.Properties.Settings.Default.SnapNewPaths;
         public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
         public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
 
         /// <summary>
         /// Creates a new blank profile path
         /// </summary>
-        public ProfilePath(string name)
+        public ProfilePath(string name, ProfilePath previousPath = null)
         {
             this.name = name;
             this.controlPoints = new List<ControlPoint>();
             this.id = Guid.NewGuid().ToString();
+
+            if (this.snapToPrevious) this.snap(previousPath);
         }
 
         /// <summary>
@@ -36,6 +39,8 @@ namespace MotionProfile.SegmentedProfile
             this.id = (string)pathJSON["id"];
             this.maxVel = (double)pathJSON["maxVelocity"];
             this.maxAcc = (double)pathJSON["maxAcceleration"];
+            this.snapToPrevious = pathJSON.ContainsKey("snapToPrevious")?
+                (bool)pathJSON["snapToPrevious"] : false;
 
             this.controlPoints = new List<ControlPoint>();
 
@@ -50,6 +55,7 @@ namespace MotionProfile.SegmentedProfile
             this.name = other.name;
             this.id = Guid.NewGuid().ToString();
             this.controlPoints = new List<ControlPoint>();
+            this.snapToPrevious = other.snapToPrevious;
 
             foreach (ControlPoint point in other.controlPoints)
             {
@@ -69,6 +75,12 @@ namespace MotionProfile.SegmentedProfile
             ControlPoint newPoint = new ControlPoint(other);
             this.controlPoints.Add(newPoint);
             return newPoint;
+        }
+
+        public void deleteControlPoint(int index)
+        {
+            this.controlPoints.RemoveAt(index);
+            if (this.controlPoints.Count == 0) this.snapToPrevious = false;
         }
 
         public List<string> pointIds()
@@ -103,6 +115,19 @@ namespace MotionProfile.SegmentedProfile
             this.controlPoints.Clear();
         }
 
+        public void snap(ProfilePath previous)
+        {
+            if (previous == null || previous.controlPoints.Count == 0)
+            {
+                this.snapToPrevious = false;
+                return;
+            }
+
+            this.snapToPrevious = true;
+            if (this.controlPoints.Count == 0) this.controlPoints.Add(new ControlPoint(previous.controlPoints.Last()));
+            else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last()); 
+        }
+
         public bool isEmpty()
         {
             return this.controlPoints.Count == 0;
@@ -115,6 +140,7 @@ namespace MotionProfile.SegmentedProfile
             pathJSON["id"] = this.id;
             pathJSON["maxVelocity"] = this.maxVel;
             pathJSON["maxAcceleration"] = this.maxAcc;
+            pathJSON["snapToPrevious"] = this.snapToPrevious;
 
             JArray pointsJSON = new JArray();
             foreach (ControlPoint point in this.controlPoints)
