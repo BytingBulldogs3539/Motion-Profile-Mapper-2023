@@ -345,7 +345,7 @@
             mainField.Series.Add(path.id + "-padding");
             mainField.Series[path.id + "-padding"].ChartArea = "field";
             mainField.Series[path.id + "-padding"].ChartType = SeriesChartType.Line;
-            mainField.Series[path.id + "-padding"].Color = Color.FromArgb(80, Color.Black);
+            mainField.Series[path.id + "-padding"].Color = Color.FromArgb(40, Color.Black);
             mainField.Series[path.id + "-padding"].MarkerSize = 2;
             mainField.Series[path.id + "-padding"].BorderWidth = (int)(80 * Properties.Settings.Default.TrackWidth);
 
