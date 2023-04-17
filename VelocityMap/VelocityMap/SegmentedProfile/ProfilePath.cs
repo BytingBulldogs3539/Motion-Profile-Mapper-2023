@@ -128,6 +128,13 @@ namespace MotionProfile.SegmentedProfile
             else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last()); 
         }
 
+        public void snapLast(ControlPoint point)
+        {
+            if (this.controlPoints.Count == 0) return;
+
+            this.controlPoints[this.controlPoints.Count - 1] = new ControlPoint(point);
+        }
+
         public bool isEmpty()
         {
             return this.controlPoints.Count == 0;

@@ -141,6 +141,13 @@
             {
                 selectedPath.addControlPoint(placingPoint);
                 placingPoint = null;
+
+                if (selectedPath != selectedProfile.paths.Last()
+                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+                {
+                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+                }
+
                 ProfileEdit();
                 UpdateField();
             }
@@ -267,6 +274,13 @@
                         selectedPath.controlPoints[e.RowIndex].Heading = (int)newValue;
                         break;
                 }
+                if (e.RowIndex == 0 && selectedPath.snapToPrevious)
+                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.controlPoints[0]);
+                if (e.RowIndex == selectedPath.controlPoints.Count - 1 && selectedPath != selectedProfile.paths.Last()
+                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+                {
+                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+                }
                 UpdateField();
             }
             catch (Exception)
@@ -363,6 +377,9 @@
             mainField.Series[path.id + "-points"].MarkerSize = 10;
             mainField.Series[path.id + "-points"].MarkerStyle = MarkerStyle.Diamond;
             mainField.Series[path.id + "-points"].LabelForeColor = Color.White;
+
+
+
 
             foreach (ControlPoint point in path.controlPoints)
             {
@@ -718,6 +735,8 @@
             if (index != -1) selectedProfile = profiles[index];
             pathTable.Rows.Clear();
 
+            if (placingPoint != null) placingPoint = null;
+
             if (!noSelectedProfile())
             {
                 foreach (ProfilePath path in selectedProfile.paths)
@@ -913,6 +932,8 @@
             // -1 reselects current path i think
             ControlPointTable.Rows.Clear();
 
+            if (placingPoint != null) placingPoint = null;
+
             if (index != -1) selectedPath = selectedProfile.paths[index];
 
             if (!noSelectedPath())
@@ -924,11 +945,7 @@
                 pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Selected = true;
             }
 
-            if (!noPointsInPath())
-            {
-                selectPoint(ControlPointTable.Rows.Count - 1);
-                if (selectedPath.snapToPrevious) ControlPointTable.Rows[0].ReadOnly = true;
-            }
+            if (!noPointsInPath()) selectPoint(ControlPointTable.Rows.Count - 1);
 
             UpdateField();
         }
@@ -1112,9 +1129,25 @@
 
         private void deletePointButton_Click(object sender, EventArgs e)
         {
-            if (noSelectedPath() && ControlPointTable.SelectedRows.Count == 0) return;
+            if (noSelectedPath() || ControlPointTable.SelectedRows.Count == 0) return;
 
-            selectedPath.deleteControlPoint(ControlPointTable.Rows.IndexOf(ControlPointTable.SelectedRows[0]));
+            if (placingPoint != null)
+            {
+                placingPoint = null;
+                ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
+                UpdateField();
+                return;
+            }
+            selectedPath.deleteControlPoint(ControlPointTable.SelectedRows[0].Index);
+
+            if (ControlPointTable.SelectedRows[0].Index == 0 && selectedPath.snapToPrevious)
+                selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.controlPoints[0]);
+            if (ControlPointTable.SelectedRows[0].Index == selectedPath.controlPoints.Count 
+                        && selectedPath != selectedProfile.paths.Last()
+                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+            {
+                selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+            }
             selectPath();
         }
 
