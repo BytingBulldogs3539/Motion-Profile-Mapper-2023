@@ -107,6 +107,7 @@
             this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
             this.infoButton = new FontAwesome.Sharp.IconButton();
             this.reverseButton = new FontAwesome.Sharp.IconButton();
+            this.configurationButton = new System.Windows.Forms.Button();
             this.MoreData.SuspendLayout();
             this.Field.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -139,6 +140,7 @@
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Field.Controls.Add(this.configurationButton);
             this.Field.Controls.Add(this.panel2);
             this.Field.Controls.Add(this.panel1);
             this.Field.Controls.Add(this.showPathsCheckbox);
@@ -301,7 +303,7 @@
             this.mainField.Series.Add(series2);
             this.mainField.Series.Add(series3);
             this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 704);
+            this.mainField.Size = new System.Drawing.Size(721, 702);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -417,6 +419,7 @@
             // 
             // previewButton
             // 
+            this.previewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.previewButton.FlatAppearance.BorderSize = 0;
@@ -440,8 +443,7 @@
             this.ControlPointTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ControlPointTable.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.ControlPointTable.BackgroundColor = System.Drawing.Color.White;
             this.ControlPointTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -618,8 +620,9 @@
             this.pathTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pathTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pathTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.pathTable.BackgroundColor = System.Drawing.Color.White;
             this.pathTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -678,6 +681,9 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label4.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -690,6 +696,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -796,6 +803,7 @@
             // 
             // shiftPathButton
             // 
+            this.shiftPathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.shiftPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -834,6 +842,9 @@
             // 
             // editPathButton
             // 
+            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.editPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -930,6 +941,7 @@
             // 
             // deletePathButton
             // 
+            this.deletePathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -949,6 +961,9 @@
             // 
             // newPathButton
             // 
+            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -968,6 +983,7 @@
             // 
             // pathOrderDown
             // 
+            this.pathOrderDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderDown.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -990,7 +1006,7 @@
             // 
             // pathOrderUp
             // 
-            this.pathOrderUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pathOrderUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderUp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1012,6 +1028,7 @@
             // 
             // deletePointButton
             // 
+            this.deletePointButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePointButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1031,6 +1048,7 @@
             // 
             // mirrorPathButton
             // 
+            this.mirrorPathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.mirrorPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1069,6 +1087,7 @@
             // 
             // reverseButton
             // 
+            this.reverseButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.reverseButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1086,6 +1105,23 @@
             this.TestTooltip.SetToolTip(this.reverseButton, "Reverse path point order");
             this.reverseButton.UseVisualStyleBackColor = false;
             this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
+            // 
+            // configurationButton
+            // 
+            this.configurationButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.configurationButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.configurationButton.FlatAppearance.BorderSize = 0;
+            this.configurationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.configurationButton.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.configurationButton.ForeColor = System.Drawing.Color.SlateBlue;
+            this.configurationButton.Location = new System.Drawing.Point(4, 746);
+            this.configurationButton.Name = "configurationButton";
+            this.configurationButton.Size = new System.Drawing.Size(171, 50);
+            this.configurationButton.TabIndex = 74;
+            this.configurationButton.Text = "Configure Robot";
+            this.TestTooltip.SetToolTip(this.configurationButton, "Preview robot file data");
+            this.configurationButton.UseVisualStyleBackColor = false;
+            this.configurationButton.Click += new System.EventHandler(this.configurationButton_Click);
             // 
             // MainForm
             // 
@@ -1208,6 +1244,7 @@
         private System.Windows.Forms.RadioButton radioSpline;
         private System.Windows.Forms.RadioButton radioLine;
         private FontAwesome.Sharp.IconButton reverseButton;
+        private System.Windows.Forms.Button configurationButton;
     }
 }
 

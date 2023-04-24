@@ -1199,6 +1199,12 @@
             splineMode = true;
             UpdateField();
         }
+
+        private void configurationButton_Click(object sender, EventArgs e)
+        {
+            ConfigurationView config = new ConfigurationView();
+            config.Show();
+        }
     }
 }
 
