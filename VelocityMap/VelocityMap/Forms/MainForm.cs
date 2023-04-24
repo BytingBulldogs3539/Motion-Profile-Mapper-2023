@@ -657,13 +657,17 @@
         private void LoadProfilesFromRIO(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
 
-            SftpClient sftp = new SftpClient(
+            info.Timeout = TimeSpan.FromSeconds(5);
+
+            SftpClient sftp = new SftpClient(info);
+            /*SftpClient sftp = new SftpClient(
                 Properties.Settings.Default.IpAddress,
                 Properties.Settings.Default.Username,
                 Properties.Settings.Default.Password
-            );
-
+            );*/
             try
             {
                 setStatus("Establishing RIO connection...", false);
@@ -692,6 +696,11 @@
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);

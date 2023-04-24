@@ -64,6 +64,10 @@ namespace VelocityMap.Forms
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
+            if(dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
             e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress);
             if (dataGridView1.CurrentCell.ColumnIndex == 2) //Desired Column
             {

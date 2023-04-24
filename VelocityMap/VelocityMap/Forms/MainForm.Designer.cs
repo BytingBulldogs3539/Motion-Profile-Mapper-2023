@@ -29,19 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -52,24 +39,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.MoreData = new System.Windows.Forms.TabControl();
-            this.Field = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.radioSpline = new System.Windows.Forms.RadioButton();
-            this.radioLine = new System.Windows.Forms.RadioButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radioBlue = new System.Windows.Forms.RadioButton();
-            this.radioRed = new System.Windows.Forms.RadioButton();
-            this.showPathsCheckbox = new System.Windows.Forms.CheckBox();
+            this.configurationButton = new System.Windows.Forms.Button();
             this.infoLabel = new System.Windows.Forms.Label();
-            this.GridCheckBox = new System.Windows.Forms.CheckBox();
-            this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.rioCommandsLabel = new System.Windows.Forms.Label();
-            this.Data = new System.Windows.Forms.TabPage();
-            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.AngleChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.previewButton = new System.Windows.Forms.Button();
@@ -107,311 +89,69 @@
             this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
             this.infoButton = new FontAwesome.Sharp.IconButton();
             this.reverseButton = new FontAwesome.Sharp.IconButton();
-            this.configurationButton = new System.Windows.Forms.Button();
-            this.MoreData.SuspendLayout();
-            this.Field.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
-            this.Data.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).BeginInit();
+            this.Data = new System.Windows.Forms.TabPage();
+            this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Field = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.radioLine = new System.Windows.Forms.RadioButton();
+            this.radioSpline = new System.Windows.Forms.RadioButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.showPathsCheckbox = new System.Windows.Forms.CheckBox();
+            this.GridCheckBox = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.radioBlue = new System.Windows.Forms.RadioButton();
+            this.radioRed = new System.Windows.Forms.RadioButton();
+            this.MoreData = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
+            this.Data.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
+            this.Field.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.MoreData.SuspendLayout();
             this.SuspendLayout();
             // 
-            // MoreData
+            // configurationButton
             // 
-            this.MoreData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MoreData.Controls.Add(this.Field);
-            this.MoreData.Controls.Add(this.Data);
-            this.MoreData.Controls.Add(this.tabPage1);
-            this.MoreData.Location = new System.Drawing.Point(336, 0);
-            this.MoreData.Margin = new System.Windows.Forms.Padding(0);
-            this.MoreData.Name = "MoreData";
-            this.MoreData.SelectedIndex = 0;
-            this.MoreData.Size = new System.Drawing.Size(734, 830);
-            this.MoreData.TabIndex = 1;
-            // 
-            // Field
-            // 
-            this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.Field.Controls.Add(this.configurationButton);
-            this.Field.Controls.Add(this.panel2);
-            this.Field.Controls.Add(this.panel1);
-            this.Field.Controls.Add(this.showPathsCheckbox);
-            this.Field.Controls.Add(this.infoLabel);
-            this.Field.Controls.Add(this.GridCheckBox);
-            this.Field.Controls.Add(this.mainField);
-            this.Field.Controls.Add(this.rioCommandsLabel);
-            this.Field.Location = new System.Drawing.Point(4, 26);
-            this.Field.Margin = new System.Windows.Forms.Padding(1);
-            this.Field.Name = "Field";
-            this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(726, 800);
-            this.Field.TabIndex = 0;
-            this.Field.Text = "Field";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.radioSpline);
-            this.panel2.Controls.Add(this.radioLine);
-            this.panel2.Location = new System.Drawing.Point(486, 709);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(89, 73);
-            this.panel2.TabIndex = 45;
-            // 
-            // radioSpline
-            // 
-            this.radioSpline.AutoSize = true;
-            this.radioSpline.ForeColor = System.Drawing.Color.Black;
-            this.radioSpline.Location = new System.Drawing.Point(12, 40);
-            this.radioSpline.Name = "radioSpline";
-            this.radioSpline.Size = new System.Drawing.Size(68, 21);
-            this.radioSpline.TabIndex = 67;
-            this.radioSpline.Text = "Spline";
-            this.radioSpline.UseVisualStyleBackColor = true;
-            this.radioSpline.CheckedChanged += new System.EventHandler(this.radioSpline_CheckedChanged);
-            // 
-            // radioLine
-            // 
-            this.radioLine.AutoSize = true;
-            this.radioLine.Checked = true;
-            this.radioLine.ForeColor = System.Drawing.Color.Black;
-            this.radioLine.Location = new System.Drawing.Point(12, 13);
-            this.radioLine.Name = "radioLine";
-            this.radioLine.Size = new System.Drawing.Size(56, 21);
-            this.radioLine.TabIndex = 66;
-            this.radioLine.TabStop = true;
-            this.radioLine.Text = "Line";
-            this.radioLine.UseVisualStyleBackColor = true;
-            this.radioLine.CheckedChanged += new System.EventHandler(this.radioLine_CheckedChanged);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.radioBlue);
-            this.panel1.Controls.Add(this.radioRed);
-            this.panel1.Location = new System.Drawing.Point(197, 709);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(134, 73);
-            this.panel1.TabIndex = 44;
-            // 
-            // radioBlue
-            // 
-            this.radioBlue.AutoSize = true;
-            this.radioBlue.ForeColor = System.Drawing.Color.Black;
-            this.radioBlue.Location = new System.Drawing.Point(12, 40);
-            this.radioBlue.Name = "radioBlue";
-            this.radioBlue.Size = new System.Drawing.Size(109, 21);
-            this.radioBlue.TabIndex = 67;
-            this.radioBlue.Text = "Blue alliance";
-            this.radioBlue.UseVisualStyleBackColor = true;
-            this.radioBlue.CheckedChanged += new System.EventHandler(this.radioBlue_CheckedChanged);
-            // 
-            // radioRed
-            // 
-            this.radioRed.AutoSize = true;
-            this.radioRed.Checked = true;
-            this.radioRed.ForeColor = System.Drawing.Color.Black;
-            this.radioRed.Location = new System.Drawing.Point(12, 13);
-            this.radioRed.Name = "radioRed";
-            this.radioRed.Size = new System.Drawing.Size(107, 21);
-            this.radioRed.TabIndex = 66;
-            this.radioRed.TabStop = true;
-            this.radioRed.Text = "Red alliance";
-            this.radioRed.UseVisualStyleBackColor = true;
-            this.radioRed.CheckedChanged += new System.EventHandler(this.radioRed_CheckedChanged);
-            // 
-            // showPathsCheckbox
-            // 
-            this.showPathsCheckbox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.showPathsCheckbox.Checked = true;
-            this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(345, 748);
-            this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
-            this.showPathsCheckbox.Name = "showPathsCheckbox";
-            this.showPathsCheckbox.Size = new System.Drawing.Size(139, 22);
-            this.showPathsCheckbox.TabIndex = 43;
-            this.showPathsCheckbox.Text = "Show all paths";
-            this.showPathsCheckbox.UseVisualStyleBackColor = false;
-            this.showPathsCheckbox.CheckedChanged += new System.EventHandler(this.showPathsCheckbox_CheckedChanged);
+            this.configurationButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.configurationButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.configurationButton.FlatAppearance.BorderSize = 0;
+            this.configurationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.configurationButton.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.configurationButton.ForeColor = System.Drawing.Color.SlateBlue;
+            this.configurationButton.Location = new System.Drawing.Point(13, 142);
+            this.configurationButton.Name = "configurationButton";
+            this.configurationButton.Size = new System.Drawing.Size(309, 32);
+            this.configurationButton.TabIndex = 74;
+            this.configurationButton.Text = "Configure Robot";
+            this.TestTooltip.SetToolTip(this.configurationButton, "Preview robot file data");
+            this.configurationButton.UseVisualStyleBackColor = false;
+            this.configurationButton.Click += new System.EventHandler(this.configurationButton_Click);
             // 
             // infoLabel
             // 
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.infoLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
-            this.infoLabel.Location = new System.Drawing.Point(82, 7);
+            this.infoLabel.Location = new System.Drawing.Point(0, 0);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(600, 25);
+            this.infoLabel.Size = new System.Drawing.Size(724, 25);
             this.infoLabel.TabIndex = 42;
             this.infoLabel.Text = "Motion Profile Mapper v2.0";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // GridCheckBox
-            // 
-            this.GridCheckBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.GridCheckBox.Checked = true;
-            this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.GridCheckBox.Location = new System.Drawing.Point(345, 724);
-            this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
-            this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(139, 22);
-            this.GridCheckBox.TabIndex = 27;
-            this.GridCheckBox.Text = "Show grid";
-            this.GridCheckBox.UseVisualStyleBackColor = false;
-            this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
-            // 
-            // mainField
-            // 
-            this.mainField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainField.BackColor = System.Drawing.SystemColors.ControlLight;
-            chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartArea1.Name = "field";
-            this.mainField.ChartAreas.Add(chartArea1);
-            this.mainField.Location = new System.Drawing.Point(1, 17);
-            this.mainField.Name = "mainField";
-            series1.ChartArea = "field";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Name = "background";
-            series2.ChartArea = "field";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.LightGray;
-            series2.MarkerSize = 2;
-            series2.Name = "right";
-            series3.ChartArea = "field";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.LightGray;
-            series3.MarkerSize = 2;
-            series3.Name = "left";
-            series4.ChartArea = "field";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.Aqua;
-            series4.MarkerSize = 4;
-            series4.Name = "path";
-            this.mainField.Series.Add(series1);
-            this.mainField.Series.Add(series2);
-            this.mainField.Series.Add(series3);
-            this.mainField.Series.Add(series4);
-            this.mainField.Size = new System.Drawing.Size(721, 702);
-            this.mainField.TabIndex = 4;
-            this.mainField.Text = "chart2";
-            this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
-            this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
-            this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
-            this.mainField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseUp);
-            // 
-            // rioCommandsLabel
-            // 
-            this.rioCommandsLabel.AutoSize = true;
-            this.rioCommandsLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.rioCommandsLabel.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rioCommandsLabel.ForeColor = System.Drawing.Color.Black;
-            this.rioCommandsLabel.Location = new System.Drawing.Point(68, 471);
-            this.rioCommandsLabel.Name = "rioCommandsLabel";
-            this.rioCommandsLabel.Size = new System.Drawing.Size(188, 20);
-            this.rioCommandsLabel.TabIndex = 41;
-            this.rioCommandsLabel.Text = "RoboRIO Commands";
-            // 
-            // Data
-            // 
-            this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.Data.Controls.Add(this.kinematicsChart);
-            this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 25);
-            this.Data.Margin = new System.Windows.Forms.Padding(1);
-            this.Data.Name = "Data";
-            this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(726, 801);
-            this.Data.TabIndex = 1;
-            this.Data.Text = "Data";
-            // 
-            // kinematicsChart
-            // 
-            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.ControlLightLight;
-            chartArea2.AxisX.Interval = 0.5D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.MinorGrid.Enabled = true;
-            chartArea2.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea2.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea2.AxisX.Title = "Time (Seconds)";
-            chartArea2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea2.Name = "ChartArea1";
-            this.kinematicsChart.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend1";
-            this.kinematicsChart.Legends.Add(legend1);
-            this.kinematicsChart.Location = new System.Drawing.Point(0, 0);
-            this.kinematicsChart.Name = "kinematicsChart";
-            series5.BorderWidth = 3;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Legend = "Legend1";
-            series5.Name = "Position";
-            series6.BorderWidth = 3;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Velocity";
-            series7.BorderWidth = 3;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Acceleration";
-            this.kinematicsChart.Series.Add(series5);
-            this.kinematicsChart.Series.Add(series6);
-            this.kinematicsChart.Series.Add(series7);
-            this.kinematicsChart.Size = new System.Drawing.Size(738, 795);
-            this.kinematicsChart.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tabPage1.Controls.Add(this.AngleChart);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(726, 801);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "More Data ";
-            // 
-            // AngleChart
-            // 
-            this.AngleChart.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.AngleChart.BorderlineColor = System.Drawing.SystemColors.ControlLight;
-            chartArea3.AxisX.Interval = 0.5D;
-            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea3.AxisX.MinorGrid.Enabled = true;
-            chartArea3.AxisX.MinorGrid.Interval = 0.25D;
-            chartArea3.AxisX.ScaleBreakStyle.Spacing = 0.5D;
-            chartArea3.AxisX.Title = "Time (Seconds)";
-            chartArea3.AxisY.Interval = 5D;
-            chartArea3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            chartArea3.Name = "ChartArea1";
-            this.AngleChart.ChartAreas.Add(chartArea3);
-            legend2.Name = "Legend1";
-            this.AngleChart.Legends.Add(legend2);
-            this.AngleChart.Location = new System.Drawing.Point(4, -2);
-            this.AngleChart.Name = "AngleChart";
-            series8.BorderWidth = 3;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            series8.Legend = "Legend1";
-            series8.Name = "Angle";
-            this.AngleChart.Series.Add(series8);
-            this.AngleChart.Size = new System.Drawing.Size(738, 795);
-            this.AngleChart.TabIndex = 1;
             // 
             // openFilesDialog
             // 
@@ -419,7 +159,7 @@
             // 
             // previewButton
             // 
-            this.previewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.previewButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.previewButton.FlatAppearance.BorderSize = 0;
@@ -443,7 +183,8 @@
             this.ControlPointTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.ControlPointTable.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.ControlPointTable.BackgroundColor = System.Drawing.Color.White;
             this.ControlPointTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -522,7 +263,7 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(122, 147);
+            this.label10.Location = new System.Drawing.Point(121, 177);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(86, 25);
             this.label10.TabIndex = 23;
@@ -553,6 +294,8 @@
             this.profileTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.profileTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.profileTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.profileTable.BackgroundColor = System.Drawing.Color.White;
             this.profileTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -573,7 +316,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 176);
+            this.profileTable.Location = new System.Drawing.Point(13, 203);
             this.profileTable.Margin = new System.Windows.Forms.Padding(1);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -586,7 +329,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 516);
+            this.profileTable.Size = new System.Drawing.Size(310, 489);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -620,9 +363,7 @@
             this.pathTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pathTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pathTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.pathTable.BackgroundColor = System.Drawing.Color.White;
             this.pathTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -681,8 +422,7 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -696,7 +436,7 @@
             // 
             // label5
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -727,6 +467,7 @@
             // 
             // saveFileButton
             // 
+            this.saveFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveFileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveFileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveFileButton.FlatAppearance.BorderSize = 0;
@@ -745,6 +486,7 @@
             // 
             // saveAllButton
             // 
+            this.saveAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveAllButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveAllButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveAllButton.FlatAppearance.BorderSize = 0;
@@ -763,6 +505,7 @@
             // 
             // saveToRioButton
             // 
+            this.saveToRioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveToRioButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveToRioButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveToRioButton.FlatAppearance.BorderSize = 0;
@@ -803,7 +546,7 @@
             // 
             // shiftPathButton
             // 
-            this.shiftPathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.shiftPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.shiftPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -823,6 +566,7 @@
             // 
             // duplicateProfileButton
             // 
+            this.duplicateProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.duplicateProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -842,9 +586,7 @@
             // 
             // editPathButton
             // 
-            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.editPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -884,6 +626,7 @@
             // 
             // editProfileButton
             // 
+            this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.editProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -903,6 +646,7 @@
             // 
             // deleteProfileButton
             // 
+            this.deleteProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deleteProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -922,6 +666,7 @@
             // 
             // newProfileButton
             // 
+            this.newProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -941,7 +686,7 @@
             // 
             // deletePathButton
             // 
-            this.deletePathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.deletePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -961,9 +706,7 @@
             // 
             // newPathButton
             // 
-            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -983,7 +726,7 @@
             // 
             // pathOrderDown
             // 
-            this.pathOrderDown.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pathOrderDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderDown.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1006,7 +749,7 @@
             // 
             // pathOrderUp
             // 
-            this.pathOrderUp.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.pathOrderUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderUp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1028,7 +771,7 @@
             // 
             // deletePointButton
             // 
-            this.deletePointButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.deletePointButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePointButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1048,7 +791,7 @@
             // 
             // mirrorPathButton
             // 
-            this.mirrorPathButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.mirrorPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.mirrorPathButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1087,7 +830,7 @@
             // 
             // reverseButton
             // 
-            this.reverseButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.reverseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.reverseButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1106,28 +849,304 @@
             this.reverseButton.UseVisualStyleBackColor = false;
             this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
             // 
-            // configurationButton
+            // Data
             // 
-            this.configurationButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.configurationButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.configurationButton.FlatAppearance.BorderSize = 0;
-            this.configurationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.configurationButton.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configurationButton.ForeColor = System.Drawing.Color.SlateBlue;
-            this.configurationButton.Location = new System.Drawing.Point(4, 746);
-            this.configurationButton.Name = "configurationButton";
-            this.configurationButton.Size = new System.Drawing.Size(171, 50);
-            this.configurationButton.TabIndex = 74;
-            this.configurationButton.Text = "Configure Robot";
-            this.TestTooltip.SetToolTip(this.configurationButton, "Preview robot file data");
-            this.configurationButton.UseVisualStyleBackColor = false;
-            this.configurationButton.Click += new System.EventHandler(this.configurationButton_Click);
+            this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Data.Controls.Add(this.kinematicsChart);
+            this.Data.ForeColor = System.Drawing.Color.Black;
+            this.Data.Location = new System.Drawing.Point(4, 26);
+            this.Data.Margin = new System.Windows.Forms.Padding(1);
+            this.Data.Name = "Data";
+            this.Data.Padding = new System.Windows.Forms.Padding(1);
+            this.Data.Size = new System.Drawing.Size(726, 800);
+            this.Data.TabIndex = 1;
+            this.Data.Text = "Data";
+            // 
+            // kinematicsChart
+            // 
+            this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.ControlLightLight;
+            chartArea1.AxisX.Interval = 0.5D;
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.MinorGrid.Enabled = true;
+            chartArea1.AxisX.MinorGrid.Interval = 0.25D;
+            chartArea1.AxisX.ScaleBreakStyle.Spacing = 0.5D;
+            chartArea1.AxisX.Title = "Time (Seconds)";
+            chartArea1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            chartArea1.Name = "ChartArea1";
+            this.kinematicsChart.ChartAreas.Add(chartArea1);
+            this.kinematicsChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.kinematicsChart.Legends.Add(legend1);
+            this.kinematicsChart.Location = new System.Drawing.Point(1, 1);
+            this.kinematicsChart.Name = "kinematicsChart";
+            series1.BorderWidth = 3;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Position";
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Velocity";
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Acceleration";
+            this.kinematicsChart.Series.Add(series1);
+            this.kinematicsChart.Series.Add(series2);
+            this.kinematicsChart.Series.Add(series3);
+            this.kinematicsChart.Size = new System.Drawing.Size(724, 798);
+            this.kinematicsChart.TabIndex = 0;
+            // 
+            // Field
+            // 
+            this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Field.Controls.Add(this.splitContainer1);
+            this.Field.Location = new System.Drawing.Point(4, 26);
+            this.Field.Margin = new System.Windows.Forms.Padding(1);
+            this.Field.Name = "Field";
+            this.Field.Padding = new System.Windows.Forms.Padding(1);
+            this.Field.Size = new System.Drawing.Size(726, 800);
+            this.Field.TabIndex = 0;
+            this.Field.Text = "Field";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(1, 1);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.infoLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.mainField);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
+            this.splitContainer1.Panel2MinSize = 68;
+            this.splitContainer1.Size = new System.Drawing.Size(724, 798);
+            this.splitContainer1.SplitterDistance = 730;
+            this.splitContainer1.TabIndex = 77;
+            // 
+            // mainField
+            // 
+            this.mainField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainField.BackColor = System.Drawing.SystemColors.ControlLight;
+            chartArea2.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea2.Name = "field";
+            this.mainField.ChartAreas.Add(chartArea2);
+            this.mainField.Location = new System.Drawing.Point(0, 30);
+            this.mainField.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.mainField.Name = "mainField";
+            series4.ChartArea = "field";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series4.MarkerBorderColor = System.Drawing.Color.Transparent;
+            series4.MarkerColor = System.Drawing.Color.Transparent;
+            series4.Name = "background";
+            series5.ChartArea = "field";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Color = System.Drawing.Color.LightGray;
+            series5.MarkerSize = 2;
+            series5.Name = "right";
+            series6.ChartArea = "field";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Color = System.Drawing.Color.LightGray;
+            series6.MarkerSize = 2;
+            series6.Name = "left";
+            series7.ChartArea = "field";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Color = System.Drawing.Color.Aqua;
+            series7.MarkerSize = 4;
+            series7.Name = "path";
+            this.mainField.Series.Add(series4);
+            this.mainField.Series.Add(series5);
+            this.mainField.Series.Add(series6);
+            this.mainField.Series.Add(series7);
+            this.mainField.Size = new System.Drawing.Size(724, 701);
+            this.mainField.TabIndex = 4;
+            this.mainField.Text = "chart2";
+            this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
+            this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
+            this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
+            this.mainField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseUp);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(724, 68);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.radioLine);
+            this.panel4.Controls.Add(this.radioSpline);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(482, 0);
+            this.panel4.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(242, 58);
+            this.panel4.TabIndex = 46;
+            // 
+            // radioLine
+            // 
+            this.radioLine.AutoSize = true;
+            this.radioLine.Checked = true;
+            this.radioLine.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioLine.Dock = System.Windows.Forms.DockStyle.Top;
+            this.radioLine.ForeColor = System.Drawing.Color.Black;
+            this.radioLine.Location = new System.Drawing.Point(0, 0);
+            this.radioLine.Name = "radioLine";
+            this.radioLine.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.radioLine.Size = new System.Drawing.Size(242, 21);
+            this.radioLine.TabIndex = 66;
+            this.radioLine.TabStop = true;
+            this.radioLine.Text = "Line";
+            this.radioLine.UseVisualStyleBackColor = true;
+            this.radioLine.CheckedChanged += new System.EventHandler(this.radioLine_CheckedChanged);
+            // 
+            // radioSpline
+            // 
+            this.radioSpline.AutoSize = true;
+            this.radioSpline.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioSpline.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.radioSpline.ForeColor = System.Drawing.Color.Black;
+            this.radioSpline.Location = new System.Drawing.Point(0, 37);
+            this.radioSpline.Name = "radioSpline";
+            this.radioSpline.Size = new System.Drawing.Size(242, 21);
+            this.radioSpline.TabIndex = 67;
+            this.radioSpline.Text = "Spline";
+            this.radioSpline.UseVisualStyleBackColor = true;
+            this.radioSpline.CheckedChanged += new System.EventHandler(this.radioSpline_CheckedChanged);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.showPathsCheckbox);
+            this.panel2.Controls.Add(this.GridCheckBox);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(241, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(241, 58);
+            this.panel2.TabIndex = 45;
+            // 
+            // showPathsCheckbox
+            // 
+            this.showPathsCheckbox.AutoSize = true;
+            this.showPathsCheckbox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.showPathsCheckbox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.showPathsCheckbox.Checked = true;
+            this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showPathsCheckbox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.showPathsCheckbox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
+            this.showPathsCheckbox.Location = new System.Drawing.Point(0, 37);
+            this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
+            this.showPathsCheckbox.Name = "showPathsCheckbox";
+            this.showPathsCheckbox.Size = new System.Drawing.Size(241, 21);
+            this.showPathsCheckbox.TabIndex = 43;
+            this.showPathsCheckbox.Text = "Show all paths";
+            this.showPathsCheckbox.UseVisualStyleBackColor = false;
+            this.showPathsCheckbox.CheckedChanged += new System.EventHandler(this.showPathsCheckbox_CheckedChanged);
+            // 
+            // GridCheckBox
+            // 
+            this.GridCheckBox.AutoSize = true;
+            this.GridCheckBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.GridCheckBox.Checked = true;
+            this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GridCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GridCheckBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
+            this.GridCheckBox.Location = new System.Drawing.Point(0, 0);
+            this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
+            this.GridCheckBox.Name = "GridCheckBox";
+            this.GridCheckBox.Size = new System.Drawing.Size(241, 21);
+            this.GridCheckBox.TabIndex = 27;
+            this.GridCheckBox.Text = "Show grid";
+            this.GridCheckBox.UseVisualStyleBackColor = false;
+            this.GridCheckBox.CheckedChanged += new System.EventHandler(this.GridCheckBox_CheckedChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioBlue);
+            this.panel1.Controls.Add(this.radioRed);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(241, 58);
+            this.panel1.TabIndex = 44;
+            // 
+            // radioBlue
+            // 
+            this.radioBlue.AutoSize = true;
+            this.radioBlue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioBlue.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.radioBlue.ForeColor = System.Drawing.Color.Black;
+            this.radioBlue.Location = new System.Drawing.Point(0, 37);
+            this.radioBlue.Name = "radioBlue";
+            this.radioBlue.Size = new System.Drawing.Size(241, 21);
+            this.radioBlue.TabIndex = 67;
+            this.radioBlue.Text = "Blue alliance";
+            this.radioBlue.UseVisualStyleBackColor = true;
+            this.radioBlue.CheckedChanged += new System.EventHandler(this.radioBlue_CheckedChanged);
+            // 
+            // radioRed
+            // 
+            this.radioRed.AutoSize = true;
+            this.radioRed.Checked = true;
+            this.radioRed.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioRed.Dock = System.Windows.Forms.DockStyle.Top;
+            this.radioRed.ForeColor = System.Drawing.Color.Black;
+            this.radioRed.Location = new System.Drawing.Point(0, 0);
+            this.radioRed.Name = "radioRed";
+            this.radioRed.Size = new System.Drawing.Size(241, 21);
+            this.radioRed.TabIndex = 66;
+            this.radioRed.TabStop = true;
+            this.radioRed.Text = "Red alliance";
+            this.radioRed.UseVisualStyleBackColor = true;
+            this.radioRed.CheckedChanged += new System.EventHandler(this.radioRed_CheckedChanged);
+            // 
+            // MoreData
+            // 
+            this.MoreData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MoreData.Controls.Add(this.Field);
+            this.MoreData.Controls.Add(this.Data);
+            this.MoreData.Location = new System.Drawing.Point(336, 0);
+            this.MoreData.Margin = new System.Windows.Forms.Padding(0);
+            this.MoreData.Name = "MoreData";
+            this.MoreData.SelectedIndex = 0;
+            this.MoreData.Size = new System.Drawing.Size(734, 830);
+            this.MoreData.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
+            this.Controls.Add(this.configurationButton);
             this.Controls.Add(this.reverseButton);
             this.Controls.Add(this.infoButton);
             this.Controls.Add(this.mirrorPathButton);
@@ -1168,47 +1187,41 @@
             this.Text = "Byting Bulldogs (3539) - Motion Profiler Creator";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
-            this.MoreData.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
+            this.Data.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
             this.Field.ResumeLayout(false);
-            this.Field.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
-            this.Data.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.AngleChart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
+            this.MoreData.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TabControl MoreData;
-        private System.Windows.Forms.TabPage Field;
         private System.Windows.Forms.OpenFileDialog openFilesDialog;
-        private System.Windows.Forms.DataVisualization.Charting.Chart mainField;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button previewButton;
         private System.Windows.Forms.DataGridView ControlPointTable;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button refresh_button;
-        private System.Windows.Forms.CheckBox GridCheckBox;
         private System.Windows.Forms.DataGridView profileTable;
-        private System.Windows.Forms.TabPage Data;
-        private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart AngleChart;
         private System.Windows.Forms.DataGridView pathTable;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label rioCommandsLabel;
         private System.Windows.Forms.Label infoLabel;
         private FontAwesome.Sharp.IconButton pathOrderUp;
         private FontAwesome.Sharp.IconButton pathOrderDown;
@@ -1217,7 +1230,6 @@
         private FontAwesome.Sharp.IconButton newProfileButton;
         private FontAwesome.Sharp.IconButton deleteProfileButton;
         private FontAwesome.Sharp.IconButton editProfileButton;
-        private System.Windows.Forms.CheckBox showPathsCheckbox;
         private FontAwesome.Sharp.IconButton rioConectionButton;
         private System.Windows.Forms.Button loadFileButton;
         private System.Windows.Forms.Button saveFileButton;
@@ -1231,20 +1243,30 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.RadioButton radioRed;
-        private System.Windows.Forms.RadioButton radioBlue;
-        private System.Windows.Forms.Panel panel1;
         private FontAwesome.Sharp.IconButton duplicateProfileButton;
         private FontAwesome.Sharp.IconButton shiftPathButton;
         private FontAwesome.Sharp.IconButton deletePointButton;
         private FontAwesome.Sharp.IconButton mirrorPathButton;
         private FontAwesome.Sharp.IconButton infoButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.RadioButton radioSpline;
-        private System.Windows.Forms.RadioButton radioLine;
         private FontAwesome.Sharp.IconButton reverseButton;
         private System.Windows.Forms.Button configurationButton;
+        private System.Windows.Forms.TabPage Data;
+        private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
+        private System.Windows.Forms.TabPage Field;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart mainField;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.RadioButton radioLine;
+        private System.Windows.Forms.RadioButton radioSpline;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox showPathsCheckbox;
+        private System.Windows.Forms.CheckBox GridCheckBox;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton radioBlue;
+        private System.Windows.Forms.RadioButton radioRed;
+        private System.Windows.Forms.TabControl MoreData;
     }
 }
 
