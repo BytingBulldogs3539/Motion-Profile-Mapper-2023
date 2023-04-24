@@ -64,27 +64,115 @@ namespace VelocityMap.Forms
         }
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if(dataGridView1.CurrentCell == null)
+            if (configurationGrid.CurrentCell == null)
             {
                 return;
             }
-            e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress);
-            if (dataGridView1.CurrentCell.ColumnIndex == 2) //Desired Column
+            e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_NULL);
+            e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_Int);
+            e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_Double);
+            e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_VariableName);
+
+            if (configurationGrid.CurrentCell.ColumnIndex == 0)
             {
                 TextBox tb = e.Control as TextBox;
                 if (tb != null)
                 {
-                    tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress);
+                    tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_VariableName);
                 }
+            }
+                if (configurationGrid.CurrentCell.ColumnIndex == 2)
+            {
+                if (configurationGrid.CurrentRow.Cells[1].Value == null)
+                {
+                    TextBox tb = e.Control as TextBox;
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_NULL);
+                    }
+                }
+                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "Int")
+                {
+                    TextBox tb = e.Control as TextBox;
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Int);
+                    }
+                }
+                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "Double")
+                {
+                    TextBox tb = e.Control as TextBox;
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Double);
+                    }
+                }
+                
             }
         }
 
-        private void Column3_KeyPress(object sender, KeyPressEventArgs e)
+        private void Column3_KeyPress_Double(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            // allows 0-9, backspace, and decimal
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
             {
                 e.Handled = true;
+                return;
             }
+
+            // checks to make sure only 1 decimal is allowed
+            if (e.KeyChar == 46)
+            {
+                if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
+                    e.Handled = true;
+            }
+        }
+
+        
+        private void Column3_KeyPress_VariableName(object sender, KeyPressEventArgs e)
+        {
+            if ((sender as TextBox).TextLength == 0)
+            {
+                if (!char.IsLetter(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+        
+        private void Column3_KeyPress_NULL(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+        private void Column3_KeyPress_Int(object sender, KeyPressEventArgs e)
+        {
+            // checks to make sure only 1 decimal is allowed
+            if (e.KeyChar == 46)
+            {
+                MessageBox.Show("Did you mean to use Double? Integers can't contain a '.'", "Wrong Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            // allows 0-9, backspace, and decimal
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8))
+            {
+                e.Handled = true;
+                return;
+            }
+
+        }
+
+        private void saveToRioButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteProfileButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newProfileButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

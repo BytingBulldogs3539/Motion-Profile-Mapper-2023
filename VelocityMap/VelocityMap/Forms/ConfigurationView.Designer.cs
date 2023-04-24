@@ -50,7 +50,7 @@ namespace VelocityMap.Forms
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 395);
+            this.dataGridView1.Size = new System.Drawing.Size(240, 392);
             this.dataGridView1.TabIndex = 1;
             // 
             // newProfileButton
@@ -63,12 +63,13 @@ namespace VelocityMap.Forms
             this.newProfileButton.IconColor = System.Drawing.Color.Green;
             this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newProfileButton.IconSize = 24;
-            this.newProfileButton.Location = new System.Drawing.Point(12, 462);
+            this.newProfileButton.Location = new System.Drawing.Point(12, 459);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
             this.newProfileButton.Size = new System.Drawing.Size(108, 30);
             this.newProfileButton.TabIndex = 49;
             this.newProfileButton.UseVisualStyleBackColor = false;
+            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
             // 
             // deleteProfileButton
             // 
@@ -80,12 +81,13 @@ namespace VelocityMap.Forms
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 24;
-            this.deleteProfileButton.Location = new System.Drawing.Point(144, 462);
+            this.deleteProfileButton.Location = new System.Drawing.Point(144, 459);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
             this.deleteProfileButton.Size = new System.Drawing.Size(108, 30);
             this.deleteProfileButton.TabIndex = 50;
             this.deleteProfileButton.UseVisualStyleBackColor = false;
+            this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
             // 
             // saveToRioButton
             // 
@@ -95,12 +97,13 @@ namespace VelocityMap.Forms
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveToRioButton.ForeColor = System.Drawing.Color.DarkCyan;
-            this.saveToRioButton.Location = new System.Drawing.Point(12, 495);
+            this.saveToRioButton.Location = new System.Drawing.Point(12, 492);
             this.saveToRioButton.Name = "saveToRioButton";
             this.saveToRioButton.Size = new System.Drawing.Size(240, 50);
             this.saveToRioButton.TabIndex = 62;
             this.saveToRioButton.Text = "Save to RIO";
             this.saveToRioButton.UseVisualStyleBackColor = false;
+            this.saveToRioButton.Click += new System.EventHandler(this.saveToRioButton_Click);
             // 
             // refresh_button
             // 
@@ -128,7 +131,7 @@ namespace VelocityMap.Forms
             this.configurationGrid.Name = "configurationGrid";
             this.configurationGrid.RowHeadersWidth = 51;
             this.configurationGrid.RowTemplate.Height = 24;
-            this.configurationGrid.Size = new System.Drawing.Size(697, 480);
+            this.configurationGrid.Size = new System.Drawing.Size(697, 530);
             this.configurationGrid.TabIndex = 65;
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView3_CellValidating);
             this.configurationGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
@@ -157,7 +160,8 @@ namespace VelocityMap.Forms
             this.Value.HeaderText = "Value";
             this.Value.MinimumWidth = 6;
             this.Value.Name = "Value";
-            this.Value.Width = 225;
+            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Value.Width = 219;
             // 
             // ConfigurationView
             // 
