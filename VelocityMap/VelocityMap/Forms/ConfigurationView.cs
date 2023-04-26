@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Renci.SshNet;
+using Renci.SshNet.Sftp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,11 +185,93 @@ namespace VelocityMap.Forms
         private void refresh_button_Click(object sender, EventArgs e)
         {
 
+            Cursor = Cursors.WaitCursor;
+            ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
+
+            info.Timeout = TimeSpan.FromSeconds(5);
+
+            SftpClient sftp = new SftpClient(info);
+            /*SftpClient sftp = new SftpClient(
+                Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username,
+                Properties.Settings.Default.Password
+            );*/
+            try
+            {
+                setStatus("Establishing RIO connection...", false);
+                sftp.Connect();
+
+                if (!sftp.Exists(Properties.Settings.Default.RioLocation))
+                {
+                    sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
+                    setStatus("No motion profiles found at RIO directory", false);
+                    return;
+                }
+
+                bool foundFiles = false;
+                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
+                {
+                    if (!file.Name.Contains(".mp")) continue;
+                    foundFiles = true;
+
+                    StreamReader reader = sftp.OpenText(file.FullName);
+                    //profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
+                    //profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+                }
+                if (foundFiles) setStatus("Profiles loaded from RIO", false);
+                else setStatus("No motion profiles found at RIO directory", false);
+
+                sftp.Disconnect();
+            }
+            catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (System.Net.Sockets.SocketException exception)
+            {
+                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
+            {
+                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
+                setStatus("Permission denied", true);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
+                setStatus("Failed to load RIO profiles", true);
+            }
+
+            Cursor = Cursors.Default;
         }
 
         private void ConfigurationView_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.closeMain();
+        }
+        /// <summary>
+        /// Set the status message at the top of the field display
+        /// </summary>
+        private void setStatus(string message, bool error)
+        {
+            infoLabel.Text = message;
+            infoLabel.ForeColor = error ? Color.Red : Color.Black;
+        }
+
+        private void configFileList_SelectionChanged(object sender, EventArgs e)
+        {
+            if(configFileList.SelectedCells.Count>0)
+            {
+                configurationGrid.Enabled = true;
+            }
         }
     }
 }
