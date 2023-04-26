@@ -12,8 +12,12 @@ namespace VelocityMap.Forms
 {
     public partial class ConfigurationView : Form
     {
-        public ConfigurationView()
+
+        private Action closeMain;
+
+        public ConfigurationView(Action closeMain)
         {
+            this.closeMain = closeMain;
             InitializeComponent();
         }
 
@@ -173,6 +177,16 @@ namespace VelocityMap.Forms
         private void newProfileButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void refresh_button_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ConfigurationView_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.closeMain();
         }
     }
 }

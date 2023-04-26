@@ -24,9 +24,9 @@
 
 
     /// <summary>
-    /// Defines the <see cref="MainForm" />
+    /// Defines the <see cref="MotionProfiler" />
     /// </summary>
-    public partial class MainForm : Form
+    public partial class MotionProfiler : Form
     {
         /// <summary>
         /// Defines the fieldHeight
@@ -65,11 +65,14 @@
         bool editing = false;
         int editedCell = -1;
 
+        Action closeMain;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainForm"/> class.
+        /// Initializes a new instance of the <see cref="MotionProfiler"/> class.
         /// </summary>
-        public MainForm()
+        public MotionProfiler(Action closeMain)
         {
+            this.closeMain = closeMain;
             InitializeComponent();
         }
 
@@ -1209,10 +1212,9 @@
             UpdateField();
         }
 
-        private void configurationButton_Click(object sender, EventArgs e)
+        private void MotionProfiler_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ConfigurationView config = new ConfigurationView();
-            config.Show();
+            this.closeMain();
         }
     }
 }

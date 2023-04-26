@@ -93,10 +93,16 @@
     <Compile Include="Forms\Defaults.Designer.cs">
       <DependentUpon>Defaults.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForm2.Designer.cs">
+    <Compile Include="Forms\MotionProfiler1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MainForm.resx</DependentUpon>
+      <DependentUpon>MotionProfiler.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MirrorPath.cs">
       <SubType>Form</SubType>
@@ -148,11 +154,11 @@
     <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="Forms\MotionProfiler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Forms\MotionProfiler.Designer.cs">
+      <DependentUpon>MotionProfiler.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,10 +178,13 @@
     <EmbeddedResource Include="Forms\Defaults.resx">
       <DependentUpon>Defaults.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MotionProfiler.resx">
+      <DependentUpon>MotionProfiler.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainForm2.Designer.cs</LastGenOutput>
+      <LastGenOutput>MotionProfiler1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MirrorPath.resx">
       <DependentUpon>MirrorPath.cs</DependentUpon>

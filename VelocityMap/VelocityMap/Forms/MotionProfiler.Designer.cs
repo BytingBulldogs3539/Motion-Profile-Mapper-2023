@@ -1,6 +1,6 @@
 ﻿namespace VelocityMap
 {
-    partial class MainForm
+    partial class MotionProfiler
     {
         /// <summary>
         /// Required designer variable.
@@ -39,6 +39,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -49,8 +50,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.configurationButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MotionProfiler));
             this.infoLabel = new System.Windows.Forms.Label();
             this.openFilesDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -123,23 +123,6 @@
             this.MoreData.SuspendLayout();
             this.SuspendLayout();
             // 
-            // configurationButton
-            // 
-            this.configurationButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.configurationButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.configurationButton.FlatAppearance.BorderSize = 0;
-            this.configurationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.configurationButton.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configurationButton.ForeColor = System.Drawing.Color.SlateBlue;
-            this.configurationButton.Location = new System.Drawing.Point(13, 142);
-            this.configurationButton.Name = "configurationButton";
-            this.configurationButton.Size = new System.Drawing.Size(309, 32);
-            this.configurationButton.TabIndex = 74;
-            this.configurationButton.Text = "Configure Robot";
-            this.TestTooltip.SetToolTip(this.configurationButton, "Preview robot file data");
-            this.configurationButton.UseVisualStyleBackColor = false;
-            this.configurationButton.Click += new System.EventHandler(this.configurationButton_Click);
-            // 
             // infoLabel
             // 
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -148,7 +131,7 @@
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
             this.infoLabel.Location = new System.Drawing.Point(0, 0);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(724, 25);
+            this.infoLabel.Size = new System.Drawing.Size(724, 40);
             this.infoLabel.TabIndex = 42;
             this.infoLabel.Text = "Motion Profile Mapper v2.0";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -259,15 +242,15 @@
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(121, 177);
+            this.label10.Location = new System.Drawing.Point(13, 181);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(86, 25);
+            this.label10.Size = new System.Drawing.Size(309, 18);
             this.label10.TabIndex = 23;
             this.label10.Text = "Profiles";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // refresh_button
             // 
@@ -276,7 +259,7 @@
             this.refresh_button.FlatAppearance.BorderSize = 0;
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refresh_button.ForeColor = System.Drawing.Color.DarkCyan;
+            this.refresh_button.ForeColor = System.Drawing.Color.Teal;
             this.refresh_button.Location = new System.Drawing.Point(12, 54);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(253, 50);
@@ -381,6 +364,14 @@
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn5});
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.pathTable.DefaultCellStyle = dataGridViewCellStyle9;
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
             this.pathTable.GridColor = System.Drawing.Color.Silver;
@@ -390,16 +381,16 @@
             this.pathTable.Name = "pathTable";
             this.pathTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pathTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.pathTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
-            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.pathTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle11;
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -422,30 +413,29 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label4.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(1130, 13);
+            this.label4.Location = new System.Drawing.Point(1084, 13);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 20);
+            this.label4.Size = new System.Drawing.Size(236, 21);
             this.label4.TabIndex = 35;
             this.label4.Text = "Path Sequence";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(1108, 361);
+            this.label5.Location = new System.Drawing.Point(1084, 360);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(185, 20);
+            this.label5.Size = new System.Drawing.Size(234, 21);
             this.label5.TabIndex = 36;
             this.label5.Text = "Selected Path Points";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // loadFileButton
             // 
@@ -511,7 +501,7 @@
             this.saveToRioButton.FlatAppearance.BorderSize = 0;
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveToRioButton.ForeColor = System.Drawing.Color.DarkCyan;
+            this.saveToRioButton.ForeColor = System.Drawing.Color.Teal;
             this.saveToRioButton.Location = new System.Drawing.Point(12, 768);
             this.saveToRioButton.Name = "saveToRioButton";
             this.saveToRioButton.Size = new System.Drawing.Size(310, 50);
@@ -612,7 +602,7 @@
             this.rioConectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.rioConectionButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
             this.rioConectionButton.IconChar = FontAwesome.Sharp.IconChar.Cog;
-            this.rioConectionButton.IconColor = System.Drawing.Color.DarkCyan;
+            this.rioConectionButton.IconColor = System.Drawing.Color.Teal;
             this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.rioConectionButton.IconSize = 25;
             this.rioConectionButton.Location = new System.Drawing.Point(268, 54);
@@ -854,11 +844,11 @@
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 26);
+            this.Data.Location = new System.Drawing.Point(4, 22);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(726, 800);
+            this.Data.Size = new System.Drawing.Size(726, 804);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             // 
@@ -898,18 +888,18 @@
             this.kinematicsChart.Series.Add(series1);
             this.kinematicsChart.Series.Add(series2);
             this.kinematicsChart.Series.Add(series3);
-            this.kinematicsChart.Size = new System.Drawing.Size(724, 798);
+            this.kinematicsChart.Size = new System.Drawing.Size(724, 802);
             this.kinematicsChart.TabIndex = 0;
             // 
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Field.Controls.Add(this.splitContainer1);
-            this.Field.Location = new System.Drawing.Point(4, 26);
+            this.Field.Location = new System.Drawing.Point(4, 22);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(726, 800);
+            this.Field.Size = new System.Drawing.Size(726, 804);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -929,7 +919,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Panel2MinSize = 68;
-            this.splitContainer1.Size = new System.Drawing.Size(724, 798);
+            this.splitContainer1.Size = new System.Drawing.Size(724, 802);
             this.splitContainer1.SplitterDistance = 730;
             this.splitContainer1.TabIndex = 77;
             // 
@@ -1015,7 +1005,7 @@
             this.radioLine.Location = new System.Drawing.Point(0, 0);
             this.radioLine.Name = "radioLine";
             this.radioLine.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioLine.Size = new System.Drawing.Size(242, 21);
+            this.radioLine.Size = new System.Drawing.Size(242, 17);
             this.radioLine.TabIndex = 66;
             this.radioLine.TabStop = true;
             this.radioLine.Text = "Line";
@@ -1028,9 +1018,9 @@
             this.radioSpline.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioSpline.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.radioSpline.ForeColor = System.Drawing.Color.Black;
-            this.radioSpline.Location = new System.Drawing.Point(0, 37);
+            this.radioSpline.Location = new System.Drawing.Point(0, 41);
             this.radioSpline.Name = "radioSpline";
-            this.radioSpline.Size = new System.Drawing.Size(242, 21);
+            this.radioSpline.Size = new System.Drawing.Size(242, 17);
             this.radioSpline.TabIndex = 67;
             this.radioSpline.Text = "Spline";
             this.radioSpline.UseVisualStyleBackColor = true;
@@ -1058,10 +1048,10 @@
             this.showPathsCheckbox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(0, 37);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(0, 41);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
-            this.showPathsCheckbox.Size = new System.Drawing.Size(241, 21);
+            this.showPathsCheckbox.Size = new System.Drawing.Size(241, 17);
             this.showPathsCheckbox.TabIndex = 43;
             this.showPathsCheckbox.Text = "Show all paths";
             this.showPathsCheckbox.UseVisualStyleBackColor = false;
@@ -1080,7 +1070,7 @@
             this.GridCheckBox.Location = new System.Drawing.Point(0, 0);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(241, 21);
+            this.GridCheckBox.Size = new System.Drawing.Size(241, 17);
             this.GridCheckBox.TabIndex = 27;
             this.GridCheckBox.Text = "Show grid";
             this.GridCheckBox.UseVisualStyleBackColor = false;
@@ -1103,9 +1093,9 @@
             this.radioBlue.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioBlue.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.radioBlue.ForeColor = System.Drawing.Color.Black;
-            this.radioBlue.Location = new System.Drawing.Point(0, 37);
+            this.radioBlue.Location = new System.Drawing.Point(0, 41);
             this.radioBlue.Name = "radioBlue";
-            this.radioBlue.Size = new System.Drawing.Size(241, 21);
+            this.radioBlue.Size = new System.Drawing.Size(241, 17);
             this.radioBlue.TabIndex = 67;
             this.radioBlue.Text = "Blue alliance";
             this.radioBlue.UseVisualStyleBackColor = true;
@@ -1120,7 +1110,7 @@
             this.radioRed.ForeColor = System.Drawing.Color.Black;
             this.radioRed.Location = new System.Drawing.Point(0, 0);
             this.radioRed.Name = "radioRed";
-            this.radioRed.Size = new System.Drawing.Size(241, 21);
+            this.radioRed.Size = new System.Drawing.Size(241, 17);
             this.radioRed.TabIndex = 66;
             this.radioRed.TabStop = true;
             this.radioRed.Text = "Red alliance";
@@ -1141,12 +1131,11 @@
             this.MoreData.Size = new System.Drawing.Size(734, 830);
             this.MoreData.TabIndex = 1;
             // 
-            // MainForm
+            // MotionProfiler
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1330, 830);
-            this.Controls.Add(this.configurationButton);
             this.Controls.Add(this.reverseButton);
             this.Controls.Add(this.infoButton);
             this.Controls.Add(this.mirrorPathButton);
@@ -1180,11 +1169,11 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MaximizeBox = false;
-            this.Name = "MainForm";
+            this.Name = "MotionProfiler";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Byting Bulldogs (3539) - Motion Profiler Creator";
+            this.Text = "Motion Profiler";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MotionProfiler_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
@@ -1207,7 +1196,6 @@
             this.panel1.PerformLayout();
             this.MoreData.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1250,7 +1238,6 @@
         private FontAwesome.Sharp.IconButton infoButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private FontAwesome.Sharp.IconButton reverseButton;
-        private System.Windows.Forms.Button configurationButton;
         private System.Windows.Forms.TabPage Data;
         private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
         private System.Windows.Forms.TabPage Field;

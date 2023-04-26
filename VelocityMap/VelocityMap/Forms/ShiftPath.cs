@@ -15,11 +15,11 @@ namespace VelocityMap.Forms
     {
         private ProfilePath path;
         private Action<int> selectPath;
-        public ShiftPath(ProfilePath path, Action<int> updateField)
+        public ShiftPath(ProfilePath path, Action<int> selectPath)
         {
             InitializeComponent();
             this.path = path;
-            this.selectPath = updateField;
+            this.selectPath = selectPath;
         }
 
         private void cancel_Click(object sender, EventArgs e)

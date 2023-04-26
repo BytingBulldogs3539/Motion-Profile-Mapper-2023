@@ -29,6 +29,7 @@ namespace VelocityMap.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationView));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.newProfileButton = new FontAwesome.Sharp.IconButton();
             this.deleteProfileButton = new FontAwesome.Sharp.IconButton();
@@ -46,11 +47,12 @@ namespace VelocityMap.Forms
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 64);
+            this.dataGridView1.Location = new System.Drawing.Point(9, 52);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 392);
+            this.dataGridView1.Size = new System.Drawing.Size(185, 318);
             this.dataGridView1.TabIndex = 1;
             // 
             // newProfileButton
@@ -63,10 +65,10 @@ namespace VelocityMap.Forms
             this.newProfileButton.IconColor = System.Drawing.Color.Green;
             this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newProfileButton.IconSize = 24;
-            this.newProfileButton.Location = new System.Drawing.Point(12, 459);
+            this.newProfileButton.Location = new System.Drawing.Point(9, 373);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
-            this.newProfileButton.Size = new System.Drawing.Size(108, 30);
+            this.newProfileButton.Size = new System.Drawing.Size(81, 24);
             this.newProfileButton.TabIndex = 49;
             this.newProfileButton.UseVisualStyleBackColor = false;
             this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
@@ -81,10 +83,10 @@ namespace VelocityMap.Forms
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 24;
-            this.deleteProfileButton.Location = new System.Drawing.Point(144, 459);
+            this.deleteProfileButton.Location = new System.Drawing.Point(113, 373);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
-            this.deleteProfileButton.Size = new System.Drawing.Size(108, 30);
+            this.deleteProfileButton.Size = new System.Drawing.Size(81, 24);
             this.deleteProfileButton.TabIndex = 50;
             this.deleteProfileButton.UseVisualStyleBackColor = false;
             this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
@@ -97,9 +99,10 @@ namespace VelocityMap.Forms
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveToRioButton.ForeColor = System.Drawing.Color.DarkCyan;
-            this.saveToRioButton.Location = new System.Drawing.Point(12, 492);
+            this.saveToRioButton.Location = new System.Drawing.Point(9, 400);
+            this.saveToRioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.saveToRioButton.Name = "saveToRioButton";
-            this.saveToRioButton.Size = new System.Drawing.Size(240, 50);
+            this.saveToRioButton.Size = new System.Drawing.Size(185, 41);
             this.saveToRioButton.TabIndex = 62;
             this.saveToRioButton.Text = "Save to RIO";
             this.saveToRioButton.UseVisualStyleBackColor = false;
@@ -113,12 +116,14 @@ namespace VelocityMap.Forms
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refresh_button.ForeColor = System.Drawing.Color.DarkCyan;
-            this.refresh_button.Location = new System.Drawing.Point(12, 12);
+            this.refresh_button.Location = new System.Drawing.Point(9, 10);
+            this.refresh_button.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.refresh_button.Name = "refresh_button";
-            this.refresh_button.Size = new System.Drawing.Size(240, 46);
+            this.refresh_button.Size = new System.Drawing.Size(185, 37);
             this.refresh_button.TabIndex = 63;
             this.refresh_button.Text = "Load from RIO";
             this.refresh_button.UseVisualStyleBackColor = false;
+            this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
             // 
             // configurationGrid
             // 
@@ -127,11 +132,12 @@ namespace VelocityMap.Forms
             this.Variable_Name,
             this.Variable_Type,
             this.Value});
-            this.configurationGrid.Location = new System.Drawing.Point(258, 12);
+            this.configurationGrid.Location = new System.Drawing.Point(203, 10);
+            this.configurationGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.configurationGrid.Name = "configurationGrid";
             this.configurationGrid.RowHeadersWidth = 51;
             this.configurationGrid.RowTemplate.Height = 24;
-            this.configurationGrid.Size = new System.Drawing.Size(697, 530);
+            this.configurationGrid.Size = new System.Drawing.Size(698, 431);
             this.configurationGrid.TabIndex = 65;
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView3_CellValidating);
             this.configurationGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
@@ -165,17 +171,21 @@ namespace VelocityMap.Forms
             // 
             // ConfigurationView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 554);
+            this.ClientSize = new System.Drawing.Size(912, 450);
             this.Controls.Add(this.configurationGrid);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.saveToRioButton);
             this.Controls.Add(this.deleteProfileButton);
             this.Controls.Add(this.newProfileButton);
             this.Controls.Add(this.dataGridView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ConfigurationView";
-            this.Text = "ConfigurationView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Configure Constants";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigurationView_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).EndInit();
             this.ResumeLayout(false);
