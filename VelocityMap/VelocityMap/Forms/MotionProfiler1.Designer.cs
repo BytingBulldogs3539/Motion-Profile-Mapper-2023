@@ -81,7 +81,7 @@ namespace VelocityMap.Forms {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=1176,Y=17}.
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=370,Y=21}.
         /// </summary>
         internal static System.Drawing.Point TestTooltip_TrayLocation {
             get {

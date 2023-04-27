@@ -154,5 +154,17 @@ namespace VelocityMap.Properties {
                 this["SnapNewPaths"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/")]
+        public string INILocation {
+            get {
+                return ((string)(this["INILocation"]));
+            }
+            set {
+                this["INILocation"] = value;
+            }
+        }
     }
 }

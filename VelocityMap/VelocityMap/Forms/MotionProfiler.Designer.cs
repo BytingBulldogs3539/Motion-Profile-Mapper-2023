@@ -245,9 +245,9 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(13, 181);
+            this.label10.Location = new System.Drawing.Point(12, 146);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(309, 18);
+            this.label10.Size = new System.Drawing.Size(311, 18);
             this.label10.TabIndex = 23;
             this.label10.Text = "Profiles";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -299,7 +299,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 203);
+            this.profileTable.Location = new System.Drawing.Point(13, 168);
             this.profileTable.Margin = new System.Windows.Forms.Padding(1);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -312,7 +312,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 489);
+            this.profileTable.Size = new System.Drawing.Size(310, 524);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -808,7 +808,7 @@
             this.infoButton.IconChar = FontAwesome.Sharp.IconChar.Info;
             this.infoButton.IconColor = System.Drawing.Color.Black;
             this.infoButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.infoButton.IconSize = 20;
+            this.infoButton.IconSize = 16;
             this.infoButton.Location = new System.Drawing.Point(13, 12);
             this.infoButton.Margin = new System.Windows.Forms.Padding(0);
             this.infoButton.Name = "infoButton";

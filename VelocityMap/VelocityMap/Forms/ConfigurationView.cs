@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VelocityMap.Utilities;
 
 namespace VelocityMap.Forms
 {
@@ -14,6 +16,9 @@ namespace VelocityMap.Forms
     {
 
         private Action closeMain;
+        private OpenFileDialog fileDialog;
+        private List<INI> inis = new List<INI>();
+        private INI selectedIni = null;
 
         public ConfigurationView(Action closeMain)
         {
@@ -21,7 +26,7 @@ namespace VelocityMap.Forms
             InitializeComponent();
         }
 
-        private void dataGridView3_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        private void configurationGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             Console.WriteLine("Validating");
             List<String> list = new List<String>();
@@ -66,7 +71,7 @@ namespace VelocityMap.Forms
 
             }
         }
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void configurationGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (configurationGrid.CurrentCell == null)
             {
@@ -85,7 +90,7 @@ namespace VelocityMap.Forms
                     tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_VariableName);
                 }
             }
-                if (configurationGrid.CurrentCell.ColumnIndex == 2)
+            if (configurationGrid.CurrentCell.ColumnIndex == 2)
             {
                 if (configurationGrid.CurrentRow.Cells[1].Value == null)
                 {
@@ -111,7 +116,6 @@ namespace VelocityMap.Forms
                         tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Double);
                     }
                 }
-                
             }
         }
 
@@ -131,7 +135,6 @@ namespace VelocityMap.Forms
                     e.Handled = true;
             }
         }
-
         
         private void Column3_KeyPress_VariableName(object sender, KeyPressEventArgs e)
         {
@@ -161,7 +164,6 @@ namespace VelocityMap.Forms
                 e.Handled = true;
                 return;
             }
-
         }
 
         private void saveToRioButton_Click(object sender, EventArgs e)
@@ -169,24 +171,106 @@ namespace VelocityMap.Forms
 
         }
 
-        private void deleteProfileButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void newProfileButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void refresh_button_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ConfigurationView_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.closeMain();
+        }
+
+        private void loadLocalButton_Click(object sender, EventArgs e)
+        {
+            fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            fileDialog.FileName = "";
+            fileDialog.Filter = "Initialization (*.ini)|*.ini";
+            fileDialog.Title = "Select initialization files to load";
+            fileDialog.Multiselect = true;
+
+            if (fileDialog.ShowDialog() != DialogResult.OK) return;
+
+            Cursor = Cursors.WaitCursor;
+            foreach (string filename in fileDialog.FileNames)
+            {
+                using (System.IO.StreamReader fileReader = new System.IO.StreamReader(filename))
+                {
+                    try
+                    {
+                        inis.Add(new INI(Path.GetFileName(filename), fileReader));
+                        filenameGrid.Rows.Add(Path.GetFileName(filename));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error loading file " + filename, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+            inis.Last().loadTable(configurationGrid);
+                
+            Cursor = Cursors.Default;
+        }
+
+        private void filenameGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            inis[e.RowIndex].loadTable(configurationGrid);
+            selectedIni = inis[e.RowIndex];
+        }
+
+        private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            if (configurationGrid.SelectedCells.Count == 0 || e.RowIndex == configurationGrid.RowCount - 1) return;
+            switch (e.ColumnIndex)
+            {
+                case 0:
+                    selectedIni.changeVariableName(e.RowIndex, configurationGrid.SelectedCells[0].Value.ToString());
+                    break;
+                case 1:
+                    selectedIni.updateValue(e.RowIndex, "Type", configurationGrid.SelectedCells[0].Value.ToString());
+                    break;
+                case 2:
+                    selectedIni.updateValue(e.RowIndex, "Value", configurationGrid.SelectedCells[0].Value.ToString());
+                    break;
+            }
+        }
+
+        private void filenameGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = filenameGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            cell.Value = cell.Value.ToString().Replace(" ", "");
+            if (!cell.Value.ToString().EndsWith(".ini") || cell.Value.ToString().Length <= 4) cell.Value = inis[e.RowIndex].fileName;
+            else
+            {
+                inis[e.RowIndex].fileName = cell.Value.ToString();
+                inis[e.RowIndex].variableClass = cell.Value.ToString().Substring(0, cell.Value.ToString().IndexOf('.'));
+            }
+        }
+
+        private void connectionSettingsButton_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.Show();
+        }
+
+        private void saveLocalButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog browser = new SaveFileDialog();
+            browser.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            browser.FileName = selectedIni.fileName;
+            browser.Filter = "Initialization (*.ini)|*.ini";
+            browser.Title = "Save initialization file locally";
+
+            if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 4) return;
+
+            Cursor = Cursors.WaitCursor;
+            string filePath = Path.Combine(
+                Path.GetDirectoryName(browser.FileName.Trim()),
+                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".ini"
+            );
+            using (var writer = new StreamWriter(filePath))
+            {
+                writer.Write(selectedIni.toIni());
+            }
+
+            Cursor = Cursors.Default;
         }
     }
 }

@@ -168,6 +168,7 @@
     <Compile Include="Spline\SplinePoint.cs" />
     <Compile Include="Spline\TriDiagonalMatrix.cs" />
     <Compile Include="S_Curve.cs" />
+    <Compile Include="Utilities\INI.cs" />
     <Compile Include="VelocityGenerator.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
