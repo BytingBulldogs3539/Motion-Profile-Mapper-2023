@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VelocityMap.Configuration;
 
 namespace VelocityMap.Forms
 {
@@ -169,7 +170,7 @@ namespace VelocityMap.Forms
 
         private void saveToRioButton_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void deleteProfileButton_Click(object sender, EventArgs e)

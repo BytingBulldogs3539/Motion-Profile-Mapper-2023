@@ -29,6 +29,7 @@ namespace VelocityMap.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationView));
             this.configFileList = new System.Windows.Forms.DataGridView();
             this.newProfileButton = new FontAwesome.Sharp.IconButton();
@@ -36,12 +37,14 @@ namespace VelocityMap.Forms
             this.saveToRioButton = new System.Windows.Forms.Button();
             this.refresh_button = new System.Windows.Forms.Button();
             this.configurationGrid = new System.Windows.Forms.DataGridView();
-            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.infoLabel = new System.Windows.Forms.Label();
+            this.configObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.configFileList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.configObjectBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // configFileList
@@ -143,33 +146,6 @@ namespace VelocityMap.Forms
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView3_CellValidating);
             this.configurationGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             // 
-            // Variable_Name
-            // 
-            this.Variable_Name.HeaderText = "Variable Name";
-            this.Variable_Name.MinimumWidth = 6;
-            this.Variable_Name.Name = "Variable_Name";
-            this.Variable_Name.Width = 300;
-            // 
-            // Variable_Type
-            // 
-            this.Variable_Type.HeaderText = "Variable Type";
-            this.Variable_Type.Items.AddRange(new object[] {
-            "Int",
-            "Double",
-            "Boolean",
-            "String"});
-            this.Variable_Type.MinimumWidth = 6;
-            this.Variable_Type.Name = "Variable_Type";
-            this.Variable_Type.Width = 125;
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.MinimumWidth = 6;
-            this.Value.Name = "Value";
-            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Value.Width = 219;
-            // 
             // infoLabel
             // 
             this.infoLabel.BackColor = System.Drawing.SystemColors.Control;
@@ -181,6 +157,37 @@ namespace VelocityMap.Forms
             this.infoLabel.TabIndex = 66;
             this.infoLabel.Text = "Configuration Editor";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // configObjectBindingSource
+            // 
+            this.configObjectBindingSource.DataSource = typeof(VelocityMap.Configuration.ConfigObject);
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.MinimumWidth = 6;
+            this.Value.Name = "Value";
+            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Value.Width = 219;
+            // 
+            // Variable_Type
+            // 
+            this.Variable_Type.HeaderText = "Type";
+            this.Variable_Type.Items.AddRange(new object[] {
+            "Int",
+            "Double",
+            "Boolean",
+            "String"});
+            this.Variable_Type.MinimumWidth = 6;
+            this.Variable_Type.Name = "Variable_Type";
+            this.Variable_Type.Width = 125;
+            // 
+            // Variable_Name
+            // 
+            this.Variable_Name.HeaderText = "Name";
+            this.Variable_Name.MinimumWidth = 6;
+            this.Variable_Name.Name = "Variable_Name";
+            this.Variable_Name.Width = 300;
             // 
             // ConfigurationView
             // 
@@ -202,6 +209,7 @@ namespace VelocityMap.Forms
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigurationView_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.configFileList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.configObjectBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -213,9 +221,10 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.Button saveToRioButton;
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.DataGridView configurationGrid;
+        private System.Windows.Forms.Label infoLabel;
+        private System.Windows.Forms.BindingSource configObjectBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn Variable_Name;
         private System.Windows.Forms.DataGridViewComboBoxColumn Variable_Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.Label infoLabel;
     }
 }
