@@ -278,7 +278,7 @@ namespace VelocityMap.Forms
             }
 
             inis.Last().loadTable(configurationGrid);
-                
+            configurationGrid_CellValidating(null, null);
             Cursor = Cursors.Default;
         }
 
@@ -286,6 +286,16 @@ namespace VelocityMap.Forms
         {
             inis[e.RowIndex].loadTable(configurationGrid);
             selectedIni = inis[e.RowIndex];
+            if (filenameGrid.SelectedCells.Count > 0)
+            {
+                configurationGrid.Enabled = true;
+            }
+            else
+            {
+                configurationGrid.Enabled = false;
+            }
+            configurationGrid_CellValidating(null, null);
+
         }
 
         private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e)
@@ -377,6 +387,18 @@ namespace VelocityMap.Forms
             selectedIni = inis.Last();
             filenameGrid.ClearSelection();
             filenameGrid.Rows[rowIndex].Selected = true;
+        }
+
+        private void filenameGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            if(filenameGrid.SelectedCells.Count>0)
+            {
+                configurationGrid.Enabled = true;
+            }
+            else
+            {
+                configurationGrid.Enabled = false;
+            }
         }
     }
 }
