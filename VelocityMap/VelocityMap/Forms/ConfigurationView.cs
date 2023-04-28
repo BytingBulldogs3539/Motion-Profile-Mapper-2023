@@ -170,16 +170,101 @@ namespace VelocityMap.Forms
 
         private void saveToRioButton_Click(object sender, EventArgs e)
         {
-            
+            if (inis.Count == 0)
+            {
+                setStatus("No INIs to save to RIO", true);
+                return;
+            }
+            Cursor = Cursors.WaitCursor;
+
+            SftpClient sftp = new SftpClient(
+                Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username,
+                Properties.Settings.Default.Password
+            );
+
+            try
+            {
+                setStatus("Establishing RIO connection...", false);
+                sftp.Connect();
+
+                setStatus("Uploading files to RIO...", false);
+                if (!sftp.Exists(Properties.Settings.Default.INILocation)) sftp.CreateDirectory(Properties.Settings.Default.INILocation);
+
+                List<INI> invalidINIs = new List<INI>();
+                foreach (INI ini in inis)
+                {
+                    if (!ini.isValid())
+                    {
+                        invalidINIs.Add(ini);
+                        continue;
+                    }
+                    // Upload txt file for robot to read in auton
+                    MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(ini.toIni()));
+                    sftp.UploadFile(txtStream, Path.Combine(
+                        Properties.Settings.Default.INILocation,
+                        ini.fileName.Replace(' ', '_') + ".ini"
+                    ));
+                }
+
+                setStatus("Verifying file contents...", false);
+                bool verified = true;
+                foreach (INI ini in inis)
+                {
+                    if (invalidINIs.Contains(ini)) continue;
+                    StreamReader reader = sftp.OpenText(
+                        Path.Combine(Properties.Settings.Default.INILocation, ini.fileName.Replace(' ', '_') + ".ini")
+                    );
+                    if (ini.toIni() != reader.ReadToEnd()) verified = false;
+                }
+
+                if (invalidINIs.Count > 0) MessageBox.Show(
+                    "One or more files were not deployed due to being invalid",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                if (verified) setStatus("INI(s) uploaded and verified successfully", false);
+                else setStatus("Failed to verify uploaded file content", true);
+                sftp.Disconnect();
+            }
+            catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (System.Net.Sockets.SocketException exception)
+            {
+                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
+            {
+                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
+                setStatus("Permission denied", true);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
+                setStatus("Failed to upload INI to RIO", true);
+            }
+
+            Cursor = Cursors.Default;
         }
 
-        private void refresh_button_Click(object sender, EventArgs e)
+        private void loadRIOButton_Click(object sender, EventArgs e)
         {
 
             Cursor = Cursors.WaitCursor;
-            ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
-                Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
-
+            ConnectionInfo info = new ConnectionInfo(
+                Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username,
+                new PasswordAuthenticationMethod(
+                    Properties.Settings.Default.Username,
+                    Properties.Settings.Default.Password
+                )
+            );
             info.Timeout = TimeSpan.FromSeconds(5);
 
             SftpClient sftp = new SftpClient(info);
@@ -193,25 +278,27 @@ namespace VelocityMap.Forms
                 setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
 
-                if (!sftp.Exists(Properties.Settings.Default.RioLocation))
+                if (!sftp.Exists(Properties.Settings.Default.INILocation))
                 {
-                    sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
-                    setStatus("No motion profiles found at RIO directory", false);
+                    sftp.CreateDirectory(Properties.Settings.Default.INILocation);
+                    setStatus("No INI files found at RIO directory", false);
                     return;
                 }
 
                 bool foundFiles = false;
-                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
+                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.INILocation))
                 {
-                    if (!file.Name.Contains(".mp")) continue;
+                    if (!file.Name.EndsWith(".ini")) continue;
                     foundFiles = true;
 
-                    StreamReader reader = sftp.OpenText(file.FullName);
-                    //profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
-                    //profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+                    using (StreamReader reader = sftp.OpenText(file.FullName))
+                    {
+                        inis.Add(new INI(Path.GetFileNameWithoutExtension(file.Name), reader));
+                        filenameGrid.Rows.Add(inis.Last().ToString());
+                    }
                 }
-                if (foundFiles) setStatus("Profiles loaded from RIO", false);
-                else setStatus("No motion profiles found at RIO directory", false);
+                if (foundFiles) setStatus("INIs loaded from RIO", false);
+                else setStatus("No INI files found at RIO directory", false);
 
                 sftp.Disconnect();
             }
@@ -238,7 +325,7 @@ namespace VelocityMap.Forms
             catch (Exception exception)
             {
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
-                setStatus("Failed to load RIO profiles", true);
+                setStatus("Failed to load INI files", true);
             }
 
             Cursor = Cursors.Default;
@@ -362,24 +449,17 @@ namespace VelocityMap.Forms
 
             Cursor = Cursors.Default;
         }
+
         /// <summary>
         /// Set the status message at the top of the field display
         /// </summary>
         private void setStatus(string message, bool error)
         {
-            /*infoLabel.Text = message;
-            infoLabel.ForeColor = error ? Color.Red : Color.Black;*/
+            infoLabel.Text = message;
+            infoLabel.ForeColor = error ? Color.Red : Color.Black;
         }
 
-        private void configFileList_SelectionChanged(object sender, EventArgs e)
-        {
-            /*if(configFileList.SelectedCells.Count>0)
-            {
-                configurationGrid.Enabled = true;
-            }*/
-        }
-
-        private void newProfileButton_Click(object sender, EventArgs e)
+        private void newFileButton_Click(object sender, EventArgs e)
         {
             inis.Add(new INI());
             int rowIndex = filenameGrid.Rows.Add(inis.Last().fileName);
@@ -391,14 +471,7 @@ namespace VelocityMap.Forms
 
         private void filenameGrid_SelectionChanged(object sender, EventArgs e)
         {
-            if(filenameGrid.SelectedCells.Count>0)
-            {
-                configurationGrid.Enabled = true;
-            }
-            else
-            {
-                configurationGrid.Enabled = false;
-            }
+            configurationGrid.Enabled = filenameGrid.SelectedCells.Count > 0;
         }
     }
 }

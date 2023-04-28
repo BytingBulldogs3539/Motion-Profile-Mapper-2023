@@ -65,6 +65,11 @@ namespace VelocityMap.Utilities
             return null;
         }
 
+        public bool isValid()
+        {
+            return true;
+        }
+
         public void loadTable(DataGridView table)
         {
             table.Rows.Clear();
