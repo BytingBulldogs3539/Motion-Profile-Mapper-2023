@@ -51,7 +51,6 @@ namespace VelocityMap.Forms
             // 
             // filenameGrid
             // 
-            this.filenameGrid.AllowDrop = true;
             this.filenameGrid.AllowUserToAddRows = false;
             this.filenameGrid.AllowUserToDeleteRows = false;
             this.filenameGrid.AllowUserToResizeColumns = false;
