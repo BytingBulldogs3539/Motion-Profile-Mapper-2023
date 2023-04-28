@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Renci.SshNet;
+using Renci.SshNet.Sftp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -168,7 +170,78 @@ namespace VelocityMap.Forms
 
         private void saveToRioButton_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private void refresh_button_Click(object sender, EventArgs e)
+        {
+
+            Cursor = Cursors.WaitCursor;
+            ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
+
+            info.Timeout = TimeSpan.FromSeconds(5);
+
+            SftpClient sftp = new SftpClient(info);
+            /*SftpClient sftp = new SftpClient(
+                Properties.Settings.Default.IpAddress,
+                Properties.Settings.Default.Username,
+                Properties.Settings.Default.Password
+            );*/
+            try
+            {
+                setStatus("Establishing RIO connection...", false);
+                sftp.Connect();
+
+                if (!sftp.Exists(Properties.Settings.Default.RioLocation))
+                {
+                    sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
+                    setStatus("No motion profiles found at RIO directory", false);
+                    return;
+                }
+
+                bool foundFiles = false;
+                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
+                {
+                    if (!file.Name.Contains(".mp")) continue;
+                    foundFiles = true;
+
+                    StreamReader reader = sftp.OpenText(file.FullName);
+                    //profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
+                    //profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+                }
+                if (foundFiles) setStatus("Profiles loaded from RIO", false);
+                else setStatus("No motion profiles found at RIO directory", false);
+
+                sftp.Disconnect();
+            }
+            catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (System.Net.Sockets.SocketException exception)
+            {
+                Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
+            {
+                Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
+                setStatus("Permission denied", true);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Exception, source: {0}", exception.StackTrace);
+                setStatus("Failed to load RIO profiles", true);
+            }
+
+            Cursor = Cursors.Default;
         }
 
         private void ConfigurationView_FormClosed(object sender, FormClosedEventArgs e)
@@ -194,8 +267,8 @@ namespace VelocityMap.Forms
                 {
                     try
                     {
-                        inis.Add(new INI(Path.GetFileName(filename), fileReader));
-                        filenameGrid.Rows.Add(Path.GetFileName(filename));
+                        inis.Add(new INI(Path.GetFileNameWithoutExtension(filename), fileReader));
+                        filenameGrid.Rows.Add(inis.Last().ToString());
                     }
                     catch
                     {
@@ -217,11 +290,19 @@ namespace VelocityMap.Forms
 
         private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            if (configurationGrid.SelectedCells.Count == 0 || e.RowIndex == configurationGrid.RowCount - 1) return;
+            if (configurationGrid.SelectedCells.Count == 0 
+                || e.RowIndex == configurationGrid.RowCount - 1 
+                || configurationGrid.SelectedCells[0].Value == null) 
+                return;
+            if (e.RowIndex == selectedIni.variables.Count)
+            {
+                selectedIni.addVariable("");
+            }
+
             switch (e.ColumnIndex)
             {
                 case 0:
-                    selectedIni.changeVariableName(e.RowIndex, configurationGrid.SelectedCells[0].Value.ToString());
+                    selectedIni.updateValue(e.RowIndex, "Name", configurationGrid.SelectedCells[0].Value.ToString());
                     break;
                 case 1:
                     selectedIni.updateValue(e.RowIndex, "Type", configurationGrid.SelectedCells[0].Value.ToString());
@@ -236,11 +317,10 @@ namespace VelocityMap.Forms
         {
             DataGridViewCell cell = filenameGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
             cell.Value = cell.Value.ToString().Replace(" ", "");
-            if (!cell.Value.ToString().EndsWith(".ini") || cell.Value.ToString().Length <= 4) cell.Value = inis[e.RowIndex].fileName;
+            if (cell.Value.ToString().Length == 0) cell.Value = inis[e.RowIndex].fileName;
             else
             {
                 inis[e.RowIndex].fileName = cell.Value.ToString();
-                inis[e.RowIndex].variableClass = cell.Value.ToString().Substring(0, cell.Value.ToString().IndexOf('.'));
             }
         }
 
@@ -254,7 +334,7 @@ namespace VelocityMap.Forms
         {
             SaveFileDialog browser = new SaveFileDialog();
             browser.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            browser.FileName = selectedIni.fileName;
+            browser.FileName = selectedIni.fileName + ".ini";
             browser.Filter = "Initialization (*.ini)|*.ini";
             browser.Title = "Save initialization file locally";
 
@@ -271,6 +351,32 @@ namespace VelocityMap.Forms
             }
 
             Cursor = Cursors.Default;
+        }
+        /// <summary>
+        /// Set the status message at the top of the field display
+        /// </summary>
+        private void setStatus(string message, bool error)
+        {
+            /*infoLabel.Text = message;
+            infoLabel.ForeColor = error ? Color.Red : Color.Black;*/
+        }
+
+        private void configFileList_SelectionChanged(object sender, EventArgs e)
+        {
+            /*if(configFileList.SelectedCells.Count>0)
+            {
+                configurationGrid.Enabled = true;
+            }*/
+        }
+
+        private void newProfileButton_Click(object sender, EventArgs e)
+        {
+            inis.Add(new INI());
+            int rowIndex = filenameGrid.Rows.Add(inis.Last().fileName);
+            inis.Last().loadTable(configurationGrid);
+            selectedIni = inis.Last();
+            filenameGrid.ClearSelection();
+            filenameGrid.Rows[rowIndex].Selected = true;
         }
     }
 }

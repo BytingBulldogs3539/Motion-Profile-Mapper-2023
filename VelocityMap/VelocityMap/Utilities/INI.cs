@@ -10,14 +10,12 @@ namespace VelocityMap.Utilities
     class INI
     {
         public string fileName { get; set; }
-        public string variableClass { get; set; }
-        private SortedDictionary<string, SortedDictionary<string, string>> variables;
+        public List<INIVariable> variables;
 
         public INI(string fileName, System.IO.StreamReader reader)
         {
             this.fileName = fileName;
-            this.variableClass = fileName.Substring(0, fileName.IndexOf('.'));
-            this.variables = new SortedDictionary<string, SortedDictionary<string, string>>();
+            this.variables = new List<INIVariable>();
             
             string currentSection = "";
             while (!reader.EndOfStream)
@@ -25,64 +23,110 @@ namespace VelocityMap.Utilities
                 string line = reader.ReadLine();
 
                 if (line == "") continue;
-                else if (line == $"[{variableClass}]") currentSection = "Value";
+                else if (line == $"[{fileName}]") currentSection = "Value";
                 else if (line[0] == '[') currentSection = line.Substring(1, line.Length - 2);
                 else
                 {
                     string variable = line.Substring(0, line.IndexOf('='));
                     string value = line.Substring(line.IndexOf('=') + 1);
-                    if (!variables.ContainsKey(variable)) variables.Add(variable, new SortedDictionary<string, string>());
-                    variables[variable].Add(currentSection, value);
+
+                    INIVariable query = findVariable(variable);
+                    if (query == null)
+                    {
+                        variables.Add(new INIVariable(name: variable));
+                        query = variables.Last();
+                    }
+                    
+                    switch (currentSection)
+                    {
+                        case "Value":
+                            query.value = value;
+                            break;
+                        case "Type":
+                            query.type = value;
+                            break;
+                    }
                 }
             }
         }
 
         public INI()
         {
+            this.fileName = "temp";
+            this.variables = new List<INIVariable>();
+        }
 
+        public INIVariable findVariable(string name)
+        {
+            foreach (INIVariable var in variables)
+            {
+                if (var.name == name) return var;
+            }
+            return null;
         }
 
         public void loadTable(DataGridView table)
         {
             table.Rows.Clear();
-            foreach (string variable in variables.Keys)
+            foreach (INIVariable variable in variables)
             {
-                table.Rows.Add(variable, variables[variable]["Type"], variables[variable]["Value"]);
+                int rowIndex = table.Rows.Add(variable.name, variable.type, variable.value);
+                if (variable.type == "Boolean")
+                {
+                    DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
+                    cell.Value = variable.value;
+                    table.Rows[rowIndex].Cells[2] = cell;
+                }
             }
         }
 
         public void updateValue(int index, string valueType, string value)
         {
-            string variable = variables.ElementAt(index).Key;
-            variables[variable][valueType] = value;
+            switch (valueType)
+            {
+                case "Name":
+                    variables[index].name = value;
+                    break;
+                case "Value":
+                    variables[index].value = value;
+                    break;
+                case "Type":
+                    variables[index].type = value;
+                    break;
+            }
         }
 
-        public void changeVariableName(int index, string newName)
+        public void addVariable(string name)
         {
-            if (variables.ContainsKey(newName)) return;
+            this.variables.Add(new INIVariable(name: name));
+        }
 
-            string oldName = variables.ElementAt(index).Key;
-            variables.Add(newName, new SortedDictionary<string, string>());
-            variables[newName]["Value"] = variables[oldName]["Value"];
-            variables[newName]["Type"] = variables[oldName]["Type"];
-            variables.Remove(oldName);
+        public string ToString()
+        {
+            return this.fileName;
         }
 
         public string toIni()
         {
-            string ini = $"[{variableClass}]\n";
-            foreach (string variable in variables.Keys)
+            string ini = $"[{fileName}]\n";
+            foreach (INIVariable variable in variables)
             {
-                ini += $"{variable}={variables[variable]["Value"]}\n";
+                ini += $"{variable.name}={variable.value}\n";
             }
 
             List<string> others = new List<string>() { "Type" };
             foreach (string dataType in others)
             {
                 ini += $"\n[{dataType}]\n";
-                foreach (string variable in variables.Keys)
+                foreach (INIVariable variable in variables)
                 {
-                    ini += $"{variable}={variables[variable][dataType]}\n";
+                    switch (dataType)
+                    {
+                        case "Type":
+                            ini += $"{variable.name}={variable.type}\n";
+                            break;
+                    }
+                    
                 }
             }
             return ini;

@@ -97,6 +97,7 @@ namespace VelocityMap.Forms
             this.newProfileButton.Size = new System.Drawing.Size(103, 24);
             this.newProfileButton.TabIndex = 49;
             this.newProfileButton.UseVisualStyleBackColor = false;
+            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
             // 
             // deleteProfileButton
             // 
