@@ -30,7 +30,6 @@ namespace VelocityMap.Forms
 
         private void configurationGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            Console.WriteLine("Validating");
             List<String> list = new List<String>();
             for(int i = 0; i < configurationGrid.Rows.Count; i++)
             {
@@ -46,19 +45,19 @@ namespace VelocityMap.Forms
                 list.Add(row.Cells[0].EditedFormattedValue.ToString());
 
 
-                if(row.Cells[1].EditedFormattedValue.ToString() == "Boolean" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
+                if(row.Cells[1].EditedFormattedValue.ToString() == "boolean" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
                 {
                     DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
                     cell.Value = false;
                     row.Cells[2] = cell;
                 }
-                if (row.Cells[1].EditedFormattedValue.ToString() == "Int" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
+                if (row.Cells[1].EditedFormattedValue.ToString() == "int" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
                 {
                     DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell();
                     cell.Value = "";
                     row.Cells[2] = cell;
                 }
-                if (row.Cells[1].EditedFormattedValue.ToString() == "Double" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
+                if (row.Cells[1].EditedFormattedValue.ToString() == "double" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
                 {
                     DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell();
                     cell.Value = "";
@@ -102,7 +101,7 @@ namespace VelocityMap.Forms
                         tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_NULL);
                     }
                 }
-                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "Int")
+                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "int")
                 {
                     TextBox tb = e.Control as TextBox;
                     if (tb != null)
@@ -110,7 +109,7 @@ namespace VelocityMap.Forms
                         tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Int);
                     }
                 }
-                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "Double")
+                else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "double")
                 {
                     TextBox tb = e.Control as TextBox;
                     if (tb != null)
@@ -177,11 +176,22 @@ namespace VelocityMap.Forms
             }
             Cursor = Cursors.WaitCursor;
 
-            SftpClient sftp = new SftpClient(
+            ConnectionInfo info = new ConnectionInfo(
+               Properties.Settings.Default.IpAddress,
+               Properties.Settings.Default.Username,
+               new PasswordAuthenticationMethod(
+                   Properties.Settings.Default.Username,
+                   Properties.Settings.Default.Password
+               )
+           );
+            info.Timeout = TimeSpan.FromSeconds(5);
+
+            SftpClient sftp = new SftpClient(info);
+            /*SftpClient sftp = new SftpClient(
                 Properties.Settings.Default.IpAddress,
                 Properties.Settings.Default.Username,
                 Properties.Settings.Default.Password
-            );
+            );*/
 
             try
             {
@@ -230,6 +240,11 @@ namespace VelocityMap.Forms
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
+            {
+                Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
+                setStatus("Failed to establish connection", true);
+            }
+            catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
@@ -293,8 +308,7 @@ namespace VelocityMap.Forms
 
                     using (StreamReader reader = sftp.OpenText(file.FullName))
                     {
-                        inis.Add(new INI(Path.GetFileNameWithoutExtension(file.Name), reader));
-                        filenameGrid.Rows.Add(inis.Last().ToString());
+                        addFile(new INI(Path.GetFileNameWithoutExtension(file.Name), reader));
                     }
                 }
                 if (foundFiles) setStatus("INIs loaded from RIO", false);
@@ -354,8 +368,7 @@ namespace VelocityMap.Forms
                 {
                     try
                     {
-                        inis.Add(new INI(Path.GetFileNameWithoutExtension(filename), fileReader));
-                        filenameGrid.Rows.Add(inis.Last().ToString());
+                        addFile(new INI(Path.GetFileNameWithoutExtension(filename), fileReader));
                     }
                     catch
                     {
@@ -368,20 +381,22 @@ namespace VelocityMap.Forms
             configurationGrid_CellValidating(null, null);
             Cursor = Cursors.Default;
         }
+        private void checkEnableStatuses()
+        {
+            saveToRioButton.Enabled = inis.Count > 0;
+            saveLocalButton.Enabled = selectedIni != null;
+            saveAllLocalButton.Enabled = inis.Count > 0;
+            deleteButton.Enabled = selectedIni != null;
+            configurationGrid.Enabled = filenameGrid.SelectedCells.Count > 0;
+            if(configurationGrid.Enabled)
+                configurationGrid_CellValidating(null, null);
+        }
 
         private void filenameGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             inis[e.RowIndex].loadTable(configurationGrid);
             selectedIni = inis[e.RowIndex];
-            if (filenameGrid.SelectedCells.Count > 0)
-            {
-                configurationGrid.Enabled = true;
-            }
-            else
-            {
-                configurationGrid.Enabled = false;
-            }
-            configurationGrid_CellValidating(null, null);
+            checkEnableStatuses();
 
         }
 
@@ -429,18 +444,20 @@ namespace VelocityMap.Forms
 
         private void saveLocalButton_Click(object sender, EventArgs e)
         {
+            if (selectedIni == null)
+                return;
             SaveFileDialog browser = new SaveFileDialog();
-            browser.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            browser.RestoreDirectory = true;
             browser.FileName = selectedIni.fileName + ".ini";
-            browser.Filter = "Initialization (*.ini)|*.ini";
+            browser.Filter = "Directory|directory";
             browser.Title = "Save initialization file locally";
 
-            if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 4) return;
+            if (browser.ShowDialog() != DialogResult.OK) return;
 
             Cursor = Cursors.WaitCursor;
             string filePath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
-                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".ini"
+                selectedIni.fileName + ".ini"
             );
             using (var writer = new StreamWriter(filePath))
             {
@@ -458,20 +475,97 @@ namespace VelocityMap.Forms
             infoLabel.Text = message;
             infoLabel.ForeColor = error ? Color.Red : Color.Black;
         }
-
-        private void newFileButton_Click(object sender, EventArgs e)
+        private void addFile(INI ini)
         {
-            inis.Add(new INI());
+            inis.Add(ini);
             int rowIndex = filenameGrid.Rows.Add(inis.Last().fileName);
             inis.Last().loadTable(configurationGrid);
             selectedIni = inis.Last();
             filenameGrid.ClearSelection();
             filenameGrid.Rows[rowIndex].Selected = true;
+            checkEnableStatuses();
+        }
+        private void removeFile(int index)
+        {
+            inis.RemoveAt(index);
+            filenameGrid.Rows.RemoveAt(index);
+            if(filenameGrid.RowCount>0)
+            {
+                inis.Last().loadTable(configurationGrid);
+                selectedIni = inis.Last();
+                filenameGrid.ClearSelection();
+                if(index>0)
+                    filenameGrid.Rows[index - 1].Selected = true;
+                else
+                {
+                    filenameGrid.Rows[0].Selected = true;
+                }
+            }
+            checkEnableStatuses();
+        }
+        private void newFileButton_Click(object sender, EventArgs e)
+        {
+            addFile(new INI());
         }
 
-        private void filenameGrid_SelectionChanged(object sender, EventArgs e)
+        private void deleteButton_Click(object sender, EventArgs e)
         {
-            configurationGrid.Enabled = filenameGrid.SelectedCells.Count > 0;
+            removeFile(filenameGrid.SelectedCells[0].RowIndex);
+        }
+        private void saveAllLocalButton_Click(object sender, EventArgs e)
+        {
+            if (selectedIni == null)
+                return;
+            SaveFileDialog browser = new SaveFileDialog();
+            browser.RestoreDirectory = true;
+            String files = "";
+            foreach (INI ini in inis)
+            {
+                files += $"\"{ini.fileName}.ini\" ";
+            }
+
+
+            browser.Filter = "Directory|directory";
+            browser.Title = "Save all files locally";
+            browser.FileName = files;
+            browser.OverwritePrompt = false;
+
+            if (browser.ShowDialog() != DialogResult.OK) return;
+
+            Cursor = Cursors.WaitCursor;
+            setStatus("Saving profiles to file system...", false);
+
+            Boolean yesToAll = false;
+            foreach (INI ini in inis)
+            {
+                string filePath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
+                if(File.Exists(filePath) && !yesToAll)
+                {
+                    MessageBoxManager.Yes = "Yes";
+                    MessageBoxManager.No = "No";
+                    MessageBoxManager.Cancel = "Yes To All";
+                    MessageBoxManager.Register();
+                    DialogResult result = MessageBox.Show($"{Path.GetFileNameWithoutExtension(ini.fileName) + ".ini"} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    MessageBoxManager.Unregister();
+                    switch (result){
+                        case DialogResult.OK:
+                            break;
+                        case DialogResult.No:
+                            continue;
+                            break;
+                        case DialogResult.Cancel:
+                            yesToAll = true;
+                            break;
+                    }
+
+                }
+                using (var writer = new StreamWriter(filePath))
+                {
+                    writer.Write(ini.toIni());
+                }
+            }
+            setStatus("Configure Robot Constants", false);
+            Cursor = Cursors.Default;
         }
     }
 }

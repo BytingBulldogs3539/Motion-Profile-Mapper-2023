@@ -27,23 +27,24 @@ namespace VelocityMap.Utilities
                 else if (line[0] == '[') currentSection = line.Substring(1, line.Length - 2);
                 else
                 {
-                    string variable = line.Substring(0, line.IndexOf('='));
-                    string value = line.Substring(line.IndexOf('=') + 1);
+                    string variable = line.Substring(0, line.IndexOf('=')).Trim();
+                    string value = line.Substring(line.IndexOf('=') + 1).Trim();
 
-                    INIVariable query = findVariable(variable);
-                    if (query == null)
+                    int query = findVariable(variable);
+                    if (query == -1)
                     {
                         variables.Add(new INIVariable(name: variable));
-                        query = variables.Last();
+                        query = variables.Count-1;
                     }
                     
                     switch (currentSection)
                     {
                         case "Value":
-                            query.value = value;
+                            updateValue(query, "Value", value);
                             break;
                         case "Type":
-                            query.type = value;
+                            Console.WriteLine("Type");
+                            updateValue(query, "Type", value);
                             break;
                     }
                 }
@@ -56,13 +57,16 @@ namespace VelocityMap.Utilities
             this.variables = new List<INIVariable>();
         }
 
-        public INIVariable findVariable(string name)
+        public int findVariable(string name)
         {
+            int i = 0;
             foreach (INIVariable var in variables)
             {
-                if (var.name == name) return var;
+                if (var.name == name) return i;
+                i++;
+
             }
-            return null;
+            return -1;
         }
 
         public bool isValid()
@@ -76,7 +80,7 @@ namespace VelocityMap.Utilities
             foreach (INIVariable variable in variables)
             {
                 int rowIndex = table.Rows.Add(variable.name, variable.type, variable.value);
-                if (variable.type == "Boolean")
+                if (variable.type == "boolean")
                 {
                     DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
                     cell.Value = variable.value;
@@ -93,10 +97,26 @@ namespace VelocityMap.Utilities
                     variables[index].name = value;
                     break;
                 case "Value":
+                    Console.WriteLine(value);
                     variables[index].value = value;
                     break;
                 case "Type":
-                    variables[index].type = value;
+                    switch (value.ToLower())
+                    {
+                        case "int":
+                            variables[index].type = "int";
+                            break;
+                        case "double":
+                            variables[index].type = "double";
+                            break;
+                        case "boolean":
+                            variables[index].type = "boolean";
+                            break;
+                        default :
+                            variables[index].type = "String";
+                            break;
+                    }
+                    
                     break;
             }
         }
@@ -116,7 +136,7 @@ namespace VelocityMap.Utilities
             string ini = $"[{fileName}]\n";
             foreach (INIVariable variable in variables)
             {
-                ini += $"{variable.name}={variable.value}\n";
+                ini += $"{variable.name} = {variable.value}\n";
             }
 
             List<string> others = new List<string>() { "Type" };
@@ -128,7 +148,7 @@ namespace VelocityMap.Utilities
                     switch (dataType)
                     {
                         case "Type":
-                            ini += $"{variable.name}={variable.type}\n";
+                            ini += $"{variable.name} = {variable.type}\n";
                             break;
                     }
                     

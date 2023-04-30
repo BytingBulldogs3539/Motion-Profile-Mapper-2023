@@ -39,7 +39,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -247,7 +246,7 @@
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.Location = new System.Drawing.Point(12, 146);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(311, 18);
+            this.label10.Size = new System.Drawing.Size(311, 29);
             this.label10.TabIndex = 23;
             this.label10.Text = "Profiles";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -299,7 +298,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 168);
+            this.profileTable.Location = new System.Drawing.Point(13, 176);
             this.profileTable.Margin = new System.Windows.Forms.Padding(1);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -312,7 +311,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 524);
+            this.profileTable.Size = new System.Drawing.Size(310, 516);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -364,14 +363,6 @@
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn5});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.pathTable.DefaultCellStyle = dataGridViewCellStyle9;
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
             this.pathTable.GridColor = System.Drawing.Color.Silver;
@@ -381,16 +372,16 @@
             this.pathTable.Name = "pathTable";
             this.pathTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pathTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.pathTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -844,11 +835,11 @@
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 22);
+            this.Data.Location = new System.Drawing.Point(4, 25);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(726, 804);
+            this.Data.Size = new System.Drawing.Size(726, 801);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             // 
@@ -888,18 +879,18 @@
             this.kinematicsChart.Series.Add(series1);
             this.kinematicsChart.Series.Add(series2);
             this.kinematicsChart.Series.Add(series3);
-            this.kinematicsChart.Size = new System.Drawing.Size(724, 802);
+            this.kinematicsChart.Size = new System.Drawing.Size(724, 799);
             this.kinematicsChart.TabIndex = 0;
             // 
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Field.Controls.Add(this.splitContainer1);
-            this.Field.Location = new System.Drawing.Point(4, 22);
+            this.Field.Location = new System.Drawing.Point(4, 26);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(726, 804);
+            this.Field.Size = new System.Drawing.Size(726, 800);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -919,8 +910,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Panel2MinSize = 68;
-            this.splitContainer1.Size = new System.Drawing.Size(724, 802);
-            this.splitContainer1.SplitterDistance = 730;
+            this.splitContainer1.Size = new System.Drawing.Size(724, 798);
+            this.splitContainer1.SplitterDistance = 726;
             this.splitContainer1.TabIndex = 77;
             // 
             // mainField
@@ -959,7 +950,7 @@
             this.mainField.Series.Add(series5);
             this.mainField.Series.Add(series6);
             this.mainField.Series.Add(series7);
-            this.mainField.Size = new System.Drawing.Size(724, 701);
+            this.mainField.Size = new System.Drawing.Size(724, 697);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -1005,7 +996,7 @@
             this.radioLine.Location = new System.Drawing.Point(0, 0);
             this.radioLine.Name = "radioLine";
             this.radioLine.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioLine.Size = new System.Drawing.Size(242, 17);
+            this.radioLine.Size = new System.Drawing.Size(242, 21);
             this.radioLine.TabIndex = 66;
             this.radioLine.TabStop = true;
             this.radioLine.Text = "Line";
@@ -1018,9 +1009,9 @@
             this.radioSpline.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioSpline.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.radioSpline.ForeColor = System.Drawing.Color.Black;
-            this.radioSpline.Location = new System.Drawing.Point(0, 41);
+            this.radioSpline.Location = new System.Drawing.Point(0, 37);
             this.radioSpline.Name = "radioSpline";
-            this.radioSpline.Size = new System.Drawing.Size(242, 17);
+            this.radioSpline.Size = new System.Drawing.Size(242, 21);
             this.radioSpline.TabIndex = 67;
             this.radioSpline.Text = "Spline";
             this.radioSpline.UseVisualStyleBackColor = true;
@@ -1048,10 +1039,10 @@
             this.showPathsCheckbox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(0, 41);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(0, 37);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
-            this.showPathsCheckbox.Size = new System.Drawing.Size(241, 17);
+            this.showPathsCheckbox.Size = new System.Drawing.Size(241, 21);
             this.showPathsCheckbox.TabIndex = 43;
             this.showPathsCheckbox.Text = "Show all paths";
             this.showPathsCheckbox.UseVisualStyleBackColor = false;
@@ -1070,7 +1061,7 @@
             this.GridCheckBox.Location = new System.Drawing.Point(0, 0);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(241, 17);
+            this.GridCheckBox.Size = new System.Drawing.Size(241, 21);
             this.GridCheckBox.TabIndex = 27;
             this.GridCheckBox.Text = "Show grid";
             this.GridCheckBox.UseVisualStyleBackColor = false;
@@ -1093,9 +1084,9 @@
             this.radioBlue.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioBlue.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.radioBlue.ForeColor = System.Drawing.Color.Black;
-            this.radioBlue.Location = new System.Drawing.Point(0, 41);
+            this.radioBlue.Location = new System.Drawing.Point(0, 37);
             this.radioBlue.Name = "radioBlue";
-            this.radioBlue.Size = new System.Drawing.Size(241, 17);
+            this.radioBlue.Size = new System.Drawing.Size(241, 21);
             this.radioBlue.TabIndex = 67;
             this.radioBlue.Text = "Blue alliance";
             this.radioBlue.UseVisualStyleBackColor = true;
@@ -1110,7 +1101,7 @@
             this.radioRed.ForeColor = System.Drawing.Color.Black;
             this.radioRed.Location = new System.Drawing.Point(0, 0);
             this.radioRed.Name = "radioRed";
-            this.radioRed.Size = new System.Drawing.Size(241, 17);
+            this.radioRed.Size = new System.Drawing.Size(241, 21);
             this.radioRed.TabIndex = 66;
             this.radioRed.TabStop = true;
             this.radioRed.Text = "Red alliance";
