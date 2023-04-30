@@ -88,6 +88,72 @@ namespace VelocityMap.Utilities
             }
         }
 
+        public Boolean checkVariableNames(Boolean useMessagebox = true)
+        {
+            foreach (INIVariable var in variables)
+            {
+                if (tryToString(var.name) == "")
+                {
+                    if (useMessagebox)
+                        MessageBox.Show($"{this.fileName} contains a variable that does not have a valid name", "Invalid Type Or Value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+            }
+            return false;
+        }
+        public Boolean checkVariableTypes(Boolean useMessagebox = true)
+        {
+            foreach (INIVariable var in variables)
+            {
+                if (tryToString(var.type) == "")
+                {
+                    if (useMessagebox)
+                        MessageBox.Show($"{this.fileName} contains a variable \"{var.name}\" that does not have a type ", "Invalid Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Boolean checkValues(Boolean useMessagebox = true)
+        {
+            foreach (INIVariable var in variables)
+            {
+                if ((tryToString(var.value).Trim() == "") && (tryToString(var.type).ToLower() != "string"))
+                {
+                    if (useMessagebox)
+                        MessageBox.Show($"{this.fileName} contains a variable \"{var.name}\" that does not have a valid value", "Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        public Boolean checkVariableNameDuplicates(Boolean useMessagebox = true)
+        {
+            List<string> names = new List<string>();
+            foreach(INIVariable var in variables)
+            {
+                if(names.Contains(var.name))
+                {
+                    if (useMessagebox)
+                        MessageBox.Show($"There are two or more variables named {var.name} in {this.fileName}", "Duplicate Variable Names", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+                names.Add(var.name);
+            }
+            return false;
+        }
+
+        private String tryToString(object o)
+        {
+            if (o != null)
+            {
+                return o.ToString();
+            }
+            return "";
+        }
+
         public void updateValue(int index, string valueType, string value)
         {
             switch (valueType)
@@ -114,11 +180,15 @@ namespace VelocityMap.Utilities
                             variables[index].type = "String";
                             break;
                     }
-                    
                     break;
             }
         }
-
+        public void updateVariable(int index, string name, string type, string value)
+        {
+            variables[index].name = name;
+            variables[index].type = type;
+            variables[index].value = value;
+        }
 
 
         public void addVariable(string name)
@@ -140,6 +210,11 @@ namespace VelocityMap.Utilities
         public string ToString()
         {
             return this.fileName;
+        }
+
+        public void removeAt(int index)
+        {
+            variables.RemoveAt(index);
         }
 
         public string toIni()

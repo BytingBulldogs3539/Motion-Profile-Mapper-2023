@@ -22,6 +22,20 @@ namespace VelocityMap.Forms
         private List<INI> inis = new List<INI>();
         private INI selectedIni = null;
 
+        private List<string> javaKeywords = new List<string>()
+        {
+            "abstract", "continue", "for", "new", "switch",
+            "assert", "default", "goto", "package", "synchronized",
+            "boolean", "do", "if", "private", "this",
+            "break", "double", "implements", "protected", "throw",
+            "byte", "else", "import", "public", "throws",
+            "case", "enum", "instanceof", "return", "transient",
+            "catch", "extends", "int", "short", "try",
+            "char", "final", "interface", "static", "void",
+            "class", "finally", "long", "strictfp", "volatile",
+            "const", "float", "native", "super", "while"
+        };
+
         public ConfigurationView(Action closeMain)
         {
             this.closeMain = closeMain;
@@ -34,18 +48,11 @@ namespace VelocityMap.Forms
             for(int i = 0; i < configurationGrid.Rows.Count; i++)
             {
                 DataGridViewRow row = configurationGrid.Rows[i];
-                if(row.Cells[0].EditedFormattedValue.ToString() == "")
-                {
+
+                if (row.Index == configurationGrid.RowCount - 1)
                     continue;
-                }
-                if (list.Contains(row.Cells[0].EditedFormattedValue.ToString()))
-                    row.ErrorText = "Variable name is already in use.";
-                else
-                    row.ErrorText = "";
-                list.Add(row.Cells[0].EditedFormattedValue.ToString());
 
-
-                if(row.Cells[1].EditedFormattedValue.ToString() == "boolean" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
+                if (row.Cells[1].EditedFormattedValue.ToString() == "boolean" && !row.Cells[1].EditedFormattedValue.Equals(row.Cells[1].Value))
                 {
                     DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
                     cell.Value = false;
@@ -70,6 +77,22 @@ namespace VelocityMap.Forms
                     row.Cells[2] = cell;
                 }
 
+                if (javaKeywords.Contains(row.Cells[0].EditedFormattedValue.ToString().ToLower()))
+                {
+                    row.ErrorText = "Variable name is a keyword in java";
+                }
+                else if (tryToString(row.Cells[0].EditedFormattedValue).ToString() == "")
+                    row.ErrorText = "Name is not valid";
+
+                else if (list.Contains(row.Cells[0].EditedFormattedValue.ToString()))
+                    row.ErrorText = "Variable name is already in use.";
+                else if (tryToString(row.Cells[1].EditedFormattedValue).ToString() == "")
+                    row.ErrorText = "Type is not valid";
+                else if (tryToString(row.Cells[1].EditedFormattedValue).ToString().ToLower() != "string" && tryToString(row.Cells[2].EditedFormattedValue).ToString() == "")
+                    row.ErrorText = "Value is not valid";
+                else
+                    row.ErrorText = "";
+                list.Add(row.Cells[0].EditedFormattedValue.ToString());
             }
         }
         private void configurationGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -167,8 +190,139 @@ namespace VelocityMap.Forms
             }
         }
 
+        private Boolean checkForDuplicateNames()
+        {
+            List<string> names = new List<string>();
+            foreach (INI ini in inis)
+            {
+                if (names.Contains(ini.fileName))
+                {
+                    MessageBox.Show($"There are two or more files named {ini.fileName}", "Duplicate File Names", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+                if (ini.checkVariableNameDuplicates()) return true;
+                names.Add(ini.fileName);
+            }
+            return false;
+        }
+        private Boolean checkForVariableValues()
+        {
+            foreach (INI ini in inis)
+            {
+                if (ini.checkValues()) return true;
+            }
+            return false;
+        }
+        private Boolean checkForVariableType()
+        {
+            foreach (INI ini in inis)
+            {
+                if (ini.checkVariableTypes()) return true;
+            }
+            return false;
+        }
+        private Boolean checkForVariableNames()
+        {
+            foreach (INI ini in inis)
+            {
+                if (ini.checkVariableNames()) return true;
+            }
+            return false;
+        }
+        private Boolean validateINIS()
+        {
+            if (checkForVariableNames()) return true;
+            if (checkForDuplicateNames()) return true;
+            if (checkForVariableType()) return true;
+            if (checkForVariableValues()) return true;
+            return false;
+        }
+
+        private void saveAllLocalButton_Click(object sender, EventArgs e)
+        {
+            if (validateINIS()) return;
+            SaveFileDialog browser = new SaveFileDialog();
+            browser.RestoreDirectory = true;
+            String files = "";
+            foreach (INI ini in inis)
+            {
+                files += $"\"{ini.fileName}.ini\" ";
+            }
+
+
+            browser.Filter = "Directory|directory";
+            browser.Title = "Save all files locally";
+            browser.FileName = files;
+            browser.OverwritePrompt = false;
+
+            if (browser.ShowDialog() != DialogResult.OK) return;
+
+            Cursor = Cursors.WaitCursor;
+            setStatus("Saving profiles to file system...", false);
+
+            Boolean yesToAll = false;
+            foreach (INI ini in inis)
+            {
+                string filePath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
+                if (File.Exists(filePath) && !yesToAll)
+                {
+                    MessageBoxManager.Yes = "Yes";
+                    MessageBoxManager.No = "No";
+                    MessageBoxManager.Cancel = "Yes To All";
+                    MessageBoxManager.Register();
+                    DialogResult result = MessageBox.Show($"{Path.GetFileNameWithoutExtension(ini.fileName) + ".ini"} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    MessageBoxManager.Unregister();
+                    switch (result)
+                    {
+                        case DialogResult.OK:
+                            break;
+                        case DialogResult.No:
+                            continue;
+                            break;
+                        case DialogResult.Cancel:
+                            yesToAll = true;
+                            break;
+                    }
+
+                }
+                using (var writer = new StreamWriter(filePath))
+                {
+                    writer.Write(ini.toIni());
+                }
+            }
+            setStatus("Configure Robot Constants", false);
+            Cursor = Cursors.Default;
+        }
+        private void saveLocalButton_Click(object sender, EventArgs e)
+        {
+            if (validateINIS()) return;
+
+            if (selectedIni == null)
+                return;
+            SaveFileDialog browser = new SaveFileDialog();
+            browser.RestoreDirectory = true;
+            browser.FileName = selectedIni.fileName + ".ini";
+            browser.Filter = "Directory|directory";
+            browser.Title = "Save initialization file locally";
+
+            if (browser.ShowDialog() != DialogResult.OK) return;
+
+            Cursor = Cursors.WaitCursor;
+            string filePath = Path.Combine(
+                Path.GetDirectoryName(browser.FileName.Trim()),
+                selectedIni.fileName + ".ini"
+            );
+            using (var writer = new StreamWriter(filePath))
+            {
+                writer.Write(selectedIni.toIni());
+            }
+
+            Cursor = Cursors.Default;
+        }
         private void saveToRioButton_Click(object sender, EventArgs e)
         {
+            if (validateINIS()) return;
+
             if (inis.Count == 0)
             {
                 setStatus("No INIs to save to RIO", true);
@@ -270,7 +424,6 @@ namespace VelocityMap.Forms
 
         private void loadRIOButton_Click(object sender, EventArgs e)
         {
-
             Cursor = Cursors.WaitCursor;
             ConnectionInfo info = new ConnectionInfo(
                 Properties.Settings.Default.IpAddress,
@@ -414,19 +567,8 @@ namespace VelocityMap.Forms
             {
                 selectedIni.addVariable("");
             }
-
-            switch (e.ColumnIndex)
-            {
-                case 0:
-                    selectedIni.updateValue(e.RowIndex, "Name", configurationGrid.SelectedCells[0].Value.ToString());
-                    break;
-                case 1:
-                    selectedIni.updateValue(e.RowIndex, "Type", configurationGrid.SelectedCells[0].Value.ToString());
-                    break;
-                case 2:
-                    selectedIni.updateValue(e.RowIndex, "Value", configurationGrid.SelectedCells[0].Value.ToString());
-                    break;
-            }
+            int index = configurationGrid.SelectedCells[0].RowIndex;
+            selectedIni.updateVariable(e.RowIndex, tryToString(configurationGrid.Rows[index].Cells[0].Value), tryToString(configurationGrid.Rows[index].Cells[1].Value), tryToString(configurationGrid.Rows[index].Cells[2].Value));
         }
 
         private void filenameGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -444,31 +586,6 @@ namespace VelocityMap.Forms
         {
             Settings settings = new Settings();
             settings.Show();
-        }
-
-        private void saveLocalButton_Click(object sender, EventArgs e)
-        {
-            if (selectedIni == null)
-                return;
-            SaveFileDialog browser = new SaveFileDialog();
-            browser.RestoreDirectory = true;
-            browser.FileName = selectedIni.fileName + ".ini";
-            browser.Filter = "Directory|directory";
-            browser.Title = "Save initialization file locally";
-
-            if (browser.ShowDialog() != DialogResult.OK) return;
-
-            Cursor = Cursors.WaitCursor;
-            string filePath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
-                selectedIni.fileName + ".ini"
-            );
-            using (var writer = new StreamWriter(filePath))
-            {
-                writer.Write(selectedIni.toIni());
-            }
-
-            Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -511,70 +628,21 @@ namespace VelocityMap.Forms
         {
             addFile(new INI());
         }
+        private void configurationGrid_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            reloadVariablesFromTable();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            configurationGrid.Rows.Remove(configurationGrid.SelectedRows[0]);
+            reloadVariablesFromTable();
+        }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
             removeFile(filenameGrid.SelectedCells[0].RowIndex);
         }
-        private void saveAllLocalButton_Click(object sender, EventArgs e)
-        {
-            if (selectedIni == null)
-                return;
-            SaveFileDialog browser = new SaveFileDialog();
-            browser.RestoreDirectory = true;
-            String files = "";
-            foreach (INI ini in inis)
-            {
-                files += $"\"{ini.fileName}.ini\" ";
-            }
-
-
-            browser.Filter = "Directory|directory";
-            browser.Title = "Save all files locally";
-            browser.FileName = files;
-            browser.OverwritePrompt = false;
-
-            if (browser.ShowDialog() != DialogResult.OK) return;
-
-            Cursor = Cursors.WaitCursor;
-            setStatus("Saving profiles to file system...", false);
-
-            Boolean yesToAll = false;
-            foreach (INI ini in inis)
-            {
-                string filePath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
-                if(File.Exists(filePath) && !yesToAll)
-                {
-                    MessageBoxManager.Yes = "Yes";
-                    MessageBoxManager.No = "No";
-                    MessageBoxManager.Cancel = "Yes To All";
-                    MessageBoxManager.Register();
-                    DialogResult result = MessageBox.Show($"{Path.GetFileNameWithoutExtension(ini.fileName) + ".ini"} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                    MessageBoxManager.Unregister();
-                    switch (result){
-                        case DialogResult.OK:
-                            break;
-                        case DialogResult.No:
-                            continue;
-                            break;
-                        case DialogResult.Cancel:
-                            yesToAll = true;
-                            break;
-                    }
-
-                }
-                using (var writer = new StreamWriter(filePath))
-                {
-                    writer.Write(ini.toIni());
-                }
-            }
-            setStatus("Configure Robot Constants", false);
-            Cursor = Cursors.Default;
-        }
-
-
-
-
 
         private Rectangle dragBoxFromMouseDown;
         private int rowIndexFromMouseDown;
@@ -625,7 +693,15 @@ namespace VelocityMap.Forms
         {
             e.Effect = DragDropEffects.Move;
         }
-
+        private void reloadVariablesFromTable()
+        {
+            selectedIni.clearVariables();
+            foreach (DataGridViewRow row in configurationGrid.Rows)
+            {
+                if (tryToString(row.Cells[0].Value) != "" && tryToString(row.Cells[1].Value) != "" && tryToString(row.Cells[2].Value) != "")
+                    selectedIni.addVariable(tryToString(row.Cells[0].Value), tryToString(row.Cells[1].Value), tryToString(row.Cells[2].Value));
+            }
+        }
         private void configurationGrid_DragDrop(object sender, DragEventArgs e)
         {
             // The mouse locations are relative to the screen, so they must be 
@@ -643,12 +719,7 @@ namespace VelocityMap.Forms
                 configurationGrid.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
 
             }
-            selectedIni.clearVariables();
-            foreach(DataGridViewRow row in configurationGrid.Rows)
-            {
-                if(tryToString(row.Cells[0].Value)!=""&& tryToString(row.Cells[1].Value) != "" && tryToString(row.Cells[2].Value) != "")
-                    selectedIni.addVariable(tryToString(row.Cells[0].Value), tryToString(row.Cells[1].Value), tryToString(row.Cells[2].Value));
-            }
+            reloadVariablesFromTable();
         }
 
         private String tryToString(object o)
@@ -662,11 +733,26 @@ namespace VelocityMap.Forms
 
         private void configurationGrid_Sorted(object sender, EventArgs e)
         {
-            selectedIni.clearVariables();
-            foreach (DataGridViewRow row in configurationGrid.Rows)
-            {
-                if (tryToString(row.Cells[0].Value) != "" && tryToString(row.Cells[1].Value) != "" && tryToString(row.Cells[2].Value) != "")
-                    selectedIni.addVariable(tryToString(row.Cells[0].Value), tryToString(row.Cells[1].Value), tryToString(row.Cells[2].Value));
+            reloadVariablesFromTable();
+        }
+
+
+        private void rowContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (configurationGrid.SelectedRows.Count < 1) { e.Cancel = true; return; }
+            if (configurationGrid.SelectedRows[0].Index == configurationGrid.RowCount-1) e.Cancel = true;
+        }
+
+        private void configurationGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {  
+
+                configurationGrid.ClearSelection();
+                configurationGrid.Rows[e.RowIndex].Selected = true;
+
+                rowContextMenuStrip.Show(Cursor.Position);
+
             }
         }
     }

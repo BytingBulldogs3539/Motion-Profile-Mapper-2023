@@ -29,6 +29,7 @@ namespace VelocityMap.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationView));
             this.filenameGrid = new System.Windows.Forms.DataGridView();
@@ -46,8 +47,11 @@ namespace VelocityMap.Forms
             this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
+            this.rowContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // filenameGrid
@@ -58,6 +62,8 @@ namespace VelocityMap.Forms
             this.filenameGrid.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.filenameGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.filenameGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.filenameGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.filenameGrid.BackgroundColor = System.Drawing.Color.White;
             this.filenameGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -86,6 +92,7 @@ namespace VelocityMap.Forms
             // 
             // newFileButton
             // 
+            this.newFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.newFileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newFileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.newFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -104,6 +111,7 @@ namespace VelocityMap.Forms
             // 
             // deleteButton
             // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deleteButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteButton.Enabled = false;
@@ -123,6 +131,7 @@ namespace VelocityMap.Forms
             // 
             // saveToRioButton
             // 
+            this.saveToRioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveToRioButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveToRioButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveToRioButton.Enabled = false;
@@ -159,6 +168,9 @@ namespace VelocityMap.Forms
             // configurationGrid
             // 
             this.configurationGrid.AllowDrop = true;
+            this.configurationGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.configurationGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.configurationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.configurationGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -177,7 +189,9 @@ namespace VelocityMap.Forms
             this.configurationGrid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.configurationGrid_CellValidated);
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.configurationGrid_CellValidating);
             this.configurationGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.configurationGrid_EditingControlShowing);
+            this.configurationGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.configurationGrid_RowHeaderMouseClick);
             this.configurationGrid.Sorted += new System.EventHandler(this.configurationGrid_Sorted);
+            this.configurationGrid.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.configurationGrid_UserDeletedRow);
             this.configurationGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragDrop);
             this.configurationGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragOver);
             this.configurationGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseDown);
@@ -221,6 +235,7 @@ namespace VelocityMap.Forms
             // 
             // saveLocalButton
             // 
+            this.saveLocalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveLocalButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveLocalButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveLocalButton.Enabled = false;
@@ -239,6 +254,7 @@ namespace VelocityMap.Forms
             // 
             // saveAllLocalButton
             // 
+            this.saveAllLocalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveAllLocalButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveAllLocalButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveAllLocalButton.Enabled = false;
@@ -257,6 +273,8 @@ namespace VelocityMap.Forms
             // 
             // infoLabel
             // 
+            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
@@ -295,6 +313,23 @@ namespace VelocityMap.Forms
             this.Value.Name = "Value";
             this.Value.Width = 219;
             // 
+            // rowContextMenuStrip
+            // 
+            this.rowContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.rowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.rowContextMenuStrip.Name = "rowContextMenuStrip";
+            this.rowContextMenuStrip.Size = new System.Drawing.Size(155, 28);
+            this.rowContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.rowContextMenuStrip_Opening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // ConfigurationView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -320,6 +355,7 @@ namespace VelocityMap.Forms
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigurationView_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).EndInit();
+            this.rowContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -340,5 +376,7 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Variable_Name;
         private System.Windows.Forms.DataGridViewComboBoxColumn Variable_Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.ContextMenuStrip rowContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
