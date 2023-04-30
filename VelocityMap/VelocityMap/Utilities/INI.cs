@@ -43,7 +43,6 @@ namespace VelocityMap.Utilities
                             updateValue(query, "Value", value);
                             break;
                         case "Type":
-                            Console.WriteLine("Type");
                             updateValue(query, "Type", value);
                             break;
                     }
@@ -97,7 +96,6 @@ namespace VelocityMap.Utilities
                     variables[index].name = value;
                     break;
                 case "Value":
-                    Console.WriteLine(value);
                     variables[index].value = value;
                     break;
                 case "Type":
@@ -121,11 +119,24 @@ namespace VelocityMap.Utilities
             }
         }
 
+
+
         public void addVariable(string name)
         {
             this.variables.Add(new INIVariable(name: name));
         }
 
+        public void addVariable(string name, string type, string value)
+        {
+            this.variables.Add(new INIVariable(name: name, type: type, value: value));
+        }
+
+        public void clearVariables()
+        {
+            this.variables.Clear();
+        }
+
+        override
         public string ToString()
         {
             return this.fileName;

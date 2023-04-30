@@ -38,14 +38,14 @@ namespace VelocityMap.Forms
             this.saveToRioButton = new System.Windows.Forms.Button();
             this.loadRIOButton = new System.Windows.Forms.Button();
             this.configurationGrid = new System.Windows.Forms.DataGridView();
-            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loadLocalButton = new System.Windows.Forms.Button();
             this.connectionSettingsButton = new FontAwesome.Sharp.IconButton();
             this.saveLocalButton = new System.Windows.Forms.Button();
             this.saveAllLocalButton = new System.Windows.Forms.Button();
             this.infoLabel = new System.Windows.Forms.Label();
+            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
             this.SuspendLayout();
@@ -158,6 +158,7 @@ namespace VelocityMap.Forms
             // 
             // configurationGrid
             // 
+            this.configurationGrid.AllowDrop = true;
             this.configurationGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.configurationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.configurationGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -176,33 +177,11 @@ namespace VelocityMap.Forms
             this.configurationGrid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.configurationGrid_CellValidated);
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.configurationGrid_CellValidating);
             this.configurationGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.configurationGrid_EditingControlShowing);
-            // 
-            // Variable_Name
-            // 
-            this.Variable_Name.HeaderText = "Variable Name";
-            this.Variable_Name.MinimumWidth = 6;
-            this.Variable_Name.Name = "Variable_Name";
-            this.Variable_Name.Width = 534;
-            // 
-            // Variable_Type
-            // 
-            this.Variable_Type.HeaderText = "Variable Type";
-            this.Variable_Type.Items.AddRange(new object[] {
-            "int",
-            "double",
-            "boolean",
-            "String"});
-            this.Variable_Type.MinimumWidth = 6;
-            this.Variable_Type.Name = "Variable_Type";
-            this.Variable_Type.Width = 125;
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.MinimumWidth = 6;
-            this.Value.Name = "Value";
-            this.Value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Value.Width = 219;
+            this.configurationGrid.Sorted += new System.EventHandler(this.configurationGrid_Sorted);
+            this.configurationGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragDrop);
+            this.configurationGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragOver);
+            this.configurationGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseDown);
+            this.configurationGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseMove);
             // 
             // loadLocalButton
             // 
@@ -288,6 +267,33 @@ namespace VelocityMap.Forms
             this.infoLabel.TabIndex = 70;
             this.infoLabel.Text = "Configure Robot Constants";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Variable_Name
+            // 
+            this.Variable_Name.HeaderText = "Variable Name";
+            this.Variable_Name.MinimumWidth = 6;
+            this.Variable_Name.Name = "Variable_Name";
+            this.Variable_Name.Width = 534;
+            // 
+            // Variable_Type
+            // 
+            this.Variable_Type.HeaderText = "Variable Type";
+            this.Variable_Type.Items.AddRange(new object[] {
+            "int",
+            "double",
+            "boolean",
+            "String"});
+            this.Variable_Type.MinimumWidth = 6;
+            this.Variable_Type.Name = "Variable_Type";
+            this.Variable_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Variable_Type.Width = 125;
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.MinimumWidth = 6;
+            this.Value.Name = "Value";
+            this.Value.Width = 219;
             // 
             // ConfigurationView
             // 
