@@ -560,8 +560,7 @@ namespace VelocityMap.Forms
         private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             if (configurationGrid.SelectedCells.Count == 0 
-                || e.RowIndex == configurationGrid.RowCount - 1 
-                || configurationGrid.SelectedCells[0].Value == null) 
+                || e.RowIndex == configurationGrid.RowCount - 1) 
                 return;
             if (e.RowIndex == selectedIni.variables.Count)
             {
@@ -698,8 +697,8 @@ namespace VelocityMap.Forms
             selectedIni.clearVariables();
             foreach (DataGridViewRow row in configurationGrid.Rows)
             {
-                if (tryToString(row.Cells[0].Value) != "" && tryToString(row.Cells[1].Value) != "" && tryToString(row.Cells[2].Value) != "")
-                    selectedIni.addVariable(tryToString(row.Cells[0].Value), tryToString(row.Cells[1].Value), tryToString(row.Cells[2].Value));
+                if (row.Index >= configurationGrid.RowCount - 1) continue;
+                selectedIni.addVariable(tryToString(row.Cells[0].Value), tryToString(row.Cells[1].Value), tryToString(row.Cells[2].Value));
             }
         }
         private void configurationGrid_DragDrop(object sender, DragEventArgs e)
