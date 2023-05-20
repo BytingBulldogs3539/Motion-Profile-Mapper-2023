@@ -19,6 +19,7 @@ namespace VelocityMap
             this.username.Text = Properties.Settings.Default.Username;
             this.password.Text = Properties.Settings.Default.Password;
             this.riopath.Text = Properties.Settings.Default.RioLocation;
+            this.iniPath.Text = Properties.Settings.Default.INILocation;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -33,6 +34,7 @@ namespace VelocityMap
             Properties.Settings.Default.Username = this.username.Text;
             Properties.Settings.Default.Password = this.password.Text;
             Properties.Settings.Default.RioLocation = this.riopath.Text + (this.riopath.Text.Last().ToString() == "/"? "" : "/");
+            Properties.Settings.Default.INILocation = this.iniPath.Text + (this.iniPath.Text.Last().ToString() == "/" ? "" : "/");
 
             Properties.Settings.Default.Save();
 

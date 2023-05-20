@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -145,8 +146,10 @@ namespace VelocityMap.Forms
 
         private void Column3_KeyPress_Double(object sender, KeyPressEventArgs e)
         {
+            Debug.WriteLine(e.KeyChar);
+            
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46 && e.KeyChar != '-'))
             {
                 e.Handled = true;
                 return;
@@ -155,6 +158,14 @@ namespace VelocityMap.Forms
             // checks to make sure only 1 decimal is allowed
             if (e.KeyChar == 46)
             {
+                if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
+                    e.Handled = true;
+            }
+            // checks to make sure only 1 decimal is allowed
+            if (e.KeyChar == '-')
+            {
+                if((sender as TextBox).Text.Length!=0)
+                    e.Handled = true;
                 if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
                     e.Handled = true;
             }

@@ -41,6 +41,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cancel = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.iniPath = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // save
@@ -50,7 +52,7 @@
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.save.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.Black;
-            this.save.Location = new System.Drawing.Point(267, 158);
+            this.save.Location = new System.Drawing.Point(267, 214);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(90, 25);
             this.save.TabIndex = 0;
@@ -109,7 +111,7 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(21, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 17);
+            this.label1.Size = new System.Drawing.Size(77, 16);
             this.label1.TabIndex = 5;
             this.label1.Text = "IP Address";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -121,7 +123,7 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(27, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 17);
+            this.label2.Size = new System.Drawing.Size(71, 16);
             this.label2.TabIndex = 6;
             this.label2.Text = "Username";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -133,7 +135,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(30, 94);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 17);
+            this.label3.Size = new System.Drawing.Size(69, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Password";
             // 
@@ -152,7 +154,7 @@
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(35, 121);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 17);
+            this.label5.Size = new System.Drawing.Size(64, 16);
             this.label5.TabIndex = 9;
             this.label5.Text = "File Path";
             // 
@@ -163,7 +165,7 @@
             this.cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
-            this.cancel.Location = new System.Drawing.Point(171, 158);
+            this.cancel.Location = new System.Drawing.Point(171, 214);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(90, 25);
             this.cancel.TabIndex = 10;
@@ -178,16 +180,40 @@
             this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(76, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(223, 17);
+            this.label6.Size = new System.Drawing.Size(204, 16);
             this.label6.TabIndex = 11;
             this.label6.Text = "Establish RoboRIO Connection";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(35, 150);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 16);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "INI Path";
+            // 
+            // iniPath
+            // 
+            this.iniPath.BackColor = System.Drawing.Color.White;
+            this.iniPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.iniPath.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.iniPath.ForeColor = System.Drawing.Color.Black;
+            this.iniPath.Location = new System.Drawing.Point(115, 148);
+            this.iniPath.Name = "iniPath";
+            this.iniPath.Size = new System.Drawing.Size(242, 23);
+            this.iniPath.TabIndex = 12;
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(383, 197);
+            this.ClientSize = new System.Drawing.Size(383, 251);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.iniPath);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.label5);
@@ -225,5 +251,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox iniPath;
     }
 }
