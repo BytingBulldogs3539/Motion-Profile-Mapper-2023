@@ -22,6 +22,7 @@ namespace VelocityMap.Forms
         private OpenFileDialog fileDialog;
         private List<INI> inis = new List<INI>();
         private INI selectedIni = null;
+        private DateTime timeOfUpload;
 
         private List<string> javaKeywords = new List<string>()
         {
@@ -157,6 +158,7 @@ namespace VelocityMap.Forms
                 if(!double.TryParse(Clipboard.GetText(), out output))
                 {
                     e.Handled = true;
+                    e.SuppressKeyPress = true;
                 }
             }
         }
@@ -169,6 +171,7 @@ namespace VelocityMap.Forms
                 if (!int.TryParse(Clipboard.GetText(), out output))
                 {
                     e.Handled = true;
+                    e.SuppressKeyPress = true;
                 }
             }
         }
@@ -305,7 +308,7 @@ namespace VelocityMap.Forms
             if (browser.ShowDialog() != DialogResult.OK) return;
 
             Cursor = Cursors.WaitCursor;
-            setStatus("Saving profiles to file system...", false);
+            setStatus("Saving profiles to file system...", Color.Black);
 
             Boolean yesToAll = false;
             foreach (INI ini in inis)
@@ -337,7 +340,7 @@ namespace VelocityMap.Forms
                     writer.Write(ini.toIni());
                 }
             }
-            setStatus("Configure Robot Constants", false);
+            setStatus("Configure Robot Constants", Color.Black);
             Cursor = Cursors.Default;
         }
         private void saveLocalButton_Click(object sender, EventArgs e)
@@ -372,7 +375,7 @@ namespace VelocityMap.Forms
 
             if (inis.Count == 0)
             {
-                setStatus("No INIs to save to RIO", true);
+                setStatus("No INIs to save to RIO", Color.Red);
                 return;
             }
             Cursor = Cursors.WaitCursor;
@@ -388,18 +391,13 @@ namespace VelocityMap.Forms
             info.Timeout = TimeSpan.FromSeconds(5);
 
             SftpClient sftp = new SftpClient(info);
-            /*SftpClient sftp = new SftpClient(
-                Properties.Settings.Default.IpAddress,
-                Properties.Settings.Default.Username,
-                Properties.Settings.Default.Password
-            );*/
 
             try
             {
-                setStatus("Establishing RIO connection...", false);
+                setStatus("Establishing RIO connection...", Color.Black);
                 sftp.Connect();
 
-                setStatus("Uploading files to RIO...", false);
+                setStatus("Uploading files to RIO...", Color.Black);
                 if (!sftp.Exists(Properties.Settings.Default.INILocation)) sftp.CreateDirectory(Properties.Settings.Default.INILocation);
 
                 List<INI> invalidINIs = new List<INI>();
@@ -418,7 +416,7 @@ namespace VelocityMap.Forms
                     ));
                 }
 
-                setStatus("Verifying file contents...", false);
+                setStatus("Verifying file contents...", Color.Black);
                 bool verified = true;
                 foreach (INI ini in inis)
                 {
@@ -436,34 +434,39 @@ namespace VelocityMap.Forms
                     MessageBoxIcon.Warning
                 );
 
-                if (verified) setStatus("INI(s) uploaded and verified successfully", false);
-                else setStatus("Failed to verify uploaded file content", true);
+                if (verified)
+                {
+                    setStatus("INI(s) uploaded and verified successfully", Color.Green);
+                    timer1.Enabled = true;
+                    timeOfUpload = DateTime.Now;
+                }
+                else setStatus("Failed to verify uploaded file content", Color.Red);
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (System.Net.Sockets.SocketException exception)
             {
                 Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
             {
                 Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
-                setStatus("Permission denied", true);
+                setStatus("Permission denied", Color.Red);
             }
             catch (Exception exception)
             {
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
-                setStatus("Failed to upload INI to RIO", true);
+                setStatus("Failed to upload INI to RIO", Color.Red);
             }
 
             Cursor = Cursors.Default;
@@ -490,13 +493,13 @@ namespace VelocityMap.Forms
             );*/
             try
             {
-                setStatus("Establishing RIO connection...", false);
+                setStatus("Establishing RIO connection...", Color.Black);
                 sftp.Connect();
 
                 if (!sftp.Exists(Properties.Settings.Default.INILocation))
                 {
                     sftp.CreateDirectory(Properties.Settings.Default.INILocation);
-                    setStatus("No INI files found at RIO directory", false);
+                    setStatus("No INI files found at RIO directory", Color.Black);
                     return;
                 }
 
@@ -511,35 +514,35 @@ namespace VelocityMap.Forms
                         addFile(new INI(Path.GetFileNameWithoutExtension(file.Name), reader));
                     }
                 }
-                if (foundFiles) setStatus("INIs loaded from RIO", false);
-                else setStatus("No INI files found at RIO directory", false);
+                if (foundFiles) setStatus("INIs loaded from RIO", Color.Black);
+                else setStatus("No INI files found at RIO directory", Color.Black);
 
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
             {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (System.Net.Sockets.SocketException exception)
             {
                 Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
-                setStatus("Failed to establish connection", true);
+                setStatus("Failed to establish connection", Color.Red);
             }
             catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
             {
                 Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
-                setStatus("Permission denied", true);
+                setStatus("Permission denied", Color.Red);
             }
             catch (Exception exception)
             {
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
-                setStatus("Failed to load INI files", true);
+                setStatus("Failed to load INI files", Color.Red);
             }
 
             Cursor = Cursors.Default;
@@ -637,10 +640,10 @@ namespace VelocityMap.Forms
         /// <summary>
         /// Set the status message at the top of the field display
         /// </summary>
-        private void setStatus(string message, bool error)
+        private void setStatus(string message, Color color)
         {
             infoLabel.Text = message;
-            infoLabel.ForeColor = error ? Color.Red : Color.Black;
+            infoLabel.ForeColor = color;
         }
         private void addFile(INI ini)
         {
@@ -658,14 +661,20 @@ namespace VelocityMap.Forms
             filenameGrid.Rows.RemoveAt(index);
             if(filenameGrid.RowCount>0)
             {
-                inis.Last().loadTable(configurationGrid);
-                selectedIni = inis.Last();
+                
+                
                 filenameGrid.ClearSelection();
-                if(index>0)
+                if (index > 0)
+                {
                     filenameGrid.Rows[index - 1].Selected = true;
+                    inis[index - 1].loadTable(configurationGrid);
+                    selectedIni = inis[index - 1];
+                }
                 else
                 {
                     filenameGrid.Rows[0].Selected = true;
+                    inis[index].loadTable(configurationGrid);
+                    selectedIni = inis[index];
                 }
             }
             checkEnableStatuses();
@@ -800,6 +809,14 @@ namespace VelocityMap.Forms
                 rowContextMenuStrip.Show(Cursor.Position);
 
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            TimeSpan ts = DateTime.Now - timeOfUpload;
+
+
+            timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
         }
     }
 }

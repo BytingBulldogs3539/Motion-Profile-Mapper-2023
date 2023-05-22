@@ -39,16 +39,18 @@ namespace VelocityMap.Forms
             this.saveToRioButton = new System.Windows.Forms.Button();
             this.loadRIOButton = new System.Windows.Forms.Button();
             this.configurationGrid = new System.Windows.Forms.DataGridView();
+            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loadLocalButton = new System.Windows.Forms.Button();
             this.connectionSettingsButton = new FontAwesome.Sharp.IconButton();
             this.saveLocalButton = new System.Windows.Forms.Button();
             this.saveAllLocalButton = new System.Windows.Forms.Button();
             this.infoLabel = new System.Windows.Forms.Label();
-            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timeSinceUpload = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
             this.rowContextMenuStrip.SuspendLayout();
@@ -79,7 +81,7 @@ namespace VelocityMap.Forms
             this.filenameGrid.RowHeadersVisible = false;
             this.filenameGrid.RowHeadersWidth = 51;
             this.filenameGrid.RowTemplate.Height = 24;
-            this.filenameGrid.Size = new System.Drawing.Size(273, 427);
+            this.filenameGrid.Size = new System.Drawing.Size(273, 379);
             this.filenameGrid.TabIndex = 1;
             this.filenameGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_CellEndEdit);
             this.filenameGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_RowEnter);
@@ -101,7 +103,7 @@ namespace VelocityMap.Forms
             this.newFileButton.IconColor = System.Drawing.Color.Green;
             this.newFileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newFileButton.IconSize = 24;
-            this.newFileButton.Location = new System.Drawing.Point(15, 530);
+            this.newFileButton.Location = new System.Drawing.Point(15, 503);
             this.newFileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newFileButton.Name = "newFileButton";
             this.newFileButton.Size = new System.Drawing.Size(137, 30);
@@ -121,7 +123,7 @@ namespace VelocityMap.Forms
             this.deleteButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteButton.IconSize = 24;
-            this.deleteButton.Location = new System.Drawing.Point(152, 530);
+            this.deleteButton.Location = new System.Drawing.Point(152, 503);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(136, 30);
@@ -139,7 +141,7 @@ namespace VelocityMap.Forms
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveToRioButton.ForeColor = System.Drawing.Color.Teal;
-            this.saveToRioButton.Location = new System.Drawing.Point(15, 602);
+            this.saveToRioButton.Location = new System.Drawing.Point(15, 575);
             this.saveToRioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveToRioButton.Name = "saveToRioButton";
             this.saveToRioButton.Size = new System.Drawing.Size(273, 50);
@@ -177,6 +179,7 @@ namespace VelocityMap.Forms
             this.Variable_Name,
             this.Variable_Type,
             this.Value});
+            this.configurationGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.configurationGrid.Enabled = false;
             this.configurationGrid.Location = new System.Drawing.Point(299, 63);
             this.configurationGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -184,6 +187,7 @@ namespace VelocityMap.Forms
             this.configurationGrid.Name = "configurationGrid";
             this.configurationGrid.RowHeadersWidth = 51;
             this.configurationGrid.RowTemplate.Height = 24;
+            this.configurationGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.configurationGrid.Size = new System.Drawing.Size(931, 590);
             this.configurationGrid.TabIndex = 65;
             this.configurationGrid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.configurationGrid_CellValidated);
@@ -196,6 +200,33 @@ namespace VelocityMap.Forms
             this.configurationGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragOver);
             this.configurationGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseDown);
             this.configurationGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseMove);
+            // 
+            // Variable_Name
+            // 
+            this.Variable_Name.HeaderText = "Variable Name";
+            this.Variable_Name.MinimumWidth = 6;
+            this.Variable_Name.Name = "Variable_Name";
+            this.Variable_Name.Width = 534;
+            // 
+            // Variable_Type
+            // 
+            this.Variable_Type.HeaderText = "Variable Type";
+            this.Variable_Type.Items.AddRange(new object[] {
+            "int",
+            "double",
+            "boolean",
+            "String"});
+            this.Variable_Type.MinimumWidth = 6;
+            this.Variable_Type.Name = "Variable_Type";
+            this.Variable_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Variable_Type.Width = 125;
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.MinimumWidth = 6;
+            this.Value.Name = "Value";
+            this.Value.Width = 219;
             // 
             // loadLocalButton
             // 
@@ -243,7 +274,7 @@ namespace VelocityMap.Forms
             this.saveLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.saveLocalButton.Location = new System.Drawing.Point(15, 571);
+            this.saveLocalButton.Location = new System.Drawing.Point(15, 544);
             this.saveLocalButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveLocalButton.Name = "saveLocalButton";
             this.saveLocalButton.Size = new System.Drawing.Size(135, 27);
@@ -262,7 +293,7 @@ namespace VelocityMap.Forms
             this.saveAllLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveAllLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveAllLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.saveAllLocalButton.Location = new System.Drawing.Point(153, 571);
+            this.saveAllLocalButton.Location = new System.Drawing.Point(153, 544);
             this.saveAllLocalButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveAllLocalButton.Name = "saveAllLocalButton";
             this.saveAllLocalButton.Size = new System.Drawing.Size(135, 27);
@@ -286,33 +317,6 @@ namespace VelocityMap.Forms
             this.infoLabel.Text = "Configure Robot Constants";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Variable_Name
-            // 
-            this.Variable_Name.HeaderText = "Variable Name";
-            this.Variable_Name.MinimumWidth = 6;
-            this.Variable_Name.Name = "Variable_Name";
-            this.Variable_Name.Width = 534;
-            // 
-            // Variable_Type
-            // 
-            this.Variable_Type.HeaderText = "Variable Type";
-            this.Variable_Type.Items.AddRange(new object[] {
-            "int",
-            "double",
-            "boolean",
-            "String"});
-            this.Variable_Type.MinimumWidth = 6;
-            this.Variable_Type.Name = "Variable_Type";
-            this.Variable_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Variable_Type.Width = 125;
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.MinimumWidth = 6;
-            this.Value.Name = "Value";
-            this.Value.Width = 219;
-            // 
             // rowContextMenuStrip
             // 
             this.rowContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -330,12 +334,27 @@ namespace VelocityMap.Forms
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timeSinceUpload
+            // 
+            this.timeSinceUpload.Location = new System.Drawing.Point(12, 630);
+            this.timeSinceUpload.Name = "timeSinceUpload";
+            this.timeSinceUpload.Size = new System.Drawing.Size(276, 23);
+            this.timeSinceUpload.TabIndex = 71;
+            this.timeSinceUpload.Text = "Last Upload: ";
+            this.timeSinceUpload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ConfigurationView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1244, 666);
+            this.Controls.Add(this.timeSinceUpload);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.saveAllLocalButton);
             this.Controls.Add(this.saveLocalButton);
@@ -378,5 +397,7 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.ContextMenuStrip rowContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label timeSinceUpload;
     }
 }
