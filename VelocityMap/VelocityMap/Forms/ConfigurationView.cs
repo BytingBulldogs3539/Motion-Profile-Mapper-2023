@@ -107,6 +107,10 @@ namespace VelocityMap.Forms
             e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_Double);
             e.Control.KeyPress -= new KeyPressEventHandler(Column3_KeyPress_VariableName);
 
+            e.Control.KeyDown -= new KeyEventHandler(Column3_KeyDown_Int);
+            e.Control.KeyDown -= new KeyEventHandler(Column3_KeyDown_Double);
+
+
             if (configurationGrid.CurrentCell.ColumnIndex == 0)
             {
                 TextBox tb = e.Control as TextBox;
@@ -131,6 +135,7 @@ namespace VelocityMap.Forms
                     if (tb != null)
                     {
                         tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Int);
+                        tb.KeyDown += new KeyEventHandler(Column3_KeyDown_Int);
                     }
                 }
                 else if (configurationGrid.CurrentRow.Cells[1].Value.ToString() == "double")
@@ -139,17 +144,39 @@ namespace VelocityMap.Forms
                     if (tb != null)
                     {
                         tb.KeyPress += new KeyPressEventHandler(Column3_KeyPress_Double);
+                        tb.KeyDown += new KeyEventHandler(Column3_KeyDown_Double);
                     }
                 }
             }
         }
+        private void Column3_KeyDown_Double(object sender, KeyEventArgs e)
+        {
+            if(e.Control && e.KeyCode == Keys.V)
+            {
+                double output;
+                if(!double.TryParse(Clipboard.GetText(), out output))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+        private void Column3_KeyDown_Int(object sender, KeyEventArgs e)
+        {
 
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                int output;
+                if (!int.TryParse(Clipboard.GetText(), out output))
+                {
+                    e.Handled = true;
+                }
+            }
+        }
         private void Column3_KeyPress_Double(object sender, KeyPressEventArgs e)
         {
-            Debug.WriteLine(e.KeyChar);
             
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46 && e.KeyChar != '-'))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46 && e.KeyChar != '-'&& !char.IsControl(e.KeyChar)))
             {
                 e.Handled = true;
                 return;
@@ -161,10 +188,10 @@ namespace VelocityMap.Forms
                 if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
                     e.Handled = true;
             }
-            // checks to make sure only 1 decimal is allowed
+            // checks to make sure only 1 - is allowed
             if (e.KeyChar == '-')
             {
-                if((sender as TextBox).Text.Length!=0)
+                if((sender as TextBox).SelectionStart != 0)
                     e.Handled = true;
                 if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
                     e.Handled = true;
@@ -175,7 +202,7 @@ namespace VelocityMap.Forms
         {
             if ((sender as TextBox).TextLength == 0)
             {
-                if (!char.IsLetter(e.KeyChar))
+                if (!char.IsLetter(e.KeyChar)&&!char.IsControl(e.KeyChar))
                 {
                     e.Handled = true;
                 }
@@ -194,10 +221,19 @@ namespace VelocityMap.Forms
                 MessageBox.Show("Did you mean to use Double? Integers can't contain a '.'", "Wrong Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != '-' && !char.IsControl(e.KeyChar)))
             {
                 e.Handled = true;
                 return;
+            }
+
+            // checks to make sure only 1 - is allowed
+            if (e.KeyChar == '-')
+            {
+                if ((sender as TextBox).SelectionStart != 0)
+                    e.Handled = true;
+                if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
+                    e.Handled = true;
             }
         }
 

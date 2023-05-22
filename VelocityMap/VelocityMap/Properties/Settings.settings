@@ -36,7 +36,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="INILocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/</Value>
+      <Value Profile="(Default)">/home/lvuser/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

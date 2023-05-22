@@ -157,7 +157,7 @@ namespace VelocityMap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/home/lvuser/")]
         public string INILocation {
             get {
                 return ((string)(this["INILocation"]));
