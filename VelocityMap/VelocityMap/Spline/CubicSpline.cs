@@ -522,7 +522,6 @@ namespace MotionProfile.Spline
 			ySpline = new CubicSpline();
 			ys = ySpline.FitAndEval(dists, y, times, firstDy / dt, lastDy / dt);
 
-			/*distance = new double[xs.Count];
 			totalDist = 0;
 			for (int i = 1; i < xs.Count; i++)
 			{
@@ -530,9 +529,8 @@ namespace MotionProfile.Spline
 				double dy = ys[i].Y - ys[i - 1].Y;
 				double dist = (double)Math.Sqrt(dx * dx + dy * dy);
 				totalDist += dist;
-				distance[i] = totalDist;
 
-			}*/
+			}
 			getxs = xs;
 			getys = ys;
 			length = totalDist;

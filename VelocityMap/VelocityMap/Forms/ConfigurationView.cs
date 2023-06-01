@@ -328,7 +328,6 @@ namespace VelocityMap.Forms
                             break;
                         case DialogResult.No:
                             continue;
-                            break;
                         case DialogResult.Cancel:
                             yesToAll = true;
                             break;
@@ -661,8 +660,6 @@ namespace VelocityMap.Forms
             filenameGrid.Rows.RemoveAt(index);
             if(filenameGrid.RowCount>0)
             {
-                
-                
                 filenameGrid.ClearSelection();
                 if (index > 0)
                 {

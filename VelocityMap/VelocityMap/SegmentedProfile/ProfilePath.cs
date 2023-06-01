@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MotionProfile.Spline;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,18 @@ namespace MotionProfile.SegmentedProfile
         public bool snapToPrevious = VelocityMap.Properties.Settings.Default.SnapNewPaths;
         public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
         public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
+        public bool isSpline = false;
+
 
         /// <summary>
         /// Creates a new blank profile path
         /// </summary>
-        public ProfilePath(string name, ProfilePath previousPath = null)
+        public ProfilePath(string name, bool isSpline, ProfilePath previousPath = null)
         {
             this.name = name;
             this.controlPoints = new List<ControlPoint>();
             this.id = Guid.NewGuid().ToString();
+            this.isSpline = isSpline;
 
             if (this.snapToPrevious) this.snap(previousPath);
         }
@@ -39,7 +43,8 @@ namespace MotionProfile.SegmentedProfile
             this.id = (string)pathJSON["id"];
             this.maxVel = (double)pathJSON["maxVelocity"];
             this.maxAcc = (double)pathJSON["maxAcceleration"];
-            this.snapToPrevious = pathJSON.ContainsKey("snapToPrevious")?
+            this.isSpline = (bool)pathJSON["isSpline"];
+            this.snapToPrevious = pathJSON.ContainsKey("snapToPrevious") ?
                 (bool)pathJSON["snapToPrevious"] : false;
 
             this.controlPoints = new List<ControlPoint>();
@@ -53,6 +58,7 @@ namespace MotionProfile.SegmentedProfile
         public ProfilePath(ProfilePath other)
         {
             this.name = other.name;
+            this.isSpline = other.isSpline;
             this.id = Guid.NewGuid().ToString();
             this.controlPoints = new List<ControlPoint>();
             this.snapToPrevious = other.snapToPrevious;
@@ -125,7 +131,7 @@ namespace MotionProfile.SegmentedProfile
 
             this.snapToPrevious = true;
             if (this.controlPoints.Count == 0) this.controlPoints.Add(new ControlPoint(previous.controlPoints.Last()));
-            else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last()); 
+            else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last());
         }
 
         public void snapLast(ControlPoint point)
@@ -139,12 +145,98 @@ namespace MotionProfile.SegmentedProfile
         {
             return this.controlPoints.Count == 0;
         }
+        private List<SplinePoint> pointList = new List<SplinePoint>();
+        private List<VelocityPoint> velocityPoints = new List<VelocityPoint>();
+        private double length = 0.0;
+
+        public void generate()
+        {
+            if (isSpline)
+            {
+                pointList.Clear();
+                SplinePath.GenSpline(this.controlPoints);
+
+                length = SplinePath.getLength();
+
+                velocityPoints = new VelocityGenerator(
+                    this.maxVel,
+                    this.maxAcc,
+                    10000,
+                    .05
+                ).GeneratePoints(length);
+
+                List<ControlPointSegment> splineSegments = SplinePath.GenSpline(this.controlPoints, velocityPoints);
+
+
+                SplinePoint lastPoint = splineSegments[0].points[0];
+                SplinePoint currentPoint;
+                foreach (ControlPointSegment segment in splineSegments)
+                {
+
+                    currentPoint = segment.points[Math.Min(2, segment.points.Count - 1)];
+                    double pointDistance = distance(currentPoint, lastPoint);
+
+                    // Additional calculation for point at the end of the path
+                    if (segment == splineSegments.Last())
+                    {
+                        lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
+                        currentPoint = segment.points.Last();
+                        pointDistance = distance(currentPoint, lastPoint);
+                    }
+                    lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
+
+                    foreach (SplinePoint point in segment.points)
+                    {
+                        pointList.Add(point);
+                    }
+                }
+            }
+            else
+            {
+                length = 0;
+                for (int i = 0; i<controlPoints.Count-1; i++)
+                {
+                    ControlPoint p1 = controlPoints[i];
+                    ControlPoint p2 = controlPoints[i+1];
+                    length += Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+
+                }
+                for (int i = 0; i < controlPoints.Count; i++)
+                {
+                    ControlPoint p1 = controlPoints[i];
+                    pointList.Add(new SplinePoint(p1.X, p1.Y, i));
+                }
+
+                velocityPoints = new VelocityGenerator(
+                    this.maxVel,
+                    this.maxAcc,
+                    10000,
+                    .05
+                    ).GeneratePoints(length);
+                
+            }
+        }
+
+        public List<SplinePoint> getPoints()
+        {
+            return pointList;
+        }
+        public List<VelocityPoint> getVelocityPoints()
+        {
+            return velocityPoints;
+        }
+
+        private double distance(SplinePoint p1, SplinePoint p2)
+        {
+            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+        }
 
         public JObject toJSON()
         {
             JObject pathJSON = new JObject();
             pathJSON["name"] = this.name;
             pathJSON["id"] = this.id;
+            pathJSON["isSpline"] = this.isSpline;
             pathJSON["maxVelocity"] = this.maxVel;
             pathJSON["maxAcceleration"] = this.maxAcc;
             pathJSON["snapToPrevious"] = this.snapToPrevious;

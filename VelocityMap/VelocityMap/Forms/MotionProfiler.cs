@@ -331,7 +331,7 @@
             double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Heading - 270) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
             
-            if (splineMode || point == placingPoint) return;
+            if (path.isSpline || point == placingPoint) return;
             mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
             mainField.Series[path.id + "-padding"].Points.AddXY(point.X, point.Y);
 
@@ -368,7 +368,7 @@
 
             mainField.Series.Add(path.id + "-path");
             mainField.Series[path.id + "-path"].ChartArea = "field";
-            mainField.Series[path.id + "-path"].ChartType = SeriesChartType.Line;
+            mainField.Series[path.id + "-path"].ChartType = SeriesChartType.Point;
             mainField.Series[path.id + "-path"].Color = path == selectedPath ? Color.Aqua : Color.Blue;
             mainField.Series[path.id + "-path"].MarkerSize = 2;
             mainField.Series[path.id + "-path"].BorderWidth = 2;
@@ -389,7 +389,7 @@
                 DrawPoint(point, path);
             }
 
-            if (path.controlPoints.Count < 2 || !splineMode) return;
+            if (path.controlPoints.Count < 2 || !path.isSpline) return;
 
             seriesIndex = mainField.Series.IndexOf(path.id + "-left");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
@@ -410,53 +410,15 @@
             mainField.Series[path.id + "-right"].MarkerSize = 2;
             mainField.Series[path.id + "-right"].BorderWidth = 2;
 
-            double Posoffset = 0;
-            double Timeoffset = 0;
             List<SplinePoint> pointList = new List<SplinePoint>();
 
-            SplinePath.GenSpline(path.controlPoints);
-            List<VelocityPoint> velocityPoints = new VelocityGenerator(
-                (double)Properties.Settings.Default.MaxVel * 1000,
-                (double)Properties.Settings.Default.MaxAcc * 1000,
-                (double)Properties.Settings.Default.MaxJerk * 1000,
-                .0025
-            ).GeneratePoints(SplinePath.getLength());
-            List<ControlPointSegment> splineSegments = SplinePath.GenSpline(path.controlPoints, velocityPoints);
+            path.generate();
 
-            SplinePoint lastPoint = splineSegments[0].points[0];
-            SplinePoint currentPoint;
-            foreach (ControlPointSegment segment in splineSegments)
+            pointList = path.getPoints();
+
+            foreach (SplinePoint point in pointList)
             {
-                if (segment.points.Count == 0)
-                {
-                    MessageBox.Show("Generation Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                currentPoint = segment.points[Math.Min(2, segment.points.Count - 1)];
-                double pointDistance = distance(currentPoint, lastPoint);
-                path.controlPoints[splineSegments.IndexOf(segment)].setTangents(
-                    (currentPoint.X - lastPoint.X) / pointDistance,
-                    (currentPoint.Y - lastPoint.Y) / pointDistance
-                );
-                // Additional calculation for point at the end of the path
-                if (segment == splineSegments.Last())
-                {
-                    lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
-                    currentPoint = segment.points.Last();
-                    pointDistance = distance(currentPoint, lastPoint);
-                    path.controlPoints.Last().setTangents(
-                        (currentPoint.X - lastPoint.X) / pointDistance,
-                        (currentPoint.Y - lastPoint.Y) / pointDistance
-                    );
-                }
-                lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
-
-                foreach (SplinePoint point in segment.points)
-                {
-                    mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
-                    pointList.Add(point);
-                }
+                mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
             }
 
             foreach (SplinePoint point in buildOffsetPoints(-Properties.Settings.Default.TrackWidth, pointList))
@@ -473,11 +435,11 @@
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
             //AngleChart.Series["Angle"].Points.Clear();
-            foreach (VelocityPoint point in velocityPoints)
+            foreach (VelocityPoint point in path.getVelocityPoints())
             {
-                kinematicsChart.Series["Position"].Points.AddXY(point.Time + Timeoffset, point.Pos + Posoffset);
-                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time + Timeoffset, point.Vel);
-                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time + Timeoffset, point.Acc);
+                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos );
+                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time , point.Vel);
+                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
                 //AngleChart.Series["Angle"].Points.AddXY(point.Time + Timeoffset, outputPoints.angle[x]);
             }
         }
@@ -822,8 +784,8 @@
             string newPathName = "new path " + ++newPathCount;
 
             if (Properties.Settings.Default.SnapNewPaths && selectedProfile.paths.Count > 0)
-                selectedProfile.newPath(newPathName, selectedProfile.paths.Last());
-            else selectedProfile.newPath(newPathName);
+                selectedProfile.newPath(newPathName, splineMode, selectedProfile.paths.Last());
+            else selectedProfile.newPath(newPathName, splineMode);
 
             int newIndex = pathTable.Rows.Add(newPathName);
             selectPath(newIndex);
@@ -948,6 +910,9 @@
 
             if (index != -1) selectedPath = selectedProfile.paths[index];
 
+            if(!noSelectedPath())
+                setSplineMode(selectedPath.isSpline);
+
             if (!noSelectedPath())
             {
                 foreach (ControlPoint point in selectedPath.controlPoints)
@@ -983,7 +948,8 @@
             if (noSelectedProfile() || noSelectedPath()) return;
 
             PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[0]);
-            settings.Show();
+            settings.ShowDialog();
+            DrawPath(selectedPath);
         }
 
         private void ProfileEdit()
@@ -1135,7 +1101,7 @@
         {
             if (noSelectedProfile()) return;
 
-            Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', '\t'));
+            Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', ' '));
             preview.Show();
         }
 
@@ -1200,15 +1166,25 @@
             selectPath();
         }
 
+        private void setSplineMode(bool isSpline)
+        {
+            radioLine.Checked = !isSpline;
+            radioSpline.Checked = isSpline;
+        }
+
         private void radioLine_CheckedChanged(object sender, EventArgs e)
         {
             splineMode = false;
+            if(!noSelectedPath())
+                selectedPath.isSpline = splineMode;
             UpdateField();
         }
 
         private void radioSpline_CheckedChanged(object sender, EventArgs e)
         {
             splineMode = true;
+            if (!noSelectedPath())
+                selectedPath.isSpline = splineMode;
             UpdateField();
         }
 

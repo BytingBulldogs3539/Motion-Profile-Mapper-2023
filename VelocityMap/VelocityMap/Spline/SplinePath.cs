@@ -29,7 +29,10 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> outys;
 
             spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), 100, out outxs, out outys);
-            //spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), (int)spline.length, out outxs, out outys);
+
+            int requiredNumPoints = (int)(spline.length * 10); //Put a point every 10cm
+
+            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), requiredNumPoints, out outxs, out outys);
 
             List<double> CPDistances = new List<double>();
 
@@ -62,7 +65,7 @@ namespace MotionProfile.Spline
                 ys.Add(point.Y);
             }
 
-            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), 100, out outxs, out outys);
+            spline = new ParametricSpline(xs.ToArray(), ys.ToArray(), requiredNumPoints, out outxs, out outys);
             if (velocityPoints==null)
             {
                 for (int i = 0; i < outxs.Last().ControlPointNum + 1; i++)
@@ -81,42 +84,35 @@ namespace MotionProfile.Spline
             }
             else
             {
-                ControlPointSegment seg = new ControlPointSegment();
+                splineSegments.Clear();
+                
+                SplinePoint spoint = null;
 
-                int lastControlPointNum=0;
+                ControlPointSegment[] segments = new ControlPointSegment[CPDistances.Count - 1];
 
                 for (int i = 0; i < velocityPoints.Count; i++)
                 {
-                    SplinePoint spoint = spline.Eval(Math.Abs((double)velocityPoints[i].Pos));
+                    spoint = spline.Eval(Math.Abs((double)velocityPoints[i].Pos));
+
 
                     double distance = Math.Abs((double)velocityPoints[i].Pos);
 
-                    for (int dis = 1; dis < CPDistances.Count; dis++)
+                    for (int dis = 0; dis < CPDistances.Count - 1; dis++)
                     {
-                        if (distance >= CPDistances[dis - 1] && distance <= CPDistances[dis])
+                        if(segments[dis] == null)
                         {
-                            spoint.ControlPointNum = dis - 1;
-                            if (spoint.ControlPointNum != lastControlPointNum)
-                            {
-                                splineSegments.Add(seg);
-                                seg = new ControlPointSegment();
-                            }
-                            seg.points.Add(spoint);
-                            lastControlPointNum = dis - 1;
+                            segments[dis] = new ControlPointSegment();
                         }
-                        if(distance >= CPDistances[dis] && dis == CPDistances.Count-1)
+                        if(distance >= CPDistances[dis] && distance <= CPDistances[dis + 1])
                         {
-                            seg.points.Add(spoint);
-                            
-                            //we add any of the points that over shoot the last distance point by just a little because
-                            //we have an error somewhere but the ending error is less then 5mm less than the accuracy of
-                            //the robot anyways so.
+                            spoint.ControlPointNum = dis;
+                            segments[dis].startPoint = points[dis];
+                            segments[dis].endPoint = points[dis + 1];
+                            segments[dis].points.Add(spoint);
                         }
-
                     }
                 }
-
-                splineSegments.Add(seg);
+                splineSegments = segments.ToList();
             }
             return splineSegments;
 

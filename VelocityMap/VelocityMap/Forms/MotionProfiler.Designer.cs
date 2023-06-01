@@ -835,11 +835,11 @@
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 25);
+            this.Data.Location = new System.Drawing.Point(4, 26);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(726, 801);
+            this.Data.Size = new System.Drawing.Size(726, 800);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             // 
@@ -848,7 +848,6 @@
             this.kinematicsChart.BackColor = System.Drawing.SystemColors.ControlLight;
             this.kinematicsChart.BorderlineColor = System.Drawing.SystemColors.ControlLightLight;
             chartArea1.AxisX.Interval = 0.5D;
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisX.MinorGrid.Enabled = true;
             chartArea1.AxisX.MinorGrid.Interval = 0.25D;
             chartArea1.AxisX.ScaleBreakStyle.Spacing = 0.5D;
@@ -879,7 +878,7 @@
             this.kinematicsChart.Series.Add(series1);
             this.kinematicsChart.Series.Add(series2);
             this.kinematicsChart.Series.Add(series3);
-            this.kinematicsChart.Size = new System.Drawing.Size(724, 799);
+            this.kinematicsChart.Size = new System.Drawing.Size(724, 798);
             this.kinematicsChart.TabIndex = 0;
             // 
             // Field

@@ -52,9 +52,9 @@ namespace MotionProfile.SegmentedProfile
             }
         }
 
-        public void newPath(string name, ProfilePath previous = null)
+        public void newPath(string name, bool isSpline,ProfilePath previous = null)
         {
-            this.paths.Add(new ProfilePath(name, previous));
+            this.paths.Add(new ProfilePath(name, isSpline, previous));
         }
 
         public void movePathOrderUp(ProfilePath pathToMove)

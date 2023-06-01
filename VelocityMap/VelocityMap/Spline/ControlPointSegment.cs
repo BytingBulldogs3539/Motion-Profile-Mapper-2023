@@ -10,7 +10,7 @@ namespace MotionProfile.Spline
     {
 
         public List<SplinePoint> points = new List<SplinePoint>();
-        public int PathNum;
-        public float velocity;
+        public ControlPoint startPoint;
+        public ControlPoint endPoint;
     }
 }

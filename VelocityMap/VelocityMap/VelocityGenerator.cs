@@ -36,7 +36,7 @@ namespace MotionProfile.Spline
         {
             List<VelocityPoint> list = new List<VelocityPoint>();
             this.p_target = distance;
-            recalculate_s_curve();
+            recalculate_s_curve(.01);
             for (double time = 0; time < s_curve[6].t0 + s_curve[6].t; time += dt)
             {
                 VelocityPoint point = new VelocityPoint();
@@ -53,7 +53,7 @@ namespace MotionProfile.Spline
         }
 
         
-        private void recalculate_s_curve()
+        private void recalculate_s_curve(double tolerance)
         {
 
             double t1 = 0;
@@ -70,7 +70,7 @@ namespace MotionProfile.Spline
             double test_vel_min = 0;
             double test_vel_max = max_vel;
             double test_vel = test_vel_max; // Start at max vel - probably the solution
-            while ((test_vel_max - test_vel_min) > 5) // Solve to within 5 velocity units
+            while ((test_vel_max - test_vel_min) > tolerance) // Solve to within 5 velocity units
             {
                 if (Math.Pow(max_acc, 2) / max_jerk > test_vel)
                 {
@@ -97,7 +97,7 @@ namespace MotionProfile.Spline
                 }
                 else
                 {
-                    if (p > (p_target - 5))
+                    if (p > (p_target - tolerance))
                     {
                         break;
                     }

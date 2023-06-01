@@ -13,9 +13,6 @@ namespace MotionProfile
         private double y;
         private int heading;
 
-        private double tangentX;
-        private double tangentY;
-
         float velocity;
         string id;
 
@@ -51,8 +48,6 @@ namespace MotionProfile
             this.x = (double)pointJSON["x"];
             this.y = (double)pointJSON["y"];
             this.heading = (int)pointJSON["heading"];
-            this.tangentX = (double)pointJSON["dx"];
-            this.tangentY = (double)pointJSON["dy"];
             this.id = (string)pointJSON["id"];
         }
 
@@ -65,20 +60,18 @@ namespace MotionProfile
             pointJSON["x"] = this.X;
             pointJSON["y"] = this.Y;
             pointJSON["heading"] = this.Heading;
-            pointJSON["dx"] = this.TangentX;
-            pointJSON["dy"] = this.TangentY;
             pointJSON["id"] = this.Id;
             return pointJSON;
         }
 
         public string toJava()
         {
-            return $"\t\t\t{{{this.Y}, {this.X}, {this.TangentY}, {this.TangentX}, {this.heading}}}";
+            return $"\t\t\t{{{this.Y}, {this.X}, {this.heading}}}";
         }
 
         public string toTxt()
         {
-            return $"{this.Y} {this.X} {this.TangentY} {this.TangentX} {this.heading}\n";
+            return $"{this.Y} {this.X} {this.heading}\n";
         }
 
         public int Heading
@@ -136,31 +129,6 @@ namespace MotionProfile
             get
             {
                 return this.id;
-            }
-        }
-
-        public void setTangents(double dx, double dy)
-        {
-            this.tangentX = dx;
-            this.tangentY = dy;
-            // REVERSED AND NEGATED BECAUSE THIS COORDINATE SYSTEM IS STUPID
-            //this.tangentX = dy;
-            //this.tangentY = -dx;
-        }
-
-        public double TangentX
-        {
-            get
-            {
-                return Math.Round(this.tangentX, 5);
-            }
-        }
-
-        public double TangentY
-        {
-            get
-            {
-                return Math.Round(this.tangentY, 5);
             }
         }
     }
