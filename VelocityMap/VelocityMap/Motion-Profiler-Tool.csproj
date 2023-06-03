@@ -139,7 +139,6 @@
     </Compile>
     <Compile Include="Spline\ControlPointSegment.cs" />
     <Compile Include="Spline\CubicSplinePoint.cs" />
-    <Compile Include="Spline\DirectionSegment.cs" />
     <Compile Include="Spline\OffsetSegment.cs" />
     <Compile Include="Spline\SplinePath.cs" />
     <Compile Include="Forms\AboutBox.cs">
@@ -171,6 +170,19 @@
     <Compile Include="S_Curve.cs" />
     <Compile Include="Utilities\INI.cs" />
     <Compile Include="Utilities\INIVariable.cs" />
+    <Compile Include="VelocityGenerate\CentripetalAccelerationConstraint.cs" />
+    <Compile Include="VelocityGenerate\ConstrainedPathState.cs" />
+    <Compile Include="VelocityGenerate\MathUtil.cs" />
+    <Compile Include="VelocityGenerate\MathUtils.cs" />
+    <Compile Include="VelocityGenerate\MaxAccelerationConstraint.cs" />
+    <Compile Include="VelocityGenerate\MaxVelocityContraint.cs" />
+    <Compile Include="VelocityGenerate\Path.cs" />
+    <Compile Include="VelocityGenerate\Pose2d.cs" />
+    <Compile Include="VelocityGenerate\Rotation2d.cs" />
+    <Compile Include="VelocityGenerate\TrajectoryConstraint.cs" />
+    <Compile Include="VelocityGenerate\Translation2d.cs" />
+    <Compile Include="VelocityGenerate\Units.cs" />
+    <Compile Include="VelocityGenerate\VelocityGeneration.cs" />
     <Compile Include="VelocityGenerator.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>

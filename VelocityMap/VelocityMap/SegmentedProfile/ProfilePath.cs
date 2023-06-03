@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VelocityMap.VelocityGenerate;
 
 namespace MotionProfile.SegmentedProfile
 {
@@ -17,7 +18,9 @@ namespace MotionProfile.SegmentedProfile
         public bool snapToPrevious = VelocityMap.Properties.Settings.Default.SnapNewPaths;
         public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
         public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
+        public double maxCen = VelocityMap.Properties.Settings.Default.MaxCen;
         public bool isSpline = false;
+        public SplinePath path = new SplinePath();
 
 
         /// <summary>
@@ -145,8 +148,7 @@ namespace MotionProfile.SegmentedProfile
         {
             return this.controlPoints.Count == 0;
         }
-        private List<SplinePoint> pointList = new List<SplinePoint>();
-        private List<VelocityPoint> velocityPoints = new List<VelocityPoint>();
+        private List<State> pointList = new List<State>();
         private double length = 0.0;
 
         public void generate()
@@ -154,76 +156,108 @@ namespace MotionProfile.SegmentedProfile
             if (isSpline)
             {
                 pointList.Clear();
-                SplinePath.GenSpline(this.controlPoints);
-
-                length = SplinePath.getLength();
-
-                velocityPoints = new VelocityGenerator(
-                    this.maxVel,
-                    this.maxAcc,
-                    10000,
-                    .05
-                ).GeneratePoints(length);
-
-                List<ControlPointSegment> splineSegments = SplinePath.GenSpline(this.controlPoints, velocityPoints);
+                path.GenSpline(this.controlPoints);
+                length = path.getLength();
 
 
-                SplinePoint lastPoint = splineSegments[0].points[0];
-                SplinePoint currentPoint;
-                foreach (ControlPointSegment segment in splineSegments)
+                TrajectoryConstraint[] constraints = {  new MaxAccelerationConstraint(this.maxAcc)as TrajectoryConstraint,
+                new MaxVelocityConstraint(this.maxVel)as TrajectoryConstraint, new CentripetalAccelerationConstraint(this.maxCen) as TrajectoryConstraint };
+
+                VelocityGeneration gen = new VelocityGeneration(this, constraints, .01, 0, 0);
+
+                for (double time = 0; time < gen.getDuration(); time += .05)
                 {
+                    State s = gen.calculate(time);
 
-                    currentPoint = segment.points[Math.Min(2, segment.points.Count - 1)];
-                    double pointDistance = distance(currentPoint, lastPoint);
+                    pointList.Add(s);
 
-                    // Additional calculation for point at the end of the path
-                    if (segment == splineSegments.Last())
-                    {
-                        lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
-                        currentPoint = segment.points.Last();
-                        pointDistance = distance(currentPoint, lastPoint);
-                    }
-                    lastPoint = segment.points[Math.Max(0, segment.points.Count - 3)];
-
-                    foreach (SplinePoint point in segment.points)
-                    {
-                        pointList.Add(point);
-                    }
                 }
+
+                //Console.WriteLine(path.getLength());
+
+                //path.getControlPointDistances();
+
             }
             else
             {
                 length = 0;
-                for (int i = 0; i<controlPoints.Count-1; i++)
+                for (int i = 0; i < controlPoints.Count - 1; i++)
                 {
                     ControlPoint p1 = controlPoints[i];
-                    ControlPoint p2 = controlPoints[i+1];
+                    ControlPoint p2 = controlPoints[i + 1];
                     length += Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
 
                 }
                 for (int i = 0; i < controlPoints.Count; i++)
                 {
                     ControlPoint p1 = controlPoints[i];
-                    pointList.Add(new SplinePoint(p1.X, p1.Y, i));
+                    //pointList.Add(new SplinePoint(p1.X, p1.Y, i));
                 }
-
-                velocityPoints = new VelocityGenerator(
-                    this.maxVel,
-                    this.maxAcc,
-                    10000,
-                    .05
-                    ).GeneratePoints(length);
-                
             }
         }
 
-        public List<SplinePoint> getPoints()
+        public PState calculate(double distance)
+        {
+            SplinePoint p = path.calculate(distance);
+
+            double distance1 = 0.0;
+            double distance2 = 0.0;
+            double sampleDistance = .02;
+            SplinePoint p1 = null;
+            SplinePoint p2 = null;
+            SplinePoint p3 = null;
+
+            if (distance > sampleDistance)
+            {
+                distance1 = distance - sampleDistance;
+                distance2 = distance + sampleDistance;
+                p1 = path.calculate(distance1);
+                p2 = path.calculate(distance);
+                p3 = path.calculate(distance2);
+
+            }
+            else
+            {
+                distance1 = distance + sampleDistance;
+                distance2 = distance + sampleDistance * 2;
+                p1 = path.calculate(distance);
+                p2 = path.calculate(distance1);
+                p3 = path.calculate(distance2);
+            }
+
+            double r = circleFromPoints(p1, p2, p3);
+
+            return new PState(distance, new Pose2d(p.X, p.Y, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0), r);
+        }
+
+        static double TOL = 0.0000001;
+        public double circleFromPoints(SplinePoint p1, SplinePoint p2, SplinePoint p3)
+        {
+            double offset = Math.Pow(p2.X, 2) + Math.Pow(p2.Y, 2);
+            double bc = (Math.Pow(p1.X, 2) + Math.Pow(p1.Y, 2) - offset) / 2.0;
+            double cd = (offset - Math.Pow(p3.X, 2) - Math.Pow(p3.Y, 2)) / 2.0;
+            double det = (p1.X - p2.X) * (p2.Y - p3.Y) - (p2.X - p3.X) * (p1.Y - p2.Y);
+
+            if (Math.Abs(det) < TOL) { return double.PositiveInfinity; }
+
+            double idet = 1 / det;
+
+            double centerx = (bc * (p2.Y - p3.Y) - cd * (p1.Y - p2.Y)) * idet;
+            double centery = (cd * (p1.X - p2.X) - bc * (p2.X - p3.X)) * idet;
+            double radius =
+               Math.Sqrt(Math.Pow(p2.X - centerx, 2) + Math.Pow(p2.Y - centery, 2));
+
+            return radius;
+        }
+
+        public double getLength()
+        {
+            return length;
+        }
+
+        public List<State> getPoints()
         {
             return pointList;
-        }
-        public List<VelocityPoint> getVelocityPoints()
-        {
-            return velocityPoints;
         }
 
         private double distance(SplinePoint p1, SplinePoint p2)

@@ -21,6 +21,8 @@
     using System.Windows.Controls;
     using Renci.SshNet.Sftp;
     using VelocityMap.Forms;
+    using VelocityMap;
+    using VelocityMap.VelocityGenerate;
 
 
     /// <summary>
@@ -414,12 +416,30 @@
 
             path.generate();
 
-            pointList = path.getPoints();
 
-            foreach (SplinePoint point in pointList)
+            kinematicsChart.Series["Position"].Points.Clear();
+            kinematicsChart.Series["Velocity"].Points.Clear();
+            kinematicsChart.Series["Acceleration"].Points.Clear();
+
+            foreach (State s in path.getPoints())
             {
-                mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
+                double time = s.getTime();
+                kinematicsChart.Series["Position"].Points.AddXY(time, s.getPathState().getDistance());
+                kinematicsChart.Series["Velocity"].Points.AddXY(time, s.getVelocity());
+                kinematicsChart.Series["Acceleration"].Points.AddXY(time, s.getAcceleration());
+
+                Pose2d state = s.getPathState().getPose2d();
+
+                mainField.Series[path.id + "-path"].Points.AddXY(state.getX(), state.getY());
             }
+
+
+            //pointList = path.getPoints();
+
+            //foreach (SplinePoint point in pointList)
+            //{
+            //    mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
+            //}
 
             foreach (SplinePoint point in buildOffsetPoints(-Properties.Settings.Default.TrackWidth, pointList))
             {
@@ -431,18 +451,9 @@
             }
 
             if (path != selectedPath) return;
-            kinematicsChart.Series["Position"].Points.Clear();
-            kinematicsChart.Series["Velocity"].Points.Clear();
-            kinematicsChart.Series["Acceleration"].Points.Clear();
-            //AngleChart.Series["Angle"].Points.Clear();
-            foreach (VelocityPoint point in path.getVelocityPoints())
-            {
-                kinematicsChart.Series["Position"].Points.AddXY(point.Time, point.Pos );
-                kinematicsChart.Series["Velocity"].Points.AddXY(point.Time , point.Vel);
-                kinematicsChart.Series["Acceleration"].Points.AddXY(point.Time, point.Acc);
-                //AngleChart.Series["Angle"].Points.AddXY(point.Time + Timeoffset, outputPoints.angle[x]);
-            }
         }
+
+
 
         public void UpdateField()
         {
@@ -501,7 +512,7 @@
         public List<SplinePoint> buildOffsetPoints(float offset, List<SplinePoint> pointList)
         {
             List<SplinePoint> splinePoints = new List<SplinePoint>();
-            SplinePoint lastPoint = new SplinePoint(0, 0, 0);
+            SplinePoint lastPoint = new SplinePoint(0, 0);
 
             foreach (SplinePoint point in pointList)
             {
@@ -528,8 +539,8 @@
             setStatus("Saving profiles to file system...", false);
             foreach (Profile profile in profiles)
             {
-                string mpPath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
-                string javaPath = Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".java");
+                string mpPath = System.IO.Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
+                string javaPath = System.IO.Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".java");
                 using (var writer = new StreamWriter(mpPath))
                 {
                     writer.Write(profile.toJSON().ToString());
@@ -561,9 +572,9 @@
             Cursor = Cursors.WaitCursor;
             setStatus("Saving profile to file system...", false);
             // Write mp file to load from
-            string filePath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
-                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
+            string filePath = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
+                System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
             using (var writer = new StreamWriter(filePath))
             {
@@ -571,9 +582,9 @@
             }
 
             // Write java file to pre-compile into robot
-            string pointPath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
-                Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
+            string pointPath = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
+                System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
             );
             using (var writer = new StreamWriter(pointPath))
             {
@@ -996,13 +1007,13 @@
                     }
                     // Upload txt file for robot to read in auton
                     MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toTxt().ToString()));
-                    sftp.UploadFile(txtStream, Path.Combine(
+                    sftp.UploadFile(txtStream, System.IO.Path.Combine(
                         Properties.Settings.Default.RioLocation,
                         profile.Name.Replace(' ', '_') + ".txt"
                     ));
                     // Upload mp file for profiler to read for editing
                     MemoryStream mpStream = new MemoryStream(Encoding.UTF8.GetBytes(profile.toJSON().ToString()));
-                    sftp.UploadFile(mpStream, Path.Combine(
+                    sftp.UploadFile(mpStream, System.IO.Path.Combine(
                         Properties.Settings.Default.RioLocation,
                         profile.Name.Replace(' ', '_') + ".mp"
                     ));
@@ -1014,7 +1025,7 @@
                 {
                     if (invalidProfiles.Contains(profile)) continue;
                     StreamReader reader = sftp.OpenText(
-                        Path.Combine(Properties.Settings.Default.RioLocation, profile.Name.Replace(' ', '_') + ".txt")
+                        System.IO.Path.Combine(Properties.Settings.Default.RioLocation, profile.Name.Replace(' ', '_') + ".txt")
                     );
                     if (profile.toTxt() != reader.ReadToEnd()) verified = false;
                 }

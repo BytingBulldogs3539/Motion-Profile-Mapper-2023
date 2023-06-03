@@ -166,5 +166,17 @@ namespace VelocityMap.Properties {
                 this["INILocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.5")]
+        public double MaxCen {
+            get {
+                return ((double)(this["MaxCen"]));
+            }
+            set {
+                this["MaxCen"] = value;
+            }
+        }
     }
 }

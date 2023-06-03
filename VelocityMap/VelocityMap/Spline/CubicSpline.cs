@@ -522,19 +522,39 @@ namespace MotionProfile.Spline
 			ySpline = new CubicSpline();
 			ys = ySpline.FitAndEval(dists, y, times, firstDy / dt, lastDy / dt);
 
-			totalDist = 0;
-			for (int i = 1; i < xs.Count; i++)
-			{
-				double dx = xs[i].Y - xs[i - 1].Y;
-				double dy = ys[i].Y - ys[i - 1].Y;
-				double dist = (double)Math.Sqrt(dx * dx + dy * dy);
-				totalDist += dist;
-
-			}
 			getxs = xs;
 			getys = ys;
 			length = totalDist;
 			
+		}
+
+		public ParametricSpline(double[] x, double[] y, double firstDx = Single.NaN, double firstDy = Single.NaN, double lastDx = Single.NaN, double lastDy = Single.NaN)
+		{
+			// Compute distances
+			getx = x;
+			gety = y;
+			int n = x.Length;
+			double[] dists = new double[n]; // cumulative distance
+			dists[0] = 0;
+			double totalDist = 0;
+
+			for (int i = 1; i < n; i++)
+			{
+				double dx = x[i] - x[i - 1];
+				double dy = y[i] - y[i - 1];
+				double dist = (double)Math.Sqrt(dx * dx + dy * dy);
+				totalDist += dist;
+				dists[i] = totalDist;
+			}
+
+			// Normalize the slopes, if specified
+			MotionProfile.Spline.CubicSpline.NormalizeVector(ref firstDx, ref firstDy);
+			MotionProfile.Spline.CubicSpline.NormalizeVector(ref lastDx, ref lastDy);
+
+			// Spline fit both x and y to times
+			xSpline = new CubicSpline(dists, x, firstDx, lastDx);
+
+			ySpline = new CubicSpline(dists, y, firstDy, lastDy);
 		}
 
 		public SplinePoint Eval(double x, bool debug = false)
@@ -544,7 +564,7 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> xs = xSpline.Eval(xx, debug);
             List<CubicSplinePoint> ys = ySpline.Eval(xx, debug);
 
-			return new SplinePoint(xs[0].Y, ys[0].Y, xs[0].ControlPointNum);
+			return new SplinePoint(xs[0].Y, ys[0].Y);
 		}
 
 		public int FindControlPoint(double x, double[] xOrig, bool debug = false)
@@ -564,7 +584,7 @@ namespace MotionProfile.Spline
             List<CubicSplinePoint> ys = ySpline.Eval(x, debug);
 			for (int i = 0; i < xs.Count ; i++)
 			{
-				pts.Add(new SplinePoint(xs[i].Y, ys[i].Y, xs[i].ControlPointNum));
+				pts.Add(new SplinePoint(xs[i].Y, ys[i].Y));
 			}
 			return pts;
 		}

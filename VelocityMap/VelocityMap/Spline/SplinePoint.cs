@@ -11,8 +11,8 @@ namespace MotionProfile.Spline
     {
         double x;
         double y;
-        int controlPointNum;
-        //ControlPointDirection direction;
+        public ControlPoint startPoint;
+        public ControlPoint endPoint;
 
 
         public double X
@@ -40,37 +40,13 @@ namespace MotionProfile.Spline
                 y = value;
             }
         }
-        public int ControlPointNum
-        {
-            get
-            {
-                return controlPointNum;
-            }
-            set
-            {
-                controlPointNum = value;
-            }
-        }
-
-        /*public ControlPointDirection Direction
-        {
-            get
-            {
-                return direction;
-            }
-
-            set
-            {
-                direction = value;
-            }
-        }*/
 
 
-        public SplinePoint(double x, double y, int controlPointNum)
+
+        public SplinePoint(double x, double y)
         {
             this.x = x;
             this.y = y;
-            this.controlPointNum = controlPointNum;
         }
 
     }

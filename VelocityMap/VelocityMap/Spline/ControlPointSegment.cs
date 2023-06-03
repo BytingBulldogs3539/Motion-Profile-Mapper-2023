@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MotionProfile.Spline
 {
-    class ControlPointSegment
+    public class ControlPointSegment
     {
 
         public List<SplinePoint> points = new List<SplinePoint>();

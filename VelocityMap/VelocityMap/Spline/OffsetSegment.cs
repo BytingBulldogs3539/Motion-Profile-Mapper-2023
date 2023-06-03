@@ -30,7 +30,7 @@ namespace MotionProfile.Spline
         }
         public SplinePoint perp(float offset)
         {
-            SplinePoint pt = new SplinePoint(0, 0, B.ControlPointNum);
+            SplinePoint pt = new SplinePoint(0, 0);
 
             if (length > 0)
             {
