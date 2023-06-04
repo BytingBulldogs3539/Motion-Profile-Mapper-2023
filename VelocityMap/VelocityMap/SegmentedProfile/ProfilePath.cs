@@ -154,14 +154,25 @@ namespace MotionProfile.SegmentedProfile
 
         public bool isEmpty()
         {
-            return this.controlPoints.Count == 0;
+            if (length == 0.0)
+                return true;
+
+            return this.controlPoints.Count <= 1;
         }
         private List<State> pointList = new List<State>();
         private double length = 0.0;
 
-        double timeSample = .025;
-        public void generate()
+        
+        public void generate(bool quickGen = false)
         {
+            double timeSample = .05;
+            double sampleDistance = 0.05;
+            if (quickGen)
+            {
+                timeSample = 0.1;
+                sampleDistance = 0.2;
+            }
+
             if (isSpline)
             {
                 pointList.Clear();
@@ -172,7 +183,7 @@ namespace MotionProfile.SegmentedProfile
 
                 TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
 
-                gen = new VelocityGeneration(this, constraints, .01, 0, 0);
+                gen = new VelocityGeneration(this, constraints, sampleDistance, 0, 0);
 
 
                 for (double time = 0; time < gen.getDuration(); time += timeSample)
@@ -215,7 +226,7 @@ namespace MotionProfile.SegmentedProfile
 
                 TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
 
-                gen = new VelocityGeneration(this, constraints, .01, 0, 0);
+                gen = new VelocityGeneration(this, constraints, sampleDistance, 0, 0);
 
                 for (double time = 0; time < gen.getDuration(); time += timeSample)
                 {
@@ -223,12 +234,20 @@ namespace MotionProfile.SegmentedProfile
 
                     pointList.Add(s);
                 }
-
             }
         }
 
         public PState calculate(double distance)
         {
+            if (controlPoints.Count == 0)
+            {
+                throw new Exception("No Path To Calculate");
+            }
+            if (controlPoints.Count==1)
+            {
+                ControlPoint p = controlPoints[0];
+                return new PState(distance, new Pose2d(p.X, p.Y, p.getRotation2d()), p.getRotation2d() ,p.Radius);
+            }
             if (isSpline)
             {
                 SplinePoint p = path.calculate(distance);

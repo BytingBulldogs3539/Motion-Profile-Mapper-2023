@@ -88,6 +88,7 @@
             this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
             this.infoButton = new FontAwesome.Sharp.IconButton();
             this.reverseButton = new FontAwesome.Sharp.IconButton();
+            this.playButton = new FontAwesome.Sharp.IconButton();
             this.Data = new System.Windows.Forms.TabPage();
             this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Field = new System.Windows.Forms.TabPage();
@@ -107,7 +108,6 @@
             this.radioSpline = new System.Windows.Forms.RadioButton();
             this.MoreData = new System.Windows.Forms.TabControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.iconButton1 = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
@@ -637,7 +637,7 @@
             this.deleteProfileButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trailer;
+            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 24;
@@ -835,6 +835,26 @@
             this.reverseButton.UseVisualStyleBackColor = false;
             this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
             // 
+            // playButton
+            // 
+            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.playButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.playButton.ForeColor = System.Drawing.Color.Gray;
+            this.playButton.IconChar = FontAwesome.Sharp.IconChar.Play;
+            this.playButton.IconColor = System.Drawing.Color.SlateBlue;
+            this.playButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.playButton.IconSize = 40;
+            this.playButton.Location = new System.Drawing.Point(1039, 785);
+            this.playButton.Margin = new System.Windows.Forms.Padding(0);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(76, 50);
+            this.playButton.TabIndex = 75;
+            this.TestTooltip.SetToolTip(this.playButton, "Shift all path points");
+            this.playButton.UseVisualStyleBackColor = false;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
             // Data
             // 
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -933,6 +953,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.Size = new System.Drawing.Size(679, 741);
             this.tableLayoutPanel5.TabIndex = 44;
+            this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
             // trackBar
             // 
@@ -941,6 +962,8 @@
             this.trackBar.Name = "trackBar";
             this.trackBar.Size = new System.Drawing.Size(673, 56);
             this.trackBar.TabIndex = 43;
+            this.trackBar.TabStop = false;
+            this.trackBar.Tag = "";
             this.trackBar.TickFrequency = 0;
             this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
             // 
@@ -1169,32 +1192,12 @@
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // iconButton1
-            // 
-            this.iconButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.iconButton1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.iconButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton1.ForeColor = System.Drawing.Color.Gray;
-            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.Play;
-            this.iconButton1.IconColor = System.Drawing.Color.SlateBlue;
-            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.iconButton1.IconSize = 40;
-            this.iconButton1.Location = new System.Drawing.Point(1039, 785);
-            this.iconButton1.Margin = new System.Windows.Forms.Padding(0);
-            this.iconButton1.Name = "iconButton1";
-            this.iconButton1.Size = new System.Drawing.Size(76, 50);
-            this.iconButton1.TabIndex = 75;
-            this.TestTooltip.SetToolTip(this.iconButton1, "Shift all path points");
-            this.iconButton1.UseVisualStyleBackColor = false;
-            this.iconButton1.Click += new System.EventHandler(this.playButton_Click);
-            // 
             // MotionProfiler
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1285, 847);
-            this.Controls.Add(this.iconButton1);
+            this.Controls.Add(this.playButton);
             this.Controls.Add(this.reverseButton);
             this.Controls.Add(this.infoButton);
             this.Controls.Add(this.mirrorPathButton);
@@ -1319,7 +1322,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Timer timer1;
-        private FontAwesome.Sharp.IconButton iconButton1;
+        private FontAwesome.Sharp.IconButton playButton;
     }
 }
 

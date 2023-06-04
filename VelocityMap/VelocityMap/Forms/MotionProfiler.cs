@@ -177,10 +177,21 @@
         /// </summary>
         private void MainField_MouseDown(object sender, MouseEventArgs e)
         {
+
+
+
             if (placingPoint != null || !e.Button.HasFlag(MouseButtons.Left)) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
             Chart chart = (Chart)sender;
+
+            Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+
+            p = chart.PointToScreen(p);
+
+            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+            System.Windows.Forms.Cursor.Clip = bounds;
+
             double clickedX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
             double clickedY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
@@ -227,12 +238,6 @@
             //if the user is holding the left button while moving the mouse allow them to move the point.
             if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left))
             {
-                Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth-.01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight-.02));
-
-                p = chart.PointToScreen(p);
-
-                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth-.01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight-.02));
-                System.Windows.Forms.Cursor.Clip = bounds;
 
                 double newX = 0.0;
                 double newY = 0.0;
@@ -262,8 +267,9 @@
                     ControlPointTable.SelectedRows[0].Cells[1].Value = Math.Round(newY, 3);
                 }
 
-                DrawPath(clickedPointPath);
-                if (snappedPoint != null) DrawPath(snappedPointPath);
+                DrawPath(clickedPointPath, true);
+                resetTrackBar();
+                if (snappedPoint != null) DrawPath(snappedPointPath, true);
             }
             else
             {
@@ -397,7 +403,7 @@
             );*/
         }
 
-        private void DrawPath(ProfilePath path)
+        private void DrawPath(ProfilePath path, bool quickDraw)
         {
             if (!showPathsCheckbox.Checked && path != selectedPath) return;
 
@@ -439,7 +445,7 @@
             seriesIndex = mainField.Series.IndexOf(path.id + "-right");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
-            path.generate();
+            path.generate(quickDraw);
 
 
             kinematicsChart.Series["Position"].Points.Clear();
@@ -448,7 +454,6 @@
 
             foreach (State s in path.getPoints())
             {
-                //Console.WriteLine(s.getPathState().getPose2d().getRotation().getDegrees());
                 double time = s.getTime();
                 kinematicsChart.Series["Position"].Points.AddXY(time, s.getPathState().getDistance());
                 kinematicsChart.Series["Velocity"].Points.AddXY(time, s.getVelocity());
@@ -485,9 +490,9 @@
             foreach (ProfilePath path in selectedProfile.paths)
             {
                 if (path == selectedPath) continue;
-                DrawPath(path);
+                DrawPath(path, false);
             }
-            if (!noSelectedPath()) DrawPath(selectedPath);
+            if (!noSelectedPath()) DrawPath(selectedPath, false);
 
             setStatus("", false);
 
@@ -955,7 +960,7 @@
 
             PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[0]);
             settings.ShowDialog();
-            DrawPath(selectedPath);
+            DrawPath(selectedPath, false);
         }
 
         private void ProfileEdit()
@@ -1101,7 +1106,7 @@
 
         private void previewButton_Click(object sender, EventArgs e)
         {
-            if (noSelectedProfile()) return;
+            if (noPointsInPath()) return;
 
             Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', ' '));
             preview.ShowDialog();
@@ -1196,9 +1201,9 @@
         }
         private void resetTrackBar()
         {
-            trackBar.Value = 0;
+            //trackBar.Value = 0;
             trackBar_ValueChanged(null, null);
-            timer1.Stop();
+            stopTimer();
 
         }
         private void trackBar_ValueChanged(object sender, EventArgs e)
@@ -1209,6 +1214,11 @@
             double percent = (double)trackBar.Value / (double)trackBar.Maximum;
 
             if (selectedPath.gen == null)
+            {
+                return;
+            }
+
+            if(selectedPath.controlPoints.Count<2)
             {
                 return;
             }
@@ -1240,8 +1250,6 @@
             mainField.Series["robotOutlineAngleMark"].BorderWidth = 3;
             mainField.Series["robotOutlineAngleMark"].Color = Color.Blue;
 
-            //Console.WriteLine($"X: {x}, Y: {y}");
-
             Translation2d fl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
             Translation2d fr = new Translation2d(Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
             Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
@@ -1266,28 +1274,69 @@
 
             if (noSelectedPath() || selectedPath.gen == null)
             {
-                timer1.Stop();
+                stopTimer();
                 return;
             }
 
             TimeSpan time = DateTime.Now - startTime;
             if (time.TotalSeconds > selectedPath.gen.getDuration())
             {
-                timer1.Stop();
+                trackBar.Value = trackBar.Maximum;
+                stopTimer();
                 return;
             }
+            int trackbarvalue = (int)(((time.TotalSeconds + timeOffset) / selectedPath.gen.getDuration()) * trackBar.Maximum);
 
-
-
-            trackBar.Value = (int)((time.TotalSeconds / selectedPath.gen.getDuration()) * trackBar.Maximum);
+            if (trackbarvalue <= trackBar.Maximum && trackbarvalue >= trackBar.Minimum)
+                trackBar.Value = trackbarvalue;
             trackBar_ValueChanged(null, null);
 
         }
+        private void stopTimer()
+        {
+            timer1.Stop();
+            playButton.IconChar = FontAwesome.Sharp.IconChar.Play;
+        }
 
+        private double timeOffset = 0.0;
+
+        private void startTimer()
+        {
+            timeOffset = 0.0;
+            timer1.Start();
+            playButton.IconChar = FontAwesome.Sharp.IconChar.Pause;
+            double percent = (double)trackBar.Value / (double)trackBar.Maximum;
+
+            if (selectedPath.gen == null)
+            {
+                return;
+            }
+
+            if(percent != 1.0)
+                timeOffset = selectedPath.gen.getDuration() * percent;
+            
+        }
         private void playButton_Click(object sender, EventArgs e)
         {
+            if (noSelectedPath() || selectedPath.gen == null)
+            {
+                stopTimer();
+                return;
+            }
+
+            if (playButton.IconChar == FontAwesome.Sharp.IconChar.Pause)
+            {
+                stopTimer();
+                return;
+            }
+
             startTime = DateTime.Now;
-            timer1.Start();
+            startTimer();
+        }
+
+        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
