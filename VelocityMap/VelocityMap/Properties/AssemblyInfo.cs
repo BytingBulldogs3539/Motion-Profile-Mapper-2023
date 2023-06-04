@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Motion Profile Mapper")]
-[assembly: AssemblyDescription("Creates points which a talon srx can follow to drive around on the field with gyro correction. " +
-    "\r\n\r\n\r\nCreated originally by Mr. VanCamp (2018) later edited by Devon (2018) and Cameron (2018-2019) ")]
+[assembly: AssemblyDescription("Creates points which the CTRE Swerve Lib can follow." +
+    "\r\n\r\n\r\nCreated originally by Mr. VanCamp (2018) later edited by Devon (2018 - Present) and Cameron (2018 - Present) ")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Byting Bulldogs")]
 [assembly: AssemblyProduct("Motion Profile Mapper")]
@@ -33,5 +33,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyFileVersion("1.3.0.0")]

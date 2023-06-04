@@ -17,6 +17,9 @@ namespace VelocityMap.Forms
             InitializeComponent();
             this.defMaxVelInput.Text = Properties.Settings.Default.MaxVel.ToString();
             this.defMaxAccInput.Text = Properties.Settings.Default.MaxAcc.ToString();
+            this.defMaxCenAccInput.Text = Properties.Settings.Default.MaxCen.ToString();
+            this.frameLengthInput.Text = Properties.Settings.Default.FrameLength.ToString();
+            this.frameWidthInput.Text = Properties.Settings.Default.FrameWidth.ToString();
             this.defMaxRotVelInput.Text = Properties.Settings.Default.MaxRotVel.ToString();
             this.defMaxRotAccInput.Text = Properties.Settings.Default.MaxRotAcc.ToString();
             this.snapPathsCheckbox.Checked = Properties.Settings.Default.SnapNewPaths;
@@ -34,6 +37,27 @@ namespace VelocityMap.Forms
                 MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            try
+            {
+                Properties.Settings.Default.FrameLength = double.Parse(this.frameLengthInput.Text);
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                Properties.Settings.Default.FrameWidth = double.Parse(this.frameWidthInput.Text);
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 Properties.Settings.Default.MaxAcc = double.Parse(defMaxAccInput.Text);
@@ -44,6 +68,18 @@ namespace VelocityMap.Forms
                 MessageBox.Show("Max acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            try
+            {
+                Properties.Settings.Default.MaxCen = double.Parse(defMaxCenAccInput.Text);
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max centripetal  acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 Properties.Settings.Default.MaxRotVel = double.Parse(defMaxRotVelInput.Text);

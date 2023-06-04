@@ -32,21 +32,21 @@ namespace VelocityMap.VelocityGenerate
             // needed.
 
             // Special case when following a line, centripetal acceleration is 0 so don't constrain velocity
-            if (state.getCurvature() == 0.0)
+            if (state.getRadius() == 0.0)
             {
                 return Double.PositiveInfinity;
             }
-            if (state.getCurvature() == Double.PositiveInfinity)
-            {
-                return Double.PositiveInfinity;
-            }
-
-            if (double.IsNaN(state.getCurvature()))
+            if (state.getRadius() == Double.PositiveInfinity)
             {
                 return Double.PositiveInfinity;
             }
 
-            return Math.Sqrt((maxCentripetalAcceleration * state.getCurvature()));
+            if (double.IsNaN(state.getRadius()))
+            {
+                return Double.PositiveInfinity;
+            }
+
+            return Math.Sqrt((maxCentripetalAcceleration * state.getRadius()));
         }
     }
 }

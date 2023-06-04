@@ -20,6 +20,7 @@ namespace VelocityMap.Forms
             InitializeComponent();
             this.pathMaxVelInput.Text = path.maxVel.ToString();
             this.pathMaxAccInput.Text = path.maxAcc.ToString();
+            this.pathMaxCenAccInput.Text = path.maxCen.ToString();
             this.path = path;
             this.Text = path.Name + " Settings";
             this.pathNameInput.Text = path.Name;
@@ -40,6 +41,7 @@ namespace VelocityMap.Forms
                 MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             try
             {
                 path.maxAcc = double.Parse(pathMaxAccInput.Text);
@@ -47,6 +49,16 @@ namespace VelocityMap.Forms
             catch (Exception)
             {
                 MessageBox.Show("Max acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                path.maxCen = double.Parse(pathMaxCenAccInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max Centripetal Acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

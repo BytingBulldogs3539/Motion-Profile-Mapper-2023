@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VelocityMap.VelocityGenerate;
 
 namespace MotionProfile
 {
@@ -11,7 +12,8 @@ namespace MotionProfile
     {
         private double x;
         private double y;
-        private int heading;
+        private double rotation;
+        private double radius;
 
         float velocity;
         string id;
@@ -19,12 +21,26 @@ namespace MotionProfile
         /// <summary>
         /// Creates a new control point based on coordinates
         /// </summary>
-        public ControlPoint(double x, double y, int heading)
+        public ControlPoint(double x, double y, double rotation)
         {
             this.x = x;
             this.y = y;
-            this.heading = heading;
+            this.rotation = rotation;
             this.id = Guid.NewGuid().ToString();
+            radius = double.PositiveInfinity;
+        }
+        public ControlPoint(double x, double y, double rotation, double radius)
+        {
+            this.x = x;
+            this.y = y;
+            this.rotation = rotation;
+            this.radius = radius;
+            this.id = Guid.NewGuid().ToString();
+        }
+
+        public Rotation2d getRotation2d()
+        {
+            return Rotation2d.fromDegrees(rotation);
         }
 
         /// <summary>
@@ -35,7 +51,8 @@ namespace MotionProfile
         {
             this.x = other.X;
             this.y = other.Y;
-            this.heading = other.Heading;
+            this.rotation = other.Rotation;
+            this.radius = other.Radius;
             this.id = Guid.NewGuid().ToString();
         }
 
@@ -47,7 +64,7 @@ namespace MotionProfile
         {
             this.x = (double)pointJSON["x"];
             this.y = (double)pointJSON["y"];
-            this.heading = (int)pointJSON["heading"];
+            this.rotation = (double)pointJSON["rotation"];
             this.id = (string)pointJSON["id"];
         }
 
@@ -59,30 +76,43 @@ namespace MotionProfile
             JObject pointJSON = new JObject();
             pointJSON["x"] = this.X;
             pointJSON["y"] = this.Y;
-            pointJSON["heading"] = this.Heading;
+            pointJSON["rotation"] = this.Rotation;
             pointJSON["id"] = this.Id;
             return pointJSON;
         }
 
+
+
         public string toJava()
         {
-            return $"\t\t\t{{{this.Y}, {this.X}, {this.heading}}}";
+            return $"\t\t\t{{{this.Y}, {this.X}, {this.Rotation}, {this.Radius}}}";
         }
 
         public string toTxt()
         {
-            return $"{this.Y} {this.X} {this.heading}\n";
+            if(Double.IsInfinity(this.Radius))
+                return $"{this.Y} {this.X} {this.Rotation} Infinity\n";
+            return $"{this.Y} {this.X} {this.Rotation} {this.Radius}\n";
         }
 
-        public int Heading
+        public double Radius
         {
             get
             {
-                return this.heading;
+                return Math.Round(this.radius, 5);
+            }
+        }
+
+
+        public double Rotation
+        {
+            get
+            {
+                return Math.Round(this.rotation, 5);
             }
             set
             {
-                this.heading = value;
+                this.rotation = value;
             }
         }
 

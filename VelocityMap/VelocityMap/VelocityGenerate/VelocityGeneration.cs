@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace VelocityMap.VelocityGenerate
 {
-    class VelocityGeneration
+    public class VelocityGeneration
     {
         private ProfilePath path;
         private List<ConstrainedPathState> constrainedPathStates = new List<ConstrainedPathState>();
-        private double duration;
+        private readonly double duration;
         private double[] pathStateStartTimes;
 
 

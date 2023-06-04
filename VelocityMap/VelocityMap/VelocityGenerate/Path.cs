@@ -15,14 +15,14 @@ namespace VelocityMap.VelocityGenerate
         private Pose2d pose;
 
         private Rotation2d heading;
-        private double curvature;
+        private double radius;
 
-        public PState(double distance, Pose2d pose, Rotation2d heading, double curvature)
+        public PState(double distance, Pose2d pose, Rotation2d heading, double radius)
         {
             this.distance = distance;
             this.pose = pose;
             this.heading = heading;
-            this.curvature = curvature;
+            this.radius = radius;
         }
 
         public double getDistance()
@@ -40,9 +40,9 @@ namespace VelocityMap.VelocityGenerate
             return heading;
         }
 
-        public double getCurvature()
+        public double getRadius()
         {
-            return curvature;
+            return radius;
         }
 
 
@@ -52,7 +52,7 @@ namespace VelocityMap.VelocityGenerate
             return "(distance," + getDistance().ToString(format) +
                     ",pose," + getPose2d() +
                     ",heading," + getHeading() +
-                    ",curvature," + getCurvature().ToString(format) + " )";
+                    ",curvature," + getRadius().ToString(format) + " )";
         }
     }
 }

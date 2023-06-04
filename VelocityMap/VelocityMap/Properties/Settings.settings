@@ -14,7 +14,7 @@
     <Setting Name="RioLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">/home/lvuser/profiles/</Value>
     </Setting>
-    <Setting Name="TrackWidth" Type="System.Single" Scope="User">
+    <Setting Name="FrameWidth" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.711</Value>
     </Setting>
     <Setting Name="MaxVel" Type="System.Double" Scope="User">
@@ -40,6 +40,9 @@
     </Setting>
     <Setting Name="MaxCen" Type="System.Double" Scope="User">
       <Value Profile="(Default)">2.5</Value>
+    </Setting>
+    <Setting Name="FrameLength" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.711</Value>
     </Setting>
   </Settings>
 </SettingsFile>

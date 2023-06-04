@@ -137,7 +137,7 @@
                 {
                     placingPoint = new ControlPoint(x, y, 0);
 
-                    ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Heading);
+                    ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
                     DrawPoint(placingPoint, selectedPath);
                 }                
@@ -156,10 +156,12 @@
                 ProfileEdit();
                 UpdateField();
             }
+            
         }
 
         private void mainField_MouseUp(object sender, MouseEventArgs e)
         {
+
             if (clickedPoint != null)
             {
                 clickedPoint = null;
@@ -211,6 +213,7 @@
                     }
                 }
             }
+            
         }
 
         /// <summary>
@@ -248,16 +251,15 @@
                 double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
                 double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
-                //placingPoint.Heading = (int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI + 360) % 360;
-                placingPoint.Heading = (int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI + 360 + 270) % 360;
-                ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Heading;
+                placingPoint.Rotation = (int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI);
+                ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
 
                 mainField.Series[placingPoint.Id].Points.Clear();
-                double x1 = (double)(placingPoint.X + pointSize * Math.Cos((placingPoint.Heading - 270) * Math.PI / 180));
-                double y1 = (double)(placingPoint.Y + pointSize * Math.Sin((placingPoint.Heading - 270) * Math.PI / 180));
+                double x1 = (double)(placingPoint.X + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
+                double y1 = (double)(placingPoint.Y + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
                 mainField.Series[placingPoint.Id].Points.AddXY(x1, y1);
-                double x2 = (double)(placingPoint.X + 0.600 * Math.Cos((placingPoint.Heading - 270) * Math.PI / 180));
-                double y2 = (double)(placingPoint.Y + 0.600 * Math.Sin((placingPoint.Heading - 270) * Math.PI / 180));
+                double x2 = (double)(placingPoint.X + 0.600 * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
+                double y2 = (double)(placingPoint.Y + 0.600 * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
                 mainField.Series[placingPoint.Id].Points.AddXY(x2, y2);
             }
         }
@@ -276,7 +278,7 @@
                         selectedPath.controlPoints[e.RowIndex].Y = newValue;
                         break;
                     case 2:
-                        selectedPath.controlPoints[e.RowIndex].Heading = (int)newValue;
+                        selectedPath.controlPoints[e.RowIndex].Rotation = (int)newValue;
                         break;
                 }
                 if (e.RowIndex == 0 && selectedPath.snapToPrevious)
@@ -303,7 +305,7 @@
                         break;
                     case 2:
                         ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
-                            = selectedPath.controlPoints[e.RowIndex].Heading;
+                            = selectedPath.controlPoints[e.RowIndex].Rotation;
                         break;
                 }
             }
@@ -326,16 +328,40 @@
             mainField.Series[point.Id].BorderWidth = 2;
             mainField.Series[point.Id].Color = path == selectedPath ? Color.Red : Color.DarkRed;
 
-            double x1 = (double)(point.X + pointSize * Math.Cos((point.Heading - 270) * Math.PI / 180));
-            double y1 = (double)(point.Y + pointSize * Math.Sin((point.Heading - 270) * Math.PI / 180));
+            double x1 = (double)(point.X + pointSize * Math.Sin((point.Rotation) * Math.PI / 180));
+            double y1 = (double)(point.Y + pointSize * Math.Cos((point.Rotation) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x1, y1);
-            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Heading - 270) * Math.PI / 180));
-            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Heading - 270) * Math.PI / 180));
+            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
+            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
             
-            if (path.isSpline || point == placingPoint) return;
+            if (point == placingPoint) return;
             mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
-            mainField.Series[path.id + "-padding"].Points.AddXY(point.X, point.Y);
+
+            if (path == selectedPath)
+            {
+                int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
+                if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
+                mainField.Series.Add(point.Id + "Rectangle");
+                mainField.Series[point.Id + "Rectangle"].ChartType = SeriesChartType.Line;
+                mainField.Series[point.Id + "Rectangle"].BorderWidth = 2;
+                mainField.Series[point.Id + "Rectangle"].Color = Color.GreenYellow;
+
+                Translation2d fl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
+                Translation2d fr = new Translation2d(Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
+                Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
+                Translation2d bl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
+
+                /*mainField.Series[point.Id + "Rectangle"].Points.AddXY(fl.getX(), fl.getY());
+                mainField.Series[point.Id + "Rectangle"].Points.AddXY(fr.getX(), fr.getY());
+                mainField.Series[point.Id + "Rectangle"].Points.AddXY(br.getX(), br.getY());
+                mainField.Series[point.Id + "Rectangle"].Points.AddXY(bl.getX(), bl.getY());
+                mainField.Series[point.Id + "Rectangle"].Points.AddXY(fl.getX(), fl.getY());*/
+
+            }
+
+            
+
 
             /*mainField.Annotations.Add(new TextAnnotation() 
                 {
@@ -359,14 +385,6 @@
             seriesIndex = mainField.Series.IndexOf(path.id + "-padding");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
-            //mainField.Annotations.Clear();
-
-            mainField.Series.Add(path.id + "-padding");
-            mainField.Series[path.id + "-padding"].ChartArea = "field";
-            mainField.Series[path.id + "-padding"].ChartType = SeriesChartType.Line;
-            mainField.Series[path.id + "-padding"].Color = Color.FromArgb(40, Color.Black);
-            mainField.Series[path.id + "-padding"].MarkerSize = 2;
-            mainField.Series[path.id + "-padding"].BorderWidth = (int)(80 * Properties.Settings.Default.TrackWidth);
 
             mainField.Series.Add(path.id + "-path");
             mainField.Series[path.id + "-path"].ChartArea = "field";
@@ -391,28 +409,12 @@
                 DrawPoint(point, path);
             }
 
-            if (path.controlPoints.Count < 2 || !path.isSpline) return;
+            if (path.controlPoints.Count < 2) return;
 
             seriesIndex = mainField.Series.IndexOf(path.id + "-left");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
             seriesIndex = mainField.Series.IndexOf(path.id + "-right");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-
-            mainField.Series.Add(path.id + "-left");
-            mainField.Series[path.id + "-left"].ChartArea = "field";
-            mainField.Series[path.id + "-left"].ChartType = SeriesChartType.Line;
-            mainField.Series[path.id + "-left"].Color = Color.LightGray;
-            mainField.Series[path.id + "-left"].MarkerSize = 2;
-            mainField.Series[path.id + "-left"].BorderWidth = 2;
-
-            mainField.Series.Add(path.id + "-right");
-            mainField.Series[path.id + "-right"].ChartArea = "field";
-            mainField.Series[path.id + "-right"].ChartType = SeriesChartType.Line;
-            mainField.Series[path.id + "-right"].Color = Color.LightGray;
-            mainField.Series[path.id + "-right"].MarkerSize = 2;
-            mainField.Series[path.id + "-right"].BorderWidth = 2;
-
-            List<SplinePoint> pointList = new List<SplinePoint>();
 
             path.generate();
 
@@ -423,34 +425,18 @@
 
             foreach (State s in path.getPoints())
             {
+                //Console.WriteLine(s.getPathState().getPose2d().getRotation().getDegrees());
                 double time = s.getTime();
                 kinematicsChart.Series["Position"].Points.AddXY(time, s.getPathState().getDistance());
                 kinematicsChart.Series["Velocity"].Points.AddXY(time, s.getVelocity());
                 kinematicsChart.Series["Acceleration"].Points.AddXY(time, s.getAcceleration());
 
+
                 Pose2d state = s.getPathState().getPose2d();
 
                 mainField.Series[path.id + "-path"].Points.AddXY(state.getX(), state.getY());
+
             }
-
-
-            //pointList = path.getPoints();
-
-            //foreach (SplinePoint point in pointList)
-            //{
-            //    mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
-            //}
-
-            foreach (SplinePoint point in buildOffsetPoints(-Properties.Settings.Default.TrackWidth, pointList))
-            {
-                mainField.Series[path.id + "-left"].Points.AddXY(point.X, point.Y);
-            }
-            foreach (SplinePoint point in buildOffsetPoints(Properties.Settings.Default.TrackWidth, pointList))
-            {
-                mainField.Series[path.id + "-right"].Points.AddXY(point.X, point.Y);
-            }
-
-            if (path != selectedPath) return;
         }
 
 
@@ -481,6 +467,9 @@
             if (!noSelectedPath()) DrawPath(selectedPath);
 
             setStatus("", false);
+
+            resetTrackBar();
+
         }
 
         public void UpdateTables()
@@ -503,27 +492,10 @@
                 {
                     foreach (ControlPoint point in selectedPath.controlPoints)
                     {
-                        ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Heading);
+                        ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Rotation);
                     }
                 }
             }
-        }
-
-        public List<SplinePoint> buildOffsetPoints(float offset, List<SplinePoint> pointList)
-        {
-            List<SplinePoint> splinePoints = new List<SplinePoint>();
-            SplinePoint lastPoint = new SplinePoint(0, 0);
-
-            foreach (SplinePoint point in pointList)
-            {
-                if (lastPoint.X != 0 && lastPoint.Y != 0)
-                {
-                    splinePoints.Add(new OffsetSegment(lastPoint, point).perp(offset/2));
-                }
-                lastPoint = point;
-            }
-
-            return splinePoints;
         }
 
         private void SaveAllProfiles(object sender, EventArgs e)
@@ -928,7 +900,7 @@
             {
                 foreach (ControlPoint point in selectedPath.controlPoints)
                 {
-                    ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Heading);
+                    ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Rotation);
                 }
                 pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Selected = true;
             }
@@ -968,11 +940,6 @@
             if (noSelectedProfile()) return;
             string edited = selectedProfile.newEdit();
             profileTable.Rows[profiles.IndexOf(selectedProfile)].Cells[1].Value = edited;
-        }
-
-        private double distance(SplinePoint p1, SplinePoint p2)
-        {
-            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
         }
 
         private void saveToRioButton_Click(object sender, EventArgs e)
@@ -1068,7 +1035,8 @@
         private void defaultsButton_Click(object sender, EventArgs e)
         {
             Forms.Defaults defaults = new Forms.Defaults();
-            defaults.Show();
+            defaults.ShowDialog();
+            UpdateField();
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
@@ -1113,7 +1081,7 @@
             if (noSelectedProfile()) return;
 
             Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', ' '));
-            preview.Show();
+            preview.ShowDialog();
         }
 
         private void deletePointButton_Click(object sender, EventArgs e)
@@ -1203,33 +1171,100 @@
         {
             this.closeMain();
         }
+        private void resetTrackBar()
+        {
+            trackBar.Value = 0;
+            trackBar_ValueChanged(null,null);
+            timer1.Stop();
+
+        }
+        private void trackBar_ValueChanged(object sender, EventArgs e)
+        {
+            
+            if (noSelectedPath()) return;
+
+            double percent = (double)trackBar.Value / (double)trackBar.Maximum;
+
+            if (selectedPath.gen == null)
+            {
+                return;
+            }
+
+            double time = selectedPath.gen.getDuration()*percent;
+
+
+            State s = selectedPath.gen.calculate(time);
+
+            PState ps = s.getPathState();
+
+            double x = ps.getPose2d().getX();
+            double y = ps.getPose2d().getY();
+
+            Rotation2d rot = Rotation2d.fromDegrees(0).minus(ps.getPose2d().getRotation());
+
+            int seriesIndex1 = mainField.Series.IndexOf("robotOutline");
+            if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
+            mainField.Series.Add("robotOutline");
+            mainField.Series["robotOutline"].ChartType = SeriesChartType.Line;
+            mainField.Series["robotOutline"].BorderWidth = 2;
+            mainField.Series["robotOutline"].Color = Color.GreenYellow;
+
+
+            int seriesIndex2 = mainField.Series.IndexOf("robotOutlineAngleMark");
+            if (seriesIndex2 != -1) mainField.Series.RemoveAt(seriesIndex2);
+            mainField.Series.Add("robotOutlineAngleMark");
+            mainField.Series["robotOutlineAngleMark"].ChartType = SeriesChartType.Line;
+            mainField.Series["robotOutlineAngleMark"].BorderWidth = 3;
+            mainField.Series["robotOutlineAngleMark"].Color = Color.Blue;
+
+            //Console.WriteLine($"X: {x}, Y: {y}");
+
+            Translation2d fl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d fr = new Translation2d(Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d bl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
+
+            Translation2d CenterMark = new Translation2d(0, Properties.Settings.Default.FrameWidth/2).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d CenterMark2 = new Translation2d(0, Properties.Settings.Default.FrameWidth/2+.25).rotateBy(rot).plus(new Translation2d(x, y));
+
+            mainField.Series["robotOutline"].Points.AddXY(fl.getX(), fl.getY());
+            mainField.Series["robotOutline"].Points.AddXY(fr.getX(), fr.getY());
+            mainField.Series["robotOutline"].Points.AddXY(br.getX(), br.getY());
+            mainField.Series["robotOutline"].Points.AddXY(bl.getX(), bl.getY());
+            mainField.Series["robotOutline"].Points.AddXY(fl.getX(), fl.getY());
+
+            mainField.Series["robotOutlineAngleMark"].Points.AddXY(CenterMark.getX(), CenterMark.getY());
+            mainField.Series["robotOutlineAngleMark"].Points.AddXY(CenterMark2.getX(), CenterMark2.getY());
+
+        }
+        DateTime startTime = DateTime.Now;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            
+            if (noSelectedPath() || selectedPath.gen == null)
+            {
+                timer1.Stop();
+                return;
+            }
+
+            TimeSpan time = DateTime.Now - startTime;
+            if(time.TotalSeconds>selectedPath.gen.getDuration())
+            {
+                timer1.Stop();
+                return;
+            }
+
+            
+
+            trackBar.Value = (int)((time.TotalSeconds / selectedPath.gen.getDuration()) * trackBar.Maximum);
+            trackBar_ValueChanged(null, null);
+            
+        }
+
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            startTime = DateTime.Now;
+            timer1.Start();
+        }
     }
 }
-
-/*List<double> testx = new List<double>();
-                List<double> testy = new List<double>();
-                foreach (ControlPoint point in selectedProfile.paths[path].controlPoints)
-                {
-                    testx.Add(point.X);
-                    testy.Add(point.Y);
-                }
-                MathNet.Numerics.Interpolation.CubicSpline splinetest = MathNet.Numerics.Interpolation.CubicSpline.InterpolateNatural(testx, testy);
-                List<double> derivs = new List<double>();
-                foreach (double x in testx)
-                {
-                    derivs.Add(splinetest.Differentiate(x));
-                }
-
-                MathNet.Numerics.Interpolation.CubicSpline hermite = MathNet.Numerics.Interpolation.CubicSpline.InterpolateHermite(testx, testy, derivs);
-
-                List<double> output = new List<double>();
-                for (int time = 1; time < selectedProfile.paths[path].controlPoints.Count; time++)
-                {
-                    ControlPoint p = selectedProfile.paths[path].controlPoints[time];
-                    double dx = p.X - selectedProfile.paths[path].controlPoints[time - 1].X;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        output.Add(hermite.Interpolate(p.X - dx + 0.25 * i * dx));
-                        //MathNet.Numerics.Interpolation.CubicSpline.inter
-                    }
-                }*/

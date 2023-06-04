@@ -1,10 +1,13 @@
-﻿using MotionProfile.Spline;
+﻿using MathNet.Numerics;
+using MathNet.Numerics.Interpolation;
+using MotionProfile.Spline;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using VelocityMap.VelocityGenerate;
 
 namespace MotionProfile.SegmentedProfile
@@ -19,8 +22,13 @@ namespace MotionProfile.SegmentedProfile
         public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
         public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
         public double maxCen = VelocityMap.Properties.Settings.Default.MaxCen;
+        List<double> cpdistances = new List<double>();
         public bool isSpline = false;
         public SplinePath path = new SplinePath();
+        public VelocityGeneration gen = null;
+
+        public IInterpolation xsMap = null;
+        public IInterpolation ysMap = null;
 
 
         /// <summary>
@@ -151,6 +159,7 @@ namespace MotionProfile.SegmentedProfile
         private List<State> pointList = new List<State>();
         private double length = 0.0;
 
+        double timeSample = .025;
         public void generate()
         {
             if (isSpline)
@@ -159,13 +168,14 @@ namespace MotionProfile.SegmentedProfile
                 path.GenSpline(this.controlPoints);
                 length = path.getLength();
 
+                cpdistances = path.getControlPointDistances();
 
-                TrajectoryConstraint[] constraints = {  new MaxAccelerationConstraint(this.maxAcc)as TrajectoryConstraint,
-                new MaxVelocityConstraint(this.maxVel)as TrajectoryConstraint, new CentripetalAccelerationConstraint(this.maxCen) as TrajectoryConstraint };
+                TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
 
-                VelocityGeneration gen = new VelocityGeneration(this, constraints, .01, 0, 0);
+                gen = new VelocityGeneration(this, constraints, .01, 0, 0);
 
-                for (double time = 0; time < gen.getDuration(); time += .05)
+
+                for (double time = 0; time < gen.getDuration(); time += timeSample)
                 {
                     State s = gen.calculate(time);
 
@@ -173,61 +183,177 @@ namespace MotionProfile.SegmentedProfile
 
                 }
 
-                //Console.WriteLine(path.getLength());
-
-                //path.getControlPointDistances();
-
             }
             else
             {
+                pointList.Clear();
+
                 length = 0;
+                List<double> distances = new List<double>();
+
+                List<double> xs = new List<double>();
+                List<double> ys = new List<double>();
+                cpdistances.Clear();
+
+                cpdistances.Add(0.0);
                 for (int i = 0; i < controlPoints.Count - 1; i++)
                 {
                     ControlPoint p1 = controlPoints[i];
                     ControlPoint p2 = controlPoints[i + 1];
                     length += Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
-
+                    cpdistances.Add(length);
                 }
-                for (int i = 0; i < controlPoints.Count; i++)
+                for (int i = 0; i < cpdistances.Count; i++)
                 {
-                    ControlPoint p1 = controlPoints[i];
-                    //pointList.Add(new SplinePoint(p1.X, p1.Y, i));
+                    distances.Add(cpdistances[i]);
+                    xs.Add(this.controlPoints[i].X);
+                    ys.Add(this.controlPoints[i].Y);
                 }
+
+                xsMap = Interpolate.Linear(distances, xs);
+                ysMap = Interpolate.Linear(distances, ys);
+
+                TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
+
+                gen = new VelocityGeneration(this, constraints, .01, 0, 0);
+
+                for (double time = 0; time < gen.getDuration(); time += timeSample)
+                {
+                    State s = gen.calculate(time);
+
+                    pointList.Add(s);
+                }
+
             }
         }
 
         public PState calculate(double distance)
         {
-            SplinePoint p = path.calculate(distance);
-
-            double distance1 = 0.0;
-            double distance2 = 0.0;
-            double sampleDistance = .02;
-            SplinePoint p1 = null;
-            SplinePoint p2 = null;
-            SplinePoint p3 = null;
-
-            if (distance > sampleDistance)
+            if (isSpline)
             {
-                distance1 = distance - sampleDistance;
-                distance2 = distance + sampleDistance;
-                p1 = path.calculate(distance1);
-                p2 = path.calculate(distance);
-                p3 = path.calculate(distance2);
+                SplinePoint p = path.calculate(distance);
 
+                double distance1 = 0.0;
+                double distance2 = 0.0;
+                double sampleDistance = .02;
+                SplinePoint p1 = null;
+                SplinePoint p2 = null;
+                SplinePoint p3 = null;
+
+                if (distance > sampleDistance)
+                {
+                    distance1 = distance - sampleDistance;
+                    distance2 = distance + sampleDistance;
+                    p1 = path.calculate(distance1);
+                    p2 = path.calculate(distance);
+                    p3 = path.calculate(distance2);
+
+                }
+                else
+                {
+                    distance1 = distance + sampleDistance;
+                    distance2 = distance + sampleDistance * 2;
+                    p1 = path.calculate(distance);
+                    p2 = path.calculate(distance1);
+                    p3 = path.calculate(distance2);
+                }
+
+                double r = circleFromPoints(p1, p2, p3);
+
+                int indexCurrent = getCurrentControlPointIndex(distance);
+                int indexNext = getNextControlPointIndex(distance);
+
+                double distanceBetweenCP = cpdistances[indexNext] - cpdistances[indexCurrent];
+                double distanceSinceCurrentCP = distance - cpdistances[indexCurrent];
+
+                Rotation2d currentRotation = controlPoints[indexCurrent].getRotation2d();
+                Rotation2d nextRotation = controlPoints[indexNext].getRotation2d();
+
+                Rotation2d rot = currentRotation.interpolate(nextRotation, distanceSinceCurrentCP / distanceBetweenCP);
+
+
+                return new PState(distance, new Pose2d(p.X, p.Y, rot), Rotation2d.fromRadians(Math.Atan2(p2.Y - p1.Y, p2.X - p1.X)), r);
             }
             else
             {
-                distance1 = distance + sampleDistance;
-                distance2 = distance + sampleDistance * 2;
-                p1 = path.calculate(distance);
-                p2 = path.calculate(distance1);
-                p3 = path.calculate(distance2);
+                SplinePoint p = linearInterpolation(distance);
+
+                double distance1 = 0.0;
+                double distance2 = 0.0;
+                double sampleDistance = .02;
+                SplinePoint p1 = null;
+                SplinePoint p2 = null;
+                SplinePoint p3 = null;
+
+                if (distance > sampleDistance)
+                {
+                    distance1 = distance - sampleDistance;
+                    distance2 = distance + sampleDistance;
+                    p1 = linearInterpolation(distance1);
+                    p2 = linearInterpolation(distance);
+                    p3 = linearInterpolation(distance2);
+
+                }
+                else
+                {
+                    distance1 = distance + sampleDistance;
+                    distance2 = distance + sampleDistance * 2;
+                    p1 = linearInterpolation(distance);
+                    p2 = linearInterpolation(distance1);
+                    p3 = linearInterpolation(distance2);
+                }
+                int indexCurrent = getCurrentControlPointIndex(distance);
+                int indexNext = getNextControlPointIndex(distance);
+
+                double distanceBetweenCP = cpdistances[indexNext] - cpdistances[indexCurrent];
+                double distanceSinceCurrentCP = distance - cpdistances[indexCurrent];
+
+                Rotation2d currentRotation = controlPoints[indexCurrent].getRotation2d();
+                Rotation2d nextRotation = controlPoints[indexNext].getRotation2d();
+
+                Rotation2d rot = currentRotation.interpolate(nextRotation, distanceSinceCurrentCP/ distanceBetweenCP);
+
+
+                return new PState(distance, new Pose2d(p.X, p.Y, rot), Rotation2d.fromRadians(Math.Atan2(p2.Y - p1.Y, p2.X - p1.X)), double.PositiveInfinity);
             }
+        }
 
-            double r = circleFromPoints(p1, p2, p3);
+        private int getCurrentControlPointIndex(double distance)
+        {
+            if(distance == length)
+            {
+                return cpdistances.Count - 2;
+            }
+            int index = -1;
+            for (int i = 0; i<cpdistances.Count; i++)
+            {
+                double dist = cpdistances[i];
+                if (dist <= distance)
+                    index = i;
+            }
+            return index;
+        }
+        private int getNextControlPointIndex(double distance)
+        {
+            if (distance == length)
+            {
+                return cpdistances.Count - 1;
+            }
+            for (int i = 0; i < cpdistances.Count; i++)
+            {
+                double dist = cpdistances[i];
+                if (dist > distance)
+                    return i;
+            }
+            return -1;
+            
+        }
 
-            return new PState(distance, new Pose2d(p.X, p.Y, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0), r);
+
+        private SplinePoint linearInterpolation(double distance)
+        {
+            if (isSpline) return null;
+            return new SplinePoint(xsMap.Interpolate(distance), ysMap.Interpolate(distance));
         }
 
         static double TOL = 0.0000001;
@@ -260,13 +386,9 @@ namespace MotionProfile.SegmentedProfile
             return pointList;
         }
 
-        private double distance(SplinePoint p1, SplinePoint p2)
-        {
-            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
-        }
-
         public JObject toJSON()
         {
+
             JObject pathJSON = new JObject();
             pathJSON["name"] = this.name;
             pathJSON["id"] = this.id;
@@ -300,12 +422,38 @@ namespace MotionProfile.SegmentedProfile
 
         public string toTxt()
         {
-            string pathTxt = $"{this.maxVel} {this.maxAcc}\n";
-            foreach (ControlPoint point in this.controlPoints)
+            this.generate();
+            if(isSpline)
             {
-                pathTxt += point.toTxt();
+                string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen}\n";
+                if(pointList.Count==0)
+                {
+                    MessageBox.Show("Error no points to export.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return "";
+                }
+                List<ControlPoint> tmpCTL = new List<ControlPoint>();
+                foreach(State s in pointList)
+                {
+                    Pose2d pose = s.getPathState().getPose2d();
+                    tmpCTL.Add(new ControlPoint(pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
+                }
+                foreach (ControlPoint point in tmpCTL)
+                {
+                    pathTxt += point.toTxt();
+                }
+                return pathTxt + "@@@";
             }
-            return pathTxt + "@@@";
+            else
+            {
+                string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen}\n";
+                foreach (ControlPoint point in this.controlPoints)
+                {
+                    pathTxt += point.toTxt();
+                }
+                return pathTxt + "@@@";
+
+            }
+            
         }
 
         public string Name

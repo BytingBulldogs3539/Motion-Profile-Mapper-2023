@@ -74,12 +74,12 @@ namespace VelocityMap.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.711")]
-        public float TrackWidth {
+        public double FrameWidth {
             get {
-                return ((float)(this["TrackWidth"]));
+                return ((double)(this["FrameWidth"]));
             }
             set {
-                this["TrackWidth"] = value;
+                this["FrameWidth"] = value;
             }
         }
         
@@ -176,6 +176,18 @@ namespace VelocityMap.Properties {
             }
             set {
                 this["MaxCen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.711")]
+        public double FrameLength {
+            get {
+                return ((double)(this["FrameLength"]));
+            }
+            set {
+                this["FrameLength"] = value;
             }
         }
     }

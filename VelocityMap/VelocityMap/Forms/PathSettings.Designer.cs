@@ -48,6 +48,9 @@ namespace VelocityMap.Forms
             this.pathNameInput = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.snapToPrevBox = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pathMaxCenAccInput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label7
@@ -56,7 +59,7 @@ namespace VelocityMap.Forms
             this.label7.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label7.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(371, 138);
+            this.label7.Location = new System.Drawing.Point(371, 177);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(30, 14);
@@ -69,7 +72,7 @@ namespace VelocityMap.Forms
             this.label8.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label8.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(371, 165);
+            this.label8.Location = new System.Drawing.Point(371, 208);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 14);
@@ -95,7 +98,7 @@ namespace VelocityMap.Forms
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(371, 111);
+            this.label10.Location = new System.Drawing.Point(371, 115);
             this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(37, 14);
@@ -109,7 +112,7 @@ namespace VelocityMap.Forms
             this.cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
-            this.cancel.Location = new System.Drawing.Point(156, 200);
+            this.cancel.Location = new System.Drawing.Point(153, 235);
             this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(120, 31);
@@ -123,7 +126,7 @@ namespace VelocityMap.Forms
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(13, 164);
+            this.label5.Location = new System.Drawing.Point(13, 207);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(201, 17);
@@ -144,7 +147,7 @@ namespace VelocityMap.Forms
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(13, 137);
+            this.label3.Location = new System.Drawing.Point(13, 176);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 17);
@@ -156,7 +159,7 @@ namespace VelocityMap.Forms
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(13, 110);
+            this.label2.Location = new System.Drawing.Point(13, 114);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(125, 17);
@@ -184,7 +187,7 @@ namespace VelocityMap.Forms
             this.pathMaxRotAccInput.Enabled = false;
             this.pathMaxRotAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pathMaxRotAccInput.ForeColor = System.Drawing.Color.Black;
-            this.pathMaxRotAccInput.Location = new System.Drawing.Point(233, 161);
+            this.pathMaxRotAccInput.Location = new System.Drawing.Point(233, 204);
             this.pathMaxRotAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.pathMaxRotAccInput.Name = "pathMaxRotAccInput";
             this.pathMaxRotAccInput.Size = new System.Drawing.Size(133, 23);
@@ -198,7 +201,7 @@ namespace VelocityMap.Forms
             this.pathMaxRotVelInput.Enabled = false;
             this.pathMaxRotVelInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pathMaxRotVelInput.ForeColor = System.Drawing.Color.Black;
-            this.pathMaxRotVelInput.Location = new System.Drawing.Point(233, 134);
+            this.pathMaxRotVelInput.Location = new System.Drawing.Point(233, 173);
             this.pathMaxRotVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.pathMaxRotVelInput.Name = "pathMaxRotVelInput";
             this.pathMaxRotVelInput.Size = new System.Drawing.Size(133, 23);
@@ -211,7 +214,7 @@ namespace VelocityMap.Forms
             this.pathMaxAccInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pathMaxAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pathMaxAccInput.ForeColor = System.Drawing.Color.Black;
-            this.pathMaxAccInput.Location = new System.Drawing.Point(233, 107);
+            this.pathMaxAccInput.Location = new System.Drawing.Point(233, 111);
             this.pathMaxAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.pathMaxAccInput.Name = "pathMaxAccInput";
             this.pathMaxAccInput.Size = new System.Drawing.Size(133, 23);
@@ -240,7 +243,7 @@ namespace VelocityMap.Forms
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.save.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.Black;
-            this.save.Location = new System.Drawing.Point(284, 200);
+            this.save.Location = new System.Drawing.Point(281, 235);
             this.save.Margin = new System.Windows.Forms.Padding(4);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(120, 31);
@@ -287,12 +290,54 @@ namespace VelocityMap.Forms
             this.snapToPrevBox.Text = "Snap to previous path";
             this.snapToPrevBox.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.label12.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.Black;
+            this.label12.Location = new System.Drawing.Point(371, 145);
+            this.label12.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(37, 14);
+            this.label12.TabIndex = 113;
+            this.label12.Text = "m/s²";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(13, 144);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(206, 17);
+            this.label6.TabIndex = 112;
+            this.label6.Text = "Max Centripetal Acceleration";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pathMaxCenAccInput
+            // 
+            this.pathMaxCenAccInput.BackColor = System.Drawing.Color.White;
+            this.pathMaxCenAccInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pathMaxCenAccInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pathMaxCenAccInput.ForeColor = System.Drawing.Color.Black;
+            this.pathMaxCenAccInput.Location = new System.Drawing.Point(233, 142);
+            this.pathMaxCenAccInput.Margin = new System.Windows.Forms.Padding(4);
+            this.pathMaxCenAccInput.Name = "pathMaxCenAccInput";
+            this.pathMaxCenAccInput.Size = new System.Drawing.Size(133, 23);
+            this.pathMaxCenAccInput.TabIndex = 111;
+            this.pathMaxCenAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // PathSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(420, 248);
+            this.ClientSize = new System.Drawing.Size(420, 285);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pathMaxCenAccInput);
             this.Controls.Add(this.snapToPrevBox);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.pathNameInput);
@@ -340,5 +385,8 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.TextBox pathNameInput;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox snapToPrevBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox pathMaxCenAccInput;
     }
 }
