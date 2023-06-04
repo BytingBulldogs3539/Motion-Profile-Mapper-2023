@@ -12,16 +12,10 @@
     using System.Windows.Forms;
     using System.Windows.Forms.DataVisualization.Charting;
     using MotionProfile;
-    using static MotionProfile.ControlPoint;
-    using MotionProfile.Spline;
-
-    using MathNet.Numerics.Interpolation;
 
     using MotionProfile.SegmentedProfile;
-    using System.Windows.Controls;
     using Renci.SshNet.Sftp;
     using VelocityMap.Forms;
-    using VelocityMap;
     using VelocityMap.VelocityGenerate;
 
 
@@ -84,6 +78,8 @@
         private void MainForm_Load(object sender, EventArgs e)
         {
             SetupMainField();
+
+
         }
 
         /// <summary>
@@ -113,8 +109,8 @@
 
         private void setBackground(bool blue, bool colored)
         {
-            mainField.ChartAreas["field"].BackImage = 
-                (blue? "blue" : "red") + (colored? "-colored" : "");
+            mainField.ChartAreas["field"].BackImage =
+                (blue ? "blue" : "red") + (colored ? "-colored" : "");
         }
 
         private void selectPoint(int index)
@@ -140,7 +136,7 @@
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
                     DrawPoint(placingPoint, selectedPath);
-                }                
+                }
             }
             else
             {
@@ -156,7 +152,7 @@
                 ProfileEdit();
                 UpdateField();
             }
-            
+
         }
 
         private void mainField_MouseUp(object sender, MouseEventArgs e)
@@ -171,6 +167,9 @@
                 UpdateField();
                 ProfileEdit();
             }
+            System.Windows.Forms.Cursor.Clip = new Rectangle();
+
+
         }
 
         /// <summary>
@@ -195,14 +194,14 @@
                         clickedPointPath = path;
                         if (clickedPointPath == selectedPath) selectPoint(path.controlPoints.IndexOf(point));
 
-                        if (clickedPoint == clickedPointPath.controlPoints[0] 
+                        if (clickedPoint == clickedPointPath.controlPoints[0]
                             && clickedPointPath.snapToPrevious)
                         {
                             int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
                             snappedPointPath = selectedProfile.paths[pathIndex - 1];
                             snappedPoint = snappedPointPath.controlPoints.Last();
                         }
-                        else if (clickedPoint == clickedPointPath.controlPoints.Last() 
+                        else if (clickedPoint == clickedPointPath.controlPoints.Last()
                             && clickedPointPath != selectedProfile.paths.Last())
                         {
                             int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
@@ -213,12 +212,14 @@
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
         /// The event that is called when the user mouse while above the main field.
         /// </summary>
+        /// 
+
         private void MainField_MouseMove(object sender, MouseEventArgs e)
         {
             Chart chart = (Chart)sender;
@@ -226,8 +227,26 @@
             //if the user is holding the left button while moving the mouse allow them to move the point.
             if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left))
             {
-                double newX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double newY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth-.01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight-.02));
+
+                p = chart.PointToScreen(p);
+
+                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth-.01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight-.02));
+                System.Windows.Forms.Cursor.Clip = bounds;
+
+                double newX = 0.0;
+                double newY = 0.0;
+                try
+                {
+
+                    newX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                    newY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+
+                }
+                catch
+                {
+                    return;
+                }
 
                 clickedPoint.X = newX;
                 clickedPoint.Y = newY;
@@ -245,6 +264,10 @@
 
                 DrawPath(clickedPointPath);
                 if (snappedPoint != null) DrawPath(snappedPointPath);
+            }
+            else
+            {
+                System.Windows.Forms.Cursor.Clip = new Rectangle();
             }
             if (placingPoint != null)
             {
@@ -334,7 +357,7 @@
             double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
             double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
             mainField.Series[point.Id].Points.AddXY(x2, y2);
-            
+
             if (point == placingPoint) return;
             mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
 
@@ -360,7 +383,7 @@
 
             }
 
-            
+
 
 
             /*mainField.Annotations.Add(new TextAnnotation() 
@@ -640,7 +663,7 @@
                 }
                 if (foundFiles) setStatus("Profiles loaded from RIO", false);
                 else setStatus("No motion profiles found at RIO directory", false);
-                
+
                 sftp.Disconnect();
             }
             catch (Renci.SshNet.Common.SshConnectionException exception)
@@ -720,7 +743,7 @@
         {
             profiles.Add(new Profile());
             profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
-            
+
             selectProfile(profiles.Count - 1);
         }
 
@@ -763,7 +786,7 @@
         private void newPathButton_Click(object sender, EventArgs e)
         {
             if (noSelectedProfile()) return;
-            
+
             string newPathName = "new path " + ++newPathCount;
 
             if (Properties.Settings.Default.SnapNewPaths && selectedProfile.paths.Count > 0)
@@ -893,7 +916,7 @@
 
             if (index != -1) selectedPath = selectedProfile.paths[index];
 
-            if(!noSelectedPath())
+            if (!noSelectedPath())
                 setSplineMode(selectedPath.isSpline);
 
             if (!noSelectedPath())
@@ -1099,7 +1122,7 @@
 
             if (ControlPointTable.SelectedRows[0].Index == 0 && selectedPath.snapToPrevious)
                 selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.controlPoints[0]);
-            if (ControlPointTable.SelectedRows[0].Index == selectedPath.controlPoints.Count 
+            if (ControlPointTable.SelectedRows[0].Index == selectedPath.controlPoints.Count
                         && selectedPath != selectedProfile.paths.Last()
                         && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
             {
@@ -1154,7 +1177,7 @@
         private void radioLine_CheckedChanged(object sender, EventArgs e)
         {
             splineMode = false;
-            if(!noSelectedPath())
+            if (!noSelectedPath())
                 selectedPath.isSpline = splineMode;
             UpdateField();
         }
@@ -1174,13 +1197,13 @@
         private void resetTrackBar()
         {
             trackBar.Value = 0;
-            trackBar_ValueChanged(null,null);
+            trackBar_ValueChanged(null, null);
             timer1.Stop();
 
         }
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
-            
+
             if (noSelectedPath()) return;
 
             double percent = (double)trackBar.Value / (double)trackBar.Maximum;
@@ -1190,7 +1213,7 @@
                 return;
             }
 
-            double time = selectedPath.gen.getDuration()*percent;
+            double time = selectedPath.gen.getDuration() * percent;
 
 
             State s = selectedPath.gen.calculate(time);
@@ -1224,8 +1247,8 @@
             Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
             Translation2d bl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
 
-            Translation2d CenterMark = new Translation2d(0, Properties.Settings.Default.FrameWidth/2).rotateBy(rot).plus(new Translation2d(x, y));
-            Translation2d CenterMark2 = new Translation2d(0, Properties.Settings.Default.FrameWidth/2+.25).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d CenterMark = new Translation2d(0, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d CenterMark2 = new Translation2d(0, Properties.Settings.Default.FrameWidth / 2 + .25).rotateBy(rot).plus(new Translation2d(x, y));
 
             mainField.Series["robotOutline"].Points.AddXY(fl.getX(), fl.getY());
             mainField.Series["robotOutline"].Points.AddXY(fr.getX(), fr.getY());
@@ -1240,7 +1263,7 @@
         DateTime startTime = DateTime.Now;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+
             if (noSelectedPath() || selectedPath.gen == null)
             {
                 timer1.Stop();
@@ -1248,17 +1271,17 @@
             }
 
             TimeSpan time = DateTime.Now - startTime;
-            if(time.TotalSeconds>selectedPath.gen.getDuration())
+            if (time.TotalSeconds > selectedPath.gen.getDuration())
             {
                 timer1.Stop();
                 return;
             }
 
-            
+
 
             trackBar.Value = (int)((time.TotalSeconds / selectedPath.gen.getDuration()) * trackBar.Maximum);
             trackBar_ValueChanged(null, null);
-            
+
         }
 
         private void playButton_Click(object sender, EventArgs e)
