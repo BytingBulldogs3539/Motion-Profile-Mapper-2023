@@ -116,6 +116,12 @@
     <Compile Include="Forms\PathSettings.Designer.cs">
       <DependentUpon>PathSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PoseVisualizer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PoseVisualizer.Designer.cs">
+      <DependentUpon>PoseVisualizer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Preview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +213,9 @@
     <EmbeddedResource Include="Forms\PathSettings.resx">
       <DependentUpon>PathSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PoseVisualizer.resx">
+      <DependentUpon>PoseVisualizer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preview.resx">
       <DependentUpon>Preview.cs</DependentUpon>
     </EmbeddedResource>
@@ -251,6 +260,7 @@
     <None Include="Resources\2023-blue-colored.png" />
     <None Include="Resources\2023-blue.png" />
     <None Include="Resources\2023-red.bmp" />
+    <None Include="Resources\2023-full-field.png" />
     <Content Include="Resources\blue.png" />
     <Content Include="Resources\blue_colored.png" />
     <Content Include="Resources\red.png" />

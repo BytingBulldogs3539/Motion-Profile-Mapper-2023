@@ -93,6 +93,16 @@ namespace VelocityMap.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2023_full_field {
+            get {
+                object obj = ResourceManager.GetObject("_2023_full_field", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _2023_red {
             get {
                 object obj = ResourceManager.GetObject("_2023_red", resourceCulture);

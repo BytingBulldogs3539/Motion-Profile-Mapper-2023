@@ -500,32 +500,6 @@
 
         }
 
-        public void UpdateTables()
-        {
-            profileTable.Rows.Clear();
-            pathTable.Rows.Clear();
-            ControlPointTable.Rows.Clear();
-
-            foreach (Profile profile in profiles)
-            {
-                profileTable.Rows.Add(profile.Name, profile.Edited);
-            }
-            if (!noSelectedProfile())
-            {
-                foreach (ProfilePath path in selectedProfile.paths)
-                {
-                    pathTable.Rows.Add(path.Name);
-                }
-                if (!noSelectedPath())
-                {
-                    foreach (ControlPoint point in selectedPath.controlPoints)
-                    {
-                        ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Rotation);
-                    }
-                }
-            }
-        }
-
         private void SaveAllProfiles(object sender, EventArgs e)
         {
             if (profiles.Count == 0) return;
@@ -1182,16 +1156,14 @@
         private void radioLine_CheckedChanged(object sender, EventArgs e)
         {
             splineMode = false;
-            if (!noSelectedPath())
-                selectedPath.isSpline = splineMode;
+            if (!noSelectedPath()) selectedPath.isSpline = splineMode;
             UpdateField();
         }
 
         private void radioSpline_CheckedChanged(object sender, EventArgs e)
         {
             splineMode = true;
-            if (!noSelectedPath())
-                selectedPath.isSpline = splineMode;
+            if (!noSelectedPath()) selectedPath.isSpline = splineMode;
             UpdateField();
         }
 
@@ -1199,13 +1171,14 @@
         {
             this.closeMain();
         }
+
         private void resetTrackBar()
         {
             //trackBar.Value = 0;
             trackBar_ValueChanged(null, null);
             stopTimer();
-
         }
+
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
 
@@ -1307,13 +1280,9 @@
             playButton.IconChar = FontAwesome.Sharp.IconChar.Pause;
             double percent = (double)trackBar.Value / (double)trackBar.Maximum;
 
-            if (selectedPath.gen == null)
-            {
-                return;
-            }
+            if (selectedPath.gen == null) return;
 
-            if(percent != 1.0)
-                timeOffset = selectedPath.gen.getDuration() * percent;
+            if (percent != 1.0) timeOffset = selectedPath.gen.getDuration() * percent;
             
         }
         private void playButton_Click(object sender, EventArgs e)

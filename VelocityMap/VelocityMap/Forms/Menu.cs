@@ -30,5 +30,12 @@ namespace VelocityMap.Forms
             constants.Show();
             this.Hide();
         }
+
+        private void poseVisualizer_Click(object sender, EventArgs e)
+        {
+            PoseVisualizer poseVisualizer = new PoseVisualizer(this.Close);
+            poseVisualizer.Show();
+            this.Hide();
+        }
     }
 }
