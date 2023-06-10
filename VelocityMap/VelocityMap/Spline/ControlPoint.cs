@@ -85,6 +85,8 @@ namespace MotionProfile
 
         public string toJava()
         {
+            if (Double.IsInfinity(this.Radius))
+                return $"\t\t\t{{{this.Y}, {this.X}, {this.Rotation}, Double.POSITIVE_INFINITY}}";
             return $"\t\t\t{{{this.Y}, {this.X}, {this.Rotation}, {this.Radius}}}";
         }
 

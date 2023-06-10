@@ -430,10 +430,35 @@ namespace MotionProfile.SegmentedProfile
         {
             string path = "\t\t{\n";
             List<string> pointStrings = new List<string>();
-            foreach (ControlPoint point in this.controlPoints)
+
+            this.generate();
+            if (isSpline)
             {
-                pointStrings.Add(point.toJava());
+                if (pointList.Count == 0)
+                {
+                    MessageBox.Show("Error no points to export.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return "";
+                }
+                List<ControlPoint> tmpCTL = new List<ControlPoint>();
+                foreach (State s in pointList)
+                {
+                    Pose2d pose = s.getPathState().getPose2d();
+                    tmpCTL.Add(new ControlPoint(pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
+                }
+                foreach (ControlPoint point in tmpCTL)
+                {
+                    pointStrings.Add(point.toJava());
+                }
             }
+            else
+            {
+                foreach (ControlPoint point in this.controlPoints)
+                {
+                    pointStrings.Add(point.toJava());
+                }
+
+            }
+
             path += String.Join(",\n", pointStrings) + "\n";
             path += "\t\t}";
             return path;

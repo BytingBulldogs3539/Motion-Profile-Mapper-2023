@@ -47,7 +47,7 @@ namespace VelocityMap.Forms
         private void configurationGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             List<String> list = new List<String>();
-            for(int i = 0; i < configurationGrid.Rows.Count; i++)
+            for (int i = 0; i < configurationGrid.Rows.Count; i++)
             {
                 DataGridViewRow row = configurationGrid.Rows[i];
 
@@ -152,10 +152,10 @@ namespace VelocityMap.Forms
         }
         private void Column3_KeyDown_Double(object sender, KeyEventArgs e)
         {
-            if(e.Control && e.KeyCode == Keys.V)
+            if (e.Control && e.KeyCode == Keys.V)
             {
                 double output;
-                if(!double.TryParse(Clipboard.GetText(), out output))
+                if (!double.TryParse(Clipboard.GetText(), out output))
                 {
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -177,9 +177,9 @@ namespace VelocityMap.Forms
         }
         private void Column3_KeyPress_Double(object sender, KeyPressEventArgs e)
         {
-            
+
             // allows 0-9, backspace, and decimal
-            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46 && e.KeyChar != '-'&& !char.IsControl(e.KeyChar)))
+            if (((e.KeyChar < 48 || e.KeyChar > 57) && e.KeyChar != 8 && e.KeyChar != 46 && e.KeyChar != '-' && !char.IsControl(e.KeyChar)))
             {
                 e.Handled = true;
                 return;
@@ -194,24 +194,24 @@ namespace VelocityMap.Forms
             // checks to make sure only 1 - is allowed
             if (e.KeyChar == '-')
             {
-                if((sender as TextBox).SelectionStart != 0)
+                if ((sender as TextBox).SelectionStart != 0)
                     e.Handled = true;
                 if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
                     e.Handled = true;
             }
         }
-        
+
         private void Column3_KeyPress_VariableName(object sender, KeyPressEventArgs e)
         {
             if ((sender as TextBox).TextLength == 0)
             {
-                if (!char.IsLetter(e.KeyChar)&&!char.IsControl(e.KeyChar))
+                if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
                 {
                     e.Handled = true;
                 }
             }
         }
-        
+
         private void Column3_KeyPress_NULL(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
@@ -296,11 +296,10 @@ namespace VelocityMap.Forms
             String files = "";
             foreach (INI ini in inis)
             {
-                files += $"\"{ini.fileName}.ini\" ";
+                files += $"\"{ini.fileName}\" ";
             }
 
-
-            browser.Filter = "Directory|directory";
+            browser.Filter = "Java and INI Files(*.java, *.ini)|directory|INI Files(*.ini)|directory|Java Files(*.java)|directory";
             browser.Title = "Save all files locally";
             browser.FileName = files;
             browser.OverwritePrompt = false;
@@ -310,17 +309,35 @@ namespace VelocityMap.Forms
             Cursor = Cursors.WaitCursor;
             setStatus("Saving profiles to file system...", Color.Black);
 
-            Boolean yesToAll = false;
+            List<string> paths = new List<string>();
+
+
             foreach (INI ini in inis)
             {
-                string filePath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
+                string iniPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
+                string javaPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".java");
+                if (browser.FilterIndex == 2)
+                    paths.Add(iniPath);
+                else if (browser.FilterIndex == 3)
+                    paths.Add(javaPath);
+                else
+                {
+                    paths.Add(javaPath);
+                    paths.Add(iniPath);
+                }
+            }
+
+            bool yesToAll = false;
+            foreach (string path in paths)
+            {
+                string filePath = path;
                 if (File.Exists(filePath) && !yesToAll)
                 {
                     MessageBoxManager.Yes = "Yes";
                     MessageBoxManager.No = "No";
                     MessageBoxManager.Cancel = "Yes To All";
                     MessageBoxManager.Register();
-                    DialogResult result = MessageBox.Show($"{Path.GetFileNameWithoutExtension(ini.fileName) + ".ini"} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                     MessageBoxManager.Unregister();
                     switch (result)
                     {
@@ -334,11 +351,20 @@ namespace VelocityMap.Forms
                     }
 
                 }
-                using (var writer = new StreamWriter(filePath))
-                {
-                    writer.Write(ini.toIni());
-                }
+                if (Path.GetExtension(path) == ".ini")
+                    using (var writer = new StreamWriter(filePath))
+                    {
+                        writer.Write(selectedIni.toIni());
+                    }
+                if (Path.GetExtension(path) == ".java")
+                    using (var writer = new StreamWriter(filePath))
+                    {
+                        writer.Write(selectedIni.toJava());
+                    }
             }
+
+
+
             setStatus("Configure Robot Constants", Color.Black);
             Cursor = Cursors.Default;
         }
@@ -351,19 +377,73 @@ namespace VelocityMap.Forms
             SaveFileDialog browser = new SaveFileDialog();
             browser.RestoreDirectory = true;
             browser.FileName = selectedIni.fileName + ".ini";
-            browser.Filter = "Directory|directory";
+            browser.AddExtension = false;
+            browser.Filter = "Java and INI Files(*.java, *.ini)|*.ini;*.java;|INI File(*.ini)|*.ini|Java File(*.java)|*.java";
             browser.Title = "Save initialization file locally";
+            browser.OverwritePrompt = false;
+
+
 
             if (browser.ShowDialog() != DialogResult.OK) return;
 
             Cursor = Cursors.WaitCursor;
-            string filePath = Path.Combine(
+            string iniPath = Path.Combine(
                 Path.GetDirectoryName(browser.FileName.Trim()),
                 selectedIni.fileName + ".ini"
             );
-            using (var writer = new StreamWriter(filePath))
+
+            string javaPath = Path.Combine(
+                Path.GetDirectoryName(browser.FileName.Trim()),
+                selectedIni.fileName + ".java"
+            );
+
+            List<string> paths = new List<string>();
+            Console.WriteLine(browser.FilterIndex);
+            if (browser.FilterIndex == 2)
+                paths.Add(iniPath);
+            else if(browser.FilterIndex == 3)
+                paths.Add(javaPath);
+            else
             {
-                writer.Write(selectedIni.toIni());
+                paths.Add(javaPath);
+                paths.Add(iniPath);
+            }
+            
+
+            bool yesToAll = false;
+            foreach (string path in paths)
+            {
+                string filePath = path;
+                if (File.Exists(filePath) && !yesToAll)
+                {
+                    MessageBoxManager.Yes = "Yes";
+                    MessageBoxManager.No = "No";
+                    MessageBoxManager.Cancel = "Yes To All";
+                    MessageBoxManager.Register();
+                    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    MessageBoxManager.Unregister();
+                    switch (result)
+                    {
+                        case DialogResult.OK:
+                            break;
+                        case DialogResult.No:
+                            continue;
+                        case DialogResult.Cancel:
+                            yesToAll = true;
+                            break;
+                    }
+
+                }
+                if (Path.GetExtension(path) == ".ini")
+                    using (var writer = new StreamWriter(filePath))
+                    {
+                        writer.Write(selectedIni.toIni());
+                    }
+                if (Path.GetExtension(path) == ".java")
+                    using (var writer = new StreamWriter(filePath))
+                    {
+                        writer.Write(selectedIni.toJava());
+                    }
             }
 
             Cursor = Cursors.Default;
@@ -590,7 +670,7 @@ namespace VelocityMap.Forms
             saveAllLocalButton.Enabled = inis.Count > 0;
             deleteButton.Enabled = selectedIni != null;
             configurationGrid.Enabled = filenameGrid.SelectedCells.Count > 0;
-            if(configurationGrid.Enabled)
+            if (configurationGrid.Enabled)
                 configurationGrid_CellValidating(null, null);
             else
             {
@@ -608,8 +688,8 @@ namespace VelocityMap.Forms
 
         private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            if (configurationGrid.SelectedCells.Count == 0 
-                || e.RowIndex == configurationGrid.RowCount - 1) 
+            if (configurationGrid.SelectedCells.Count == 0
+                || e.RowIndex == configurationGrid.RowCount - 1)
                 return;
             if (e.RowIndex == selectedIni.variables.Count)
             {
@@ -658,7 +738,7 @@ namespace VelocityMap.Forms
         {
             inis.RemoveAt(index);
             filenameGrid.Rows.RemoveAt(index);
-            if(filenameGrid.RowCount>0)
+            if (filenameGrid.RowCount > 0)
             {
                 filenameGrid.ClearSelection();
                 if (index > 0)
@@ -792,13 +872,13 @@ namespace VelocityMap.Forms
         private void rowContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             if (configurationGrid.SelectedRows.Count < 1) { e.Cancel = true; return; }
-            if (configurationGrid.SelectedRows[0].Index == configurationGrid.RowCount-1) e.Cancel = true;
+            if (configurationGrid.SelectedRows[0].Index == configurationGrid.RowCount - 1) e.Cancel = true;
         }
 
         private void configurationGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
-            {  
+            {
 
                 configurationGrid.ClearSelection();
                 configurationGrid.Rows[e.RowIndex].Selected = true;

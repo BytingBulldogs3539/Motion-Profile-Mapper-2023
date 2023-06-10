@@ -121,7 +121,21 @@ namespace MotionProfile.SegmentedProfile
 
         public string toJava()
         {
-            string profile = "public class Test {\n";
+            string profile = $"public class {this.name.Replace(" ","").Trim()} extends BBPath \n";
+
+            profile += "{\n\tpublic double[][] getConstrains{return constraints;}";
+            profile += "\tpublic double[][][] getPaths{return paths;}";
+
+            profile += "\tpublic final double[][] constraints = {\n";
+
+            List<string> constraintStrings = new List<string>();
+            foreach (ProfilePath path in this.paths)
+            {
+                constraintStrings.Add("\t\t{" + $"{path.maxVel},{path.maxAcc},{path.maxCen}"+ "}");
+            }
+            profile += String.Join(",\n", constraintStrings) + "\n";
+            profile += "\t};\n";
+
 
             profile += "\tpublic final double[][][] paths = {\n";
             List<string> pathStrings = new List<string>();

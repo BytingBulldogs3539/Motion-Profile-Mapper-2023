@@ -277,6 +277,14 @@
             }
             if (placingPoint != null)
             {
+
+                Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+
+                p = chart.PointToScreen(p);
+
+                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+                System.Windows.Forms.Cursor.Clip = bounds;
+
                 double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
                 double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
@@ -536,7 +544,7 @@
             if (noSelectedProfile()) return;
 
             SaveFileDialog browser = new SaveFileDialog();
-            browser.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            browser.RestoreDirectory = true;
             browser.FileName = selectedProfile.Name.Replace(' ', '_');
             browser.Filter = "Motion Profile|*.mp;";
             browser.Title = "Save motion profile file";
@@ -1252,7 +1260,7 @@
             }
 
             TimeSpan time = DateTime.Now - startTime;
-            if (time.TotalSeconds > selectedPath.gen.getDuration())
+            if (time.TotalSeconds + timeOffset > selectedPath.gen.getDuration())
             {
                 trackBar.Value = trackBar.Maximum;
                 stopTimer();

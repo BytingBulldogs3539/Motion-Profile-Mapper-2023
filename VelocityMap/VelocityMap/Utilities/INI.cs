@@ -242,5 +242,37 @@ namespace VelocityMap.Utilities
             }
             return ini;
         }
+        public string toJava()
+        {
+
+            string fileContent = "package frc.robot.constants;\n\nimport org.bytingbulldogs.bulldoglibrary.INIConfiguration.BBConstants;\n\n";
+                
+            fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants"+"{"+"\n";
+
+            fileContent += "\tpublic "+this.fileName+"() {\n\t\tsuper(\""+ Properties.Settings.Default.INILocation + this.fileName+".ini\", true);\n\t\tsave();\n\t}\n";
+
+            foreach (INIVariable variable in variables)
+            {
+                if(variable.type.ToLower() == "string")
+                    fileContent += $"\tpublic static {variable.type} {variable.name} = \"{variable.value}\";\n";
+                else if(variable.type.ToLower() == "boolean")
+                {
+                    if(variable.value.ToLower() == "true")
+                    {
+                        fileContent += $"\tpublic static {variable.type} {variable.name} = true;\n";
+                    }
+                    else if (variable.value.ToLower() == "false")
+                    {
+                        fileContent += $"\tpublic static {variable.type} {variable.name} = false;\n";
+                    }
+                }
+                else
+                    fileContent += $"\tpublic static {variable.type} {variable.name} = {variable.value};\n";
+            }
+
+            fileContent += "}\n";
+
+            return fileContent;
+        }
     }
 }
