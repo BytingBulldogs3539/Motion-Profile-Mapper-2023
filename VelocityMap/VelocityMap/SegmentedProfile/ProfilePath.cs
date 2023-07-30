@@ -54,7 +54,14 @@ namespace MotionProfile.SegmentedProfile
             this.id = (string)pathJSON["id"];
             this.maxVel = (double)pathJSON["maxVelocity"];
             this.maxAcc = (double)pathJSON["maxAcceleration"];
-            this.isSpline = (bool)pathJSON["isSpline"];
+            try
+            {
+                this.isSpline = (bool)pathJSON["isSpline"];
+            }
+            catch
+            {
+
+            }
             this.snapToPrevious = pathJSON.ContainsKey("snapToPrevious") ?
                 (bool)pathJSON["snapToPrevious"] : false;
 

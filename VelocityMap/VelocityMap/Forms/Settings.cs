@@ -20,6 +20,7 @@ namespace VelocityMap
             this.password.Text = Properties.Settings.Default.Password;
             this.riopath.Text = Properties.Settings.Default.RioLocation;
             this.iniPath.Text = Properties.Settings.Default.INILocation;
+            this.checkBox1.Checked = Properties.Settings.Default.defaultAllianceIsRed;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -35,6 +36,7 @@ namespace VelocityMap
             Properties.Settings.Default.Password = this.password.Text;
             Properties.Settings.Default.RioLocation = this.riopath.Text + (this.riopath.Text.Last().ToString() == "/"? "" : "/");
             Properties.Settings.Default.INILocation = this.iniPath.Text + (this.iniPath.Text.Last().ToString() == "/" ? "" : "/");
+            Properties.Settings.Default.defaultAllianceIsRed = this.checkBox1.Checked;
 
             Properties.Settings.Default.Save();
 

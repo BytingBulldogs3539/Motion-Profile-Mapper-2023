@@ -13,6 +13,8 @@ namespace MotionProfile.SegmentedProfile
         private string edited;
         public List<ProfilePath> paths;
         static int profileCounter = 1;
+        public bool isRed = false;
+
 
         /// <summary>
         /// Creates a new blank profile
@@ -22,6 +24,7 @@ namespace MotionProfile.SegmentedProfile
             this.name = "new profile " + profileCounter++;
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
             this.paths = new List<ProfilePath>();
+            this.isRed = VelocityMap.Properties.Settings.Default.defaultAllianceIsRed;
         }
 
         /// <summary>
@@ -34,6 +37,15 @@ namespace MotionProfile.SegmentedProfile
             this.edited = (string)profileJSON["edited"];
             this.paths = new List<ProfilePath>();
 
+            try
+            {
+                this.isRed = (bool)profileJSON["isRed"];
+            }
+            catch
+            {
+
+            }
+
             foreach (JObject pathJSON in profileJSON["paths"])
             {
                 this.paths.Add(new ProfilePath(pathJSON));
@@ -45,6 +57,7 @@ namespace MotionProfile.SegmentedProfile
             this.name = other.name;
             this.edited = other.edited;
             this.paths = new List<ProfilePath>();
+            this.isRed = other.isRed;
 
             foreach (ProfilePath path in other.paths)
             {
@@ -54,7 +67,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void newPath(string name, bool isSpline,ProfilePath previous = null)
         {
-            this.paths.Add(new ProfilePath(name, isSpline, previous));
+            this.paths.Add(new ProfilePath(name, isSpline,previous));
         }
 
         public void movePathOrderUp(ProfilePath pathToMove)
@@ -108,6 +121,7 @@ namespace MotionProfile.SegmentedProfile
             JObject profile = new JObject();
             profile["name"] = this.name;
             profile["edited"] = this.edited;
+            profile["isRed"] = this.isRed;
 
             JArray pathsJSON = new JArray();
             foreach (ProfilePath path in this.paths)

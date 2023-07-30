@@ -714,6 +714,10 @@
             }
             if (index == -1 || selectedProfile.PathCount == 0) selectPath();
             else selectPath(0);
+
+
+            if (!noSelectedProfile())
+                setAllianceMode(selectedProfile.isRed);
         }
 
         private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -906,6 +910,7 @@
             if (!noSelectedPath())
                 setSplineMode(selectedPath.isSpline);
 
+
             if (!noSelectedPath())
             {
                 foreach (ControlPoint point in selectedPath.controlPoints)
@@ -933,7 +938,7 @@
         private void rioConectionButton_Click(object sender, EventArgs e)
         {
             Settings settings = new Settings();
-            settings.Show();
+            settings.ShowDialog();
         }
 
         private void editPathButton_Click(object sender, EventArgs e)
@@ -1061,11 +1066,13 @@
 
         private void radioRed_CheckedChanged(object sender, EventArgs e)
         {
+            if (!noSelectedProfile()) selectedProfile.isRed = radioRed.Checked;
             setBackground(false, false);
         }
 
         private void radioBlue_CheckedChanged(object sender, EventArgs e)
         {
+            if (!noSelectedProfile()) selectedProfile.isRed = !radioBlue.Checked;
             setBackground(true, false);
         }
 
@@ -1083,7 +1090,7 @@
             if (noSelectedProfile() || noSelectedPath()) return;
 
             ShiftPath shiftPath = new ShiftPath(selectedPath, this.selectPath);
-            shiftPath.Show();
+            shiftPath.ShowDialog();
         }
 
         private void previewButton_Click(object sender, EventArgs e)
@@ -1123,13 +1130,13 @@
             if (noSelectedProfile() || noSelectedPath()) return;
 
             MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, ProfileEdit, fieldWidth);
-            mirrorPath.Show();
+            mirrorPath.ShowDialog();
         }
 
         private void infoButton_Click(object sender, EventArgs e)
         {
             AboutBox about = new AboutBox();
-            about.Show();
+            about.ShowDialog();
         }
 
         private void pathTable_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -1159,6 +1166,12 @@
         {
             radioLine.Checked = !isSpline;
             radioSpline.Checked = isSpline;
+        }
+
+        private void setAllianceMode(bool isRed)
+        {
+            radioRed.Checked = isRed;
+            radioBlue.Checked = !isRed;
         }
 
         private void radioLine_CheckedChanged(object sender, EventArgs e)

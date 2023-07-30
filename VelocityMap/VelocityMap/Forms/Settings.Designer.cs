@@ -43,6 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.iniPath = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // save
@@ -111,7 +112,7 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(21, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 16);
+            this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "IP Address";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -123,7 +124,7 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(27, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 16);
+            this.label2.Size = new System.Drawing.Size(78, 17);
             this.label2.TabIndex = 6;
             this.label2.Text = "Username";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -135,7 +136,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(30, 94);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 16);
+            this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "Password";
             // 
@@ -154,7 +155,7 @@
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(35, 121);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 16);
+            this.label5.Size = new System.Drawing.Size(66, 17);
             this.label5.TabIndex = 9;
             this.label5.Text = "File Path";
             // 
@@ -180,7 +181,7 @@
             this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(76, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(204, 16);
+            this.label6.Size = new System.Drawing.Size(223, 17);
             this.label6.TabIndex = 11;
             this.label6.Text = "Establish RoboRIO Connection";
             // 
@@ -191,7 +192,7 @@
             this.label7.ForeColor = System.Drawing.Color.Black;
             this.label7.Location = new System.Drawing.Point(35, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 16);
+            this.label7.Size = new System.Drawing.Size(64, 17);
             this.label7.TabIndex = 13;
             this.label7.Text = "INI Path";
             // 
@@ -206,12 +207,26 @@
             this.iniPath.Size = new System.Drawing.Size(242, 23);
             this.iniPath.TabIndex = 12;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.ForeColor = System.Drawing.Color.Black;
+            this.checkBox1.Location = new System.Drawing.Point(24, 177);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(166, 21);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.Text = "Default alliance is red";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(383, 251);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.iniPath);
             this.Controls.Add(this.label6);
@@ -253,5 +268,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox iniPath;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

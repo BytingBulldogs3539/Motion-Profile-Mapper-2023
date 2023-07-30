@@ -44,5 +44,8 @@
     <Setting Name="FrameLength" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.711</Value>
     </Setting>
+    <Setting Name="defaultAllianceIsRed" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

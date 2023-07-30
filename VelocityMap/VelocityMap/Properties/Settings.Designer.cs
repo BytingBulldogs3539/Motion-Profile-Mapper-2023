@@ -190,5 +190,17 @@ namespace VelocityMap.Properties {
                 this["FrameLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool defaultAllianceIsRed {
+            get {
+                return ((bool)(this["defaultAllianceIsRed"]));
+            }
+            set {
+                this["defaultAllianceIsRed"] = value;
+            }
+        }
     }
 }
