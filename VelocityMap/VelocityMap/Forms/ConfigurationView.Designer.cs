@@ -51,6 +51,8 @@ namespace VelocityMap.Forms
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeSinceUpload = new System.Windows.Forms.Label();
+            this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
             this.rowContextMenuStrip.SuspendLayout();
@@ -74,14 +76,14 @@ namespace VelocityMap.Forms
             this.filenameGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FileName});
             this.filenameGrid.GridColor = System.Drawing.Color.Silver;
-            this.filenameGrid.Location = new System.Drawing.Point(15, 103);
+            this.filenameGrid.Location = new System.Drawing.Point(15, 111);
             this.filenameGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filenameGrid.MultiSelect = false;
             this.filenameGrid.Name = "filenameGrid";
             this.filenameGrid.RowHeadersVisible = false;
             this.filenameGrid.RowHeadersWidth = 51;
             this.filenameGrid.RowTemplate.Height = 24;
-            this.filenameGrid.Size = new System.Drawing.Size(273, 379);
+            this.filenameGrid.Size = new System.Drawing.Size(273, 371);
             this.filenameGrid.TabIndex = 1;
             this.filenameGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_CellEndEdit);
             this.filenameGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_RowEnter);
@@ -147,6 +149,8 @@ namespace VelocityMap.Forms
             this.saveToRioButton.Size = new System.Drawing.Size(273, 50);
             this.saveToRioButton.TabIndex = 62;
             this.saveToRioButton.Text = "Save to RIO";
+            this.toolTip1.SetToolTip(this.saveToRioButton, "Save configuration files to rio. (This will overwrite any pervious version on the" +
+        " rio, but will not delete files that do not exist here.)");
             this.saveToRioButton.UseVisualStyleBackColor = false;
             this.saveToRioButton.Click += new System.EventHandler(this.saveToRioButton_Click);
             // 
@@ -158,12 +162,13 @@ namespace VelocityMap.Forms
             this.loadRIOButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadRIOButton.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadRIOButton.ForeColor = System.Drawing.Color.Teal;
-            this.loadRIOButton.Location = new System.Drawing.Point(15, 14);
+            this.loadRIOButton.Location = new System.Drawing.Point(15, 20);
             this.loadRIOButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadRIOButton.Name = "loadRIOButton";
-            this.loadRIOButton.Size = new System.Drawing.Size(220, 46);
+            this.loadRIOButton.Size = new System.Drawing.Size(221, 46);
             this.loadRIOButton.TabIndex = 63;
             this.loadRIOButton.Text = "Load from RIO";
+            this.toolTip1.SetToolTip(this.loadRIOButton, "Load the configuration files from the rio");
             this.loadRIOButton.UseVisualStyleBackColor = false;
             this.loadRIOButton.Click += new System.EventHandler(this.loadRIOButton_Click);
             // 
@@ -181,14 +186,14 @@ namespace VelocityMap.Forms
             this.Value});
             this.configurationGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.configurationGrid.Enabled = false;
-            this.configurationGrid.Location = new System.Drawing.Point(299, 63);
+            this.configurationGrid.Location = new System.Drawing.Point(299, 69);
             this.configurationGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.configurationGrid.MultiSelect = false;
             this.configurationGrid.Name = "configurationGrid";
             this.configurationGrid.RowHeadersWidth = 51;
             this.configurationGrid.RowTemplate.Height = 24;
             this.configurationGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.configurationGrid.Size = new System.Drawing.Size(931, 590);
+            this.configurationGrid.Size = new System.Drawing.Size(931, 584);
             this.configurationGrid.TabIndex = 65;
             this.configurationGrid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.configurationGrid_CellValidated);
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.configurationGrid_CellValidating);
@@ -236,12 +241,13 @@ namespace VelocityMap.Forms
             this.loadLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.loadLocalButton.Location = new System.Drawing.Point(15, 63);
+            this.loadLocalButton.Location = new System.Drawing.Point(15, 69);
             this.loadLocalButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadLocalButton.Name = "loadLocalButton";
             this.loadLocalButton.Size = new System.Drawing.Size(273, 27);
             this.loadLocalButton.TabIndex = 66;
             this.loadLocalButton.Text = "Load from local files";
+            this.toolTip1.SetToolTip(this.loadLocalButton, "Load files from this device");
             this.loadLocalButton.UseVisualStyleBackColor = false;
             this.loadLocalButton.Click += new System.EventHandler(this.loadLocalButton_Click);
             // 
@@ -256,11 +262,12 @@ namespace VelocityMap.Forms
             this.connectionSettingsButton.IconColor = System.Drawing.Color.Teal;
             this.connectionSettingsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.connectionSettingsButton.IconSize = 22;
-            this.connectionSettingsButton.Location = new System.Drawing.Point(239, 14);
+            this.connectionSettingsButton.Location = new System.Drawing.Point(239, 20);
             this.connectionSettingsButton.Margin = new System.Windows.Forms.Padding(0);
             this.connectionSettingsButton.Name = "connectionSettingsButton";
             this.connectionSettingsButton.Size = new System.Drawing.Size(49, 46);
             this.connectionSettingsButton.TabIndex = 67;
+            this.toolTip1.SetToolTip(this.connectionSettingsButton, "Roborio connection settings");
             this.connectionSettingsButton.UseVisualStyleBackColor = false;
             this.connectionSettingsButton.Click += new System.EventHandler(this.connectionSettingsButton_Click);
             // 
@@ -280,6 +287,7 @@ namespace VelocityMap.Forms
             this.saveLocalButton.Size = new System.Drawing.Size(135, 27);
             this.saveLocalButton.TabIndex = 68;
             this.saveLocalButton.Text = "Save to local";
+            this.toolTip1.SetToolTip(this.saveLocalButton, "Save selected configuration to the local drive.");
             this.saveLocalButton.UseVisualStyleBackColor = false;
             this.saveLocalButton.Click += new System.EventHandler(this.saveLocalButton_Click);
             // 
@@ -299,6 +307,7 @@ namespace VelocityMap.Forms
             this.saveAllLocalButton.Size = new System.Drawing.Size(135, 27);
             this.saveAllLocalButton.TabIndex = 69;
             this.saveAllLocalButton.Text = "Save all local";
+            this.toolTip1.SetToolTip(this.saveAllLocalButton, "Save all configuration files to the local drive.");
             this.saveAllLocalButton.UseVisualStyleBackColor = false;
             this.saveAllLocalButton.Click += new System.EventHandler(this.saveAllLocalButton_Click);
             // 
@@ -348,12 +357,31 @@ namespace VelocityMap.Forms
             this.timeSinceUpload.Text = "Last Upload: ";
             this.timeSinceUpload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // iconButton2
+            // 
+            this.iconButton2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.iconButton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton2.ForeColor = System.Drawing.Color.DarkGray;
+            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.BezierCurve;
+            this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
+            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton2.Location = new System.Drawing.Point(299, 20);
+            this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.iconButton2.Name = "iconButton2";
+            this.iconButton2.Size = new System.Drawing.Size(56, 47);
+            this.iconButton2.TabIndex = 78;
+            this.toolTip1.SetToolTip(this.iconButton2, "Switch to motion profiling mode");
+            this.iconButton2.UseVisualStyleBackColor = false;
+            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
+            // 
             // ConfigurationView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1244, 666);
+            this.Controls.Add(this.iconButton2);
             this.Controls.Add(this.timeSinceUpload);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.saveAllLocalButton);
@@ -399,5 +427,7 @@ namespace VelocityMap.Forms
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label timeSinceUpload;
+        private FontAwesome.Sharp.IconButton iconButton2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

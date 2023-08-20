@@ -18,7 +18,7 @@ namespace VelocityMap.Forms
     public partial class ConfigurationView : Form
     {
 
-        private Action closeMain;
+        private Menu menu;
         private OpenFileDialog fileDialog;
         private List<INI> inis = new List<INI>();
         private INI selectedIni = null;
@@ -38,9 +38,9 @@ namespace VelocityMap.Forms
             "const", "float", "native", "super", "while"
         };
 
-        public ConfigurationView(Action closeMain)
+        public ConfigurationView(Menu menu)
         {
-            this.closeMain = closeMain;
+            this.menu = menu;
             InitializeComponent();
         }
 
@@ -629,7 +629,7 @@ namespace VelocityMap.Forms
 
         private void ConfigurationView_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.closeMain();
+            this.menu.Close();
         }
 
         private void loadLocalButton_Click(object sender, EventArgs e)
@@ -894,6 +894,12 @@ namespace VelocityMap.Forms
 
 
             timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
+        }
+
+        private void iconButton2_Click(object sender, EventArgs e)
+        {
+            menu.mp.Show();
+            this.Hide();
         }
     }
 }

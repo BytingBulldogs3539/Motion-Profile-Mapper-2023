@@ -39,7 +39,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -90,6 +89,7 @@
             this.infoButton = new FontAwesome.Sharp.IconButton();
             this.reverseButton = new FontAwesome.Sharp.IconButton();
             this.playButton = new FontAwesome.Sharp.IconButton();
+            this.iconButton2 = new FontAwesome.Sharp.IconButton();
             this.Data = new System.Windows.Forms.TabPage();
             this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Field = new System.Windows.Forms.TabPage();
@@ -109,6 +109,9 @@
             this.radioSpline = new System.Windows.Forms.RadioButton();
             this.MoreData = new System.Windows.Forms.TabControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timeSinceUpload = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
@@ -127,10 +130,13 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.MoreData.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // infoLabel
             // 
+            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
@@ -267,7 +273,7 @@
             this.refresh_button.ForeColor = System.Drawing.Color.Teal;
             this.refresh_button.Location = new System.Drawing.Point(12, 56);
             this.refresh_button.Name = "refresh_button";
-            this.refresh_button.Size = new System.Drawing.Size(253, 50);
+            this.refresh_button.Size = new System.Drawing.Size(251, 50);
             this.refresh_button.TabIndex = 25;
             this.refresh_button.Text = "Load from RIO";
             this.TestTooltip.SetToolTip(this.refresh_button, "Load profiles from RIO location");
@@ -317,7 +323,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 533);
+            this.profileTable.Size = new System.Drawing.Size(310, 500);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -369,14 +375,6 @@
             this.pathTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.pathTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn5});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.pathTable.DefaultCellStyle = dataGridViewCellStyle9;
             this.pathTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.pathTable.EnableHeadersVisualStyles = false;
             this.pathTable.GridColor = System.Drawing.Color.Silver;
@@ -386,16 +384,16 @@
             this.pathTable.Name = "pathTable";
             this.pathTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.pathTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.pathTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.pathTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
-            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            this.pathTable.RowsDefaultCellStyle = dataGridViewCellStyle10;
             this.pathTable.RowTemplate.Height = 40;
             this.pathTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.pathTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -450,7 +448,7 @@
             this.loadFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFileButton.ForeColor = System.Drawing.Color.Black;
-            this.loadFileButton.Location = new System.Drawing.Point(12, 109);
+            this.loadFileButton.Location = new System.Drawing.Point(12, 111);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(310, 30);
@@ -469,7 +467,7 @@
             this.saveFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveFileButton.ForeColor = System.Drawing.Color.Black;
-            this.saveFileButton.Location = new System.Drawing.Point(13, 751);
+            this.saveFileButton.Location = new System.Drawing.Point(13, 718);
             this.saveFileButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveFileButton.Name = "saveFileButton";
             this.saveFileButton.Size = new System.Drawing.Size(153, 30);
@@ -488,7 +486,7 @@
             this.saveAllButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveAllButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveAllButton.ForeColor = System.Drawing.Color.Black;
-            this.saveAllButton.Location = new System.Drawing.Point(170, 751);
+            this.saveAllButton.Location = new System.Drawing.Point(170, 718);
             this.saveAllButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveAllButton.Name = "saveAllButton";
             this.saveAllButton.Size = new System.Drawing.Size(153, 30);
@@ -507,7 +505,7 @@
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveToRioButton.ForeColor = System.Drawing.Color.Teal;
-            this.saveToRioButton.Location = new System.Drawing.Point(12, 785);
+            this.saveToRioButton.Location = new System.Drawing.Point(12, 752);
             this.saveToRioButton.Name = "saveToRioButton";
             this.saveToRioButton.Size = new System.Drawing.Size(310, 50);
             this.saveToRioButton.TabIndex = 61;
@@ -524,10 +522,10 @@
             this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaultsButton.ForeColor = System.Drawing.Color.Black;
-            this.defaultsButton.Location = new System.Drawing.Point(65, 14);
+            this.defaultsButton.Location = new System.Drawing.Point(117, 20);
             this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
             this.defaultsButton.Name = "defaultsButton";
-            this.defaultsButton.Size = new System.Drawing.Size(258, 30);
+            this.defaultsButton.Size = new System.Drawing.Size(205, 30);
             this.defaultsButton.TabIndex = 64;
             this.defaultsButton.Text = "Default Constraints";
             this.defaultsButton.UseVisualStyleBackColor = false;
@@ -570,7 +568,7 @@
             this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
             this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.duplicateProfileButton.IconSize = 24;
-            this.duplicateProfileButton.Location = new System.Drawing.Point(168, 709);
+            this.duplicateProfileButton.Location = new System.Drawing.Point(168, 681);
             this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.duplicateProfileButton.Name = "duplicateProfileButton";
             this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
@@ -630,7 +628,7 @@
             this.editProfileButton.IconColor = System.Drawing.Color.Black;
             this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.editProfileButton.IconSize = 24;
-            this.editProfileButton.Location = new System.Drawing.Point(90, 709);
+            this.editProfileButton.Location = new System.Drawing.Point(90, 681);
             this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.editProfileButton.Name = "editProfileButton";
             this.editProfileButton.Size = new System.Drawing.Size(78, 30);
@@ -650,7 +648,7 @@
             this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteProfileButton.IconSize = 24;
-            this.deleteProfileButton.Location = new System.Drawing.Point(246, 709);
+            this.deleteProfileButton.Location = new System.Drawing.Point(246, 681);
             this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteProfileButton.Name = "deleteProfileButton";
             this.deleteProfileButton.Size = new System.Drawing.Size(77, 30);
@@ -670,7 +668,7 @@
             this.newProfileButton.IconColor = System.Drawing.Color.Green;
             this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newProfileButton.IconSize = 24;
-            this.newProfileButton.Location = new System.Drawing.Point(13, 709);
+            this.newProfileButton.Location = new System.Drawing.Point(13, 681);
             this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newProfileButton.Name = "newProfileButton";
             this.newProfileButton.Size = new System.Drawing.Size(77, 30);
@@ -814,7 +812,7 @@
             this.infoButton.IconColor = System.Drawing.Color.Black;
             this.infoButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.infoButton.IconSize = 16;
-            this.infoButton.Location = new System.Drawing.Point(13, 14);
+            this.infoButton.Location = new System.Drawing.Point(65, 20);
             this.infoButton.Margin = new System.Windows.Forms.Padding(0);
             this.infoButton.Name = "infoButton";
             this.infoButton.Size = new System.Drawing.Size(47, 30);
@@ -864,16 +862,35 @@
             this.playButton.UseVisualStyleBackColor = false;
             this.playButton.Click += new System.EventHandler(this.playButton_Click);
             // 
+            // iconButton2
+            // 
+            this.iconButton2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.iconButton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton2.ForeColor = System.Drawing.Color.DarkGray;
+            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.FileAlt;
+            this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
+            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton2.IconSize = 24;
+            this.iconButton2.Location = new System.Drawing.Point(12, 20);
+            this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.iconButton2.Name = "iconButton2";
+            this.iconButton2.Size = new System.Drawing.Size(48, 30);
+            this.iconButton2.TabIndex = 77;
+            this.TestTooltip.SetToolTip(this.iconButton2, "Switch to configuration mode");
+            this.iconButton2.UseVisualStyleBackColor = false;
+            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
+            // 
             // Data
             // 
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 22);
+            this.Data.Location = new System.Drawing.Point(4, 25);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(681, 821);
+            this.Data.Size = new System.Drawing.Size(681, 818);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             // 
@@ -912,18 +929,18 @@
             this.kinematicsChart.Series.Add(series1);
             this.kinematicsChart.Series.Add(series2);
             this.kinematicsChart.Series.Add(series3);
-            this.kinematicsChart.Size = new System.Drawing.Size(679, 819);
+            this.kinematicsChart.Size = new System.Drawing.Size(679, 816);
             this.kinematicsChart.TabIndex = 0;
             // 
             // Field
             // 
             this.Field.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Field.Controls.Add(this.splitContainer1);
-            this.Field.Location = new System.Drawing.Point(4, 22);
+            this.Field.Location = new System.Drawing.Point(4, 26);
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(681, 821);
+            this.Field.Size = new System.Drawing.Size(681, 817);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             // 
@@ -942,34 +959,38 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Panel2MinSize = 68;
-            this.splitContainer1.Size = new System.Drawing.Size(679, 819);
-            this.splitContainer1.SplitterDistance = 744;
+            this.splitContainer1.Size = new System.Drawing.Size(679, 815);
+            this.splitContainer1.SplitterDistance = 740;
             this.splitContainer1.TabIndex = 77;
             // 
             // tableLayoutPanel5
             // 
+            this.tableLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.infoLabel, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.trackBar, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.mainField, 0, 1);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 3;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(679, 744);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(679, 740);
             this.tableLayoutPanel5.TabIndex = 44;
             this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
             // trackBar
             // 
-            this.trackBar.Location = new System.Drawing.Point(3, 696);
+            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar.Location = new System.Drawing.Point(3, 681);
             this.trackBar.Maximum = 1000;
             this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(673, 45);
+            this.trackBar.Size = new System.Drawing.Size(673, 56);
             this.trackBar.TabIndex = 43;
             this.trackBar.TabStop = false;
             this.trackBar.Tag = "";
@@ -978,14 +999,11 @@
             // 
             // mainField
             // 
-            this.mainField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.mainField.BackColor = System.Drawing.SystemColors.ControlLight;
             chartArea2.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
             chartArea2.Name = "field";
             this.mainField.ChartAreas.Add(chartArea2);
-            this.mainField.Location = new System.Drawing.Point(0, 40);
+            this.mainField.Location = new System.Drawing.Point(-4, -1);
             this.mainField.Margin = new System.Windows.Forms.Padding(0);
             this.mainField.Name = "mainField";
             series4.ChartArea = "field";
@@ -1012,7 +1030,7 @@
             this.mainField.Series.Add(series5);
             this.mainField.Series.Add(series6);
             this.mainField.Series.Add(series7);
-            this.mainField.Size = new System.Drawing.Size(679, 653);
+            this.mainField.Size = new System.Drawing.Size(679, 638);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);
@@ -1058,9 +1076,9 @@
             this.radioBlue.AutoSize = true;
             this.radioBlue.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioBlue.ForeColor = System.Drawing.Color.Black;
-            this.radioBlue.Location = new System.Drawing.Point(67, 40);
+            this.radioBlue.Location = new System.Drawing.Point(55, 38);
             this.radioBlue.Name = "radioBlue";
-            this.radioBlue.Size = new System.Drawing.Size(85, 17);
+            this.radioBlue.Size = new System.Drawing.Size(109, 21);
             this.radioBlue.TabIndex = 67;
             this.radioBlue.Text = "Blue alliance";
             this.radioBlue.UseVisualStyleBackColor = true;
@@ -1073,9 +1091,9 @@
             this.radioRed.Checked = true;
             this.radioRed.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioRed.ForeColor = System.Drawing.Color.Black;
-            this.radioRed.Location = new System.Drawing.Point(68, 7);
+            this.radioRed.Location = new System.Drawing.Point(56, 5);
             this.radioRed.Name = "radioRed";
-            this.radioRed.Size = new System.Drawing.Size(84, 17);
+            this.radioRed.Size = new System.Drawing.Size(107, 21);
             this.radioRed.TabIndex = 66;
             this.radioRed.TabStop = true;
             this.radioRed.Text = "Red alliance";
@@ -1107,10 +1125,10 @@
             this.GridCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.GridCheckBox.Location = new System.Drawing.Point(68, 7);
+            this.GridCheckBox.Location = new System.Drawing.Point(59, 5);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(1);
             this.GridCheckBox.Name = "GridCheckBox";
-            this.GridCheckBox.Size = new System.Drawing.Size(83, 17);
+            this.GridCheckBox.Size = new System.Drawing.Size(101, 21);
             this.GridCheckBox.TabIndex = 27;
             this.GridCheckBox.Text = "Show grid";
             this.GridCheckBox.UseVisualStyleBackColor = false;
@@ -1127,10 +1145,10 @@
             this.showPathsCheckbox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.showPathsCheckbox.Location = new System.Drawing.Point(55, 40);
+            this.showPathsCheckbox.Location = new System.Drawing.Point(43, 38);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(1);
             this.showPathsCheckbox.Name = "showPathsCheckbox";
-            this.showPathsCheckbox.Size = new System.Drawing.Size(109, 17);
+            this.showPathsCheckbox.Size = new System.Drawing.Size(133, 21);
             this.showPathsCheckbox.TabIndex = 43;
             this.showPathsCheckbox.Text = "Show all paths";
             this.showPathsCheckbox.UseVisualStyleBackColor = false;
@@ -1158,10 +1176,10 @@
             this.radioLine.Checked = true;
             this.radioLine.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioLine.ForeColor = System.Drawing.Color.Black;
-            this.radioLine.Location = new System.Drawing.Point(88, 7);
+            this.radioLine.Location = new System.Drawing.Point(82, 5);
             this.radioLine.Name = "radioLine";
             this.radioLine.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioLine.Size = new System.Drawing.Size(45, 17);
+            this.radioLine.Size = new System.Drawing.Size(56, 21);
             this.radioLine.TabIndex = 66;
             this.radioLine.TabStop = true;
             this.radioLine.Text = "Line";
@@ -1174,9 +1192,9 @@
             this.radioSpline.AutoSize = true;
             this.radioSpline.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioSpline.ForeColor = System.Drawing.Color.Black;
-            this.radioSpline.Location = new System.Drawing.Point(83, 40);
+            this.radioSpline.Location = new System.Drawing.Point(76, 38);
             this.radioSpline.Name = "radioSpline";
-            this.radioSpline.Size = new System.Drawing.Size(54, 17);
+            this.radioSpline.Size = new System.Drawing.Size(68, 21);
             this.radioSpline.TabIndex = 67;
             this.radioSpline.Text = "Spline";
             this.radioSpline.UseVisualStyleBackColor = true;
@@ -1201,11 +1219,40 @@
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // timeSinceUpload
+            // 
+            this.timeSinceUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.timeSinceUpload.ForeColor = System.Drawing.Color.Black;
+            this.timeSinceUpload.Location = new System.Drawing.Point(12, 810);
+            this.timeSinceUpload.Name = "timeSinceUpload";
+            this.timeSinceUpload.Size = new System.Drawing.Size(310, 23);
+            this.timeSinceUpload.TabIndex = 78;
+            this.timeSinceUpload.Text = "Last Upload: ";
+            this.timeSinceUpload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.mainField);
+            this.panel1.Location = new System.Drawing.Point(3, 43);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(673, 632);
+            this.panel1.TabIndex = 79;
+            // 
             // MotionProfiler
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1285, 847);
+            this.Controls.Add(this.timeSinceUpload);
+            this.Controls.Add(this.iconButton2);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.reverseButton);
             this.Controls.Add(this.infoButton);
@@ -1240,6 +1287,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MinimumSize = new System.Drawing.Size(1050, 632);
             this.Name = "MotionProfiler";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1247,6 +1295,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MotionProfiler_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
+            this.Resize += new System.EventHandler(this.MotionProfiler_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
@@ -1269,6 +1318,7 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.MoreData.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1332,6 +1382,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Timer timer1;
         private FontAwesome.Sharp.IconButton playButton;
+        private FontAwesome.Sharp.IconButton iconButton2;
+        private System.Windows.Forms.Label timeSinceUpload;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

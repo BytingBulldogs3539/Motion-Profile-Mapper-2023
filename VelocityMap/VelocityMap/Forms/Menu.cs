@@ -12,29 +12,27 @@ namespace VelocityMap.Forms
 {
     public partial class Menu : Form
     {
+        public VelocityMap.MotionProfiler mp;
+        public ConfigurationView constants;
+
+
         public Menu()
         {
+            mp = new VelocityMap.MotionProfiler(this);
+            constants = new ConfigurationView(this);
+
             InitializeComponent();
         }
 
         private void mpButton_Click(object sender, EventArgs e)
         {
-            VelocityMap.MotionProfiler mp = new VelocityMap.MotionProfiler(this.Close);
             mp.Show();
             this.Hide();
         }
 
         private void constantsButton_Click(object sender, EventArgs e)
         {
-            ConfigurationView constants = new ConfigurationView(this.Close);
             constants.Show();
-            this.Hide();
-        }
-
-        private void poseVisualizer_Click(object sender, EventArgs e)
-        {
-            PoseVisualizer poseVisualizer = new PoseVisualizer(this.Close);
-            poseVisualizer.Show();
             this.Hide();
         }
     }

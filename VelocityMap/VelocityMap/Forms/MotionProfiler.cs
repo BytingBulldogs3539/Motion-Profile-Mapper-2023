@@ -17,6 +17,7 @@
     using Renci.SshNet.Sftp;
     using VelocityMap.Forms;
     using VelocityMap.VelocityGenerate;
+    using Menu = Forms.Menu;
 
 
     /// <summary>
@@ -58,17 +59,20 @@
         ControlPoint snappedPoint = null;
         ProfilePath snappedPointPath = null;
 
+        private DateTime timeOfUpload;
+
         bool editing = false;
         int editedCell = -1;
 
-        Action closeMain;
+        Menu menu;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MotionProfiler"/> class.
         /// </summary>
-        public MotionProfiler(Action closeMain)
+        public MotionProfiler(Menu menu)
         {
-            this.closeMain = closeMain;
+            this.menu = menu;
             InitializeComponent();
         }
 
@@ -104,7 +108,11 @@
             mainField.Images.Add(new NamedImage("blue", new Bitmap(VelocityMap.Properties.Resources._2023_blue)));
             mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
-            mainField.ChartAreas["field"].BackImage = "red";
+
+            if(VelocityMap.Properties.Settings.Default.defaultAllianceIsRed)
+                mainField.ChartAreas["field"].BackImage = "red";
+            else
+                mainField.ChartAreas["field"].BackImage = "blue";
         }
 
         private void setBackground(bool blue, bool colored)
@@ -1019,7 +1027,11 @@
                     MessageBoxIcon.Warning
                 );
 
-                if (verified) setStatus("Profile(s) uploaded and verified successfully", false);
+                if (verified)
+                {
+                    setStatus("Profile(s) uploaded and verified successfully", false);
+                    timeOfUpload = DateTime.Now;
+                }
                 else setStatus("Failed to verify uploaded file content", true);
                 sftp.Disconnect();
             }
@@ -1190,7 +1202,7 @@
 
         private void MotionProfiler_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.closeMain();
+            this.menu.Close();
         }
 
         private void resetTrackBar()
@@ -1327,6 +1339,49 @@
         private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void iconButton2_Click(object sender, EventArgs e)
+        {
+            menu.constants.Show();
+            this.Hide();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+                TimeSpan ts = DateTime.Now - timeOfUpload;
+
+
+                timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
+        }
+
+        private void MotionProfiler_Resize(object sender, EventArgs e)
+        {
+            double hw = 679.0 / 638.0;
+            double wh = 638.0 / 679.0;
+            if (panel1.Width<=panel1.Height)
+            {
+
+                mainField.Width = (int)(panel1.Width);
+
+                mainField.Height = (int)(panel1.Width* wh);
+
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width/2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height/2-50);
+
+
+            }
+            if (panel1.Height <= panel1.Width)
+            {
+
+                mainField.Height = (int)(panel1.Height);
+
+                mainField.Width = (int)(panel1.Height * hw);
+
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width/2, panel1.Location.Y + (int)(panel1.Height / 2.0)- mainField.Height/2-50);
+
+
+
+            }
         }
     }
 }
