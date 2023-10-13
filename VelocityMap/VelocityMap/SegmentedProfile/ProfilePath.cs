@@ -166,6 +166,8 @@ namespace MotionProfile.SegmentedProfile
 
             return this.controlPoints.Count <= 1;
         }
+
+
         private List<State> pointList = new List<State>();
         private double length = 0.0;
 
@@ -383,7 +385,7 @@ namespace MotionProfile.SegmentedProfile
         }
 
         static double TOL = 0.0000001;
-        public double circleFromPoints(SplinePoint p1, SplinePoint p2, SplinePoint p3)
+        private double circleFromPoints(SplinePoint p1, SplinePoint p2, SplinePoint p3)
         {
             double offset = Math.Pow(p2.X, 2) + Math.Pow(p2.Y, 2);
             double bc = (Math.Pow(p1.X, 2) + Math.Pow(p1.Y, 2) - offset) / 2.0;

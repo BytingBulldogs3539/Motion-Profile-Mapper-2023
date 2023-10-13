@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace VelocityMap.VelocityGenerate
 {
+
     class ConstrainedPathState
     {
         public PState pathState;

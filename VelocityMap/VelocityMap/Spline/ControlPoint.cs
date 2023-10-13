@@ -38,6 +38,16 @@ namespace MotionProfile
             this.id = Guid.NewGuid().ToString();
         }
 
+        public bool Equals(ControlPoint other)
+        {
+            Console.WriteLine(this.x+"  "+ other.x);
+            if(this.x == other.x && this.y == other.y && this.rotation == other.rotation)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public Rotation2d getRotation2d()
         {
             return Rotation2d.fromDegrees(rotation);

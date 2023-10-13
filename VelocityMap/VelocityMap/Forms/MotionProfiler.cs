@@ -18,6 +18,7 @@
     using VelocityMap.Forms;
     using VelocityMap.VelocityGenerate;
     using Menu = Forms.Menu;
+    using System.Runtime.Serialization.Formatters.Binary;
 
 
     /// <summary>
@@ -45,7 +46,12 @@
 
         // new
         public List<Profile> profiles = new List<Profile>();
-        public int newProfileCount = 0; // lol
+
+        List<List<Profile>> undo = new List<List<Profile>>();
+        List<List<Profile>> redo = new List<List<Profile>>();
+
+
+        public int newProfileCount = 0;
         public int newPathCount = 0;
         public double pointSize = 0.1;
         public bool splineMode = false;
@@ -56,6 +62,11 @@
 
         ControlPoint clickedPoint = null;
         ProfilePath clickedPointPath = null;
+
+        ControlPoint preMoveClickedPoint = null;
+        ProfilePath preMoveClickedPointPath = null;
+        List<Profile> preMoveList = null;
+
         ControlPoint snappedPoint = null;
         ProfilePath snappedPointPath = null;
 
@@ -63,6 +74,7 @@
 
         bool editing = false;
         int editedCell = -1;
+        bool skipUpdate = false;
 
         Menu menu;
 
@@ -128,18 +140,21 @@
 
         private void MainField_MouseClick(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("MouseClick");
             if (clickedPoint != null || e.Button != MouseButtons.Left) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
             if (placingPoint == null)
             {
                 Chart chart = (Chart)sender;
-                double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
                 if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
                     placingPoint = new ControlPoint(x, y, 0);
+
+                    saveUndoState();
 
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
@@ -148,6 +163,7 @@
             }
             else
             {
+
                 selectedPath.addControlPoint(placingPoint);
                 placingPoint = null;
 
@@ -165,13 +181,20 @@
 
         private void mainField_MouseUp(object sender, MouseEventArgs e)
         {
-
             if (clickedPoint != null)
             {
+                if(!clickedPoint.Equals(preMoveClickedPoint))
+                {
+                    saveUndoState(true, preMoveList) ;
+                }
                 clickedPoint = null;
                 clickedPointPath = null;
+                preMoveClickedPoint = null;
+                preMoveClickedPointPath = null;
+                preMoveList = null;
                 snappedPoint = null;
                 snappedPointPath = null;
+                
                 UpdateField();
                 ProfileEdit();
             }
@@ -185,9 +208,6 @@
         /// </summary>
         private void MainField_MouseDown(object sender, MouseEventArgs e)
         {
-
-
-
             if (placingPoint != null || !e.Button.HasFlag(MouseButtons.Left)) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
@@ -200,8 +220,8 @@
             System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
             System.Windows.Forms.Cursor.Clip = bounds;
 
-            double clickedX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-            double clickedY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+            double clickedX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
+            double clickedY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
 
             foreach (ProfilePath path in selectedProfile.paths)
             {
@@ -211,6 +231,18 @@
                     {
                         clickedPoint = point;
                         clickedPointPath = path;
+
+                        preMoveClickedPoint = new ControlPoint(point);
+                        preMoveClickedPointPath = new ProfilePath(path);
+
+                        List<Profile> ps = new List<Profile>();
+                        foreach (Profile pro in profiles)
+                        {
+                            ps.Add(new Profile(pro));
+                        }
+                        preMoveList = ps;
+
+
                         if (clickedPointPath == selectedPath) selectPoint(path.controlPoints.IndexOf(point));
 
                         if (clickedPoint == clickedPointPath.controlPoints[0]
@@ -241,19 +273,19 @@
 
         private void MainField_MouseMove(object sender, MouseEventArgs e)
         {
+            
             Chart chart = (Chart)sender;
 
             //if the user is holding the left button while moving the mouse allow them to move the point.
             if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left))
             {
-
                 double newX = 0.0;
                 double newY = 0.0;
                 try
                 {
 
-                    newX = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                    newY = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                    newX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
+                    newY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
 
                 }
                 catch
@@ -278,6 +310,7 @@
                 DrawPath(clickedPointPath, true);
                 resetTrackBar();
                 if (snappedPoint != null) DrawPath(snappedPointPath, true);
+                Console.WriteLine("MouseMove");
             }
             else
             {
@@ -293,8 +326,8 @@
                 System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
                 System.Windows.Forms.Cursor.Clip = bounds;
 
-                double x = (double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double y = (double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
+                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
 
                 placingPoint.Rotation = (int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI);
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
@@ -487,6 +520,9 @@
 
         public void UpdateField()
         {
+            if (skipUpdate)
+                return;
+            Console.WriteLine("Update Field");
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
@@ -740,6 +776,7 @@
 
         private void newProfileButton_Click(object sender, EventArgs e)
         {
+            saveUndoState();
             profiles.Add(new Profile());
             profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
 
@@ -769,6 +806,7 @@
 
         private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            saveUndoState();
             profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
             ProfileEdit();
 
@@ -1336,11 +1374,6 @@
             startTimer();
         }
 
-        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void iconButton2_Click(object sender, EventArgs e)
         {
             menu.constants.Show();
@@ -1383,5 +1416,132 @@
 
             }
         }
+
+        private void saveUndoState(bool clearRedo = true, List<Profile> profiles = null)
+        {
+            if(clearRedo)
+                this.redo.Clear();
+
+            if(profiles == null)
+            {
+                List<Profile> ps = new List<Profile>();
+                foreach (Profile p in this.profiles)
+                {
+                    ps.Add(new Profile(p));
+                }
+                this.undo.Add(ps);
+            }
+            else
+            {
+                List<Profile> ps = new List<Profile>();
+                foreach (Profile p in profiles)
+                {
+                    ps.Add(new Profile(p));
+                }
+                this.undo.Add(ps);
+            }
+            
+            Console.WriteLine("SAVE");
+        }
+
+        private void saveRedoState()
+        {
+            List<Profile> ps = new List<Profile>();
+            foreach (Profile p in profiles)
+            {
+                ps.Add(new Profile(p));
+            }
+            this.redo.Add(ps);
+            Console.WriteLine("SAVE REDO");
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            placingPoint = null;
+            if (this.undo.Count>0)
+            {
+                skipUpdate = true;
+                saveRedoState();
+
+                int selectedIndex = -1;
+                if (profileTable.SelectedCells.Count > 0)
+                {
+                    selectedIndex = this.profileTable.SelectedCells[0].RowIndex;
+                    this.profileTable.ClearSelection();
+                }
+                this.profileTable.Rows.Clear();
+
+                this.profiles = this.undo.Last();
+
+                this.undo.Remove(this.undo.Last());
+
+                foreach (Profile p in profiles)
+                {
+                    profileTable.Rows.Add(p.Name, p.Edited);
+                }
+
+                
+                if (this.profileTable.Rows.Count == 0)
+                {
+                    selectProfile();
+                }
+                else if (this.profileTable.Rows.Count - 1 >= selectedIndex)
+                {
+                    selectProfile(selectedIndex);
+                }
+                else if(this.profileTable.Rows.Count>=1)
+                {
+                    selectProfile(this.profileTable.Rows.Count - 1);
+                }
+                skipUpdate = false;
+                UpdateField();
+            }
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            placingPoint = null;
+            if (this.redo.Count > 0)
+            {
+                skipUpdate = true;
+                saveUndoState(false);
+                int selectedIndex = -1;
+                if (profileTable.SelectedCells.Count > 0)
+                {
+                    selectedIndex = this.profileTable.SelectedCells[0].RowIndex;
+                    this.profileTable.ClearSelection();
+                }
+                this.profileTable.Rows.Clear();
+
+                this.profiles = this.redo.Last();
+
+                this.redo.Remove(this.redo.Last());
+
+                //this.undo.Add(new List<Profile>(this.redo.Last()));
+
+                foreach (Profile p in profiles)
+                {
+                    profileTable.Rows.Add(p.Name, p.Edited);
+                }
+
+                
+                if (this.profileTable.Rows.Count == 0)
+                {
+                    selectProfile();
+                }
+                else if (this.profileTable.Rows.Count - 1 >= selectedIndex)
+                {
+                    selectProfile(selectedIndex);
+                }
+                else if (this.profileTable.Rows.Count >= 1)
+                {
+                    selectProfile(this.profileTable.Rows.Count - 1);
+                }
+                skipUpdate = false;
+                UpdateField();
+            }
+        }
+
+
     }
 }

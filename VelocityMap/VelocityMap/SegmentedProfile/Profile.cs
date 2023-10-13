@@ -25,6 +25,12 @@ namespace MotionProfile.SegmentedProfile
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
             this.paths = new List<ProfilePath>();
             this.isRed = VelocityMap.Properties.Settings.Default.defaultAllianceIsRed;
+            
+        }
+
+        public Profile ShallowCopy()
+        {
+            return (Profile)this.MemberwiseClone();
         }
 
         /// <summary>
@@ -64,6 +70,7 @@ namespace MotionProfile.SegmentedProfile
                 this.paths.Add(new ProfilePath(path));
             }
         }
+
 
         public void newPath(string name, bool isSpline,ProfilePath previous = null)
         {

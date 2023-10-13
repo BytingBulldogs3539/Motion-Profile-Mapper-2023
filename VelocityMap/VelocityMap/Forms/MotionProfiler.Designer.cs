@@ -95,8 +95,9 @@
             this.Field = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.trackBar = new System.Windows.Forms.TrackBar();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.trackBar = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.radioBlue = new System.Windows.Forms.RadioButton();
@@ -111,7 +112,10 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeSinceUpload = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
@@ -123,14 +127,15 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.MoreData.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // infoLabel
@@ -256,7 +261,7 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(12, 146);
+            this.label10.Location = new System.Drawing.Point(12, 156);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(311, 29);
             this.label10.TabIndex = 23;
@@ -271,7 +276,7 @@
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refresh_button.ForeColor = System.Drawing.Color.Teal;
-            this.refresh_button.Location = new System.Drawing.Point(12, 56);
+            this.refresh_button.Location = new System.Drawing.Point(13, 70);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Size = new System.Drawing.Size(251, 50);
             this.refresh_button.TabIndex = 25;
@@ -310,7 +315,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 176);
+            this.profileTable.Location = new System.Drawing.Point(13, 186);
             this.profileTable.Margin = new System.Windows.Forms.Padding(1);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -323,7 +328,7 @@
             this.profileTable.RowTemplate.Height = 40;
             this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 500);
+            this.profileTable.Size = new System.Drawing.Size(310, 490);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -448,7 +453,7 @@
             this.loadFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.loadFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadFileButton.ForeColor = System.Drawing.Color.Black;
-            this.loadFileButton.Location = new System.Drawing.Point(12, 111);
+            this.loadFileButton.Location = new System.Drawing.Point(13, 125);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(310, 30);
@@ -522,7 +527,7 @@
             this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.defaultsButton.ForeColor = System.Drawing.Color.Black;
-            this.defaultsButton.Location = new System.Drawing.Point(117, 20);
+            this.defaultsButton.Location = new System.Drawing.Point(118, 34);
             this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
             this.defaultsButton.Name = "defaultsButton";
             this.defaultsButton.Size = new System.Drawing.Size(205, 30);
@@ -608,7 +613,7 @@
             this.rioConectionButton.IconColor = System.Drawing.Color.Teal;
             this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.rioConectionButton.IconSize = 25;
-            this.rioConectionButton.Location = new System.Drawing.Point(268, 56);
+            this.rioConectionButton.Location = new System.Drawing.Point(269, 70);
             this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
             this.rioConectionButton.Name = "rioConectionButton";
             this.rioConectionButton.Size = new System.Drawing.Size(54, 50);
@@ -812,7 +817,7 @@
             this.infoButton.IconColor = System.Drawing.Color.Black;
             this.infoButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.infoButton.IconSize = 16;
-            this.infoButton.Location = new System.Drawing.Point(65, 20);
+            this.infoButton.Location = new System.Drawing.Point(66, 34);
             this.infoButton.Margin = new System.Windows.Forms.Padding(0);
             this.infoButton.Name = "infoButton";
             this.infoButton.Size = new System.Drawing.Size(47, 30);
@@ -872,7 +877,7 @@
             this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
             this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconButton2.IconSize = 24;
-            this.iconButton2.Location = new System.Drawing.Point(12, 20);
+            this.iconButton2.Location = new System.Drawing.Point(13, 34);
             this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
             this.iconButton2.Name = "iconButton2";
             this.iconButton2.Size = new System.Drawing.Size(48, 30);
@@ -981,21 +986,17 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.Size = new System.Drawing.Size(679, 740);
             this.tableLayoutPanel5.TabIndex = 44;
-            this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
             // 
-            // trackBar
+            // panel1
             // 
-            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar.Location = new System.Drawing.Point(3, 681);
-            this.trackBar.Maximum = 1000;
-            this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(673, 56);
-            this.trackBar.TabIndex = 43;
-            this.trackBar.TabStop = false;
-            this.trackBar.Tag = "";
-            this.trackBar.TickFrequency = 0;
-            this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
+            this.panel1.Controls.Add(this.mainField);
+            this.panel1.Location = new System.Drawing.Point(3, 43);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(673, 632);
+            this.panel1.TabIndex = 79;
             // 
             // mainField
             // 
@@ -1037,6 +1038,20 @@
             this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
             this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
             this.mainField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseUp);
+            // 
+            // trackBar
+            // 
+            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar.Location = new System.Drawing.Point(3, 681);
+            this.trackBar.Maximum = 1000;
+            this.trackBar.Name = "trackBar";
+            this.trackBar.Size = new System.Drawing.Size(673, 56);
+            this.trackBar.TabIndex = 43;
+            this.trackBar.TabStop = false;
+            this.trackBar.Tag = "";
+            this.trackBar.TickFrequency = 0;
+            this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -1235,16 +1250,42 @@
             this.timer2.Interval = 1000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // panel1
+            // menuStrip1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.mainField);
-            this.panel1.Location = new System.Drawing.Point(3, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(673, 632);
-            this.panel1.TabIndex = 79;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1285, 28);
+            this.menuStrip1.TabIndex = 79;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.redoToolStripMenuItem.Text = "Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // MotionProfiler
             // 
@@ -1283,10 +1324,12 @@
             this.Controls.Add(this.previewButton);
             this.Controls.Add(this.ControlPointTable);
             this.Controls.Add(this.MoreData);
+            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ForeColor = System.Drawing.Color.White;
+            this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(1050, 632);
             this.Name = "MotionProfiler";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1308,8 +1351,9 @@
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -1318,8 +1362,10 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.MoreData.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1386,6 +1432,10 @@
         private System.Windows.Forms.Label timeSinceUpload;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }
 }
 
