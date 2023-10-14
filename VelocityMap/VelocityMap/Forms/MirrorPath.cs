@@ -16,16 +16,13 @@ namespace VelocityMap.Forms
         Profile selectedProfile;
         ProfilePath selectedPath;
         Action<int> selectPath;
-        Action ProfileEdit;
         double fieldWidth;
-        public MirrorPath(Profile selectedProfile, ProfilePath selectedPath, Action<int> selectPath, 
-            Action ProfileEdit, double fieldWidth)
+        public MirrorPath(Profile selectedProfile, ProfilePath selectedPath, Action<int> selectPath, double fieldWidth)
         {
             InitializeComponent();
             this.selectedPath = selectedPath;
             this.selectedProfile = selectedProfile;
             this.selectPath = selectPath;
-            this.ProfileEdit = ProfileEdit;
             this.fieldWidth = fieldWidth;
         }
 
@@ -38,7 +35,6 @@ namespace VelocityMap.Forms
         {
             this.selectedProfile.mirrorPath(this.selectedPath, this.fieldWidth);
             this.selectPath(-1);
-            this.ProfileEdit();
             this.Close();
         }
 
@@ -46,7 +42,6 @@ namespace VelocityMap.Forms
         {
             this.selectedProfile.mirrorAllPaths(fieldWidth);
             this.selectPath(-1);
-            this.ProfileEdit();
             this.Close();
         }
     }

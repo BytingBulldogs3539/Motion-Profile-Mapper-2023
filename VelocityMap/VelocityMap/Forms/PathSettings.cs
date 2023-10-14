@@ -18,53 +18,36 @@ namespace VelocityMap.Forms
         public PathSettings(ProfilePath path, DataGridViewCell pathTable)
         {
             InitializeComponent();
-            this.pathMaxVelInput.Text = path.maxVel.ToString();
-            this.pathMaxAccInput.Text = path.maxAcc.ToString();
-            this.pathMaxCenAccInput.Text = path.maxCen.ToString();
+            this.pathMaxVelInput.Text = path.MaxVel.ToString();
+            this.pathMaxAccInput.Text = path.MaxAcc.ToString();
+            this.pathMaxCenAccInput.Text = path.MaxCen.ToString();
             this.path = path;
             this.Text = path.Name + " Settings";
             this.pathNameInput.Text = path.Name;
             this.pathTableCell = pathTable;
-            this.snapToPrevBox.Checked = path.snapToPrevious;
+            this.snapToPrevBox.Checked = path.SnapToPrevious;
 
             ActiveControl = pathNameInput;
         }
 
         private void save_Click(object sender, EventArgs e)
         {
-            try
+            double maxvel;
+            double maxacc;
+            double maxcen;
+            bool a = double.TryParse(pathMaxVelInput.Text, out maxvel);
+            bool b = double.TryParse(pathMaxAccInput.Text, out maxacc);
+            bool c = double.TryParse(pathMaxCenAccInput.Text, out maxcen);
+
+            if (!a || !b || !c)
             {
-                path.maxVel = double.Parse(pathMaxVelInput.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Incorrect Data Types", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            try
-            {
-                path.maxAcc = double.Parse(pathMaxAccInput.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Max acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                path.maxCen = double.Parse(pathMaxCenAccInput.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Max Centripetal Acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            this.path.Name = this.pathNameInput.Text;
-            this.pathTableCell.Value = this.path.Name;
-            this.path.snapToPrevious = this.snapToPrevBox.Checked;
+            this.path.updateAll(this.pathNameInput.Text, this.snapToPrevBox.Checked,maxvel,maxacc,maxcen);
+           
+            //this.pathTableCell.Value = this.path.Name;
 
             this.Close();
         }

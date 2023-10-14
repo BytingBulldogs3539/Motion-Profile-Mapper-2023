@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VelocityMap;
 
 namespace MotionProfile.SegmentedProfile
 {
@@ -11,7 +12,7 @@ namespace MotionProfile.SegmentedProfile
     {
         private string name;
         private string edited;
-        public List<ProfilePath> paths;
+        private List<ProfilePath> paths;
         static int profileCounter = 1;
         public bool isRed = false;
 
@@ -21,16 +22,11 @@ namespace MotionProfile.SegmentedProfile
         /// </summary>
         public Profile()
         {
-            this.name = "new profile " + profileCounter++;
+            this.name = "Profile " + profileCounter++;
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
             this.paths = new List<ProfilePath>();
             this.isRed = VelocityMap.Properties.Settings.Default.defaultAllianceIsRed;
-            
-        }
 
-        public Profile ShallowCopy()
-        {
-            return (Profile)this.MemberwiseClone();
         }
 
         /// <summary>
@@ -54,9 +50,11 @@ namespace MotionProfile.SegmentedProfile
 
             foreach (JObject pathJSON in profileJSON["paths"])
             {
-                this.paths.Add(new ProfilePath(pathJSON));
+                this.paths.Add(new ProfilePath(pathJSON, this));
             }
         }
+
+
 
         public Profile(Profile other)
         {
@@ -67,14 +65,14 @@ namespace MotionProfile.SegmentedProfile
 
             foreach (ProfilePath path in other.paths)
             {
-                this.paths.Add(new ProfilePath(path));
+                this.paths.Add(new ProfilePath(path, this));
             }
         }
 
-
-        public void newPath(string name, bool isSpline,ProfilePath previous = null)
+        public void newPath(string name, bool isSpline, ProfilePath previous = null)
         {
-            this.paths.Add(new ProfilePath(name, isSpline,previous));
+            newEdit();
+            this.paths.Add(new ProfilePath(this, name, isSpline, previous));
         }
 
         public void movePathOrderUp(ProfilePath pathToMove)
@@ -83,6 +81,7 @@ namespace MotionProfile.SegmentedProfile
 
             if (pathIndex < 1) return;
 
+            newEdit();
             ProfilePath temp = this.paths[pathIndex];
             this.paths.RemoveAt(pathIndex);
             this.paths.Insert(pathIndex - 1, temp);
@@ -101,12 +100,14 @@ namespace MotionProfile.SegmentedProfile
 
         public void mirrorPath(ProfilePath pathToMirror, double fieldWidth)
         {
+            newEdit();
             int index = this.paths.IndexOf(pathToMirror);
             this.paths[index].mirrorPoints(fieldWidth);
         }
 
         public void mirrorAllPaths(double fieldWidth)
         {
+            newEdit();
             foreach (ProfilePath path in this.paths)
             {
                 path.mirrorPoints(fieldWidth);
@@ -118,7 +119,7 @@ namespace MotionProfile.SegmentedProfile
             if (this.paths.Count == 0) return false;
             foreach (ProfilePath path in this.paths)
             {
-                if (path.controlPoints.Count < 2) return false;
+                if (path.ControlPoints.Count < 2) return false;
             }
             return true;
         }
@@ -142,7 +143,7 @@ namespace MotionProfile.SegmentedProfile
 
         public string toJava()
         {
-            string profile = $"public class {this.name.Replace(" ","").Trim()} extends BBPath \n";
+            string profile = $"public class {this.name.Replace(" ", "").Trim()} extends BBPath \n";
 
             profile += "{\n\tpublic double[][] getConstrains{return constraints;}";
             profile += "\tpublic double[][][] getPaths{return paths;}";
@@ -152,7 +153,7 @@ namespace MotionProfile.SegmentedProfile
             List<string> constraintStrings = new List<string>();
             foreach (ProfilePath path in this.paths)
             {
-                constraintStrings.Add("\t\t{" + $"{path.maxVel},{path.maxAcc},{path.maxCen}"+ "}");
+                constraintStrings.Add("\t\t{" + $"{path.MaxVel},{path.MaxAcc},{path.MaxCen}" + "}");
             }
             profile += String.Join(",\n", constraintStrings) + "\n";
             profile += "\t};\n";
@@ -181,10 +182,19 @@ namespace MotionProfile.SegmentedProfile
             return String.Join("\n", pathStrings);
         }
 
-        public string newEdit()
+        public void newEdit()
         {
-            this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
-            return this.Edited;
+            this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
+            MotionProfiler.saveUndoState();
+            MotionProfiler.updateEditTime(this);
+
+        }
+
+        public void forceEdit()
+        {
+            this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
+            MotionProfiler.updateEditTime(this);
+
         }
 
         public string Name
@@ -196,6 +206,7 @@ namespace MotionProfile.SegmentedProfile
 
             set
             {
+                newEdit();
                 string newName = value.Trim();
                 if (newName == "") return;
                 this.name = newName;
@@ -215,6 +226,18 @@ namespace MotionProfile.SegmentedProfile
             get
             {
                 return this.edited;
+            }
+        }
+        public List<ProfilePath> Paths
+        {
+            get
+            {
+                return this.paths;
+            }
+            set
+            {
+                newEdit();
+                this.paths = value;
             }
         }
     }

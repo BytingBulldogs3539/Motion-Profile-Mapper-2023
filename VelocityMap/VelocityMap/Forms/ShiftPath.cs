@@ -29,20 +29,19 @@ namespace VelocityMap.Forms
 
         private void shiftButton_Click(object sender, EventArgs e)
         {
-            try
+            double dx, dy;
+            if (double.TryParse(dxInput.Text == "" ? "0.0" : dxInput.Text, out dx) && double.TryParse(dyInput.Text == "" ? "0.0" : dyInput.Text, out dy))
             {
                 this.path.shiftPoints(
-                    double.Parse(dxInput.Text == ""? "0.0" : dxInput.Text),
-                    double.Parse(dyInput.Text == ""? "0.0" : dyInput.Text)
+                    dx, dy
                 );
                 this.selectPath(-1);
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("Shift values must be numbers", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
-            
+
             this.Close();
         }
 

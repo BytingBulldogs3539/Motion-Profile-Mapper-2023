@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MotionProfile.SegmentedProfile;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,22 +16,25 @@ namespace MotionProfile
         private double rotation;
         private double radius;
 
-        float velocity;
-        string id;
+        private float velocity;
+        private string id;
+        ProfilePath path;
 
         /// <summary>
         /// Creates a new control point based on coordinates
         /// </summary>
-        public ControlPoint(double x, double y, double rotation)
+        public ControlPoint(ProfilePath path, double x, double y, double rotation)
         {
+            this.path = path;
             this.x = x;
             this.y = y;
             this.rotation = rotation;
             this.id = Guid.NewGuid().ToString();
             radius = double.PositiveInfinity;
         }
-        public ControlPoint(double x, double y, double rotation, double radius)
+        public ControlPoint(ProfilePath path, double x, double y, double rotation, double radius)
         {
+            this.path = path;
             this.x = x;
             this.y = y;
             this.rotation = rotation;
@@ -40,8 +44,8 @@ namespace MotionProfile
 
         public bool Equals(ControlPoint other)
         {
-            Console.WriteLine(this.x+"  "+ other.x);
-            if(this.x == other.x && this.y == other.y && this.rotation == other.rotation)
+            Console.WriteLine(this.x + "  " + other.x);
+            if (this.x == other.x && this.y == other.y && this.rotation == other.rotation)
             {
                 return true;
             }
@@ -57,8 +61,9 @@ namespace MotionProfile
         /// Creates a control point copy from another control point
         /// </summary>
         /// <param name="other">ControlPoint object to copy<see cref="ControlPoint"/></param>
-        public ControlPoint(ControlPoint other)
+        public ControlPoint(ControlPoint other, ProfilePath path)
         {
+            this.path = path;
             this.x = other.X;
             this.y = other.Y;
             this.rotation = other.Rotation;
@@ -70,8 +75,9 @@ namespace MotionProfile
         /// Loads a control point from a point JSON representation
         /// </summary>
         /// <param name="pointJSON">JSON-formatted point object<see cref="JObject"/></param>
-        public ControlPoint(JObject pointJSON)
+        public ControlPoint(JObject pointJSON, ProfilePath path)
         {
+            this.path = path;
             this.x = (double)pointJSON["x"];
             this.y = (double)pointJSON["y"];
             this.rotation = (double)pointJSON["rotation"];
@@ -91,6 +97,10 @@ namespace MotionProfile
             return pointJSON;
         }
 
+        public void newEdit()
+        {
+            path.newEdit();
+        }
 
 
         public string toJava()
@@ -102,7 +112,7 @@ namespace MotionProfile
 
         public string toTxt()
         {
-            if(Double.IsInfinity(this.Radius))
+            if (Double.IsInfinity(this.Radius))
                 return $"{this.Y} {this.X} {this.Rotation} Infinity\n";
             return $"{this.Y} {this.X} {this.Rotation} {this.Radius}\n";
         }
@@ -124,9 +134,24 @@ namespace MotionProfile
             }
             set
             {
+                newEdit();
                 this.rotation = value;
             }
         }
+
+        public void quickChangeX(double x)
+        {
+            this.x = x;
+        }
+        public void quickChangeY(double y)
+        {
+            this.y = y;
+        }
+        public void quickChangeRotation(double rotation)
+        {
+            this.rotation = rotation;
+        }
+
 
         public double X
         {
@@ -137,7 +162,11 @@ namespace MotionProfile
 
             set
             {
-                this.x = value;
+                if (value != this.x)
+                {
+                    newEdit();
+                    this.x = value;
+                }
             }
         }
 
@@ -150,7 +179,11 @@ namespace MotionProfile
 
             set
             {
-                this.y = value;
+                if (value != this.y)
+                {
+                    newEdit();
+                    this.y = value;
+                }
             }
         }
 
@@ -162,7 +195,11 @@ namespace MotionProfile
             }
             set
             {
-                this.velocity = value;
+                if (this.velocity != value)
+                {
+                    newEdit();
+                    this.velocity = value;
+                }
             }
         }
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VelocityMap;
 using VelocityMap.VelocityGenerate;
 
 namespace MotionProfile.SegmentedProfile
@@ -15,27 +16,30 @@ namespace MotionProfile.SegmentedProfile
     public class ProfilePath
     {
         private string name;
-        public List<ControlPoint> controlPoints;
-        public string id;
+        private List<ControlPoint> controlPoints;
+        private string id;
 
-        public bool snapToPrevious = VelocityMap.Properties.Settings.Default.SnapNewPaths;
-        public double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
-        public double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
-        public double maxCen = VelocityMap.Properties.Settings.Default.MaxCen;
+        private bool snapToPrevious = VelocityMap.Properties.Settings.Default.SnapNewPaths;
+        private double maxVel = VelocityMap.Properties.Settings.Default.MaxVel;
+        private double maxAcc = VelocityMap.Properties.Settings.Default.MaxAcc;
+        private double maxCen = VelocityMap.Properties.Settings.Default.MaxCen;
         List<double> cpdistances = new List<double>();
-        public bool isSpline = false;
+        private bool isSpline = false;
         public SplinePath path = new SplinePath();
         public VelocityGeneration gen = null;
 
         public IInterpolation xsMap = null;
         public IInterpolation ysMap = null;
 
+        private Profile profile;
+
 
         /// <summary>
         /// Creates a new blank profile path
         /// </summary>
-        public ProfilePath(string name, bool isSpline, ProfilePath previousPath = null)
+        public ProfilePath(Profile profile, string name, bool isSpline, ProfilePath previousPath = null)
         {
+            this.profile = profile;
             this.name = name;
             this.controlPoints = new List<ControlPoint>();
             this.id = Guid.NewGuid().ToString();
@@ -48,12 +52,21 @@ namespace MotionProfile.SegmentedProfile
         /// Loads a profile path from a path JSON representation
         /// </summary>
         /// <param name="pathJSON">JSON-formatted path object</param>
-        public ProfilePath(JObject pathJSON)
+        public ProfilePath(JObject pathJSON, Profile profile)
         {
+            this.profile = profile;
             this.name = (string)pathJSON["name"];
             this.id = (string)pathJSON["id"];
             this.maxVel = (double)pathJSON["maxVelocity"];
             this.maxAcc = (double)pathJSON["maxAcceleration"];
+            try
+            {
+                this.maxCen = (double)pathJSON["maxCentripetalAcceleration"];
+            }
+            catch
+            {
+
+            }
             try
             {
                 this.isSpline = (bool)pathJSON["isSpline"];
@@ -69,40 +82,52 @@ namespace MotionProfile.SegmentedProfile
 
             foreach (JObject point in pathJSON["points"])
             {
-                this.controlPoints.Add(new ControlPoint(point));
+                this.controlPoints.Add(new ControlPoint(point, this));
             }
         }
 
-        public ProfilePath(ProfilePath other)
+        public ProfilePath(ProfilePath other, Profile profile)
         {
+            this.profile = profile;
             this.name = other.name;
             this.isSpline = other.isSpline;
             this.id = Guid.NewGuid().ToString();
             this.controlPoints = new List<ControlPoint>();
             this.snapToPrevious = other.snapToPrevious;
+            this.maxVel = other.maxVel;
+            this.maxAcc = other.maxAcc;
+            this.maxCen = other.maxCen;
 
             foreach (ControlPoint point in other.controlPoints)
             {
-                this.controlPoints.Add(new ControlPoint(point));
+                this.controlPoints.Add(new ControlPoint(point, this));
             }
+        }
+        //Call before edit.
+        public void newEdit()
+        {
+            profile.newEdit();
         }
 
         public ControlPoint addControlPoint(int x, int y, int heading)
         {
-            ControlPoint newPoint = new ControlPoint(x, y, heading);
+            newEdit();
+            ControlPoint newPoint = new ControlPoint(this, x, y, heading);
             this.controlPoints.Add(newPoint);
             return newPoint;
         }
 
         public ControlPoint addControlPoint(ControlPoint other)
         {
-            ControlPoint newPoint = new ControlPoint(other);
+            newEdit();
+            ControlPoint newPoint = new ControlPoint(other, this);
             this.controlPoints.Add(newPoint);
             return newPoint;
         }
 
         public void deleteControlPoint(int index)
         {
+            newEdit();
             this.controlPoints.RemoveAt(index);
             if (this.controlPoints.Count == 0) this.snapToPrevious = false;
         }
@@ -119,6 +144,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void mirrorPoints(double fieldWidth)
         {
+            newEdit();
             foreach (ControlPoint point in this.controlPoints)
             {
                 point.X = fieldWidth - point.X;
@@ -127,20 +153,28 @@ namespace MotionProfile.SegmentedProfile
 
         public void shiftPoints(double dx, double dy)
         {
+            newEdit();
             foreach (ControlPoint point in this.controlPoints)
             {
                 point.X += dx;
                 point.Y += dy;
             }
         }
+        public void reverse()
+        {
+            newEdit();
+            this.controlPoints.Reverse();
+        }
 
         public void clearPoints()
         {
+            newEdit();
             this.controlPoints.Clear();
         }
 
         public void snap(ProfilePath previous)
         {
+
             if (previous == null || previous.controlPoints.Count == 0)
             {
                 this.snapToPrevious = false;
@@ -148,15 +182,15 @@ namespace MotionProfile.SegmentedProfile
             }
 
             this.snapToPrevious = true;
-            if (this.controlPoints.Count == 0) this.controlPoints.Add(new ControlPoint(previous.controlPoints.Last()));
-            else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last());
+            if (this.controlPoints.Count == 0) this.controlPoints.Add(new ControlPoint(previous.controlPoints.Last(), this));
+            else this.controlPoints[0] = new ControlPoint(previous.controlPoints.Last(), this);
         }
 
         public void snapLast(ControlPoint point)
         {
             if (this.controlPoints.Count == 0) return;
 
-            this.controlPoints[this.controlPoints.Count - 1] = new ControlPoint(point);
+            this.controlPoints[this.controlPoints.Count - 1] = new ControlPoint(point, this);
         }
 
         public bool isEmpty()
@@ -171,7 +205,7 @@ namespace MotionProfile.SegmentedProfile
         private List<State> pointList = new List<State>();
         private double length = 0.0;
 
-        
+
         public void generate(bool quickGen = false)
         {
             double timeSample = .05;
@@ -181,6 +215,9 @@ namespace MotionProfile.SegmentedProfile
                 timeSample = 0.1;
                 sampleDistance = 0.2;
             }
+
+            if (controlPoints.Count < 2)
+                return;
 
             if (isSpline)
             {
@@ -252,10 +289,10 @@ namespace MotionProfile.SegmentedProfile
             {
                 throw new Exception("No Path To Calculate");
             }
-            if (controlPoints.Count==1)
+            if (controlPoints.Count == 1)
             {
                 ControlPoint p = controlPoints[0];
-                return new PState(distance, new Pose2d(p.X, p.Y, p.getRotation2d()), p.getRotation2d() ,p.Radius);
+                return new PState(distance, new Pose2d(p.X, p.Y, p.getRotation2d()), p.getRotation2d(), p.Radius);
             }
             if (isSpline)
             {
@@ -339,7 +376,7 @@ namespace MotionProfile.SegmentedProfile
                 Rotation2d currentRotation = controlPoints[indexCurrent].getRotation2d();
                 Rotation2d nextRotation = controlPoints[indexNext].getRotation2d();
 
-                Rotation2d rot = currentRotation.interpolate(nextRotation, distanceSinceCurrentCP/ distanceBetweenCP);
+                Rotation2d rot = currentRotation.interpolate(nextRotation, distanceSinceCurrentCP / distanceBetweenCP);
 
 
                 return new PState(distance, new Pose2d(p.X, p.Y, rot), Rotation2d.fromRadians(Math.Atan2(p2.Y - p1.Y, p2.X - p1.X)), double.PositiveInfinity);
@@ -348,12 +385,12 @@ namespace MotionProfile.SegmentedProfile
 
         private int getCurrentControlPointIndex(double distance)
         {
-            if(distance == length)
+            if (distance == length)
             {
                 return cpdistances.Count - 2;
             }
             int index = -1;
-            for (int i = 0; i<cpdistances.Count; i++)
+            for (int i = 0; i < cpdistances.Count; i++)
             {
                 double dist = cpdistances[i];
                 if (dist <= distance)
@@ -374,7 +411,7 @@ namespace MotionProfile.SegmentedProfile
                     return i;
             }
             return -1;
-            
+
         }
 
 
@@ -423,6 +460,7 @@ namespace MotionProfile.SegmentedProfile
             pathJSON["isSpline"] = this.isSpline;
             pathJSON["maxVelocity"] = this.maxVel;
             pathJSON["maxAcceleration"] = this.maxAcc;
+            pathJSON["maxCentripetalAcceleration"] = this.maxCen;
             pathJSON["snapToPrevious"] = this.snapToPrevious;
 
             JArray pointsJSON = new JArray();
@@ -452,7 +490,7 @@ namespace MotionProfile.SegmentedProfile
                 foreach (State s in pointList)
                 {
                     Pose2d pose = s.getPathState().getPose2d();
-                    tmpCTL.Add(new ControlPoint(pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
+                    tmpCTL.Add(new ControlPoint(this, pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
                 }
                 foreach (ControlPoint point in tmpCTL)
                 {
@@ -476,19 +514,19 @@ namespace MotionProfile.SegmentedProfile
         public string toTxt()
         {
             this.generate();
-            if(isSpline)
+            if (isSpline)
             {
                 string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen}\n";
-                if(pointList.Count==0)
+                if (pointList.Count == 0)
                 {
                     MessageBox.Show("Error no points to export.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return "";
                 }
                 List<ControlPoint> tmpCTL = new List<ControlPoint>();
-                foreach(State s in pointList)
+                foreach (State s in pointList)
                 {
                     Pose2d pose = s.getPathState().getPose2d();
-                    tmpCTL.Add(new ControlPoint(pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
+                    tmpCTL.Add(new ControlPoint(this, pose.getX(), pose.getY(), pose.getRotation().getDegrees(), s.getPathState().getRadius()));
                 }
                 foreach (ControlPoint point in tmpCTL)
                 {
@@ -506,7 +544,19 @@ namespace MotionProfile.SegmentedProfile
                 return pathTxt + "@@@";
 
             }
-            
+
+        }
+
+        public void updateAll(string name, bool snapToPrevious, double vel, double acc, double cen)
+        {
+            if (this.name != name || this.snapToPrevious != snapToPrevious || this.maxVel != vel || this.MaxAcc != acc || this.maxCen != cen)
+                newEdit();
+            this.maxVel = vel;
+            this.maxAcc = acc;
+            this.maxCen = cen;
+            this.name = name;
+            this.snapToPrevious = snapToPrevious;
+
         }
 
         public string Name
@@ -518,7 +568,121 @@ namespace MotionProfile.SegmentedProfile
             set
             {
                 if (value.Trim() == "") return;
-                this.name = value.Trim();
+                if (value.Trim() != this.name)
+                {
+                    newEdit();
+                    MotionProfiler.saveUndoState();
+                    this.name = value.Trim();
+                }
+
+            }
+        }
+        public string Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                if (this.id != value)
+                {
+                    newEdit();
+                    this.id = value;
+                }
+            }
+        }
+        public bool IsSpline
+        {
+            get
+            {
+                return this.isSpline;
+            }
+            set
+            {
+                if (this.isSpline != value)
+                {
+                    newEdit();
+                    this.isSpline = value;
+                }
+            }
+        }
+        public double MaxVel
+        {
+            get
+            {
+                return this.maxVel;
+            }
+            set
+            {
+                if (this.maxVel != value)
+                {
+                    newEdit();
+                    this.maxVel = value;
+                }
+            }
+        }
+        public double MaxAcc
+        {
+            get
+            {
+                return this.maxAcc;
+            }
+            set
+            {
+                if (this.maxAcc != value)
+                {
+                    newEdit();
+                    this.maxAcc = value;
+                }
+            }
+        }
+
+        public double MaxCen
+        {
+            get
+            {
+                return this.maxCen;
+            }
+            set
+            {
+                if (this.maxCen != value)
+                {
+                    newEdit();
+                    this.maxCen = value;
+                }
+            }
+        }
+
+        public bool SnapToPrevious
+        {
+            get
+            {
+                return this.snapToPrevious;
+            }
+            set
+            {
+                if (this.snapToPrevious != value)
+                {
+                    newEdit();
+                    this.snapToPrevious = value;
+                }
+            }
+        }
+
+        public List<ControlPoint> ControlPoints
+        {
+            get
+            {
+                return this.controlPoints;
+            }
+            set
+            {
+                if (this.controlPoints != value)
+                {
+                    newEdit();
+                    this.controlPoints = value;
+                }
             }
         }
     }

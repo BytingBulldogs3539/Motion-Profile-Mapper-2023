@@ -45,10 +45,10 @@
         //public OutputPoints outputPoints = new OutputPoints();
 
         // new
-        public List<Profile> profiles = new List<Profile>();
+        public static List<Profile> profiles = new List<Profile>();
 
-        List<List<Profile>> undo = new List<List<Profile>>();
-        List<List<Profile>> redo = new List<List<Profile>>();
+        static List<List<Profile>> undo = new List<List<Profile>>();
+        static List<List<Profile>> redo = new List<List<Profile>>();
 
 
         public int newProfileCount = 0;
@@ -152,9 +152,7 @@
 
                 if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
-                    placingPoint = new ControlPoint(x, y, 0);
-
-                    saveUndoState();
+                    placingPoint = new ControlPoint(selectedPath, x, y, 0);
 
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
@@ -167,13 +165,11 @@
                 selectedPath.addControlPoint(placingPoint);
                 placingPoint = null;
 
-                if (selectedPath != selectedProfile.paths.Last()
-                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+                if (selectedPath != selectedProfile.Paths.Last()
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
                 {
-                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+                    selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
                 }
-
-                ProfileEdit();
                 UpdateField();
             }
 
@@ -187,6 +183,7 @@
                 {
                     saveUndoState(true, preMoveList) ;
                 }
+                selectedProfile.forceEdit();
                 clickedPoint = null;
                 clickedPointPath = null;
                 preMoveClickedPoint = null;
@@ -196,7 +193,6 @@
                 snappedPointPath = null;
                 
                 UpdateField();
-                ProfileEdit();
             }
             System.Windows.Forms.Cursor.Clip = new Rectangle();
 
@@ -223,17 +219,17 @@
             double clickedX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
             double clickedY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
 
-            foreach (ProfilePath path in selectedProfile.paths)
+            foreach (ProfilePath path in selectedProfile.Paths)
             {
-                foreach (ControlPoint point in path.controlPoints)
+                foreach (ControlPoint point in path.ControlPoints)
                 {
                     if (Math.Abs(clickedX - point.X) < pointSize && Math.Abs(clickedY - point.Y) < pointSize)
                     {
                         clickedPoint = point;
                         clickedPointPath = path;
 
-                        preMoveClickedPoint = new ControlPoint(point);
-                        preMoveClickedPointPath = new ProfilePath(path);
+                        preMoveClickedPoint = new ControlPoint(point, path);
+                        preMoveClickedPointPath = new ProfilePath(path, selectedProfile);
 
                         List<Profile> ps = new List<Profile>();
                         foreach (Profile pro in profiles)
@@ -243,22 +239,22 @@
                         preMoveList = ps;
 
 
-                        if (clickedPointPath == selectedPath) selectPoint(path.controlPoints.IndexOf(point));
+                        if (clickedPointPath == selectedPath) selectPoint(path.ControlPoints.IndexOf(point));
 
-                        if (clickedPoint == clickedPointPath.controlPoints[0]
-                            && clickedPointPath.snapToPrevious)
+                        if (clickedPoint == clickedPointPath.ControlPoints[0]
+                            && clickedPointPath.SnapToPrevious)
                         {
-                            int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
-                            snappedPointPath = selectedProfile.paths[pathIndex - 1];
-                            snappedPoint = snappedPointPath.controlPoints.Last();
+                            int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
+                            snappedPointPath = selectedProfile.Paths[pathIndex - 1];
+                            snappedPoint = snappedPointPath.ControlPoints.Last();
                         }
-                        else if (clickedPoint == clickedPointPath.controlPoints.Last()
-                            && clickedPointPath != selectedProfile.paths.Last())
+                        else if (clickedPoint == clickedPointPath.ControlPoints.Last()
+                            && clickedPointPath != selectedProfile.Paths.Last())
                         {
-                            int pathIndex = selectedProfile.paths.IndexOf(clickedPointPath);
-                            snappedPointPath = selectedProfile.paths[pathIndex + 1];
-                            if (selectedProfile.paths[pathIndex + 1].snapToPrevious)
-                                snappedPoint = snappedPointPath.controlPoints[0];
+                            int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
+                            snappedPointPath = selectedProfile.Paths[pathIndex + 1];
+                            if (selectedProfile.Paths[pathIndex + 1].SnapToPrevious)
+                                snappedPoint = snappedPointPath.ControlPoints[0];
                         }
                     }
                 }
@@ -293,12 +289,12 @@
                     return;
                 }
 
-                clickedPoint.X = newX;
-                clickedPoint.Y = newY;
+                clickedPoint.quickChangeX(newX);
+                clickedPoint.quickChangeY(newY);
                 if (snappedPoint != null)
                 {
-                    snappedPoint.X = newX;
-                    snappedPoint.Y = newY;
+                    snappedPoint.quickChangeX(newX);
+                    snappedPoint.quickChangeY(newY);
                 }
 
                 if (clickedPointPath == selectedPath)
@@ -329,7 +325,7 @@
                 double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
                 double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
 
-                placingPoint.Rotation = (int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI);
+                placingPoint.quickChangeRotation((int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI));
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
 
                 mainField.Series[placingPoint.Id].Points.Clear();
@@ -350,21 +346,21 @@
                 switch (e.ColumnIndex)
                 {
                     case 0:
-                        selectedPath.controlPoints[e.RowIndex].X = newValue;
+                        selectedPath.ControlPoints[e.RowIndex].X = newValue;
                         break;
                     case 1:
-                        selectedPath.controlPoints[e.RowIndex].Y = newValue;
+                        selectedPath.ControlPoints[e.RowIndex].Y = newValue;
                         break;
                     case 2:
-                        selectedPath.controlPoints[e.RowIndex].Rotation = (int)newValue;
+                        selectedPath.ControlPoints[e.RowIndex].Rotation = (int)newValue;
                         break;
                 }
-                if (e.RowIndex == 0 && selectedPath.snapToPrevious)
-                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.controlPoints[0]);
-                if (e.RowIndex == selectedPath.controlPoints.Count - 1 && selectedPath != selectedProfile.paths.Last()
-                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+                if (e.RowIndex == 0 && selectedPath.SnapToPrevious)
+                    selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.ControlPoints[0]);
+                if (e.RowIndex == selectedPath.ControlPoints.Count - 1 && selectedPath != selectedProfile.Paths.Last()
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
                 {
-                    selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+                    selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
                 }
                 UpdateField();
             }
@@ -375,15 +371,15 @@
                 {
                     case 0:
                         ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
-                            = Math.Round(selectedPath.controlPoints[e.RowIndex].X, 3);
+                            = Math.Round(selectedPath.ControlPoints[e.RowIndex].X, 3);
                         break;
                     case 1:
                         ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
-                            = Math.Round(selectedPath.controlPoints[e.RowIndex].Y, 3);
+                            = Math.Round(selectedPath.ControlPoints[e.RowIndex].Y, 3);
                         break;
                     case 2:
                         ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
-                            = selectedPath.controlPoints[e.RowIndex].Rotation;
+                            = selectedPath.ControlPoints[e.RowIndex].Rotation;
                         break;
                 }
             }
@@ -391,11 +387,11 @@
 
         private void DrawPoint(ControlPoint point, ProfilePath path)
         {
-            mainField.Series[path.id + "-points"].Points.AddXY(point.X, point.Y);
+            mainField.Series[path.Id + "-points"].Points.AddXY(point.X, point.Y);
             if (path == selectedPath)
             {
-                mainField.Series[path.id + "-points"].Points.Last().Label =
-                    mainField.Series[path.id + "-points"].Points.Count.ToString();
+                mainField.Series[path.Id + "-points"].Points.Last().Label =
+                    mainField.Series[path.Id + "-points"].Points.Count.ToString();
             }
 
             int seriesIndex = mainField.Series.IndexOf(point.Id);
@@ -414,7 +410,7 @@
             mainField.Series[point.Id].Points.AddXY(x2, y2);
 
             if (point == placingPoint) return;
-            mainField.Series[path.id + "-path"].Points.AddXY(point.X, point.Y);
+            mainField.Series[path.Id + "-path"].Points.AddXY(point.X, point.Y);
 
             if (path == selectedPath)
             {
@@ -443,7 +439,7 @@
 
             /*mainField.Annotations.Add(new TextAnnotation() 
                 {
-                    Text = (path.controlPoints.IndexOf(point) + 1).ToString(),
+                    Text = (path.ControlPoints.IndexOf(point) + 1).ToString(),
                     Alignment = ContentAlignment.MiddleCenter,
                     ForeColor = Color.White,
                     X = point.X,
@@ -456,42 +452,42 @@
         {
             if (!showPathsCheckbox.Checked && path != selectedPath) return;
 
-            int seriesIndex = mainField.Series.IndexOf(path.id + "-path");
+            int seriesIndex = mainField.Series.IndexOf(path.Id + "-path");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.id + "-points");
+            seriesIndex = mainField.Series.IndexOf(path.Id + "-points");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.id + "-padding");
+            seriesIndex = mainField.Series.IndexOf(path.Id + "-padding");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
 
-            mainField.Series.Add(path.id + "-path");
-            mainField.Series[path.id + "-path"].ChartArea = "field";
-            mainField.Series[path.id + "-path"].ChartType = SeriesChartType.Point;
-            mainField.Series[path.id + "-path"].Color = path == selectedPath ? Color.Aqua : Color.Blue;
-            mainField.Series[path.id + "-path"].MarkerSize = 2;
-            mainField.Series[path.id + "-path"].BorderWidth = 2;
+            mainField.Series.Add(path.Id + "-path");
+            mainField.Series[path.Id + "-path"].ChartArea = "field";
+            mainField.Series[path.Id + "-path"].ChartType = SeriesChartType.Point;
+            mainField.Series[path.Id + "-path"].Color = path == selectedPath ? Color.Aqua : Color.Blue;
+            mainField.Series[path.Id + "-path"].MarkerSize = 2;
+            mainField.Series[path.Id + "-path"].BorderWidth = 2;
 
-            mainField.Series.Add(path.id + "-points");
-            mainField.Series[path.id + "-points"].ChartArea = "field";
-            mainField.Series[path.id + "-points"].ChartType = SeriesChartType.Point;
-            mainField.Series[path.id + "-points"].Color = path == selectedPath ? Color.Lime : Color.Green;
-            mainField.Series[path.id + "-points"].MarkerSize = 10;
-            mainField.Series[path.id + "-points"].MarkerStyle = MarkerStyle.Diamond;
-            mainField.Series[path.id + "-points"].LabelForeColor = Color.White;
-
-
+            mainField.Series.Add(path.Id + "-points");
+            mainField.Series[path.Id + "-points"].ChartArea = "field";
+            mainField.Series[path.Id + "-points"].ChartType = SeriesChartType.Point;
+            mainField.Series[path.Id + "-points"].Color = path == selectedPath ? Color.Lime : Color.Green;
+            mainField.Series[path.Id + "-points"].MarkerSize = 10;
+            mainField.Series[path.Id + "-points"].MarkerStyle = MarkerStyle.Diamond;
+            mainField.Series[path.Id + "-points"].LabelForeColor = Color.White;
 
 
-            foreach (ControlPoint point in path.controlPoints)
+
+
+            foreach (ControlPoint point in path.ControlPoints)
             {
                 DrawPoint(point, path);
             }
 
-            if (path.controlPoints.Count < 2) return;
+            if (path.ControlPoints.Count < 2) return;
 
-            seriesIndex = mainField.Series.IndexOf(path.id + "-left");
+            seriesIndex = mainField.Series.IndexOf(path.Id + "-left");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.id + "-right");
+            seriesIndex = mainField.Series.IndexOf(path.Id + "-right");
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
             path.generate(quickDraw);
@@ -511,7 +507,7 @@
 
                 Pose2d state = s.getPathState().getPose2d();
 
-                mainField.Series[path.id + "-path"].Points.AddXY(state.getX(), state.getY());
+                mainField.Series[path.Id + "-path"].Points.AddXY(state.getX(), state.getY());
 
             }
         }
@@ -539,7 +535,7 @@
                 DrawPoint(placingPoint, selectedPath);
             }
 
-            foreach (ProfilePath path in selectedProfile.paths)
+            foreach (ProfilePath path in selectedProfile.Paths)
             {
                 if (path == selectedPath) continue;
                 DrawPath(path, false);
@@ -750,7 +746,7 @@
 
             if (!noSelectedProfile())
             {
-                foreach (ProfilePath path in selectedProfile.paths)
+                foreach (ProfilePath path in selectedProfile.Paths)
                 {
                     pathTable.Rows.Add(path.Name);
                 }
@@ -806,9 +802,7 @@
 
         private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            saveUndoState();
             profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
-            ProfileEdit();
 
             if (e.RowIndex == profileTable.RowCount - 1) return;
             editing = true;
@@ -824,15 +818,15 @@
         {
             if (noSelectedProfile()) return;
 
-            string newPathName = "new path " + ++newPathCount;
+            string newPathName = "Path " + (selectedProfile.Paths.Count+1);
 
-            if (Properties.Settings.Default.SnapNewPaths && selectedProfile.paths.Count > 0)
-                selectedProfile.newPath(newPathName, splineMode, selectedProfile.paths.Last());
+            if (Properties.Settings.Default.SnapNewPaths && selectedProfile.Paths.Count > 0)
+                selectedProfile.newPath(newPathName, splineMode, selectedProfile.Paths.Last());
             else selectedProfile.newPath(newPathName, splineMode);
 
             int newIndex = pathTable.Rows.Add(newPathName);
             selectPath(newIndex);
-            ProfileEdit();
+            
         }
 
         private void deletePathButton_Click(object sender, EventArgs e)
@@ -846,29 +840,30 @@
 
             if (editing) editedCell--;
 
-            int pathIndex = selectedProfile.paths.IndexOf(selectedPath);
-            selectedProfile.paths.RemoveAt(pathIndex);
+            saveUndoState();
+
+            int pathIndex = selectedProfile.Paths.IndexOf(selectedPath);
+            selectedProfile.Paths.RemoveAt(pathIndex);
             pathTable.Rows.RemoveAt(pathIndex);
             selectProfile();
-            selectPath(Math.Min(pathIndex, selectedProfile.paths.Count - 1));
-            ProfileEdit();
+            selectPath(Math.Min(pathIndex, selectedProfile.Paths.Count - 1));
+            
         }
 
         private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "")
             {
-                pathTable.Rows[e.RowIndex].Cells[0].Value = selectedProfile.paths[e.RowIndex].Name;
+                pathTable.Rows[e.RowIndex].Cells[0].Value = selectedProfile.Paths[e.RowIndex].Name;
             }
             else
             {
-                ProfilePath editedPath = selectedProfile.paths[e.RowIndex];
+                ProfilePath editedPath = selectedProfile.Paths[e.RowIndex];
                 editedPath.Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
-                //selectedProfile.paths[e.RowIndex].Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString();
             }
             editing = true;
             editedCell = e.RowIndex;
-            ProfileEdit();
+            
         }
 
         private void pathOrderUp_Click(object sender, EventArgs e)
@@ -878,8 +873,8 @@
             ProfilePath tempPath = selectedPath;
             selectedProfile.movePathOrderUp(selectedPath);
             selectProfile();
-            selectPath(selectedProfile.paths.IndexOf(tempPath));
-            ProfileEdit();
+            selectPath(selectedProfile.Paths.IndexOf(tempPath));
+            
         }
 
         private void pathOrderDown_Click(object sender, EventArgs e)
@@ -889,8 +884,8 @@
             selectedProfile.movePathOrderDown(selectedPath);
             ProfilePath tempPath = selectedPath;
             selectProfile();
-            selectPath(selectedProfile.paths.IndexOf(tempPath));
-            ProfileEdit();
+            selectPath(selectedProfile.Paths.IndexOf(tempPath));
+            
         }
 
         /// <summary>
@@ -915,7 +910,7 @@
         private bool noSelectedPath()
         {
             if (noSelectedProfile()) return true;
-            if (selectedProfile.paths.IndexOf(selectedPath) == -1)
+            if (selectedProfile.Paths.IndexOf(selectedPath) == -1)
             {
                 setStatus("Create or select a path", true);
                 return true;
@@ -951,19 +946,19 @@
 
             if (placingPoint != null) placingPoint = null;
 
-            if (index != -1) selectedPath = selectedProfile.paths[index];
+            if (index != -1) selectedPath = selectedProfile.Paths[index];
 
             if (!noSelectedPath())
-                setSplineMode(selectedPath.isSpline);
+                setSplineMode(selectedPath.IsSpline);
 
 
             if (!noSelectedPath())
             {
-                foreach (ControlPoint point in selectedPath.controlPoints)
+                foreach (ControlPoint point in selectedPath.ControlPoints)
                 {
                     ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Rotation);
                 }
-                pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Selected = true;
+                pathTable.Rows[selectedProfile.Paths.IndexOf(selectedPath)].Selected = true;
             }
 
             if (!noPointsInPath()) selectPoint(ControlPointTable.Rows.Count - 1);
@@ -991,16 +986,15 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.paths.IndexOf(selectedPath)].Cells[0]);
+            PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.Paths.IndexOf(selectedPath)].Cells[0]);
             settings.ShowDialog();
             DrawPath(selectedPath, false);
         }
 
-        private void ProfileEdit()
+        public static void updateEditTime(Profile p)
         {
-            if (noSelectedProfile()) return;
-            string edited = selectedProfile.newEdit();
-            profileTable.Rows[profiles.IndexOf(selectedProfile)].Cells[1].Value = edited;
+            if(profiles.Contains(p))
+                profileTable.Rows[profiles.IndexOf(p)].Cells[1].Value = p.Edited;
         }
 
         private void saveToRioButton_Click(object sender, EventArgs e)
@@ -1164,13 +1158,13 @@
             }
             selectedPath.deleteControlPoint(ControlPointTable.SelectedRows[0].Index);
 
-            if (ControlPointTable.SelectedRows[0].Index == 0 && selectedPath.snapToPrevious)
-                selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.controlPoints[0]);
-            if (ControlPointTable.SelectedRows[0].Index == selectedPath.controlPoints.Count
-                        && selectedPath != selectedProfile.paths.Last()
-                        && selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snapToPrevious)
+            if (ControlPointTable.SelectedRows[0].Index == 0 && selectedPath.SnapToPrevious)
+                selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.ControlPoints[0]);
+            if (ControlPointTable.SelectedRows[0].Index == selectedPath.ControlPoints.Count
+                        && selectedPath != selectedProfile.Paths.Last()
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
             {
-                selectedProfile.paths[selectedProfile.paths.IndexOf(selectedPath) + 1].snap(selectedPath);
+                selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
             }
             selectPath();
         }
@@ -1179,7 +1173,7 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, ProfileEdit, fieldWidth);
+            MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, fieldWidth);
             mirrorPath.ShowDialog();
         }
 
@@ -1208,7 +1202,7 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            selectedPath.controlPoints.Reverse();
+            selectedPath.reverse();
             selectPath();
         }
 
@@ -1226,16 +1220,22 @@
 
         private void radioLine_CheckedChanged(object sender, EventArgs e)
         {
-            splineMode = false;
-            if (!noSelectedPath()) selectedPath.isSpline = splineMode;
-            UpdateField();
+            if (!skipUpdate)
+            {
+                splineMode = false;
+                if (!noSelectedPath()) selectedPath.IsSpline = splineMode;
+                UpdateField();
+            }
         }
 
         private void radioSpline_CheckedChanged(object sender, EventArgs e)
         {
-            splineMode = true;
-            if (!noSelectedPath()) selectedPath.isSpline = splineMode;
-            UpdateField();
+            if (!skipUpdate)
+            {
+                splineMode = true;
+                if (!noSelectedPath()) selectedPath.IsSpline = splineMode;
+                UpdateField();
+            }
         }
 
         private void MotionProfiler_FormClosed(object sender, FormClosedEventArgs e)
@@ -1262,7 +1262,7 @@
                 return;
             }
 
-            if(selectedPath.controlPoints.Count<2)
+            if(selectedPath.ControlPoints.Count<2)
             {
                 return;
             }
@@ -1417,19 +1417,20 @@
             }
         }
 
-        private void saveUndoState(bool clearRedo = true, List<Profile> profiles = null)
+        public static void saveUndoState(bool clearRedo = true, List<Profile> profiles = null)
         {
             if(clearRedo)
-                this.redo.Clear();
+                redo.Clear();
 
             if(profiles == null)
             {
+                profiles = MotionProfiler.profiles;
                 List<Profile> ps = new List<Profile>();
-                foreach (Profile p in this.profiles)
+                foreach (Profile p in profiles)
                 {
                     ps.Add(new Profile(p));
                 }
-                this.undo.Add(ps);
+                undo.Add(ps);
             }
             else
             {
@@ -1438,42 +1439,50 @@
                 {
                     ps.Add(new Profile(p));
                 }
-                this.undo.Add(ps);
+                undo.Add(ps);
             }
             
             Console.WriteLine("SAVE");
         }
 
-        private void saveRedoState()
+        public static void saveRedoState()
         {
             List<Profile> ps = new List<Profile>();
             foreach (Profile p in profiles)
             {
                 ps.Add(new Profile(p));
             }
-            this.redo.Add(ps);
+            redo.Add(ps);
             Console.WriteLine("SAVE REDO");
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             placingPoint = null;
-            if (this.undo.Count>0)
+            if (undo.Count>0)
             {
                 skipUpdate = true;
                 saveRedoState();
 
-                int selectedIndex = -1;
+                int selectedProfileIndex = -1;
+                int selectedPathIndex = -1;
+
+                if (pathTable.SelectedRows.Count > 0)
+                {
+                    selectedPathIndex = pathTable.SelectedCells[0].RowIndex;
+                    pathTable.ClearSelection();
+                }
+
                 if (profileTable.SelectedCells.Count > 0)
                 {
-                    selectedIndex = this.profileTable.SelectedCells[0].RowIndex;
-                    this.profileTable.ClearSelection();
+                    selectedProfileIndex = profileTable.SelectedCells[0].RowIndex;
+                    profileTable.ClearSelection();
                 }
-                this.profileTable.Rows.Clear();
+                profileTable.Rows.Clear();
 
-                this.profiles = this.undo.Last();
+                profiles = undo.Last();
 
-                this.undo.Remove(this.undo.Last());
+                undo.Remove(undo.Last());
 
                 foreach (Profile p in profiles)
                 {
@@ -1481,18 +1490,34 @@
                 }
 
                 
-                if (this.profileTable.Rows.Count == 0)
+                if (profileTable.Rows.Count == 0)
                 {
                     selectProfile();
                 }
-                else if (this.profileTable.Rows.Count - 1 >= selectedIndex)
+                else if (profileTable.Rows.Count - 1 >= selectedProfileIndex)
                 {
-                    selectProfile(selectedIndex);
+                    selectProfile(selectedProfileIndex);
                 }
-                else if(this.profileTable.Rows.Count>=1)
+                else if(profileTable.Rows.Count>=1)
                 {
-                    selectProfile(this.profileTable.Rows.Count - 1);
+                    selectProfile(profileTable.Rows.Count - 1);
                 }
+
+
+
+                if (pathTable.Rows.Count == 0)
+                {
+                    selectPath();
+                }
+                else if (pathTable.Rows.Count - 1 >= selectedPathIndex)
+                {
+                    selectPath(selectedPathIndex);
+                }
+                else if (pathTable.Rows.Count >= 1)
+                {
+                    selectPath(pathTable.Rows.Count - 1);
+                }
+
                 skipUpdate = false;
                 UpdateField();
             }
@@ -1501,23 +1526,31 @@
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             placingPoint = null;
-            if (this.redo.Count > 0)
+            if (redo.Count > 0)
             {
                 skipUpdate = true;
                 saveUndoState(false);
                 int selectedIndex = -1;
                 if (profileTable.SelectedCells.Count > 0)
                 {
-                    selectedIndex = this.profileTable.SelectedCells[0].RowIndex;
-                    this.profileTable.ClearSelection();
+                    selectedIndex = profileTable.SelectedCells[0].RowIndex;
+                    profileTable.ClearSelection();
                 }
-                this.profileTable.Rows.Clear();
 
-                this.profiles = this.redo.Last();
+                int selectedPathIndex = -1;
 
-                this.redo.Remove(this.redo.Last());
+                if (pathTable.SelectedRows.Count > 0)
+                {
+                    selectedPathIndex = pathTable.SelectedCells[0].RowIndex;
+                    pathTable.ClearSelection();
+                }
 
-                //this.undo.Add(new List<Profile>(this.redo.Last()));
+                profileTable.Rows.Clear();
+
+                profiles = redo.Last();
+
+                redo.Remove(redo.Last());
+
 
                 foreach (Profile p in profiles)
                 {
@@ -1525,18 +1558,32 @@
                 }
 
                 
-                if (this.profileTable.Rows.Count == 0)
+                if (profileTable.Rows.Count == 0)
                 {
                     selectProfile();
                 }
-                else if (this.profileTable.Rows.Count - 1 >= selectedIndex)
+                else if (profileTable.Rows.Count - 1 >= selectedIndex)
                 {
                     selectProfile(selectedIndex);
                 }
-                else if (this.profileTable.Rows.Count >= 1)
+                else if (profileTable.Rows.Count >= 1)
                 {
-                    selectProfile(this.profileTable.Rows.Count - 1);
+                    selectProfile(profileTable.Rows.Count - 1);
                 }
+
+                if (pathTable.Rows.Count == 0)
+                {
+                    selectPath();
+                }
+                else if (pathTable.Rows.Count - 1 >= selectedPathIndex)
+                {
+                    selectPath(selectedPathIndex);
+                }
+                else if (pathTable.Rows.Count >= 1)
+                {
+                    selectPath(pathTable.Rows.Count - 1);
+                }
+
                 skipUpdate = false;
                 UpdateField();
             }

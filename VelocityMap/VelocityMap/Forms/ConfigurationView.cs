@@ -401,14 +401,14 @@ namespace VelocityMap.Forms
             Console.WriteLine(browser.FilterIndex);
             if (browser.FilterIndex == 2)
                 paths.Add(iniPath);
-            else if(browser.FilterIndex == 3)
+            else if (browser.FilterIndex == 3)
                 paths.Add(javaPath);
             else
             {
                 paths.Add(javaPath);
                 paths.Add(iniPath);
             }
-            
+
 
             bool yesToAll = false;
             foreach (string path in paths)

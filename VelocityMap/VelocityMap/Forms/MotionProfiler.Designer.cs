@@ -60,7 +60,7 @@
             this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label10 = new System.Windows.Forms.Label();
             this.refresh_button = new System.Windows.Forms.Button();
-            this.profileTable = new System.Windows.Forms.DataGridView();
+            profileTable = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathTable = new System.Windows.Forms.DataGridView();
@@ -117,7 +117,7 @@
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
             this.Data.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
@@ -140,7 +140,7 @@
             // 
             // infoLabel
             // 
-            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -182,7 +182,7 @@
             this.ControlPointTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.ControlPointTable.BackgroundColor = System.Drawing.Color.White;
@@ -287,19 +287,19 @@
             // 
             // profileTable
             // 
-            this.profileTable.AllowUserToAddRows = false;
-            this.profileTable.AllowUserToDeleteRows = false;
-            this.profileTable.AllowUserToResizeColumns = false;
-            this.profileTable.AllowUserToResizeRows = false;
+            profileTable.AllowUserToAddRows = false;
+            profileTable.AllowUserToDeleteRows = false;
+            profileTable.AllowUserToResizeColumns = false;
+            profileTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.profileTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            profileTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.profileTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.profileTable.BackgroundColor = System.Drawing.Color.White;
-            this.profileTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.profileTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.profileTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            profileTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            profileTable.BackgroundColor = System.Drawing.Color.White;
+            profileTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            profileTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            profileTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -307,32 +307,32 @@
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.profileTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            this.profileTable.ColumnHeadersHeight = 28;
-            this.profileTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            profileTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            profileTable.ColumnHeadersHeight = 28;
+            profileTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
-            this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.profileTable.EnableHeadersVisualStyles = false;
-            this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 186);
-            this.profileTable.Margin = new System.Windows.Forms.Padding(1);
-            this.profileTable.MultiSelect = false;
-            this.profileTable.Name = "profileTable";
-            this.profileTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.profileTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.profileTable.RowHeadersVisible = false;
-            this.profileTable.RowHeadersWidth = 20;
+            profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            profileTable.EnableHeadersVisualStyles = false;
+            profileTable.GridColor = System.Drawing.Color.Black;
+            profileTable.Location = new System.Drawing.Point(13, 186);
+            profileTable.Margin = new System.Windows.Forms.Padding(1);
+            profileTable.MultiSelect = false;
+            profileTable.Name = "profileTable";
+            profileTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            profileTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            profileTable.RowHeadersVisible = false;
+            profileTable.RowHeadersWidth = 20;
             dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            this.profileTable.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.profileTable.RowTemplate.Height = 40;
-            this.profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(310, 490);
-            this.profileTable.TabIndex = 28;
-            this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
-            this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
-            this.profileTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_RowEnter);
+            profileTable.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            profileTable.RowTemplate.Height = 40;
+            profileTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            profileTable.Size = new System.Drawing.Size(310, 490);
+            profileTable.TabIndex = 28;
+            profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(profileTable_CellDoubleClick);
+            profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(profileTable_CellEndEdit);
+            profileTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(profileTable_RowEnter);
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -970,8 +970,8 @@
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -989,8 +989,8 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.mainField);
             this.panel1.Location = new System.Drawing.Point(3, 43);
@@ -1004,7 +1004,7 @@
             chartArea2.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
             chartArea2.Name = "field";
             this.mainField.ChartAreas.Add(chartArea2);
-            this.mainField.Location = new System.Drawing.Point(-4, -1);
+            this.mainField.Location = new System.Drawing.Point(-4, 3);
             this.mainField.Margin = new System.Windows.Forms.Padding(0);
             this.mainField.Name = "mainField";
             series4.ChartArea = "field";
@@ -1041,7 +1041,7 @@
             // 
             // trackBar
             // 
-            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar.Location = new System.Drawing.Point(3, 681);
             this.trackBar.Maximum = 1000;
@@ -1217,8 +1217,8 @@
             // 
             // MoreData
             // 
-            this.MoreData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.MoreData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MoreData.Controls.Add(this.Field);
             this.MoreData.Controls.Add(this.Data);
@@ -1275,7 +1275,7 @@
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
@@ -1283,7 +1283,7 @@
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
@@ -1318,7 +1318,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pathTable);
-            this.Controls.Add(this.profileTable);
+            this.Controls.Add(profileTable);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.previewButton);
@@ -1340,7 +1340,7 @@
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MotionProfiler_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(profileTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
             this.Data.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
@@ -1376,7 +1376,6 @@
         private System.Windows.Forms.DataGridView ControlPointTable;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button refresh_button;
-        private System.Windows.Forms.DataGridView profileTable;
         private System.Windows.Forms.DataGridView pathTable;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1436,6 +1435,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private static System.Windows.Forms.DataGridView profileTable;
     }
 }
 
