@@ -23,7 +23,7 @@ namespace MotionProfile.SegmentedProfile
         public Profile()
         {
             this.name = "Profile " + profileCounter++;
-            this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm tt");
+            this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
             this.paths = new List<ProfilePath>();
             this.isRed = VelocityMap.Properties.Settings.Default.defaultAllianceIsRed;
 
@@ -186,14 +186,14 @@ namespace MotionProfile.SegmentedProfile
         {
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
             MotionProfiler.saveUndoState();
-            MotionProfiler.updateEditTime(this);
+            MotionProfiler.motionProfiler.updateEditTime(this);
 
         }
 
         public void forceEdit()
         {
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
-            MotionProfiler.updateEditTime(this);
+            MotionProfiler.motionProfiler.updateEditTime(this);
 
         }
 

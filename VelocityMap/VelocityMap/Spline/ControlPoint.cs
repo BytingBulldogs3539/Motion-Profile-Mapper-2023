@@ -210,5 +210,12 @@ namespace MotionProfile
                 return this.id;
             }
         }
+        public ProfilePath Path
+        {
+            get
+            {
+                return this.path;
+            }
+        }
     }
 }

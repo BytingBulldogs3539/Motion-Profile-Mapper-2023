@@ -81,6 +81,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UndoHolder.cs" />
     <Compile Include="Forms\ConfigurationView.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -47,8 +47,8 @@
         // new
         public static List<Profile> profiles = new List<Profile>();
 
-        static List<List<Profile>> undo = new List<List<Profile>>();
-        static List<List<Profile>> redo = new List<List<Profile>>();
+        static List<UndoHolder> undo = new List<UndoHolder>();
+        static List<UndoHolder> redo = new List<UndoHolder>();
 
 
         public int newProfileCount = 0;
@@ -56,8 +56,8 @@
         public double pointSize = 0.1;
         public bool splineMode = false;
 
-        Profile selectedProfile = null;
-        ProfilePath selectedPath = null;
+        static Profile selectedProfile = null;
+        static ProfilePath selectedPath = null;
         ControlPoint placingPoint = null;
 
         ControlPoint clickedPoint = null;
@@ -65,7 +65,7 @@
 
         ControlPoint preMoveClickedPoint = null;
         ProfilePath preMoveClickedPointPath = null;
-        List<Profile> preMoveList = null;
+        UndoHolder preMoveHolder = null;
 
         ControlPoint snappedPoint = null;
         ProfilePath snappedPointPath = null;
@@ -78,12 +78,15 @@
 
         Menu menu;
 
+        public static MotionProfiler motionProfiler;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MotionProfiler"/> class.
         /// </summary>
         public MotionProfiler(Menu menu)
         {
+            motionProfiler = this;
             this.menu = menu;
             InitializeComponent();
         }
@@ -112,6 +115,12 @@
             mainField.ChartAreas["field"].Axes[1].Maximum = fieldHeight;
             mainField.ChartAreas["field"].Axes[1].Interval = 1;
 
+            mainField.Series.Add("background");
+            mainField.Series["background"].ChartArea = "field";
+            mainField.Series["background"].ChartType = SeriesChartType.Point;
+            mainField.Series["background"].Color = Color.Transparent;
+            mainField.Series["background"].MarkerSize = 0;
+            mainField.Series["background"].BorderWidth = 0;
             mainField.Series["background"].Points.AddXY(0, 0);
             mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
 
@@ -121,7 +130,7 @@
             mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
 
-            if(VelocityMap.Properties.Settings.Default.defaultAllianceIsRed)
+            if (VelocityMap.Properties.Settings.Default.defaultAllianceIsRed)
                 mainField.ChartAreas["field"].BackImage = "red";
             else
                 mainField.ChartAreas["field"].BackImage = "blue";
@@ -136,11 +145,11 @@
         private void selectPoint(int index)
         {
             ControlPointTable.Rows[index].Selected = true;
+
         }
 
         private void MainField_MouseClick(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("MouseClick");
             if (clickedPoint != null || e.Button != MouseButtons.Left) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
@@ -156,7 +165,9 @@
 
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
-                    DrawPoint(placingPoint, selectedPath);
+                    DrawPoint(placingPoint, selectedPath, true);
+                    if(selectedPath.ControlPoints.Count>0)
+                        DrawPoint(selectedPath.ControlPoints.Last(), selectedPath, false);
                 }
             }
             else
@@ -179,19 +190,19 @@
         {
             if (clickedPoint != null)
             {
-                if(!clickedPoint.Equals(preMoveClickedPoint))
+                if (!clickedPoint.Equals(preMoveClickedPoint))
                 {
-                    saveUndoState(true, preMoveList) ;
+                    saveUndoState(true, preMoveHolder);
                 }
                 selectedProfile.forceEdit();
                 clickedPoint = null;
                 clickedPointPath = null;
                 preMoveClickedPoint = null;
                 preMoveClickedPointPath = null;
-                preMoveList = null;
+                preMoveHolder = null;
                 snappedPoint = null;
                 snappedPointPath = null;
-                
+
                 UpdateField();
             }
             System.Windows.Forms.Cursor.Clip = new Rectangle();
@@ -216,50 +227,56 @@
             System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
             System.Windows.Forms.Cursor.Clip = bounds;
 
-            double clickedX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
-            double clickedY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
+            double clickedX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+            double clickedY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
-            foreach (ProfilePath path in selectedProfile.Paths)
+            ProfilePath path = selectedPath;
+
+            foreach (ControlPoint point in path.ControlPoints)
             {
-                foreach (ControlPoint point in path.ControlPoints)
+                if (Math.Abs(clickedX - point.X) < pointSize && Math.Abs(clickedY - point.Y) < pointSize)
                 {
-                    if (Math.Abs(clickedX - point.X) < pointSize && Math.Abs(clickedY - point.Y) < pointSize)
+                    clickedPoint = point;
+                    clickedPointPath = path;
+
+                    preMoveClickedPoint = new ControlPoint(point, path);
+                    preMoveClickedPointPath = new ProfilePath(path, selectedProfile);
+
+                    List<Profile> ps = new List<Profile>();
+                    foreach (Profile pro in profiles)
                     {
-                        clickedPoint = point;
-                        clickedPointPath = path;
+                        ps.Add(new Profile(pro));
+                    }
 
-                        preMoveClickedPoint = new ControlPoint(point, path);
-                        preMoveClickedPointPath = new ProfilePath(path, selectedProfile);
+                    UndoHolder holder = new UndoHolder();
+                    holder.profiles = ps;
+                    if (selectedPath != null)
+                    {
+                        holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
+                        holder.selectedProfileIndex = profiles.IndexOf(selectedProfile);
+                    }
+                    preMoveHolder = holder;
 
-                        List<Profile> ps = new List<Profile>();
-                        foreach (Profile pro in profiles)
-                        {
-                            ps.Add(new Profile(pro));
-                        }
-                        preMoveList = ps;
 
+                    if (clickedPointPath == selectedPath) selectPoint(path.ControlPoints.IndexOf(point));
 
-                        if (clickedPointPath == selectedPath) selectPoint(path.ControlPoints.IndexOf(point));
-
-                        if (clickedPoint == clickedPointPath.ControlPoints[0]
-                            && clickedPointPath.SnapToPrevious)
-                        {
-                            int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
-                            snappedPointPath = selectedProfile.Paths[pathIndex - 1];
-                            snappedPoint = snappedPointPath.ControlPoints.Last();
-                        }
-                        else if (clickedPoint == clickedPointPath.ControlPoints.Last()
-                            && clickedPointPath != selectedProfile.Paths.Last())
-                        {
-                            int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
-                            snappedPointPath = selectedProfile.Paths[pathIndex + 1];
-                            if (selectedProfile.Paths[pathIndex + 1].SnapToPrevious)
-                                snappedPoint = snappedPointPath.ControlPoints[0];
-                        }
+                    if (clickedPoint == clickedPointPath.ControlPoints[0]
+                        && clickedPointPath.SnapToPrevious)
+                    {
+                        int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
+                        snappedPointPath = selectedProfile.Paths[pathIndex - 1];
+                        snappedPoint = snappedPointPath.ControlPoints.Last();
+                    }
+                    else if (clickedPoint == clickedPointPath.ControlPoints.Last()
+                        && clickedPointPath != selectedProfile.Paths.Last())
+                    {
+                        int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
+                        snappedPointPath = selectedProfile.Paths[pathIndex + 1];
+                        if (selectedProfile.Paths[pathIndex + 1].SnapToPrevious)
+                            snappedPoint = snappedPointPath.ControlPoints[0];
                     }
                 }
             }
-
         }
 
         /// <summary>
@@ -269,7 +286,7 @@
 
         private void MainField_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
             Chart chart = (Chart)sender;
 
             //if the user is holding the left button while moving the mouse allow them to move the point.
@@ -280,8 +297,8 @@
                 try
                 {
 
-                    newX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
-                    newY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
+                    newX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                    newY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
                 }
                 catch
@@ -306,7 +323,6 @@
                 DrawPath(clickedPointPath, true);
                 resetTrackBar();
                 if (snappedPoint != null) DrawPath(snappedPointPath, true);
-                Console.WriteLine("MouseMove");
             }
             else
             {
@@ -322,19 +338,19 @@
                 System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
                 System.Windows.Forms.Cursor.Clip = bounds;
 
-                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X),3);
-                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y),3);
+                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
                 placingPoint.quickChangeRotation((int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI));
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
-
-                mainField.Series[placingPoint.Id].Points.Clear();
+                
+                mainField.Series[placingPoint.Id + "-Rotation"].Points.Clear();
                 double x1 = (double)(placingPoint.X + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
                 double y1 = (double)(placingPoint.Y + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
-                mainField.Series[placingPoint.Id].Points.AddXY(x1, y1);
+                mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x1, y1);
                 double x2 = (double)(placingPoint.X + 0.600 * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
                 double y2 = (double)(placingPoint.Y + 0.600 * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
-                mainField.Series[placingPoint.Id].Points.AddXY(x2, y2);
+                mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x2, y2);
             }
         }
 
@@ -385,36 +401,54 @@
             }
         }
 
-        private void DrawPoint(ControlPoint point, ProfilePath path)
+        private void DrawPoint(ControlPoint point, ProfilePath path, bool selected = false)
         {
-            mainField.Series[path.Id + "-points"].Points.AddXY(point.X, point.Y);
-            if (path == selectedPath)
-            {
-                mainField.Series[path.Id + "-points"].Points.Last().Label =
-                    mainField.Series[path.Id + "-points"].Points.Count.ToString();
-            }
 
-            int seriesIndex = mainField.Series.IndexOf(point.Id);
+
+            string Series = point.Id;
+
+            int seriesIndex = mainField.Series.IndexOf(Series);
             if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
-            mainField.Series.Add(point.Id);
-            mainField.Series[point.Id].ChartType = SeriesChartType.Line;
-            mainField.Series[point.Id].BorderWidth = 2;
-            mainField.Series[point.Id].Color = path == selectedPath ? Color.Red : Color.DarkRed;
+            mainField.Series.Add(Series);
+            mainField.Series[Series].ChartArea = "field";
+            mainField.Series[Series].ChartType = SeriesChartType.Point;
+            mainField.Series[Series].Color = path == selectedPath ? Color.Lime : Color.Green;
+            if (selected)
+                mainField.Series[Series].Color = Color.Purple;
+            mainField.Series[Series].MarkerSize = 10;
+            mainField.Series[Series].MarkerStyle = MarkerStyle.Diamond;
+            mainField.Series[Series].LabelForeColor = Color.White;
+
+            mainField.Series[Series].Points.AddXY(point.X, point.Y);
+            if (path == selectedPath)
+            {
+                mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.IndexOf(point) + 1);
+            }
+
+            Series = point.Id + "-Rotation";
+
+            seriesIndex = mainField.Series.IndexOf(Series);
+            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
+
+            mainField.Series.Add(Series);
+            mainField.Series[Series].ChartType = SeriesChartType.Line;
+            mainField.Series[Series].BorderWidth = 2;
+            mainField.Series[Series].Color = path == selectedPath ? Color.Red : Color.DarkRed;
 
             double x1 = (double)(point.X + pointSize * Math.Sin((point.Rotation) * Math.PI / 180));
             double y1 = (double)(point.Y + pointSize * Math.Cos((point.Rotation) * Math.PI / 180));
-            mainField.Series[point.Id].Points.AddXY(x1, y1);
+            mainField.Series[Series].Points.AddXY(x1, y1);
             double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
             double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
-            mainField.Series[point.Id].Points.AddXY(x2, y2);
+            mainField.Series[Series].Points.AddXY(x2, y2);
 
             if (point == placingPoint) return;
             mainField.Series[path.Id + "-path"].Points.AddXY(point.X, point.Y);
 
             if (path == selectedPath)
             {
-                int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
+               int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
                 if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
                 mainField.Series.Add(point.Id + "Rectangle");
                 mainField.Series[point.Id + "Rectangle"].ChartType = SeriesChartType.Line;
@@ -425,27 +459,7 @@
                 Translation2d fr = new Translation2d(Properties.Settings.Default.FrameLength / 2, Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
                 Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
                 Translation2d bl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(Rotation2d.fromDegrees(-point.Rotation)).plus(new Translation2d(point.X, point.Y));
-
-                /*mainField.Series[point.Id + "Rectangle"].Points.AddXY(fl.getX(), fl.getY());
-                mainField.Series[point.Id + "Rectangle"].Points.AddXY(fr.getX(), fr.getY());
-                mainField.Series[point.Id + "Rectangle"].Points.AddXY(br.getX(), br.getY());
-                mainField.Series[point.Id + "Rectangle"].Points.AddXY(bl.getX(), bl.getY());
-                mainField.Series[point.Id + "Rectangle"].Points.AddXY(fl.getX(), fl.getY());*/
-
             }
-
-
-
-
-            /*mainField.Annotations.Add(new TextAnnotation() 
-                {
-                    Text = (path.ControlPoints.IndexOf(point) + 1).ToString(),
-                    Alignment = ContentAlignment.MiddleCenter,
-                    ForeColor = Color.White,
-                    X = point.X,
-                    Y = point.Y
-                }
-            );*/
         }
 
         private void DrawPath(ProfilePath path, bool quickDraw)
@@ -467,28 +481,19 @@
             mainField.Series[path.Id + "-path"].MarkerSize = 2;
             mainField.Series[path.Id + "-path"].BorderWidth = 2;
 
-            mainField.Series.Add(path.Id + "-points");
-            mainField.Series[path.Id + "-points"].ChartArea = "field";
-            mainField.Series[path.Id + "-points"].ChartType = SeriesChartType.Point;
-            mainField.Series[path.Id + "-points"].Color = path == selectedPath ? Color.Lime : Color.Green;
-            mainField.Series[path.Id + "-points"].MarkerSize = 10;
-            mainField.Series[path.Id + "-points"].MarkerStyle = MarkerStyle.Diamond;
-            mainField.Series[path.Id + "-points"].LabelForeColor = Color.White;
-
-
-
+            List<ControlPoint> ps = new List<ControlPoint>();
+            if(selectedPath == path)
+                foreach (DataGridViewRow row in ControlPointTable.SelectedRows)
+                {
+                    ps.Add(selectedPath.ControlPoints[row.Index]);
+                }
 
             foreach (ControlPoint point in path.ControlPoints)
             {
-                DrawPoint(point, path);
+                DrawPoint(point, path, ps.Contains(point));
             }
 
             if (path.ControlPoints.Count < 2) return;
-
-            seriesIndex = mainField.Series.IndexOf(path.Id + "-left");
-            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
-            seriesIndex = mainField.Series.IndexOf(path.Id + "-right");
-            if (seriesIndex != -1) mainField.Series.RemoveAt(seriesIndex);
 
             path.generate(quickDraw);
 
@@ -518,15 +523,22 @@
         {
             if (skipUpdate)
                 return;
-            Console.WriteLine("Update Field");
+
             kinematicsChart.Series["Position"].Points.Clear();
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
-            //AngleChart.Series["Angle"].Points.Clear();
-            for (int series = 1; series < mainField.Series.Count; series++)
-            {
-                mainField.Series[series].Points.Clear();
-            }
+
+            mainField.Series.Clear();
+
+            mainField.Series.Add("background");
+            mainField.Series["background"].ChartArea = "field";
+            mainField.Series["background"].ChartType = SeriesChartType.Point;
+            mainField.Series["background"].Color = Color.Transparent;
+            mainField.Series["background"].MarkerSize = 0;
+            mainField.Series["background"].BorderWidth = 0;
+            mainField.Series["background"].Points.AddXY(0, 0);
+            mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
+
 
             if (noSelectedProfile()) return;
 
@@ -545,6 +557,7 @@
             setStatus("", false);
 
             resetTrackBar();
+
 
         }
 
@@ -746,6 +759,7 @@
 
             if (!noSelectedProfile())
             {
+                profileTable.ClearSelection();
                 foreach (ProfilePath path in selectedProfile.Paths)
                 {
                     pathTable.Rows.Add(path.Name);
@@ -774,9 +788,11 @@
         {
             saveUndoState();
             profiles.Add(new Profile());
-            profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
-
+            int index = profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
             selectProfile(profiles.Count - 1);
+            profileTable.CurrentCell = profileTable.Rows[index].Cells[0];
+
+            profileTable.BeginEdit(false);
         }
 
         private void deleteProfileButton_Click(object sender, EventArgs e)
@@ -818,7 +834,7 @@
         {
             if (noSelectedProfile()) return;
 
-            string newPathName = "Path " + (selectedProfile.Paths.Count+1);
+            string newPathName = "Path " + (selectedProfile.Paths.Count + 1);
 
             if (Properties.Settings.Default.SnapNewPaths && selectedProfile.Paths.Count > 0)
                 selectedProfile.newPath(newPathName, splineMode, selectedProfile.Paths.Last());
@@ -826,7 +842,7 @@
 
             int newIndex = pathTable.Rows.Add(newPathName);
             selectPath(newIndex);
-            
+            pathTable.CurrentCell = pathTable.Rows[newIndex].Cells[0];
         }
 
         private void deletePathButton_Click(object sender, EventArgs e)
@@ -847,7 +863,7 @@
             pathTable.Rows.RemoveAt(pathIndex);
             selectProfile();
             selectPath(Math.Min(pathIndex, selectedProfile.Paths.Count - 1));
-            
+
         }
 
         private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -863,7 +879,7 @@
             }
             editing = true;
             editedCell = e.RowIndex;
-            
+
         }
 
         private void pathOrderUp_Click(object sender, EventArgs e)
@@ -874,7 +890,7 @@
             selectedProfile.movePathOrderUp(selectedPath);
             selectProfile();
             selectPath(selectedProfile.Paths.IndexOf(tempPath));
-            
+
         }
 
         private void pathOrderDown_Click(object sender, EventArgs e)
@@ -885,7 +901,7 @@
             ProfilePath tempPath = selectedPath;
             selectProfile();
             selectPath(selectedProfile.Paths.IndexOf(tempPath));
-            
+
         }
 
         /// <summary>
@@ -991,9 +1007,9 @@
             DrawPath(selectedPath, false);
         }
 
-        public static void updateEditTime(Profile p)
+        public void updateEditTime(Profile p)
         {
-            if(profiles.Contains(p))
+            if (profiles.Contains(p))
                 profileTable.Rows[profiles.IndexOf(p)].Cells[1].Value = p.Edited;
         }
 
@@ -1262,7 +1278,7 @@
                 return;
             }
 
-            if(selectedPath.ControlPoints.Count<2)
+            if (selectedPath.ControlPoints.Count < 2)
             {
                 return;
             }
@@ -1354,7 +1370,7 @@
             if (selectedPath.gen == null) return;
 
             if (percent != 1.0) timeOffset = selectedPath.gen.getDuration() * percent;
-            
+
         }
         private void playButton_Click(object sender, EventArgs e)
         {
@@ -1382,24 +1398,24 @@
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-                TimeSpan ts = DateTime.Now - timeOfUpload;
+            TimeSpan ts = DateTime.Now - timeOfUpload;
 
 
-                timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
+            timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
         }
 
         private void MotionProfiler_Resize(object sender, EventArgs e)
         {
             double hw = 679.0 / 638.0;
             double wh = 638.0 / 679.0;
-            if (panel1.Width<=panel1.Height)
+            if (panel1.Width <= panel1.Height)
             {
 
                 mainField.Width = (int)(panel1.Width);
 
-                mainField.Height = (int)(panel1.Width* wh);
+                mainField.Height = (int)(panel1.Width * wh);
 
-                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width/2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height/2-50);
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
 
 
             }
@@ -1410,39 +1426,42 @@
 
                 mainField.Width = (int)(panel1.Height * hw);
 
-                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width/2, panel1.Location.Y + (int)(panel1.Height / 2.0)- mainField.Height/2-50);
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
 
 
 
             }
         }
 
-        public static void saveUndoState(bool clearRedo = true, List<Profile> profiles = null)
+        public static void saveUndoState(bool clearRedo = true, UndoHolder holder = null)
         {
-            if(clearRedo)
+            if (clearRedo)
                 redo.Clear();
 
-            if(profiles == null)
+            if (holder == null)
             {
-                profiles = MotionProfiler.profiles;
+                List<Profile> profiles = MotionProfiler.profiles;
                 List<Profile> ps = new List<Profile>();
                 foreach (Profile p in profiles)
                 {
                     ps.Add(new Profile(p));
                 }
-                undo.Add(ps);
+
+                UndoHolder h = new UndoHolder();
+                h.profiles = ps;
+                if (selectedPath != null)
+                {
+                    h.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
+                    h.selectedProfileIndex = profiles.IndexOf(selectedProfile);
+                }
+                undo.Add(h);
             }
             else
             {
-                List<Profile> ps = new List<Profile>();
-                foreach (Profile p in profiles)
-                {
-                    ps.Add(new Profile(p));
-                }
-                undo.Add(ps);
+
+                undo.Add(holder);
             }
-            
-            Console.WriteLine("SAVE");
+
         }
 
         public static void saveRedoState()
@@ -1452,14 +1471,21 @@
             {
                 ps.Add(new Profile(p));
             }
-            redo.Add(ps);
-            Console.WriteLine("SAVE REDO");
+
+            UndoHolder holder = new UndoHolder();
+            holder.profiles = ps;
+            if (selectedPath != null)
+            {
+                holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
+                holder.selectedProfileIndex = profiles.IndexOf(selectedProfile);
+            }
+            redo.Add(holder);
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             placingPoint = null;
-            if (undo.Count>0)
+            if (undo.Count > 0)
             {
                 skipUpdate = true;
                 saveRedoState();
@@ -1480,17 +1506,19 @@
                 }
                 profileTable.Rows.Clear();
 
-                profiles = undo.Last();
-
-                undo.Remove(undo.Last());
+                profiles = undo.Last().profiles;
 
                 foreach (Profile p in profiles)
                 {
                     profileTable.Rows.Add(p.Name, p.Edited);
                 }
 
-                
-                if (profileTable.Rows.Count == 0)
+
+                if (undo.Last().selectedProfileIndex != -1)
+                {
+                    selectProfile(undo.Last().selectedProfileIndex);
+                }
+                else if (profileTable.Rows.Count == 0)
                 {
                     selectProfile();
                 }
@@ -1498,14 +1526,17 @@
                 {
                     selectProfile(selectedProfileIndex);
                 }
-                else if(profileTable.Rows.Count>=1)
+                else if (profileTable.Rows.Count >= 1)
                 {
                     selectProfile(profileTable.Rows.Count - 1);
                 }
 
 
-
-                if (pathTable.Rows.Count == 0)
+                if (undo.Last().selectedPathIndex != -1)
+                {
+                    selectPath(undo.Last().selectedPathIndex);
+                }
+                else if (pathTable.Rows.Count == 0)
                 {
                     selectPath();
                 }
@@ -1517,6 +1548,8 @@
                 {
                     selectPath(pathTable.Rows.Count - 1);
                 }
+
+                undo.Remove(undo.Last());
 
                 skipUpdate = false;
                 UpdateField();
@@ -1547,9 +1580,8 @@
 
                 profileTable.Rows.Clear();
 
-                profiles = redo.Last();
+                profiles = redo.Last().profiles;
 
-                redo.Remove(redo.Last());
 
 
                 foreach (Profile p in profiles)
@@ -1557,8 +1589,11 @@
                     profileTable.Rows.Add(p.Name, p.Edited);
                 }
 
-                
-                if (profileTable.Rows.Count == 0)
+                if (redo.Last().selectedProfileIndex != -1)
+                {
+                    selectProfile(redo.Last().selectedProfileIndex);
+                }
+                else if (profileTable.Rows.Count == 0)
                 {
                     selectProfile();
                 }
@@ -1571,7 +1606,11 @@
                     selectProfile(profileTable.Rows.Count - 1);
                 }
 
-                if (pathTable.Rows.Count == 0)
+                if (redo.Last().selectedPathIndex != -1)
+                {
+                    selectPath(redo.Last().selectedPathIndex);
+                }
+                else if (pathTable.Rows.Count == 0)
                 {
                     selectPath();
                 }
@@ -1583,12 +1622,19 @@
                 {
                     selectPath(pathTable.Rows.Count - 1);
                 }
+                redo.Remove(redo.Last());
 
                 skipUpdate = false;
                 UpdateField();
             }
         }
 
-
+        private void ControlPointTable_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (noSelectedPath())
+                return;
+            DrawPath(selectedPath,false);
+            
+        }
     }
 }
