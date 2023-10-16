@@ -56,7 +56,7 @@ namespace MotionProfile.SegmentedProfile
         {
             this.profile = profile;
             this.name = (string)pathJSON["name"];
-            this.id = (string)pathJSON["id"];
+            this.id = Guid.NewGuid().ToString();
             this.maxVel = (double)pathJSON["maxVelocity"];
             this.maxAcc = (double)pathJSON["maxAcceleration"];
             try
@@ -104,14 +104,14 @@ namespace MotionProfile.SegmentedProfile
             }
         }
         //Call before edit.
-        public void newEdit()
+        public void newEdit(string reason)
         {
-            profile.newEdit();
+            profile.newEdit(reason);
         }
 
         public ControlPoint addControlPoint(int x, int y, int heading)
         {
-            newEdit();
+            newEdit("Path Add Control Point");
             ControlPoint newPoint = new ControlPoint(this, x, y, heading);
             this.controlPoints.Add(newPoint);
             return newPoint;
@@ -119,7 +119,7 @@ namespace MotionProfile.SegmentedProfile
 
         public ControlPoint addControlPoint(ControlPoint other)
         {
-            newEdit();
+            newEdit("Path Add Control Point");
             ControlPoint newPoint = new ControlPoint(other, this);
             this.controlPoints.Add(newPoint);
             return newPoint;
@@ -127,7 +127,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void deleteControlPoint(int index)
         {
-            newEdit();
+            newEdit("Path Delete Control Point");
             this.controlPoints.RemoveAt(index);
             if (this.controlPoints.Count == 0) this.snapToPrevious = false;
         }
@@ -144,7 +144,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void mirrorPoints(double fieldWidth)
         {
-            newEdit();
+            newEdit("Path Mirror Points");
             foreach (ControlPoint point in this.controlPoints)
             {
                 point.X = fieldWidth - point.X;
@@ -153,7 +153,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void shiftPoints(double dx, double dy)
         {
-            newEdit();
+            newEdit("Path Shift Points");
             foreach (ControlPoint point in this.controlPoints)
             {
                 point.X += dx;
@@ -162,13 +162,13 @@ namespace MotionProfile.SegmentedProfile
         }
         public void reverse()
         {
-            newEdit();
+            newEdit("Path Reverse Points");
             this.controlPoints.Reverse();
         }
 
         public void clearPoints()
         {
-            newEdit();
+            newEdit("Path Clear Points");
             this.controlPoints.Clear();
         }
 
@@ -550,7 +550,7 @@ namespace MotionProfile.SegmentedProfile
         public void updateAll(string name, bool snapToPrevious, double vel, double acc, double cen)
         {
             if (this.name != name || this.snapToPrevious != snapToPrevious || this.maxVel != vel || this.MaxAcc != acc || this.maxCen != cen)
-                newEdit();
+                newEdit("Path Update Settings");
             this.maxVel = vel;
             this.maxAcc = acc;
             this.maxCen = cen;
@@ -570,8 +570,8 @@ namespace MotionProfile.SegmentedProfile
                 if (value.Trim() == "") return;
                 if (value.Trim() != this.name)
                 {
-                    newEdit();
-                    MotionProfiler.saveUndoState();
+                    newEdit("Path Name Change");
+                    MotionProfiler.saveUndoState("Path Name Change");
                     this.name = value.Trim();
                 }
 
@@ -587,7 +587,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.id != value)
                 {
-                    newEdit();
+                    newEdit("Path ID Change");
                     this.id = value;
                 }
             }
@@ -602,7 +602,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.isSpline != value)
                 {
-                    newEdit();
+                    newEdit("Path Spline Mode Change");
                     this.isSpline = value;
                 }
             }
@@ -617,7 +617,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.maxVel != value)
                 {
-                    newEdit();
+                    newEdit("Path Max Vel Change");
                     this.maxVel = value;
                 }
             }
@@ -632,7 +632,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.maxAcc != value)
                 {
-                    newEdit();
+                    newEdit("Path Max Accel Change");
                     this.maxAcc = value;
                 }
             }
@@ -648,7 +648,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.maxCen != value)
                 {
-                    newEdit();
+                    newEdit("Path Max Cen Change");
                     this.maxCen = value;
                 }
             }
@@ -664,7 +664,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.snapToPrevious != value)
                 {
-                    newEdit();
+                    newEdit("Path Snap To Previous Change");
                     this.snapToPrevious = value;
                 }
             }
@@ -680,7 +680,7 @@ namespace MotionProfile.SegmentedProfile
             {
                 if (this.controlPoints != value)
                 {
-                    newEdit();
+                    newEdit("Path Control Points Change");
                     this.controlPoints = value;
                 }
             }

@@ -97,9 +97,9 @@ namespace MotionProfile
             return pointJSON;
         }
 
-        public void newEdit()
+        public void newEdit(string reason)
         {
-            path.newEdit();
+            path.newEdit(reason);
         }
 
 
@@ -134,7 +134,7 @@ namespace MotionProfile
             }
             set
             {
-                newEdit();
+                newEdit("Control Point Rotation Change");
                 this.rotation = value;
             }
         }
@@ -164,7 +164,7 @@ namespace MotionProfile
             {
                 if (value != this.x)
                 {
-                    newEdit();
+                    newEdit("Control Point X Change");
                     this.x = value;
                 }
             }
@@ -181,7 +181,7 @@ namespace MotionProfile
             {
                 if (value != this.y)
                 {
-                    newEdit();
+                    newEdit("Control Point Y Change");
                     this.y = value;
                 }
             }
@@ -197,7 +197,7 @@ namespace MotionProfile
             {
                 if (this.velocity != value)
                 {
-                    newEdit();
+                    newEdit("Control Point Velocity Change");
                     this.velocity = value;
                 }
             }

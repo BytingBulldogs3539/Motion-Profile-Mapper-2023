@@ -71,7 +71,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void newPath(string name, bool isSpline, ProfilePath previous = null)
         {
-            newEdit();
+            newEdit("New Path");
             this.paths.Add(new ProfilePath(this, name, isSpline, previous));
         }
 
@@ -81,7 +81,7 @@ namespace MotionProfile.SegmentedProfile
 
             if (pathIndex < 1) return;
 
-            newEdit();
+            newEdit("Path Order Change");
             ProfilePath temp = this.paths[pathIndex];
             this.paths.RemoveAt(pathIndex);
             this.paths.Insert(pathIndex - 1, temp);
@@ -100,14 +100,14 @@ namespace MotionProfile.SegmentedProfile
 
         public void mirrorPath(ProfilePath pathToMirror, double fieldWidth)
         {
-            newEdit();
+            newEdit("Path Mirror");
             int index = this.paths.IndexOf(pathToMirror);
             this.paths[index].mirrorPoints(fieldWidth);
         }
 
         public void mirrorAllPaths(double fieldWidth)
         {
-            newEdit();
+            newEdit("Mirror All Paths");
             foreach (ProfilePath path in this.paths)
             {
                 path.mirrorPoints(fieldWidth);
@@ -182,10 +182,10 @@ namespace MotionProfile.SegmentedProfile
             return String.Join("\n", pathStrings);
         }
 
-        public void newEdit()
+        public void newEdit(string reason)
         {
             this.edited = DateTime.Now.ToString("MM/dd/yy, hh:mm:ss tt");
-            MotionProfiler.saveUndoState();
+            MotionProfiler.saveUndoState(reason);
             MotionProfiler.motionProfiler.updateEditTime(this);
 
         }
@@ -206,9 +206,10 @@ namespace MotionProfile.SegmentedProfile
 
             set
             {
-                newEdit();
                 string newName = value.Trim();
                 if (newName == "") return;
+                if(newName == this.name) return;
+                newEdit("Name Change");
                 this.name = newName;
             }
         }
@@ -236,7 +237,7 @@ namespace MotionProfile.SegmentedProfile
             }
             set
             {
-                newEdit();
+                newEdit("Paths Changes");
                 this.paths = value;
             }
         }

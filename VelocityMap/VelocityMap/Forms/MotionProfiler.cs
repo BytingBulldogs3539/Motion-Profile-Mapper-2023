@@ -166,7 +166,7 @@
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
                     selectPoint(ControlPointTable.Rows.Count - 1);
                     DrawPoint(placingPoint, selectedPath, true);
-                    if(selectedPath.ControlPoints.Count>0)
+                    if (selectedPath.ControlPoints.Count > 0)
                         DrawPoint(selectedPath.ControlPoints.Last(), selectedPath, false);
                 }
             }
@@ -192,7 +192,7 @@
             {
                 if (!clickedPoint.Equals(preMoveClickedPoint))
                 {
-                    saveUndoState(true, preMoveHolder);
+                    saveUndoState("New Point",true, preMoveHolder);
                 }
                 selectedProfile.forceEdit();
                 clickedPoint = null;
@@ -250,6 +250,7 @@
 
                     UndoHolder holder = new UndoHolder();
                     holder.profiles = ps;
+                    holder.reason = "Control Point Move"; 
                     if (selectedPath != null)
                     {
                         holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
@@ -343,7 +344,7 @@
 
                 placingPoint.quickChangeRotation((int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI));
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
-                
+
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.Clear();
                 double x1 = (double)(placingPoint.X + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
                 double y1 = (double)(placingPoint.Y + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
@@ -423,7 +424,10 @@
             mainField.Series[Series].Points.AddXY(point.X, point.Y);
             if (path == selectedPath)
             {
-                mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.IndexOf(point) + 1);
+                if (point.Path.ControlPoints.Contains(point))
+                    mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.IndexOf(point) + 1);
+                else
+                    mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.Count + 1);
             }
 
             Series = point.Id + "-Rotation";
@@ -448,7 +452,7 @@
 
             if (path == selectedPath)
             {
-               int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
+                int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
                 if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
                 mainField.Series.Add(point.Id + "Rectangle");
                 mainField.Series[point.Id + "Rectangle"].ChartType = SeriesChartType.Line;
@@ -482,7 +486,7 @@
             mainField.Series[path.Id + "-path"].BorderWidth = 2;
 
             List<ControlPoint> ps = new List<ControlPoint>();
-            if(selectedPath == path)
+            if (selectedPath == path)
                 foreach (DataGridViewRow row in ControlPointTable.SelectedRows)
                 {
                     ps.Add(selectedPath.ControlPoints[row.Index]);
@@ -651,7 +655,9 @@
                 {
                     try
                     {
-                        profiles.Add(new Profile(JObject.Parse(fileReader.ReadToEnd())));
+                        JObject read = JObject.Parse(fileReader.ReadToEnd());
+                        saveUndoState("Load File",true,null,false);
+                        profiles.Add(new Profile(read));
                         profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
                     }
                     catch
@@ -786,7 +792,7 @@
 
         private void newProfileButton_Click(object sender, EventArgs e)
         {
-            saveUndoState();
+            saveUndoState("New Profile",true, null, false);
             profiles.Add(new Profile());
             int index = profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
             selectProfile(profiles.Count - 1);
@@ -803,6 +809,8 @@
                 profileTable.ClearSelection();
                 return;
             }
+
+            saveUndoState("Delete Profile", true, null, false);
             if (editing) editedCell--;
 
             int profileIndex = profiles.IndexOf(selectedProfile);
@@ -856,7 +864,7 @@
 
             if (editing) editedCell--;
 
-            saveUndoState();
+            saveUndoState("Delete Path");
 
             int pathIndex = selectedProfile.Paths.IndexOf(selectedPath);
             selectedProfile.Paths.RemoveAt(pathIndex);
@@ -1433,10 +1441,11 @@
             }
         }
 
-        public static void saveUndoState(bool clearRedo = true, UndoHolder holder = null)
+        public static void saveUndoState(string reason,bool clearRedo = true, UndoHolder holder = null, bool selectPOI = true)
         {
             if (clearRedo)
                 redo.Clear();
+
 
             if (holder == null)
             {
@@ -1449,6 +1458,11 @@
 
                 UndoHolder h = new UndoHolder();
                 h.profiles = ps;
+                
+                h.usePOI = selectPOI;
+                if (reason == "Load File" || reason == "Delete Profile" || reason == "New Profile")
+                    h.usePOI = false;
+                h.reason = reason;
                 if (selectedPath != null)
                 {
                     h.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
@@ -1461,10 +1475,20 @@
 
                 undo.Add(holder);
             }
+            Console.WriteLine("---UNDO---");
+            foreach (UndoHolder ho in undo)
+            {
+                Console.WriteLine(ho.reason);
+            }
+            Console.WriteLine("---REDO---");
+            foreach (UndoHolder ho in redo)
+            {
+                Console.WriteLine(ho.reason);
+            }
 
         }
 
-        public static void saveRedoState()
+        public static void saveRedoState(string reason)
         {
             List<Profile> ps = new List<Profile>();
             foreach (Profile p in profiles)
@@ -1474,21 +1498,44 @@
 
             UndoHolder holder = new UndoHolder();
             holder.profiles = ps;
+            holder.reason = reason;
             if (selectedPath != null)
             {
                 holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
                 holder.selectedProfileIndex = profiles.IndexOf(selectedProfile);
             }
             redo.Add(holder);
+            Console.WriteLine("---UNDO---");
+            foreach (UndoHolder ho in undo)
+            {
+                Console.WriteLine(ho.reason);
+            }
+            Console.WriteLine("---REDO---");
+            foreach (UndoHolder ho in redo)
+            {
+                Console.WriteLine(ho.reason);
+            }
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            placingPoint = null;
+            if (placingPoint != null)
+            {
+                placingPoint = null;
+                ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
+                UpdateField();
+                return;
+            }
+
             if (undo.Count > 0)
             {
+                if (profileTable.Rows.Count > 0 && undo.Last().selectedProfileIndex != profileTable.SelectedCells[0].RowIndex && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
+                {
+                    selectProfile(undo.Last().selectedProfileIndex);
+                    return;
+                }
                 skipUpdate = true;
-                saveRedoState();
+                saveRedoState(undo.Last().reason);
 
                 int selectedProfileIndex = -1;
                 int selectedPathIndex = -1;
@@ -1553,6 +1600,16 @@
 
                 skipUpdate = false;
                 UpdateField();
+                Console.WriteLine("---UNDO---");
+                foreach (UndoHolder ho in undo)
+                {
+                    Console.WriteLine(ho.reason);
+                }
+                Console.WriteLine("---REDO---");
+                foreach (UndoHolder ho in redo)
+                {
+                    Console.WriteLine(ho.reason);
+                }
             }
         }
 
@@ -1562,7 +1619,7 @@
             if (redo.Count > 0)
             {
                 skipUpdate = true;
-                saveUndoState(false);
+                saveUndoState(redo.Last().reason,false);
                 int selectedIndex = -1;
                 if (profileTable.SelectedCells.Count > 0)
                 {
@@ -1626,6 +1683,16 @@
 
                 skipUpdate = false;
                 UpdateField();
+                Console.WriteLine("---UNDO---");
+                foreach (UndoHolder ho in undo)
+                {
+                    Console.WriteLine(ho.reason);
+                }
+                Console.WriteLine("---REDO---");
+                foreach (UndoHolder ho in redo)
+                {
+                    Console.WriteLine(ho.reason);
+                }
             }
         }
 
@@ -1633,8 +1700,8 @@
         {
             if (noSelectedPath())
                 return;
-            DrawPath(selectedPath,false);
-            
+            DrawPath(selectedPath, false);
+
         }
     }
 }

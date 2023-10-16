@@ -12,5 +12,7 @@ namespace VelocityMap
         public int selectedProfileIndex = -1;
         public int selectedPathIndex = -1;
         public List<Profile> profiles = new List<Profile>();
+        public bool usePOI = true;
+        public string reason;
     }
 }
