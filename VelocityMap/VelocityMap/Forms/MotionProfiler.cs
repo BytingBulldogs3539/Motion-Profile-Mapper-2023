@@ -72,8 +72,6 @@
 
         private DateTime timeOfUpload;
 
-        bool editing = false;
-        int editedCell = -1;
         bool skipUpdate = false;
 
         Menu menu;
@@ -782,12 +780,8 @@
 
         private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (editing && profiles.Count > 0)
-            {
-                editing = false;
-                selectProfile(editedCell);
-            }
-            else selectProfile(e.RowIndex);
+            
+            selectProfile(e.RowIndex);
         }
 
         private void newProfileButton_Click(object sender, EventArgs e)
@@ -805,13 +799,11 @@
         {
             if (profiles.Count == 0)
             {
-                editing = false;
                 profileTable.ClearSelection();
                 return;
             }
 
             saveUndoState("Delete Profile", true, null, false);
-            if (editing) editedCell--;
 
             int profileIndex = profiles.IndexOf(selectedProfile);
             profiles.RemoveAt(profileIndex);
@@ -827,10 +819,6 @@
         private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
-
-            if (e.RowIndex == profileTable.RowCount - 1) return;
-            editing = true;
-            editedCell = e.RowIndex;
         }
 
         private void editProfileButton_Click(object sender, EventArgs e)
@@ -857,12 +845,9 @@
         {
             if (profiles.Count == 0 || profiles[profileTable.SelectedRows[0].Index].PathCount == 0)
             {
-                editing = false;
                 pathTable.ClearSelection();
                 return;
             }
-
-            if (editing) editedCell--;
 
             saveUndoState("Delete Path");
 
@@ -885,8 +870,7 @@
                 ProfilePath editedPath = selectedProfile.Paths[e.RowIndex];
                 editedPath.Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
             }
-            editing = true;
-            editedCell = e.RowIndex;
+
 
         }
 
@@ -955,12 +939,7 @@
 
         private void pathTable_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (editing && selectedProfile.PathCount > 0)
-            {
-                editing = false;
-                selectPath(editedCell);
-            }
-            else selectPath(e.RowIndex);
+            selectPath(e.RowIndex);
         }
 
         private void selectPath(int index = -1)
@@ -973,7 +952,11 @@
             if (index != -1) selectedPath = selectedProfile.Paths[index];
 
             if (!noSelectedPath())
+            {
+                skipUpdate = true;
                 setSplineMode(selectedPath.IsSpline);
+                skipUpdate = false;
+            }
 
 
             if (!noSelectedPath())
