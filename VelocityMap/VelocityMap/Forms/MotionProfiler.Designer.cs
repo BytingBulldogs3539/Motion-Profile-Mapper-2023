@@ -330,6 +330,7 @@
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
             this.profileTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_RowEnter);
+            this.profileTable.SelectionChanged += new System.EventHandler(this.profileTable_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn2
             // 

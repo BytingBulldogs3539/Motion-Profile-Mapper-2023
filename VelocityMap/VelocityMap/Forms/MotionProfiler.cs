@@ -752,10 +752,14 @@
                 mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
             }
         }
-
+        bool skipSelectProfile = false;
         private void selectProfile(int index = -1)
         {
+            if (skipSelectProfile)
+                return;
+            skipSelectProfile = true;
             // -1 reselects the current profile
+            Console.WriteLine("SelectProfile");
             if (index != -1) selectedProfile = profiles[index];
             pathTable.Rows.Clear();
 
@@ -768,27 +772,33 @@
                 {
                     pathTable.Rows.Add(path.Name);
                 }
+                
                 profileTable.Rows[profiles.IndexOf(selectedProfile)].Selected = true;
             }
+            skipSelectProfile = false;
             if (index == -1 || selectedProfile.PathCount == 0) selectPath();
             else selectPath(0);
 
 
             if (!noSelectedProfile())
                 setAllianceMode(selectedProfile.isRed);
+            UpdateField();
         }
 
         private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            
-            selectProfile(e.RowIndex);
+            //Console.WriteLine("row Enter");
+
+            //selectProfile(e.RowIndex);
         }
 
         private void newProfileButton_Click(object sender, EventArgs e)
         {
             saveUndoState("New Profile",true, null, false);
             profiles.Add(new Profile());
+            skipSelectProfile = true;
             int index = profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+            skipSelectProfile = false;
             selectProfile(profiles.Count - 1);
             profileTable.CurrentCell = profileTable.Rows[index].Cells[0];
 
@@ -1512,11 +1522,17 @@
 
             if (undo.Count > 0)
             {
-                if (profileTable.Rows.Count > 0 && undo.Last().selectedProfileIndex != profileTable.SelectedCells[0].RowIndex && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
+                if(profileTable.SelectedRows.Count == 0 && profiles.Count()> undo.Last().selectedProfileIndex && undo.Last().usePOI)
                 {
                     selectProfile(undo.Last().selectedProfileIndex);
                     return;
                 }
+                if (profileTable.Rows.Count > 0 && profiles.Count() > undo.Last().selectedProfileIndex && undo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
+                {
+                    selectProfile(undo.Last().selectedProfileIndex);
+                    return;
+                }
+
                 skipUpdate = true;
                 saveRedoState(undo.Last().reason);
 
@@ -1601,6 +1617,11 @@
             placingPoint = null;
             if (redo.Count > 0)
             {
+                if (profileTable.Rows.Count > 0 && redo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
+                {
+                    selectProfile(redo.Last().selectedProfileIndex);
+                    return;
+                }
                 skipUpdate = true;
                 saveUndoState(redo.Last().reason,false);
                 int selectedIndex = -1;
@@ -1685,6 +1706,13 @@
                 return;
             DrawPath(selectedPath, false);
 
+        }
+
+        private void profileTable_SelectionChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("SelectionChange");
+            if(profileTable.SelectedRows.Count>0)
+                selectProfile(profileTable.SelectedRows[0].Index);
         }
     }
 }
