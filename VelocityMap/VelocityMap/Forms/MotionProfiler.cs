@@ -696,11 +696,13 @@
                 }
 
                 bool foundFiles = false;
+                if(sftp.ListDirectory(Properties.Settings.Default.RioLocation).Count()>0)
+                    
                 foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
                 {
                     if (!file.Name.Contains(".mp")) continue;
                     foundFiles = true;
-
+                        saveUndoState("Load File", true, null, false);
                     StreamReader reader = sftp.OpenText(file.FullName);
                     profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
                     profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
