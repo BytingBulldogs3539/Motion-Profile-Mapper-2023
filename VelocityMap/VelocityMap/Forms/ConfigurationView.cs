@@ -310,6 +310,7 @@ namespace VelocityMap.Forms
             setStatus("Saving profiles to file system...", Color.Black);
 
             List<string> paths = new List<string>();
+            List<INI> iniList = new List<INI>();
 
 
             foreach (INI ini in inis)
@@ -317,19 +318,29 @@ namespace VelocityMap.Forms
                 string iniPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
                 string javaPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".java");
                 if (browser.FilterIndex == 2)
+                {
                     paths.Add(iniPath);
+                    iniList.Add(ini);
+                }
                 else if (browser.FilterIndex == 3)
+                {
                     paths.Add(javaPath);
+                    iniList.Add(ini);
+                }
                 else
                 {
                     paths.Add(javaPath);
+                    iniList.Add(ini);
                     paths.Add(iniPath);
+                    iniList.Add(ini);
                 }
             }
 
             bool yesToAll = false;
-            foreach (string path in paths)
+            for (int i = 0; i < paths.Count; i++)
             {
+                string path = paths[i];
+                INI ini = iniList[i];
                 string filePath = path;
                 if (File.Exists(filePath) && !yesToAll)
                 {
@@ -337,7 +348,8 @@ namespace VelocityMap.Forms
                     MessageBoxManager.No = "No";
                     MessageBoxManager.Cancel = "Yes To All";
                     MessageBoxManager.Register();
-                    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?", "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?",
+                        "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                     MessageBoxManager.Unregister();
                     switch (result)
                     {
@@ -353,13 +365,13 @@ namespace VelocityMap.Forms
                 }
                 if (Path.GetExtension(path) == ".ini")
                     using (var writer = new StreamWriter(filePath))
-                    {
-                        writer.Write(selectedIni.toIni());
+                    { 
+                        writer.Write(ini.toIni());
                     }
                 if (Path.GetExtension(path) == ".java")
                     using (var writer = new StreamWriter(filePath))
                     {
-                        writer.Write(selectedIni.toJava());
+                        writer.Write(ini.toJava());
                     }
             }
 
