@@ -1002,10 +1002,10 @@
             chartArea2.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
             chartArea2.Name = "field";
             this.mainField.ChartAreas.Add(chartArea2);
-            this.mainField.Location = new System.Drawing.Point(-4, 3);
+            this.mainField.Location = new System.Drawing.Point(38, -23);
             this.mainField.Margin = new System.Windows.Forms.Padding(0);
             this.mainField.Name = "mainField";
-            this.mainField.Size = new System.Drawing.Size(679, 638);
+            this.mainField.Size = new System.Drawing.Size(620, 660);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseClick);

@@ -136,4 +136,10 @@
   <data name="_2023_red_colored" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\2023-red-colored.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="_2024_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2024-Field-Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_2024_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2024-Field-Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

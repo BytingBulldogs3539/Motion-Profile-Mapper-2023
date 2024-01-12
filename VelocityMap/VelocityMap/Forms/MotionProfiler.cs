@@ -30,15 +30,18 @@
         /// Defines the fieldHeight
         /// </summary>
         ///
-        // OLD 2019: 8230
-        private double fieldHeight = 7.908;
+        // 2019: 8230
+        // 2023: 7.908 (half field)
+        // 2024: 9.01988 (> half field)
+        private double fieldHeight = 9.01988;
 
         /// <summary>
         /// Defines the fieldWidth
         /// </summary>
-        // OLD 2019: 8230
-        // 8.00354?
-        private double fieldWidth = 8.016;
+        // 2019: 8230
+        // 2023: 8.016
+        // 2024: 8.21055
+        private double fieldWidth = 8.21055;
 
         internal int padding = 1;
         public List<ControlPoint> controlPointArray = new List<ControlPoint>();
@@ -122,10 +125,10 @@
             mainField.Series["background"].Points.AddXY(0, 0);
             mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
 
-            mainField.Images.Add(new NamedImage("red", new Bitmap(VelocityMap.Properties.Resources._2023_red)));
-            mainField.Images.Add(new NamedImage("red-colored", new Bitmap(VelocityMap.Properties.Resources._2023_red_colored)));
-            mainField.Images.Add(new NamedImage("blue", new Bitmap(VelocityMap.Properties.Resources._2023_blue)));
-            mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
+            mainField.Images.Add(new NamedImage("red", new Bitmap(VelocityMap.Properties.Resources._2024_red)));
+            //mainField.Images.Add(new NamedImage("red-colored", new Bitmap(VelocityMap.Properties.Resources._2023_red_colored)));
+            mainField.Images.Add(new NamedImage("blue", new Bitmap(VelocityMap.Properties.Resources._2024_blue)));
+            //mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
 
             if (VelocityMap.Properties.Settings.Default.defaultAllianceIsRed)

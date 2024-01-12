@@ -262,6 +262,8 @@
     <None Include="Resources\2023-blue.png" />
     <None Include="Resources\2023-red.bmp" />
     <None Include="Resources\2023-full-field.png" />
+    <None Include="Resources\2024-Field-Blue.png" />
+    <None Include="Resources\2024-Field-Red.png" />
     <Content Include="Resources\blue.png" />
     <Content Include="Resources\blue_colored.png" />
     <Content Include="Resources\red.png" />
