@@ -1412,8 +1412,8 @@
 
         private void MotionProfiler_Resize(object sender, EventArgs e)
         {
-            double hw = 679.0 / 638.0;
-            double wh = 638.0 / 679.0;
+            double hw = fieldWidth / fieldHeight;
+            double wh = fieldHeight / fieldWidth;
             if (panel1.Width <= panel1.Height)
             {
 
