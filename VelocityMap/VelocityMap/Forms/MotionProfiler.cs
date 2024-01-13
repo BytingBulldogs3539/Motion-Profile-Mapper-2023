@@ -38,7 +38,7 @@
         /// <summary>
         /// Defines the fieldWidth
         /// </summary>
-        // 2019: 8230
+        // 2019: 8230//mm
         // 2023: 8.016
         // 2024: 8.21055
         private double fieldWidth = 8.21055;
@@ -1416,30 +1416,23 @@
             double wh = fieldHeight / fieldWidth;
             if (panel1.Width <= panel1.Height)
             {
-
                 mainField.Width = (int)(panel1.Width);
 
                 mainField.Height = (int)(panel1.Width * wh);
 
                 mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
-
-
             }
             if (panel1.Height <= panel1.Width)
             {
-
                 mainField.Height = (int)(panel1.Height);
 
                 mainField.Width = (int)(panel1.Height * hw);
 
                 mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
-
-
-
             }
         }
 
-        public static void saveUndoState(string reason,bool clearRedo = true, UndoHolder holder = null, bool selectPOI = true)
+        public static void saveUndoState(string reason, bool clearRedo = true, UndoHolder holder = null, bool selectPOI = true)
         {
             if (clearRedo)
                 redo.Clear();
