@@ -39,7 +39,7 @@ namespace MotionProfileMapper.Forms {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VelocityMap.Forms.MotionProfiler", typeof(MotionProfiler).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MotionProfileMapper.Forms.MotionProfiler", typeof(MotionProfiler).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
