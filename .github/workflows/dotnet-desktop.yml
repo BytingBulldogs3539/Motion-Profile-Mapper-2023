@@ -54,12 +54,6 @@ jobs:
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-    env:
-      Solution_Name: Motion-Profile-Mapper                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Wap_Project_Directory: /Motion-Profile-Mapper-Installer/    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: Motion-Profile-Mapper-Installer                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
-
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -72,22 +66,20 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1.1.3
 
-    # Create the app package by building and packaging the Windows Application Packaging project
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path
-      env:
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64
-        Appx_Package_Build_Mode: StoreUpload
-        Configuration: ${{ matrix.configuration }}
+    - name: Set VS.net environment
+      run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+      
+    - name: Build VSTO
+      run: msbuild ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper.sln -t:rebuild /p:Platform="Any CPU" /p:Configuration="Release" /nologo /nr:false /p:VisualStudioVersion="19.0"
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
+    - name: Setup VS Dev Environment
+      uses: seanmiddleditch/gha-setup-vsdevenv@v4
+    - name: Build installer
+      run: devenv.com ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Motion-Profile-Mapper-Installer.vdproj /build "Release|Any CPU"
+
+
+
+      
