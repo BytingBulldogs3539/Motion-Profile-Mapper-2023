@@ -1202,6 +1202,7 @@
             this.MoreData.SelectedIndex = 0;
             this.MoreData.Size = new System.Drawing.Size(689, 847);
             this.MoreData.TabIndex = 1;
+            this.MoreData.SelectedIndexChanged += new System.EventHandler(this.MotionProfiler_Resize);
             // 
             // timer1
             // 
