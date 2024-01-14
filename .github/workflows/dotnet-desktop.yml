@@ -65,7 +65,7 @@ jobs:
         path: ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\${{ matrix.configuration }}\Motion-Profiler-Installer.msi
   release:
       needs: [build]
-      runs-on: windows-latest
+      runs-on: ubuntu-22.04
       steps:
         # Download literally every single artifact. This also downloads client and docs,
         # but the filtering below won't pick these up (I hope)
