@@ -50,7 +50,7 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Release]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -73,7 +73,7 @@ jobs:
       run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
 
     - name: Build VSTO
-      run: msbuild ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper.sln -t:Restore /p:Platform="Any CPU" /p:Configuration="Release" /nologo /nr:false /p:VisualStudioVersion="19.0"
+      run: msbuild ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper.sln -t:Restore
 
       
     - name: Build VSTO
