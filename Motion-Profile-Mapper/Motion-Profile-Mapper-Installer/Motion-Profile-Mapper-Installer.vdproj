@@ -341,7 +341,7 @@
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
-            "Transitive" = "11:FALSE"
+            "Transitive" = "11:TRUE"
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
@@ -375,7 +375,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Motion-Profiler"
         "ProductCode" = "8:{906FFCD0-68B2-4AB8-A989-24ADC2B86061}"
-        "PackageCode" = "8:{45BC93A8-5EFB-4C3A-9AB0-ED42D32A2169}"
+        "PackageCode" = "8:{D5274442-A1B3-4CD6-8D44-8577A0E2D794}"
         "UpgradeCode" = "8:{F109F2B2-7D8A-43ED-B73A-025A4428AA32}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -924,7 +924,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0A5E5AFCF82A4BD5BA7A19D158218E34"
             {
-            "SourcePath" = "8:..\\Motion-Profile-Mapper\\obj\\Debug\\Motion-Profile-Mapper.exe"
+            "SourcePath" = "8:..\\Motion-Profile-Mapper\\obj\\Release\\Motion-Profile-Mapper.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_39048F06E6F04D4B99DC7D290B5254E1"
