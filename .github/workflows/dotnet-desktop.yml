@@ -79,12 +79,12 @@ jobs:
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
       
     - name: Build installer
-      run: devenv.com ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Motion-Profile-Mapper-Installer.vdproj /build "Release|Any CPU"
+      run: devenv.com ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Motion-Profile-Mapper-Installer.vdproj /build "${{ matrix.configuration }}|Any CPU"
 
     - uses: actions/upload-artifact@v4
       with:
         name: Motion-Profiler-Installer.msi
-        path: ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Release\Motion-Profiler-Installer.msi
+        path: ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\${{ matrix.configuration }}\Motion-Profiler-Installer.msi
 
 
 
