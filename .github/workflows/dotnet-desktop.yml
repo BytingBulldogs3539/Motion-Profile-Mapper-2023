@@ -40,9 +40,9 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "2024" ]
+    branches: [ "2024", "2023" ]
   pull_request:
-    branches: [ "2024" ]
+    branches: [ "2024", "2023" ]
 
 jobs:
 
@@ -73,12 +73,18 @@ jobs:
       run: cmd.exe /C CALL "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
       
     - name: Build VSTO
-      run: msbuild ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper.sln -t:restore,build -p:RestorePackagesConfig=true /p:Platform="Any CPU" /p:Configuration="Release" /nologo /nr:false /p:VisualStudioVersion="19.0"
+      run: msbuild ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper.sln -t:restore,build -p:RestorePackagesConfig=true /p:Platform="Any CPU" /p:Configuration=${{ matrix.configuration }} /nologo /nr:false /p:VisualStudioVersion="19.0"
 
     - name: Setup VS Dev Environment
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
+      
     - name: Build installer
       run: devenv.com ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Motion-Profile-Mapper-Installer.vdproj /build "Release|Any CPU"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Motion-Profiler-Installer.msi
+        path: ${{github.workspace}}\Motion-Profile-Mapper\Motion-Profile-Mapper-Installer\Release\Motion-Profiler-Installer.msi
 
 
 
