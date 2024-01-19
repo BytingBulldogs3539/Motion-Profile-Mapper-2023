@@ -245,8 +245,8 @@ namespace MotionProfileMapper.Utilities
         public string toJava()
         {
 
-            string fileContent = "package frc.robot.constants;\n\nimport org.bytingbulldogs.bulldoglibrary.INIConfiguration.BBConstants;\n\n";
-                
+            string fileContent = "package frc.robot.constants;\n\nimport org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;\n\n";
+            
             fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants"+"{"+"\n";
 
             fileContent += "\tpublic "+this.fileName+"() {\n\t\tsuper(\""+ Properties.Settings.Default.INILocation + this.fileName+".ini\", true);\n\t\tsave();\n\t}\n";
