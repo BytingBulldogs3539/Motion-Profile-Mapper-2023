@@ -350,6 +350,7 @@ namespace MotionProfileMapper.Forms
             // 
             // timeSinceUpload
             // 
+            this.timeSinceUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.timeSinceUpload.Location = new System.Drawing.Point(12, 630);
             this.timeSinceUpload.Name = "timeSinceUpload";
             this.timeSinceUpload.Size = new System.Drawing.Size(276, 23);
