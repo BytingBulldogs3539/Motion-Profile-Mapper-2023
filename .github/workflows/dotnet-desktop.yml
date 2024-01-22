@@ -3,9 +3,7 @@ name: Build Installer
 on:
   push:
     branches: [ "2024", "2023" ]
-  pull_request:
-    branches: [ "2024", "2023" ]
-
+    
 jobs:
   build:
     strategy:
