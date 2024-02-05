@@ -245,32 +245,32 @@ namespace MotionProfileMapper.Utilities
         public string toJava()
         {
 
-            string fileContent = "package frc.robot.constants;\n\nimport org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;\n\n";
+            string fileContent = "package frc.robot.constants;\r\n\r\nimport org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;\r\n\r\n";
             
-            fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants"+"{"+"\n";
+            fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants "+"{"+"\r\n";
 
-            fileContent += "\tpublic "+this.fileName+"() {\n\t\tsuper(\""+ Properties.Settings.Default.INILocation + this.fileName+".ini\", true);\n\t\tsave();\n\t}\n";
+            fileContent += "public "+this.fileName+"() {\r\n\tsuper(\""+ Properties.Settings.Default.INILocation + this.fileName+".ini\", true);\r\n\tsave();\r\n}\r\n\r\n";
 
             foreach (INIVariable variable in variables)
             {
                 if(variable.type.ToLower() == "string")
-                    fileContent += $"\tpublic static {variable.type} {variable.name} = \"{variable.value}\";\n";
+                    fileContent += $"public static {variable.type} {variable.name} = \"{variable.value}\";\r\n";
                 else if(variable.type.ToLower() == "boolean")
                 {
                     if(variable.value.ToLower() == "true")
                     {
-                        fileContent += $"\tpublic static {variable.type} {variable.name} = true;\n";
+                        fileContent += $"public static {variable.type} {variable.name} = true;\r\n";
                     }
                     else if (variable.value.ToLower() == "false")
                     {
-                        fileContent += $"\tpublic static {variable.type} {variable.name} = false;\n";
+                        fileContent += $"public static {variable.type} {variable.name} = false;\r\n";
                     }
                 }
                 else
-                    fileContent += $"\tpublic static {variable.type} {variable.name} = {variable.value};\n";
+                    fileContent += $"public static {variable.type} {variable.name} = {variable.value};\r\n";
             }
 
-            fileContent += "}\n";
+            fileContent += "}\r";
 
             return fileContent;
         }

@@ -291,6 +291,7 @@ namespace MotionProfileMapper.Forms
         private void saveAllLocalButton_Click(object sender, EventArgs e)
         {
             if (validateINIS()) return;
+
             SaveFileDialog browser = new SaveFileDialog();
             browser.RestoreDirectory = true;
             String files = "";
@@ -304,19 +305,34 @@ namespace MotionProfileMapper.Forms
             browser.FileName = files;
             browser.OverwritePrompt = false;
 
-            if (browser.ShowDialog() != DialogResult.OK) return;
+            String iniBasePath = "";
+            String javaBasePath = "";
 
-            Cursor = Cursors.WaitCursor;
+            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
+            {
+                if (browser.ShowDialog() != DialogResult.OK) return;
+                iniBasePath = Path.GetDirectoryName(browser.FileName.Trim());
+                javaBasePath = iniBasePath;
+            }
+            else
+            {
+                iniBasePath = Properties.Settings.Default.iniSavePath;
+                javaBasePath = Properties.Settings.Default.javaSavePath;
+            }
+
+                Cursor = Cursors.WaitCursor;
             setStatus("Saving profiles to file system...", Color.Black);
 
             List<string> paths = new List<string>();
             List<INI> iniList = new List<INI>();
 
 
+
             foreach (INI ini in inis)
             {
-                string iniPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
-                string javaPath = Path.Combine(Path.GetDirectoryName(browser.FileName.Trim()), Path.GetFileNameWithoutExtension(ini.fileName) + ".java");
+                string iniPath = Path.Combine(iniBasePath, Path.GetFileNameWithoutExtension(ini.fileName) + ".ini");
+                string javaPath = Path.Combine(javaBasePath, Path.GetFileNameWithoutExtension(ini.fileName) + ".java");
+                    
                 if (browser.FilterIndex == 2)
                 {
                     paths.Add(iniPath);
@@ -335,7 +351,6 @@ namespace MotionProfileMapper.Forms
                     iniList.Add(ini);
                 }
             }
-
             bool yesToAll = false;
             for (int i = 0; i < paths.Count; i++)
             {
@@ -394,18 +409,27 @@ namespace MotionProfileMapper.Forms
             browser.Title = "Save initialization file locally";
             browser.OverwritePrompt = false;
 
+            String iniBasePath = "";
+            String javaBasePath = "";
 
-
-            if (browser.ShowDialog() != DialogResult.OK) return;
+            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
+            {
+                if (browser.ShowDialog() != DialogResult.OK) return;
+                iniBasePath = Path.GetDirectoryName(browser.FileName.Trim());
+                javaBasePath = iniBasePath;
+            }
+            else
+            {
+                iniBasePath = Properties.Settings.Default.iniSavePath;
+                javaBasePath = Properties.Settings.Default.javaSavePath;
+            }
 
             Cursor = Cursors.WaitCursor;
-            string iniPath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
+            string iniPath = Path.Combine(iniBasePath,
                 selectedIni.fileName + ".ini"
             );
 
-            string javaPath = Path.Combine(
-                Path.GetDirectoryName(browser.FileName.Trim()),
+            string javaPath = Path.Combine(javaBasePath,
                 selectedIni.fileName + ".java"
             );
 
@@ -652,6 +676,11 @@ namespace MotionProfileMapper.Forms
             fileDialog.Filter = "Initialization (*.ini)|*.ini";
             fileDialog.Title = "Select initialization files to load";
             fileDialog.Multiselect = true;
+
+            if (Directory.Exists(Properties.Settings.Default.iniSavePath))
+            {
+                fileDialog.InitialDirectory = Properties.Settings.Default.iniSavePath;
+            }
 
             if (fileDialog.ShowDialog() != DialogResult.OK) return;
 

@@ -202,5 +202,41 @@ namespace MotionProfileMapper.Properties {
                 this["defaultAllianceIsRed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string iniSavePath {
+            get {
+                return ((string)(this["iniSavePath"]));
+            }
+            set {
+                this["iniSavePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string javaSavePath {
+            get {
+                return ((string)(this["javaSavePath"]));
+            }
+            set {
+                this["javaSavePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string mpSavePath {
+            get {
+                return ((string)(this["mpSavePath"]));
+            }
+            set {
+                this["mpSavePath"] = value;
+            }
+        }
     }
 }

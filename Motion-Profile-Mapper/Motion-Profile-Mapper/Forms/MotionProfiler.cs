@@ -573,22 +573,33 @@
             FolderBrowserDialog browser = new FolderBrowserDialog();
             browser.Description = "Save all motion profiles to folder\n\nCAUTION: Existing profiles will be overridden!";
 
-            if (browser.ShowDialog() != DialogResult.OK) return;
+            String mpBasePath = "";
+
+            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
+            {
+                if (browser.ShowDialog() != DialogResult.OK) return;
+                mpBasePath = System.IO.Path.GetDirectoryName(browser.SelectedPath);
+            }
+            else
+            {
+                mpBasePath = Properties.Settings.Default.mpSavePath;
+            }
+
 
             Cursor = Cursors.WaitCursor;
             setStatus("Saving profiles to file system...", false);
             foreach (Profile profile in profiles)
             {
-                string mpPath = System.IO.Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".mp");
-                string javaPath = System.IO.Path.Combine(browser.SelectedPath, profile.Name.Replace(' ', '_') + ".java");
+                string mpPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".mp");
+                //string javaPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".java");
                 using (var writer = new StreamWriter(mpPath))
                 {
                     writer.Write(profile.toJSON().ToString());
                 }
-                using (var writer = new StreamWriter(javaPath))
-                {
-                    writer.Write(profile.toJava());
-                }
+                //using (var writer = new StreamWriter(javaPath))
+                //{
+                //    writer.Write(profile.toJava());
+                //}
             }
             setStatus("Profiles saved to file system", false);
             Cursor = Cursors.Default;
@@ -607,13 +618,24 @@
             browser.Filter = "Motion Profile|*.mp;";
             browser.Title = "Save motion profile file";
 
-            if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 3) return;
+
+            String mpBasePath = "";
+
+            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
+            {
+                if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 3) return;
+                mpBasePath = System.IO.Path.GetDirectoryName(browser.FileName.Trim());
+            }
+            else
+            {
+                mpBasePath = Properties.Settings.Default.mpSavePath;
+            }
 
             Cursor = Cursors.WaitCursor;
             setStatus("Saving profile to file system...", false);
             // Write mp file to load from
             string filePath = System.IO.Path.Combine(
-                System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
+                mpBasePath,
                 System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
             using (var writer = new StreamWriter(filePath))
@@ -622,14 +644,14 @@
             }
 
             // Write java file to pre-compile into robot
-            string pointPath = System.IO.Path.Combine(
-                System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
-                System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
-            );
-            using (var writer = new StreamWriter(pointPath))
-            {
-                writer.Write(selectedProfile.toJava());
-            }
+            //string pointPath = System.IO.Path.Combine(
+            //    System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
+            //    System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
+            //);
+            //using (var writer = new StreamWriter(pointPath))
+            //{
+            //    writer.Write(selectedProfile.toJava());
+            //}
 
             setStatus("Profile saved to file system", false);
             Cursor = Cursors.Default;
