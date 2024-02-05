@@ -3,6 +3,8 @@ name: Build Installer
 on:
   push:
     branches: [ "2024", "2023" ]
+  release:
+    types: [created]
     
 jobs:
   build:
