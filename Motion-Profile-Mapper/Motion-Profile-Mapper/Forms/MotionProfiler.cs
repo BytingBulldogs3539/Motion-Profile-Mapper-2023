@@ -18,7 +18,6 @@
     using MotionProfileMapper.Forms;
     using MotionProfileMapper.VelocityGenerate;
     using Menu = Forms.Menu;
-    using System.Runtime.Serialization.Formatters.Binary;
 
 
     /// <summary>
@@ -98,6 +97,7 @@
         private void MainForm_Load(object sender, EventArgs e)
         {
             SetupMainField();
+            MotionProfiler_Resize(null, null);
 
 
         }
@@ -575,7 +575,7 @@
 
             String mpBasePath = "";
 
-            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
+            if (!Directory.Exists(Properties.Settings.Default.mpSavePath))
             {
                 if (browser.ShowDialog() != DialogResult.OK) return;
                 mpBasePath = System.IO.Path.GetDirectoryName(browser.SelectedPath);
@@ -828,7 +828,6 @@
             skipSelectProfile = false;
             selectProfile(profiles.Count - 1);
             profileTable.CurrentCell = profileTable.Rows[index].Cells[0];
-
             profileTable.BeginEdit(false);
         }
 
@@ -1436,7 +1435,7 @@
         {
             double hw = fieldWidth / fieldHeight;
             double wh = fieldHeight / fieldWidth;
-            if (panel1.Width <= panel1.Height)
+            if (panel1.Width <= panel1.Height* hw)
             {
                 mainField.Width = (int)(panel1.Width);
 
@@ -1444,7 +1443,7 @@
 
                 mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
             }
-            if (panel1.Height <= panel1.Width)
+            if (panel1.Height <= panel1.Width * wh)
             {
                 mainField.Height = (int)(panel1.Height);
 

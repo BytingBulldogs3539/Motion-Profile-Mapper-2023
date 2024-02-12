@@ -22,6 +22,7 @@ namespace MotionProfileMapper
             this.riopath.Text = Properties.Settings.Default.RioLocation;
             this.iniPath.Text = Properties.Settings.Default.INILocation;
             this.checkBox1.Checked = Properties.Settings.Default.defaultAllianceIsRed;
+            this.checkBox2.Checked = Properties.Settings.Default.autoCheckForUpdates;
             this.iniSavePath.Text = Properties.Settings.Default.iniSavePath;
             this.javaSavePath.Text = Properties.Settings.Default.javaSavePath;
             this.mpSavePath.Text = Properties.Settings.Default.mpSavePath;
@@ -41,6 +42,7 @@ namespace MotionProfileMapper
             Properties.Settings.Default.RioLocation = this.riopath.Text + (this.riopath.Text.Last().ToString() == "/"? "" : "/");
             Properties.Settings.Default.INILocation = this.iniPath.Text + (this.iniPath.Text.Last().ToString() == "/" ? "" : "/");
             Properties.Settings.Default.defaultAllianceIsRed = this.checkBox1.Checked;
+            Properties.Settings.Default.autoCheckForUpdates = this.checkBox2.Checked;
 
             Properties.Settings.Default.iniSavePath = iniSavePath.Text;
             Properties.Settings.Default.javaSavePath = javaSavePath.Text;

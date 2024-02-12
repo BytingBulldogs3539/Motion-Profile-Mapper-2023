@@ -54,6 +54,7 @@
             this.iconButton3 = new FontAwesome.Sharp.IconButton();
             this.label11 = new System.Windows.Forms.Label();
             this.mpSavePath = new System.Windows.Forms.TextBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // save
@@ -346,12 +347,26 @@
             this.mpSavePath.Size = new System.Drawing.Size(221, 23);
             this.mpSavePath.TabIndex = 22;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox2.ForeColor = System.Drawing.Color.Black;
+            this.checkBox2.Location = new System.Drawing.Point(42, 313);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(176, 21);
+            this.checkBox2.TabIndex = 25;
+            this.checkBox2.Text = "Auto check for updates";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(404, 440);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.iconButton3);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.mpSavePath);
@@ -415,5 +430,6 @@
         private FontAwesome.Sharp.IconButton iconButton3;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox mpSavePath;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }

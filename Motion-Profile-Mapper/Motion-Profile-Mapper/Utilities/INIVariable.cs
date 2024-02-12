@@ -11,12 +11,14 @@ namespace MotionProfileMapper.Utilities
         public string name { get; set; }
         public string type { get; set; }
         public string value { get; set; }
+        public string comment { get; set; }
 
-        public INIVariable(string name = null, string type = null, string value = null)
+        public INIVariable(string name = null, string type = null, string value = null, string comment = null)
         {
             this.name = name;
             this.type = type;
             this.value = value;
+            this.comment = comment;
         }
     }
 }

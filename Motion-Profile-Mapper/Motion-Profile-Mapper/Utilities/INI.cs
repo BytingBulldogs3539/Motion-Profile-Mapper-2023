@@ -45,6 +45,9 @@ namespace MotionProfileMapper.Utilities
                         case "Type":
                             updateValue(query, "Type", value);
                             break;
+                        case "Comment":
+                            updateValue(query, "Comment", value);
+                            break;
                     }
                 }
             }
@@ -78,7 +81,7 @@ namespace MotionProfileMapper.Utilities
             table.Rows.Clear();
             foreach (INIVariable variable in variables)
             {
-                int rowIndex = table.Rows.Add(variable.name, variable.type, variable.value);
+                int rowIndex = table.Rows.Add(variable.name, variable.type, variable.value, variable.comment);
                 if (variable.type == "boolean")
                 {
                     DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
@@ -181,13 +184,17 @@ namespace MotionProfileMapper.Utilities
                             break;
                     }
                     break;
+                case "Comment":
+                    variables[index].comment = value;
+                    break;
             }
         }
-        public void updateVariable(int index, string name, string type, string value)
+        public void updateVariable(int index, string name, string type, string value, string comment)
         {
             variables[index].name = name;
             variables[index].type = type;
             variables[index].value = value;
+            variables[index].comment = comment;
         }
 
 
@@ -225,16 +232,20 @@ namespace MotionProfileMapper.Utilities
                 ini += $"{variable.name} = {variable.value}\n";
             }
 
-            List<string> others = new List<string>() { "Type" };
+            List<string> others = new List<string>() { "Type", "Comment" };
             foreach (string dataType in others)
             {
                 ini += $"\n[{dataType}]\n";
+
                 foreach (INIVariable variable in variables)
                 {
                     switch (dataType)
                     {
                         case "Type":
                             ini += $"{variable.name} = {variable.type}\n";
+                            break;
+                        case "Comment":
+                            ini += $"{variable.name} = {variable.comment}\n";
                             break;
                     }
                     
@@ -253,21 +264,28 @@ namespace MotionProfileMapper.Utilities
 
             foreach (INIVariable variable in variables)
             {
-                if(variable.type.ToLower() == "string")
-                    fileContent += $"public static {variable.type} {variable.name} = \"{variable.value}\";\r\n";
+                string commentStr = "";
+
+                if (variable.comment != "")
+                {
+                    commentStr = " // "+variable.comment;
+                }
+
+                if (variable.type.ToLower() == "string")
+                    fileContent += $"public static {variable.type} {variable.name} = \"{variable.value}\";{commentStr}\r\n";
                 else if(variable.type.ToLower() == "boolean")
                 {
                     if(variable.value.ToLower() == "true")
                     {
-                        fileContent += $"public static {variable.type} {variable.name} = true;\r\n";
+                        fileContent += $"public static {variable.type} {variable.name} = true;{commentStr}\r\n";
                     }
                     else if (variable.value.ToLower() == "false")
                     {
-                        fileContent += $"public static {variable.type} {variable.name} = false;\r\n";
+                        fileContent += $"public static {variable.type} {variable.name} = false;{commentStr}\r\n";
                     }
                 }
                 else
-                    fileContent += $"public static {variable.type} {variable.name} = {variable.value};\r\n";
+                    fileContent += $"public static {variable.type} {variable.name} = {variable.value};{commentStr}\r\n";
             }
 
             fileContent += "}\r";

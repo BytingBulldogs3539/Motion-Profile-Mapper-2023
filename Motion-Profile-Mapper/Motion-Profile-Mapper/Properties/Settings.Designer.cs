@@ -238,5 +238,17 @@ namespace MotionProfileMapper.Properties {
                 this["mpSavePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoCheckForUpdates {
+            get {
+                return ((bool)(this["autoCheckForUpdates"]));
+            }
+            set {
+                this["autoCheckForUpdates"] = value;
+            }
+        }
     }
 }

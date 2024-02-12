@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MotionProfileMapper.Utilities;
+using System.Text.RegularExpressions;
 
 namespace MotionProfileMapper.Forms
 {
@@ -83,6 +84,10 @@ namespace MotionProfileMapper.Forms
                 {
                     row.ErrorText = "Variable name is a keyword in java";
                 }
+                else if (Regex.IsMatch(row.Cells[0].EditedFormattedValue.ToString().ToLower(), @"^\d"))
+                    row.ErrorText = "Name may not start with a number";
+                else if (Regex.IsMatch(row.Cells[0].EditedFormattedValue.ToString().ToLower(), @"[^a-zA-Z0-9\s]"))
+                    row.ErrorText = "Name may not contain special characters";
                 else if (tryToString(row.Cells[0].EditedFormattedValue).ToString() == "")
                     row.ErrorText = "Name is not valid";
 
@@ -699,9 +704,15 @@ namespace MotionProfileMapper.Forms
                     }
                 }
             }
-
-            inis.Last().loadTable(configurationGrid);
-            configurationGrid_CellValidating(null, null);
+            if(inis.Count>0)
+            {
+                inis.Last().loadTable(configurationGrid);
+                filenameGrid.ClearSelection();
+                filenameGrid.Rows[filenameGrid.Rows.Count-1].Selected = true;
+                selectedIni = inis.Last();
+                checkEnableStatuses();
+            }
+            
             Cursor = Cursors.Default;
         }
         private void checkEnableStatuses()
@@ -737,7 +748,7 @@ namespace MotionProfileMapper.Forms
                 selectedIni.addVariable("");
             }
             int index = configurationGrid.SelectedCells[0].RowIndex;
-            selectedIni.updateVariable(e.RowIndex, tryToString(configurationGrid.Rows[index].Cells[0].Value), tryToString(configurationGrid.Rows[index].Cells[1].Value), tryToString(configurationGrid.Rows[index].Cells[2].Value));
+            selectedIni.updateVariable(e.RowIndex, tryToString(configurationGrid.Rows[index].Cells[0].Value), tryToString(configurationGrid.Rows[index].Cells[1].Value), tryToString(configurationGrid.Rows[index].Cells[2].Value), tryToString(configurationGrid.Rows[index].Cells[3].Value));
         }
 
         private void filenameGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -814,7 +825,8 @@ namespace MotionProfileMapper.Forms
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            removeFile(filenameGrid.SelectedCells[0].RowIndex);
+            if(filenameGrid.SelectedCells.Count>0)
+                removeFile(filenameGrid.SelectedCells[0].RowIndex);
         }
 
         private Rectangle dragBoxFromMouseDown;
@@ -884,13 +896,24 @@ namespace MotionProfileMapper.Forms
             // Get the row index of the item the mouse is below. 
             rowIndexOfItemUnderMouseToDrop = configurationGrid.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
 
+            if(!(rowIndexOfItemUnderMouseToDrop>=0) || !(rowIndexOfItemUnderMouseToDrop<configurationGrid.Rows.Count))
+            {
+                return;
+            }
+
             // If the drag operation was a move then remove and insert the row.
             if (e.Effect == DragDropEffects.Move)
             {
                 DataGridViewRow rowToMove = e.Data.GetData(typeof(DataGridViewRow)) as DataGridViewRow;
                 configurationGrid.Rows.RemoveAt(rowIndexFromMouseDown);
-                configurationGrid.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
-
+                if(configurationGrid.Rows.Count<= rowIndexOfItemUnderMouseToDrop)
+                {
+                    configurationGrid.Rows.Add(rowToMove);
+                }
+                else
+                {
+                    configurationGrid.Rows.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+                }
             }
             reloadVariablesFromTable();
         }
