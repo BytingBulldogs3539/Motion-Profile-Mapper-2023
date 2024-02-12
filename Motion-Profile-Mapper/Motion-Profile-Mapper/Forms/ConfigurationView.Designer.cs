@@ -45,6 +45,10 @@ namespace MotionProfileMapper.Forms
             this.saveToRioButton = new System.Windows.Forms.Button();
             this.loadRIOButton = new System.Windows.Forms.Button();
             this.configurationGrid = new System.Windows.Forms.DataGridView();
+            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loadLocalButton = new System.Windows.Forms.Button();
             this.connectionSettingsButton = new FontAwesome.Sharp.IconButton();
             this.saveLocalButton = new System.Windows.Forms.Button();
@@ -56,10 +60,6 @@ namespace MotionProfileMapper.Forms
             this.timeSinceUpload = new System.Windows.Forms.Label();
             this.iconButton2 = new FontAwesome.Sharp.IconButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Variable_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Variable_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
             this.rowContextMenuStrip.SuspendLayout();
@@ -82,8 +82,8 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.filenameGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.filenameGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -94,8 +94,8 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.filenameGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.filenameGrid.GridColor = System.Drawing.Color.Silver;
@@ -204,8 +204,8 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.configurationGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.configurationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -218,8 +218,8 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.configurationGrid.DefaultCellStyle = dataGridViewCellStyle6;
             this.configurationGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
@@ -233,8 +233,8 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.SlateBlue;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.configurationGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.configurationGrid.RowHeadersWidth = 51;
@@ -252,6 +252,40 @@ namespace MotionProfileMapper.Forms
             this.configurationGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.configurationGrid_DragOver);
             this.configurationGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseDown);
             this.configurationGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.configurationGrid_MouseMove);
+            // 
+            // Variable_Name
+            // 
+            this.Variable_Name.HeaderText = "Variable Name";
+            this.Variable_Name.MinimumWidth = 6;
+            this.Variable_Name.Name = "Variable_Name";
+            this.Variable_Name.Width = 300;
+            // 
+            // Variable_Type
+            // 
+            this.Variable_Type.HeaderText = "Variable Type";
+            this.Variable_Type.Items.AddRange(new object[] {
+            "int",
+            "double",
+            "boolean",
+            "String"});
+            this.Variable_Type.MinimumWidth = 6;
+            this.Variable_Type.Name = "Variable_Type";
+            this.Variable_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Variable_Type.Width = 125;
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.MinimumWidth = 6;
+            this.Value.Name = "Value";
+            this.Value.Width = 219;
+            // 
+            // Comment
+            // 
+            this.Comment.HeaderText = "Comment";
+            this.Comment.MinimumWidth = 6;
+            this.Comment.Name = "Comment";
+            this.Comment.Width = 234;
             // 
             // loadLocalButton
             // 
@@ -389,40 +423,6 @@ namespace MotionProfileMapper.Forms
             this.toolTip1.SetToolTip(this.iconButton2, "Switch to motion profiling mode");
             this.iconButton2.UseVisualStyleBackColor = false;
             this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
-            // 
-            // Variable_Name
-            // 
-            this.Variable_Name.HeaderText = "Variable Name";
-            this.Variable_Name.MinimumWidth = 6;
-            this.Variable_Name.Name = "Variable_Name";
-            this.Variable_Name.Width = 300;
-            // 
-            // Variable_Type
-            // 
-            this.Variable_Type.HeaderText = "Variable Type";
-            this.Variable_Type.Items.AddRange(new object[] {
-            "int",
-            "double",
-            "boolean",
-            "String"});
-            this.Variable_Type.MinimumWidth = 6;
-            this.Variable_Type.Name = "Variable_Type";
-            this.Variable_Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Variable_Type.Width = 125;
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.MinimumWidth = 6;
-            this.Value.Name = "Value";
-            this.Value.Width = 219;
-            // 
-            // Comment
-            // 
-            this.Comment.HeaderText = "Comment";
-            this.Comment.MinimumWidth = 6;
-            this.Comment.Name = "Comment";
-            this.Comment.Width = 234;
             // 
             // ConfigurationView
             // 
