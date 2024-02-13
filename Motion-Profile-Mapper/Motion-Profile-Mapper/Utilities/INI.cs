@@ -266,9 +266,9 @@ namespace MotionProfileMapper.Utilities
             {
                 string commentStr = "";
 
-                if (variable.comment != "")
+                if (variable.comment.Trim() != "")
                 {
-                    commentStr = " // "+variable.comment;
+                    commentStr = " // "+variable.comment.Trim();
                 }
 
                 if (variable.type.ToLower() == "string")
