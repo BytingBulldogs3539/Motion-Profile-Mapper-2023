@@ -333,7 +333,6 @@
             this.profileTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
-            this.profileTable.ReadOnly = true;
             this.profileTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.profileTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -355,7 +354,6 @@
             this.dataGridViewTextBoxColumn2.HeaderText = "Profile Name";
             this.dataGridViewTextBoxColumn2.MinimumWidth = 155;
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn2.Width = 155;
@@ -366,7 +364,6 @@
             this.dataGridViewTextBoxColumn3.HeaderText = "Last Modified";
             this.dataGridViewTextBoxColumn3.MinimumWidth = 155;
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn3.Width = 155;
             // 
