@@ -260,7 +260,7 @@ namespace MotionProfileMapper.Utilities
             
             fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants "+"{"+"\r\n";
 
-            fileContent += "public "+this.fileName+"() {\r\n\tsuper(\""+ Properties.Settings.Default.INILocation + this.fileName+".ini\", true);\r\n\tsave();\r\n}\r\n\r\n";
+            fileContent += "\tpublic " + this.fileName+ "() {\r\n\t\tsuper(\"" + Properties.Settings.Default.INILocation + this.fileName+ ".ini\", true);\r\n\t\tsave();\r\n\t}\r\n\r\n";
 
             foreach (INIVariable variable in variables)
             {
@@ -272,20 +272,20 @@ namespace MotionProfileMapper.Utilities
                 }
 
                 if (variable.type.ToLower() == "string")
-                    fileContent += $"public static {variable.type} {variable.name} = \"{variable.value}\";{commentStr}\r\n";
+                    fileContent += $"\tpublic static {variable.type} {variable.name} = \"{variable.value}\";{commentStr}\r\n";
                 else if(variable.type.ToLower() == "boolean")
                 {
                     if(variable.value.ToLower() == "true")
                     {
-                        fileContent += $"public static {variable.type} {variable.name} = true;{commentStr}\r\n";
+                        fileContent += $"\tpublic static {variable.type} {variable.name} = true;{commentStr}\r\n";
                     }
                     else if (variable.value.ToLower() == "false")
                     {
-                        fileContent += $"public static {variable.type} {variable.name} = false;{commentStr}\r\n";
+                        fileContent += $"\tpublic static {variable.type} {variable.name} = false;{commentStr}\r\n";
                     }
                 }
                 else
-                    fileContent += $"public static {variable.type} {variable.name} = {variable.value};{commentStr}\r\n";
+                    fileContent += $"\tpublic static {variable.type} {variable.name} = {variable.value};{commentStr}\r\n";
             }
 
             fileContent += "}\r";
