@@ -13,7 +13,7 @@ namespace MotionProfileMapper.Utilities
         public string value { get; set; }
         public string comment { get; set; }
 
-        public INIVariable(string name = null, string type = null, string value = null, string comment = null)
+        public INIVariable(string name = "", string type = "", string value = "", string comment = "")
         {
             this.name = name;
             this.type = type;
