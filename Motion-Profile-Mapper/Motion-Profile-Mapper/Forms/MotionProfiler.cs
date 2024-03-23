@@ -1302,16 +1302,20 @@
 
             if (selectedPath.gen == null)
             {
+                pathTimeLabel.Text = "";
                 return;
             }
 
             if (selectedPath.ControlPoints.Count < 2)
             {
+                pathTimeLabel.Text = "";
                 return;
             }
 
             double time = selectedPath.gen.getDuration() * percent;
 
+
+            pathTimeLabel.Text = string.Format("{0:N2} seconds", time);
 
             State s = selectedPath.gen.calculate(time);
 
