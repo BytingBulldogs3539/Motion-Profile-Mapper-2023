@@ -26,21 +26,21 @@
     public partial class MotionProfiler : Form
     {
         /// <summary>
-        /// Defines the fieldHeight
+        /// Defines the fieldWidth
         /// </summary>
         ///
         // 2019: 8230
         // 2023: 7.908 (half field)
         // 2024: 9.01988 (> half field)
-        private double fieldHeight = 9.01988;
+        private double fieldWidth = 9.01988;
 
         /// <summary>
-        /// Defines the fieldWidth
+        /// Defines the fieldHeight
         /// </summary>
         // 2019: 8230//mm
         // 2023: 8.016
         // 2024: 8.21055
-        private double fieldWidth = 8.21055;
+        private double fieldHeight = 8.21055;
 
         internal int padding = 1;
         public List<ControlPoint> controlPointArray = new List<ControlPoint>();
@@ -99,7 +99,6 @@
             SetupMainField();
             MotionProfiler_Resize(null, null);
 
-
         }
 
         /// <summary>
@@ -110,7 +109,7 @@
             mainField.ChartAreas["field"].Axes[0].Minimum = 0;
             mainField.ChartAreas["field"].Axes[0].Maximum = fieldWidth;
             mainField.ChartAreas["field"].Axes[0].Interval = 1;
-            mainField.ChartAreas["field"].Axes[0].IsReversed = true;
+            mainField.ChartAreas["field"].Axes[0].IsReversed = false;
 
             mainField.ChartAreas["field"].Axes[1].Minimum = 0;
             mainField.ChartAreas["field"].Axes[1].Maximum = fieldHeight;
@@ -131,14 +130,18 @@
             //mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
 
-            if (MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed)
-                mainField.ChartAreas["field"].BackImage = "red";
-            else
-                mainField.ChartAreas["field"].BackImage = "blue";
+            setBackground(!MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed, false);
+            if(!MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed)
+            {
+                radioBlue.Checked = true;
+            }
+
         }
 
         private void setBackground(bool blue, bool colored)
         {
+            mainField.ChartAreas["field"].Axes[0].IsReversed = !blue;
+            mainField.ChartAreas["field"].Axes[1].IsReversed = !blue;
             mainField.ChartAreas["field"].BackImage =
                 (blue ? "blue" : "red") + (colored ? "-colored" : "");
         }
@@ -441,11 +444,11 @@
             mainField.Series[Series].BorderWidth = 2;
             mainField.Series[Series].Color = path == selectedPath ? Color.Red : Color.DarkRed;
 
-            double x1 = (double)(point.X + pointSize * Math.Sin((point.Rotation) * Math.PI / 180));
-            double y1 = (double)(point.Y + pointSize * Math.Cos((point.Rotation) * Math.PI / 180));
+            double x1 = (double)(point.X + pointSize * Math.Cos((point.Rotation) * Math.PI / 180));
+            double y1 = (double)(point.Y + pointSize * Math.Sin((point.Rotation) * Math.PI / 180));
             mainField.Series[Series].Points.AddXY(x1, y1);
-            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
-            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
+            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
+            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
             mainField.Series[Series].Points.AddXY(x2, y2);
 
             if (point == placingPoint) return;
@@ -558,6 +561,18 @@
                 DrawPath(path, false);
             }
             if (!noSelectedPath()) DrawPath(selectedPath, false);
+
+            if(selectedProfile.PathCount == pathTable.Rows.Count)
+            {
+                for (int i = 0; i < pathTable.Rows.Count; i++)
+                {
+                    if (selectedProfile.Paths[i].gen != null)
+                    {
+                        double time = selectedProfile.Paths[i].gen.getDuration();
+                        pathTable.Rows[i].Cells[1].Value = string.Format("{0:N2}", time);
+                    }
+                }
+            }
 
             setStatus("", false);
 
@@ -1216,7 +1231,7 @@
         {
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, fieldWidth);
+            MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, fieldHeight);
             mirrorPath.ShowDialog();
         }
 
@@ -1295,7 +1310,6 @@
 
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
-
             if (noSelectedPath()) return;
 
             double percent = (double)trackBar.Value / (double)trackBar.Maximum;
@@ -1324,7 +1338,7 @@
             double x = ps.getPose2d().getX();
             double y = ps.getPose2d().getY();
 
-            Rotation2d rot = Rotation2d.fromDegrees(0).minus(ps.getPose2d().getRotation());
+            Rotation2d rot = ps.getPose2d().getRotation();
 
             int seriesIndex1 = mainField.Series.IndexOf("robotOutline");
             if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
@@ -1346,8 +1360,8 @@
             Translation2d br = new Translation2d(Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
             Translation2d bl = new Translation2d(-Properties.Settings.Default.FrameLength / 2, -Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
 
-            Translation2d CenterMark = new Translation2d(0, Properties.Settings.Default.FrameWidth / 2).rotateBy(rot).plus(new Translation2d(x, y));
-            Translation2d CenterMark2 = new Translation2d(0, Properties.Settings.Default.FrameWidth / 2 + .25).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d CenterMark = new Translation2d(Properties.Settings.Default.FrameLength / 2, 0).rotateBy(rot).plus(new Translation2d(x, y));
+            Translation2d CenterMark2 = new Translation2d(Properties.Settings.Default.FrameLength / 2 + .250, 0).rotateBy(rot).plus(new Translation2d(x, y));
 
             mainField.Series["robotOutline"].Points.AddXY(fl.getX(), fl.getY());
             mainField.Series["robotOutline"].Points.AddXY(fr.getX(), fr.getY());
@@ -1439,21 +1453,22 @@
         {
             double hw = fieldWidth / fieldHeight;
             double wh = fieldHeight / fieldWidth;
-            if (panel1.Width <= panel1.Height* hw)
+            int panel1Height = (int)(panel1.Height - 56);
+            if (panel1.Width <= panel1Height * hw)
             {
                 mainField.Width = (int)(panel1.Width);
 
                 mainField.Height = (int)(panel1.Width * wh);
 
-                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1Height / 2.0) - panel1Height / 2 - 50);
             }
-            if (panel1.Height <= panel1.Width * wh)
+            if (panel1Height <= panel1.Width * wh)
             {
-                mainField.Height = (int)(panel1.Height);
+                mainField.Height = panel1Height;
 
-                mainField.Width = (int)(panel1.Height * hw);
+                mainField.Width = (int)(panel1Height * hw);
 
-                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1.Height / 2.0) - mainField.Height / 2 - 50);
+                mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1Height / 2.0) - panel1Height / 2 - 50);
             }
         }
 

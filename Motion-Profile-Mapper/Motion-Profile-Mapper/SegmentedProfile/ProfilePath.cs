@@ -142,12 +142,17 @@ namespace MotionProfile.SegmentedProfile
             return ids;
         }
 
-        public void mirrorPoints(double fieldWidth)
+        public void mirrorPoints(double fieldHeight)
         {
             newEdit("Path Mirror Points");
             foreach (ControlPoint point in this.controlPoints)
             {
-                point.X = fieldWidth - point.X;
+                //point.quickChangeX(fieldWidth - point.X);
+                point.quickChangeY(fieldHeight - point.Y);
+            }
+            foreach (ControlPoint p in this.controlPoints)
+            {
+                p.quickChangeRotation(-p.Rotation);
             }
         }
 
@@ -237,9 +242,7 @@ namespace MotionProfile.SegmentedProfile
                     State s = gen.calculate(time);
 
                     pointList.Add(s);
-
                 }
-
             }
             else
             {

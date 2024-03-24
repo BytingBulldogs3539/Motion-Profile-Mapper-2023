@@ -44,7 +44,6 @@ namespace MotionProfile
 
         public bool Equals(ControlPoint other)
         {
-            Console.WriteLine(this.x + "  " + other.x);
             if (this.x == other.x && this.y == other.y && this.rotation == other.rotation)
             {
                 return true;
@@ -106,15 +105,15 @@ namespace MotionProfile
         public string toJava()
         {
             if (Double.IsInfinity(this.Radius))
-                return $"\t\t\t{{{this.Y}, {this.X}, {this.Rotation}, Double.POSITIVE_INFINITY}}";
-            return $"\t\t\t{{{this.Y}, {this.X}, {this.Rotation}, {this.Radius}}}";
+                return $"\t\t\t{{{this.X}, {this.Y}, {this.Rotation}, Double.POSITIVE_INFINITY}}";
+            return $"\t\t\t{{{this.X}, {this.Y}, {this.Rotation}, {this.Radius}}}";
         }
 
         public string toTxt()
         {
             if (Double.IsInfinity(this.Radius))
-                return $"{this.Y} {this.X} {this.Rotation} Infinity\n";
-            return $"{this.Y} {this.X} {this.Rotation} {this.Radius}\n";
+                return $"{this.X} {this.Y} {this.Rotation} Infinity\n";
+            return $"{this.X} {this.Y} {this.Rotation} {this.Radius}\n";
         }
 
         public double Radius

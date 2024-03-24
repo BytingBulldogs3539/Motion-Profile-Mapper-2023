@@ -98,19 +98,19 @@ namespace MotionProfile.SegmentedProfile
             this.paths.Insert(pathIndex + 1, temp);
         }
 
-        public void mirrorPath(ProfilePath pathToMirror, double fieldWidth)
+        public void mirrorPath(ProfilePath pathToMirror, double fieldHeight)
         {
             newEdit("Path Mirror");
             int index = this.paths.IndexOf(pathToMirror);
-            this.paths[index].mirrorPoints(fieldWidth);
+            this.paths[index].mirrorPoints(fieldHeight);
         }
 
-        public void mirrorAllPaths(double fieldWidth)
+        public void mirrorAllPaths(double fieldHeight)
         {
             newEdit("Mirror All Paths");
             foreach (ProfilePath path in this.paths)
             {
-                path.mirrorPoints(fieldWidth);
+                path.mirrorPoints(fieldHeight);
             }
         }
 

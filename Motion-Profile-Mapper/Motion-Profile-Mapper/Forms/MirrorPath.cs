@@ -16,14 +16,14 @@ namespace MotionProfileMapper.Forms
         Profile selectedProfile;
         ProfilePath selectedPath;
         Action<int> selectPath;
-        double fieldWidth;
-        public MirrorPath(Profile selectedProfile, ProfilePath selectedPath, Action<int> selectPath, double fieldWidth)
+        double fieldHeight;
+        public MirrorPath(Profile selectedProfile, ProfilePath selectedPath, Action<int> selectPath, double fieldHeight)
         {
             InitializeComponent();
             this.selectedPath = selectedPath;
             this.selectedProfile = selectedProfile;
             this.selectPath = selectPath;
-            this.fieldWidth = fieldWidth;
+            this.fieldHeight = fieldHeight;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -33,14 +33,14 @@ namespace MotionProfileMapper.Forms
 
         private void mirrorSelectedButton_Click(object sender, EventArgs e)
         {
-            this.selectedProfile.mirrorPath(this.selectedPath, this.fieldWidth);
+            this.selectedProfile.mirrorPath(this.selectedPath, this.fieldHeight);
             this.selectPath(-1);
             this.Close();
         }
 
         private void mirrorAllButton_Click(object sender, EventArgs e)
         {
-            this.selectedProfile.mirrorAllPaths(fieldWidth);
+            this.selectedProfile.mirrorAllPaths(fieldHeight);
             this.selectPath(-1);
             this.Close();
         }
