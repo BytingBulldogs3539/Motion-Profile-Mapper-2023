@@ -39,7 +39,7 @@
       <Value Profile="(Default)">/home/lvuser/</Value>
     </Setting>
     <Setting Name="MaxCen" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">2.5</Value>
+      <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="FrameLength" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.711</Value>
@@ -58,6 +58,12 @@
     </Setting>
     <Setting Name="autoCheckForUpdates" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="InVel" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="OutVel" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

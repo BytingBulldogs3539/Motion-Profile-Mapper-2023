@@ -67,16 +67,35 @@
             this.label5 = new System.Windows.Forms.Label();
             this.saveFileButton = new System.Windows.Forms.Button();
             this.saveAllButton = new System.Windows.Forms.Button();
-            this.defaultsButton = new System.Windows.Forms.Button();
             this.TestTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.iconButton1 = new FontAwesome.Sharp.IconButton();
+            this.downloadButton = new FontAwesome.Sharp.IconButton();
+            this.uploadButton = new FontAwesome.Sharp.IconButton();
+            this.previewButton = new FontAwesome.Sharp.IconButton();
+            this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.playButton = new FontAwesome.Sharp.IconButton();
+            this.reverseButton = new FontAwesome.Sharp.IconButton();
+            this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
+            this.deletePointButton = new FontAwesome.Sharp.IconButton();
+            this.shiftPathButton = new FontAwesome.Sharp.IconButton();
+            this.duplicateProfileButton = new FontAwesome.Sharp.IconButton();
+            this.editPathButton = new FontAwesome.Sharp.IconButton();
+            this.rioConectionButton = new FontAwesome.Sharp.IconButton();
+            this.editProfileButton = new FontAwesome.Sharp.IconButton();
+            this.deleteProfileButton = new FontAwesome.Sharp.IconButton();
+            this.newProfileButton = new FontAwesome.Sharp.IconButton();
+            this.deletePathButton = new FontAwesome.Sharp.IconButton();
+            this.newPathButton = new FontAwesome.Sharp.IconButton();
+            this.pathOrderDown = new FontAwesome.Sharp.IconButton();
+            this.pathOrderUp = new FontAwesome.Sharp.IconButton();
             this.Data = new System.Windows.Forms.TabPage();
             this.kinematicsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Field = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.trackBar = new System.Windows.Forms.TrackBar();
+            this.mainField = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.radioBlue = new System.Windows.Forms.RadioButton();
@@ -95,29 +114,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.pathTimeLabel = new System.Windows.Forms.Label();
-            this.iconButton1 = new FontAwesome.Sharp.IconButton();
-            this.downloadButton = new FontAwesome.Sharp.IconButton();
-            this.uploadButton = new FontAwesome.Sharp.IconButton();
-            this.previewButton = new FontAwesome.Sharp.IconButton();
-            this.iconButton2 = new FontAwesome.Sharp.IconButton();
-            this.playButton = new FontAwesome.Sharp.IconButton();
-            this.reverseButton = new FontAwesome.Sharp.IconButton();
-            this.infoButton = new FontAwesome.Sharp.IconButton();
-            this.mirrorPathButton = new FontAwesome.Sharp.IconButton();
-            this.deletePointButton = new FontAwesome.Sharp.IconButton();
-            this.shiftPathButton = new FontAwesome.Sharp.IconButton();
-            this.duplicateProfileButton = new FontAwesome.Sharp.IconButton();
-            this.editPathButton = new FontAwesome.Sharp.IconButton();
-            this.rioConectionButton = new FontAwesome.Sharp.IconButton();
-            this.editProfileButton = new FontAwesome.Sharp.IconButton();
-            this.deleteProfileButton = new FontAwesome.Sharp.IconButton();
-            this.newProfileButton = new FontAwesome.Sharp.IconButton();
-            this.deletePathButton = new FontAwesome.Sharp.IconButton();
-            this.newPathButton = new FontAwesome.Sharp.IconButton();
-            this.pathOrderDown = new FontAwesome.Sharp.IconButton();
-            this.pathOrderUp = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
@@ -130,8 +129,8 @@
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -254,7 +253,7 @@
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(13, 124);
+            this.label10.Location = new System.Drawing.Point(13, 84);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(311, 29);
             this.label10.TabIndex = 23;
@@ -299,7 +298,7 @@
             this.profileTable.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.profileTable.EnableHeadersVisualStyles = false;
             this.profileTable.GridColor = System.Drawing.Color.Black;
-            this.profileTable.Location = new System.Drawing.Point(13, 155);
+            this.profileTable.Location = new System.Drawing.Point(13, 115);
             this.profileTable.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.profileTable.MultiSelect = false;
             this.profileTable.Name = "profileTable";
@@ -311,7 +310,7 @@
             this.profileTable.RowHeadersWidth = 20;
             this.profileTable.RowTemplate.Height = 25;
             this.profileTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.profileTable.Size = new System.Drawing.Size(311, 510);
+            this.profileTable.Size = new System.Drawing.Size(311, 550);
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
@@ -482,39 +481,401 @@
             this.saveAllButton.UseVisualStyleBackColor = false;
             this.saveAllButton.Click += new System.EventHandler(this.SaveAllProfiles);
             // 
-            // defaultsButton
-            // 
-            this.defaultsButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.defaultsButton.FlatAppearance.BorderSize = 0;
-            this.defaultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.defaultsButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defaultsButton.ForeColor = System.Drawing.Color.Black;
-            this.defaultsButton.Location = new System.Drawing.Point(66, 34);
-            this.defaultsButton.Margin = new System.Windows.Forms.Padding(1);
-            this.defaultsButton.Name = "defaultsButton";
-            this.defaultsButton.Size = new System.Drawing.Size(258, 30);
-            this.defaultsButton.TabIndex = 64;
-            this.defaultsButton.Text = "Default Constraints";
-            this.TestTooltip.SetToolTip(this.defaultsButton, "Default path settings");
-            this.defaultsButton.UseVisualStyleBackColor = false;
-            this.defaultsButton.Click += new System.EventHandler(this.defaultsButton_Click);
-            // 
             // TestTooltip
             // 
             this.TestTooltip.AutoPopDelay = 10000;
             this.TestTooltip.InitialDelay = 500;
             this.TestTooltip.ReshowDelay = 100;
             // 
+            // iconButton1
+            // 
+            this.iconButton1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton1.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.FolderOpen;
+            this.iconButton1.IconColor = System.Drawing.Color.Teal;
+            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.iconButton1.IconSize = 35;
+            this.iconButton1.Location = new System.Drawing.Point(91, 31);
+            this.iconButton1.Name = "iconButton1";
+            this.iconButton1.Size = new System.Drawing.Size(74, 50);
+            this.iconButton1.TabIndex = 85;
+            this.TestTooltip.SetToolTip(this.iconButton1, "Open local files.");
+            this.iconButton1.UseVisualStyleBackColor = false;
+            this.iconButton1.Click += new System.EventHandler(this.LoadProfilesFromFiles);
+            // 
+            // downloadButton
+            // 
+            this.downloadButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.downloadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.downloadButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.downloadButton.IconChar = FontAwesome.Sharp.IconChar.Download;
+            this.downloadButton.IconColor = System.Drawing.Color.Teal;
+            this.downloadButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.downloadButton.IconSize = 35;
+            this.downloadButton.Location = new System.Drawing.Point(12, 31);
+            this.downloadButton.Name = "downloadButton";
+            this.downloadButton.Size = new System.Drawing.Size(74, 50);
+            this.downloadButton.TabIndex = 84;
+            this.TestTooltip.SetToolTip(this.downloadButton, "Download files from roborio.");
+            this.downloadButton.UseVisualStyleBackColor = false;
+            this.downloadButton.Click += new System.EventHandler(this.LoadProfilesFromRIO);
+            // 
+            // uploadButton
+            // 
+            this.uploadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.uploadButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.uploadButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.uploadButton.IconChar = FontAwesome.Sharp.IconChar.Upload;
+            this.uploadButton.IconColor = System.Drawing.Color.Teal;
+            this.uploadButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.uploadButton.IconSize = 35;
+            this.uploadButton.Location = new System.Drawing.Point(263, 750);
+            this.uploadButton.Name = "uploadButton";
+            this.uploadButton.Size = new System.Drawing.Size(60, 50);
+            this.uploadButton.TabIndex = 83;
+            this.TestTooltip.SetToolTip(this.uploadButton, "Upload files to roborio");
+            this.uploadButton.UseVisualStyleBackColor = false;
+            this.uploadButton.Click += new System.EventHandler(this.saveToRioButton_Click);
+            // 
+            // previewButton
+            // 
+            this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.previewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.previewButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.previewButton.IconChar = FontAwesome.Sharp.IconChar.Eye;
+            this.previewButton.IconColor = System.Drawing.Color.SlateBlue;
+            this.previewButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.previewButton.IconSize = 40;
+            this.previewButton.Location = new System.Drawing.Point(1214, 750);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(59, 50);
+            this.previewButton.TabIndex = 82;
+            this.TestTooltip.SetToolTip(this.previewButton, "Preview the file sent to the rio.");
+            this.previewButton.UseVisualStyleBackColor = false;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            // 
+            // iconButton2
+            // 
+            this.iconButton2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton2.ForeColor = System.Drawing.Color.DarkGray;
+            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.FileText;
+            this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
+            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton2.IconSize = 24;
+            this.iconButton2.Location = new System.Drawing.Point(170, 31);
+            this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.iconButton2.Name = "iconButton2";
+            this.iconButton2.Size = new System.Drawing.Size(74, 50);
+            this.iconButton2.TabIndex = 77;
+            this.TestTooltip.SetToolTip(this.iconButton2, "Switch to configuration mode");
+            this.iconButton2.UseVisualStyleBackColor = false;
+            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
+            // 
+            // playButton
+            // 
+            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.playButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.playButton.IconChar = FontAwesome.Sharp.IconChar.Play;
+            this.playButton.IconColor = System.Drawing.Color.SlateBlue;
+            this.playButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.playButton.IconSize = 25;
+            this.playButton.Location = new System.Drawing.Point(1039, 750);
+            this.playButton.Margin = new System.Windows.Forms.Padding(0);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(172, 50);
+            this.playButton.TabIndex = 75;
+            this.TestTooltip.SetToolTip(this.playButton, "Play back the path in real time.");
+            this.playButton.UseVisualStyleBackColor = false;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
+            // reverseButton
+            // 
+            this.reverseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reverseButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.reverseButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
+            this.reverseButton.IconColor = System.Drawing.Color.Black;
+            this.reverseButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.reverseButton.IconSize = 22;
+            this.reverseButton.Location = new System.Drawing.Point(1156, 708);
+            this.reverseButton.Margin = new System.Windows.Forms.Padding(0);
+            this.reverseButton.Name = "reverseButton";
+            this.reverseButton.Rotation = 90D;
+            this.reverseButton.Size = new System.Drawing.Size(58, 30);
+            this.reverseButton.TabIndex = 73;
+            this.TestTooltip.SetToolTip(this.reverseButton, "Reverse path point order");
+            this.reverseButton.UseVisualStyleBackColor = false;
+            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
+            // 
+            // mirrorPathButton
+            // 
+            this.mirrorPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mirrorPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.mirrorPathButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
+            this.mirrorPathButton.IconColor = System.Drawing.Color.Black;
+            this.mirrorPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.mirrorPathButton.IconSize = 22;
+            this.mirrorPathButton.Location = new System.Drawing.Point(1098, 708);
+            this.mirrorPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.mirrorPathButton.Name = "mirrorPathButton";
+            this.mirrorPathButton.Size = new System.Drawing.Size(58, 30);
+            this.mirrorPathButton.TabIndex = 70;
+            this.TestTooltip.SetToolTip(this.mirrorPathButton, "Mirror paths");
+            this.mirrorPathButton.UseVisualStyleBackColor = false;
+            this.mirrorPathButton.Click += new System.EventHandler(this.mirrorPathButton_Click);
+            // 
+            // deletePointButton
+            // 
+            this.deletePointButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deletePointButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deletePointButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deletePointButton.IconColor = System.Drawing.Color.Firebrick;
+            this.deletePointButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deletePointButton.IconSize = 22;
+            this.deletePointButton.Location = new System.Drawing.Point(1214, 708);
+            this.deletePointButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deletePointButton.Name = "deletePointButton";
+            this.deletePointButton.Size = new System.Drawing.Size(59, 30);
+            this.deletePointButton.TabIndex = 69;
+            this.TestTooltip.SetToolTip(this.deletePointButton, "Delete selected point");
+            this.deletePointButton.UseVisualStyleBackColor = false;
+            this.deletePointButton.Click += new System.EventHandler(this.deletePointButton_Click);
+            // 
+            // shiftPathButton
+            // 
+            this.shiftPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.shiftPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.shiftPathButton.IconChar = FontAwesome.Sharp.IconChar.ArrowsUpDownLeftRight;
+            this.shiftPathButton.IconColor = System.Drawing.Color.Black;
+            this.shiftPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.shiftPathButton.IconSize = 22;
+            this.shiftPathButton.Location = new System.Drawing.Point(1039, 708);
+            this.shiftPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.shiftPathButton.Name = "shiftPathButton";
+            this.shiftPathButton.Size = new System.Drawing.Size(59, 30);
+            this.shiftPathButton.TabIndex = 68;
+            this.TestTooltip.SetToolTip(this.shiftPathButton, "Shift all path points");
+            this.shiftPathButton.UseVisualStyleBackColor = false;
+            this.shiftPathButton.Click += new System.EventHandler(this.shiftPathButton_Click);
+            // 
+            // duplicateProfileButton
+            // 
+            this.duplicateProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.duplicateProfileButton.IconChar = FontAwesome.Sharp.IconChar.Copy;
+            this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
+            this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.duplicateProfileButton.IconSize = 24;
+            this.duplicateProfileButton.Location = new System.Drawing.Point(169, 679);
+            this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.duplicateProfileButton.Name = "duplicateProfileButton";
+            this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
+            this.duplicateProfileButton.TabIndex = 66;
+            this.TestTooltip.SetToolTip(this.duplicateProfileButton, "Duplicate profile");
+            this.duplicateProfileButton.UseVisualStyleBackColor = false;
+            this.duplicateProfileButton.Click += new System.EventHandler(this.duplicateProfileButton_Click);
+            // 
+            // editPathButton
+            // 
+            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.editPathButton.IconChar = FontAwesome.Sharp.IconChar.Gear;
+            this.editPathButton.IconColor = System.Drawing.Color.Black;
+            this.editPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.editPathButton.IconSize = 20;
+            this.editPathButton.Location = new System.Drawing.Point(1086, 321);
+            this.editPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.editPathButton.Name = "editPathButton";
+            this.editPathButton.Size = new System.Drawing.Size(47, 30);
+            this.editPathButton.TabIndex = 63;
+            this.TestTooltip.SetToolTip(this.editPathButton, "Path settings");
+            this.editPathButton.UseVisualStyleBackColor = false;
+            this.editPathButton.Click += new System.EventHandler(this.editPathButton_Click);
+            // 
+            // rioConectionButton
+            // 
+            this.rioConectionButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.rioConectionButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.rioConectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rioConectionButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.rioConectionButton.IconChar = FontAwesome.Sharp.IconChar.Gear;
+            this.rioConectionButton.IconColor = System.Drawing.Color.Teal;
+            this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.rioConectionButton.IconSize = 40;
+            this.rioConectionButton.Location = new System.Drawing.Point(249, 31);
+            this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
+            this.rioConectionButton.Name = "rioConectionButton";
+            this.rioConectionButton.Size = new System.Drawing.Size(74, 50);
+            this.rioConectionButton.TabIndex = 57;
+            this.TestTooltip.SetToolTip(this.rioConectionButton, "App Settings");
+            this.rioConectionButton.UseVisualStyleBackColor = false;
+            this.rioConectionButton.Click += new System.EventHandler(this.rioConectionButton_Click);
+            // 
+            // editProfileButton
+            // 
+            this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.editProfileButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
+            this.editProfileButton.IconColor = System.Drawing.Color.Black;
+            this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.editProfileButton.IconSize = 24;
+            this.editProfileButton.Location = new System.Drawing.Point(91, 679);
+            this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.editProfileButton.Name = "editProfileButton";
+            this.editProfileButton.Size = new System.Drawing.Size(78, 30);
+            this.editProfileButton.TabIndex = 50;
+            this.TestTooltip.SetToolTip(this.editProfileButton, "Edit profile");
+            this.editProfileButton.UseVisualStyleBackColor = false;
+            this.editProfileButton.Click += new System.EventHandler(this.editProfileButton_Click);
+            // 
+            // deleteProfileButton
+            // 
+            this.deleteProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
+            this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deleteProfileButton.IconSize = 24;
+            this.deleteProfileButton.Location = new System.Drawing.Point(247, 679);
+            this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deleteProfileButton.Name = "deleteProfileButton";
+            this.deleteProfileButton.Size = new System.Drawing.Size(77, 30);
+            this.deleteProfileButton.TabIndex = 49;
+            this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete selected profile");
+            this.deleteProfileButton.UseVisualStyleBackColor = false;
+            this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
+            // 
+            // newProfileButton
+            // 
+            this.newProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Add;
+            this.newProfileButton.IconColor = System.Drawing.Color.Green;
+            this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.newProfileButton.IconSize = 24;
+            this.newProfileButton.Location = new System.Drawing.Point(14, 679);
+            this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
+            this.newProfileButton.Name = "newProfileButton";
+            this.newProfileButton.Size = new System.Drawing.Size(77, 30);
+            this.newProfileButton.TabIndex = 48;
+            this.TestTooltip.SetToolTip(this.newProfileButton, "Create new profile");
+            this.newProfileButton.UseVisualStyleBackColor = false;
+            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
+            // 
+            // deletePathButton
+            // 
+            this.deletePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.deletePathButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            this.deletePathButton.IconColor = System.Drawing.Color.Firebrick;
+            this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.deletePathButton.IconSize = 20;
+            this.deletePathButton.Location = new System.Drawing.Point(1227, 321);
+            this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.deletePathButton.Name = "deletePathButton";
+            this.deletePathButton.Size = new System.Drawing.Size(46, 30);
+            this.deletePathButton.TabIndex = 47;
+            this.TestTooltip.SetToolTip(this.deletePathButton, "Delete selected path");
+            this.deletePathButton.UseVisualStyleBackColor = false;
+            this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
+            // 
+            // newPathButton
+            // 
+            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
+            this.newPathButton.IconChar = FontAwesome.Sharp.IconChar.Add;
+            this.newPathButton.IconColor = System.Drawing.Color.Green;
+            this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.newPathButton.IconSize = 20;
+            this.newPathButton.Location = new System.Drawing.Point(1039, 321);
+            this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
+            this.newPathButton.Name = "newPathButton";
+            this.newPathButton.Size = new System.Drawing.Size(47, 30);
+            this.newPathButton.TabIndex = 46;
+            this.TestTooltip.SetToolTip(this.newPathButton, "Add new path");
+            this.newPathButton.UseVisualStyleBackColor = false;
+            this.newPathButton.Click += new System.EventHandler(this.newPathButton_Click);
+            // 
+            // pathOrderDown
+            // 
+            this.pathOrderDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pathOrderDown.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
+            this.pathOrderDown.ForeColor = System.Drawing.Color.DarkGray;
+            this.pathOrderDown.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
+            this.pathOrderDown.IconColor = System.Drawing.Color.Black;
+            this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.pathOrderDown.IconSize = 20;
+            this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.pathOrderDown.Location = new System.Drawing.Point(1180, 321);
+            this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
+            this.pathOrderDown.Name = "pathOrderDown";
+            this.pathOrderDown.Rotation = 180D;
+            this.pathOrderDown.Size = new System.Drawing.Size(47, 30);
+            this.pathOrderDown.TabIndex = 45;
+            this.TestTooltip.SetToolTip(this.pathOrderDown, "Move path order down");
+            this.pathOrderDown.UseVisualStyleBackColor = false;
+            this.pathOrderDown.Click += new System.EventHandler(this.pathOrderDown_Click);
+            // 
+            // pathOrderUp
+            // 
+            this.pathOrderUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
+            this.pathOrderUp.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
+            this.pathOrderUp.IconColor = System.Drawing.Color.Black;
+            this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.pathOrderUp.IconSize = 20;
+            this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.pathOrderUp.Location = new System.Drawing.Point(1133, 321);
+            this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
+            this.pathOrderUp.Name = "pathOrderUp";
+            this.pathOrderUp.Rotation = 180D;
+            this.pathOrderUp.Size = new System.Drawing.Size(47, 30);
+            this.pathOrderUp.TabIndex = 44;
+            this.TestTooltip.SetToolTip(this.pathOrderUp, "Move path order up");
+            this.pathOrderUp.UseVisualStyleBackColor = false;
+            this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
+            // 
             // Data
             // 
             this.Data.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Data.Controls.Add(this.kinematicsChart);
             this.Data.ForeColor = System.Drawing.Color.Black;
-            this.Data.Location = new System.Drawing.Point(4, 25);
+            this.Data.Location = new System.Drawing.Point(4, 26);
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(681, 783);
+            this.Data.Size = new System.Drawing.Size(681, 782);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             // 
@@ -553,7 +914,7 @@
             this.kinematicsChart.Series.Add(series1);
             this.kinematicsChart.Series.Add(series2);
             this.kinematicsChart.Series.Add(series3);
-            this.kinematicsChart.Size = new System.Drawing.Size(679, 781);
+            this.kinematicsChart.Size = new System.Drawing.Size(679, 780);
             this.kinematicsChart.TabIndex = 0;
             // 
             // Field
@@ -618,6 +979,21 @@
             this.panel1.Size = new System.Drawing.Size(673, 660);
             this.panel1.TabIndex = 79;
             // 
+            // trackBar
+            // 
+            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar.Location = new System.Drawing.Point(1, 601);
+            this.trackBar.Maximum = 1000;
+            this.trackBar.Name = "trackBar";
+            this.trackBar.Size = new System.Drawing.Size(673, 56);
+            this.trackBar.TabIndex = 43;
+            this.trackBar.TabStop = false;
+            this.trackBar.Tag = "";
+            this.trackBar.TickFrequency = 0;
+            this.trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
+            // 
             // mainField
             // 
             this.mainField.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -635,21 +1011,6 @@
             this.mainField.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseDown);
             this.mainField.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainField_MouseMove);
             this.mainField.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseUp);
-            // 
-            // trackBar
-            // 
-            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar.Location = new System.Drawing.Point(1, 601);
-            this.trackBar.Maximum = 1000;
-            this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(673, 56);
-            this.trackBar.TabIndex = 43;
-            this.trackBar.TabStop = false;
-            this.trackBar.Tag = "";
-            this.trackBar.TickFrequency = 0;
-            this.trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -820,7 +1181,7 @@
             this.MoreData.SelectedIndex = 0;
             this.MoreData.Size = new System.Drawing.Size(689, 812);
             this.MoreData.TabIndex = 1;
-            this.MoreData.SelectedIndexChanged += new System.EventHandler(this.MotionProfiler_Resize);
+            this.MoreData.SelectedIndexChanged += new System.EventHandler(this.MotionProfiler_TabChange);
             // 
             // timer1
             // 
@@ -859,7 +1220,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem});
+            this.redoToolStripMenuItem,
+            this.infoToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -880,11 +1242,18 @@
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.infoToolStripMenuItem.Text = "Info";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoButton_Click);
+            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 773);
+            this.label1.Location = new System.Drawing.Point(14, 776);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 17);
             this.label1.TabIndex = 80;
@@ -899,406 +1268,10 @@
             this.pathTimeLabel.Size = new System.Drawing.Size(0, 17);
             this.pathTimeLabel.TabIndex = 81;
             // 
-            // iconButton1
-            // 
-            this.iconButton1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton1.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.FolderOpen;
-            this.iconButton1.IconColor = System.Drawing.Color.Teal;
-            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.iconButton1.IconSize = 35;
-            this.iconButton1.Location = new System.Drawing.Point(91, 71);
-            this.iconButton1.Name = "iconButton1";
-            this.iconButton1.Size = new System.Drawing.Size(74, 50);
-            this.iconButton1.TabIndex = 85;
-            this.TestTooltip.SetToolTip(this.iconButton1, "Open local files.");
-            this.iconButton1.UseVisualStyleBackColor = false;
-            this.iconButton1.Click += new System.EventHandler(this.LoadProfilesFromFiles);
-            // 
-            // downloadButton
-            // 
-            this.downloadButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.downloadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.downloadButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.downloadButton.IconChar = FontAwesome.Sharp.IconChar.Download;
-            this.downloadButton.IconColor = System.Drawing.Color.Teal;
-            this.downloadButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.downloadButton.IconSize = 35;
-            this.downloadButton.Location = new System.Drawing.Point(12, 71);
-            this.downloadButton.Name = "downloadButton";
-            this.downloadButton.Size = new System.Drawing.Size(74, 50);
-            this.downloadButton.TabIndex = 84;
-            this.TestTooltip.SetToolTip(this.downloadButton, "Download files from roborio.");
-            this.downloadButton.UseVisualStyleBackColor = false;
-            this.downloadButton.Click += new System.EventHandler(this.LoadProfilesFromRIO);
-            // 
-            // uploadButton
-            // 
-            this.uploadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.uploadButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.uploadButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.uploadButton.IconChar = FontAwesome.Sharp.IconChar.Upload;
-            this.uploadButton.IconColor = System.Drawing.Color.Teal;
-            this.uploadButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.uploadButton.IconSize = 35;
-            this.uploadButton.Location = new System.Drawing.Point(263, 750);
-            this.uploadButton.Name = "uploadButton";
-            this.uploadButton.Size = new System.Drawing.Size(60, 50);
-            this.uploadButton.TabIndex = 83;
-            this.TestTooltip.SetToolTip(this.uploadButton, "Upload files to roborio");
-            this.uploadButton.UseVisualStyleBackColor = false;
-            this.uploadButton.Click += new System.EventHandler(this.saveToRioButton_Click);
-            // 
-            // previewButton
-            // 
-            this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.previewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.previewButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.previewButton.IconChar = FontAwesome.Sharp.IconChar.Eye;
-            this.previewButton.IconColor = System.Drawing.Color.SlateBlue;
-            this.previewButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.previewButton.IconSize = 40;
-            this.previewButton.Location = new System.Drawing.Point(1214, 750);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(59, 50);
-            this.previewButton.TabIndex = 82;
-            this.TestTooltip.SetToolTip(this.previewButton, "Preview the file sent to the rio.");
-            this.previewButton.UseVisualStyleBackColor = false;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
-            // 
-            // iconButton2
-            // 
-            this.iconButton2.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton2.ForeColor = System.Drawing.Color.DarkGray;
-            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.FileText;
-            this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
-            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton2.IconSize = 24;
-            this.iconButton2.Location = new System.Drawing.Point(170, 71);
-            this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.iconButton2.Name = "iconButton2";
-            this.iconButton2.Size = new System.Drawing.Size(74, 50);
-            this.iconButton2.TabIndex = 77;
-            this.TestTooltip.SetToolTip(this.iconButton2, "Switch to configuration mode");
-            this.iconButton2.UseVisualStyleBackColor = false;
-            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
-            // 
-            // playButton
-            // 
-            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.playButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.playButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.playButton.IconChar = FontAwesome.Sharp.IconChar.Play;
-            this.playButton.IconColor = System.Drawing.Color.SlateBlue;
-            this.playButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.playButton.IconSize = 25;
-            this.playButton.Location = new System.Drawing.Point(1039, 750);
-            this.playButton.Margin = new System.Windows.Forms.Padding(0);
-            this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(172, 50);
-            this.playButton.TabIndex = 75;
-            this.TestTooltip.SetToolTip(this.playButton, "Play back the path in real time.");
-            this.playButton.UseVisualStyleBackColor = false;
-            this.playButton.Click += new System.EventHandler(this.playButton_Click);
-            // 
-            // reverseButton
-            // 
-            this.reverseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.reverseButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.reverseButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
-            this.reverseButton.IconColor = System.Drawing.Color.Black;
-            this.reverseButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.reverseButton.IconSize = 22;
-            this.reverseButton.Location = new System.Drawing.Point(1156, 708);
-            this.reverseButton.Margin = new System.Windows.Forms.Padding(0);
-            this.reverseButton.Name = "reverseButton";
-            this.reverseButton.Rotation = 90D;
-            this.reverseButton.Size = new System.Drawing.Size(58, 30);
-            this.reverseButton.TabIndex = 73;
-            this.TestTooltip.SetToolTip(this.reverseButton, "Reverse path point order");
-            this.reverseButton.UseVisualStyleBackColor = false;
-            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
-            // 
-            // infoButton
-            // 
-            this.infoButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.infoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.infoButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.infoButton.IconChar = FontAwesome.Sharp.IconChar.Info;
-            this.infoButton.IconColor = System.Drawing.Color.Black;
-            this.infoButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.infoButton.IconSize = 16;
-            this.infoButton.Location = new System.Drawing.Point(12, 33);
-            this.infoButton.Margin = new System.Windows.Forms.Padding(0);
-            this.infoButton.Name = "infoButton";
-            this.infoButton.Size = new System.Drawing.Size(47, 30);
-            this.infoButton.TabIndex = 72;
-            this.TestTooltip.SetToolTip(this.infoButton, "Info about this program");
-            this.infoButton.UseVisualStyleBackColor = false;
-            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
-            // 
-            // mirrorPathButton
-            // 
-            this.mirrorPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mirrorPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.mirrorPathButton.IconChar = FontAwesome.Sharp.IconChar.ExchangeAlt;
-            this.mirrorPathButton.IconColor = System.Drawing.Color.Black;
-            this.mirrorPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.mirrorPathButton.IconSize = 22;
-            this.mirrorPathButton.Location = new System.Drawing.Point(1098, 708);
-            this.mirrorPathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.mirrorPathButton.Name = "mirrorPathButton";
-            this.mirrorPathButton.Size = new System.Drawing.Size(58, 30);
-            this.mirrorPathButton.TabIndex = 70;
-            this.TestTooltip.SetToolTip(this.mirrorPathButton, "Mirror paths");
-            this.mirrorPathButton.UseVisualStyleBackColor = false;
-            this.mirrorPathButton.Click += new System.EventHandler(this.mirrorPathButton_Click);
-            // 
-            // deletePointButton
-            // 
-            this.deletePointButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deletePointButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deletePointButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deletePointButton.IconColor = System.Drawing.Color.Firebrick;
-            this.deletePointButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deletePointButton.IconSize = 22;
-            this.deletePointButton.Location = new System.Drawing.Point(1214, 708);
-            this.deletePointButton.Margin = new System.Windows.Forms.Padding(0);
-            this.deletePointButton.Name = "deletePointButton";
-            this.deletePointButton.Size = new System.Drawing.Size(59, 30);
-            this.deletePointButton.TabIndex = 69;
-            this.TestTooltip.SetToolTip(this.deletePointButton, "Delete selected point");
-            this.deletePointButton.UseVisualStyleBackColor = false;
-            this.deletePointButton.Click += new System.EventHandler(this.deletePointButton_Click);
-            // 
-            // shiftPathButton
-            // 
-            this.shiftPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.shiftPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.shiftPathButton.IconChar = FontAwesome.Sharp.IconChar.ArrowsUpDownLeftRight;
-            this.shiftPathButton.IconColor = System.Drawing.Color.Black;
-            this.shiftPathButton.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.shiftPathButton.IconSize = 22;
-            this.shiftPathButton.Location = new System.Drawing.Point(1039, 708);
-            this.shiftPathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.shiftPathButton.Name = "shiftPathButton";
-            this.shiftPathButton.Size = new System.Drawing.Size(59, 30);
-            this.shiftPathButton.TabIndex = 68;
-            this.TestTooltip.SetToolTip(this.shiftPathButton, "Shift all path points");
-            this.shiftPathButton.UseVisualStyleBackColor = false;
-            this.shiftPathButton.Click += new System.EventHandler(this.shiftPathButton_Click);
-            // 
-            // duplicateProfileButton
-            // 
-            this.duplicateProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.duplicateProfileButton.IconChar = FontAwesome.Sharp.IconChar.Copy;
-            this.duplicateProfileButton.IconColor = System.Drawing.Color.Black;
-            this.duplicateProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.duplicateProfileButton.IconSize = 24;
-            this.duplicateProfileButton.Location = new System.Drawing.Point(169, 679);
-            this.duplicateProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.duplicateProfileButton.Name = "duplicateProfileButton";
-            this.duplicateProfileButton.Size = new System.Drawing.Size(78, 30);
-            this.duplicateProfileButton.TabIndex = 66;
-            this.TestTooltip.SetToolTip(this.duplicateProfileButton, "Duplicate profile");
-            this.duplicateProfileButton.UseVisualStyleBackColor = false;
-            this.duplicateProfileButton.Click += new System.EventHandler(this.duplicateProfileButton_Click);
-            // 
-            // editPathButton
-            // 
-            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.editPathButton.IconChar = FontAwesome.Sharp.IconChar.Gear;
-            this.editPathButton.IconColor = System.Drawing.Color.Black;
-            this.editPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.editPathButton.IconSize = 20;
-            this.editPathButton.Location = new System.Drawing.Point(1086, 321);
-            this.editPathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.editPathButton.Name = "editPathButton";
-            this.editPathButton.Size = new System.Drawing.Size(47, 30);
-            this.editPathButton.TabIndex = 63;
-            this.TestTooltip.SetToolTip(this.editPathButton, "Path settings");
-            this.editPathButton.UseVisualStyleBackColor = false;
-            this.editPathButton.Click += new System.EventHandler(this.editPathButton_Click);
-            // 
-            // rioConectionButton
-            // 
-            this.rioConectionButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.rioConectionButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rioConectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rioConectionButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.rioConectionButton.IconChar = FontAwesome.Sharp.IconChar.Gear;
-            this.rioConectionButton.IconColor = System.Drawing.Color.Teal;
-            this.rioConectionButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.rioConectionButton.IconSize = 40;
-            this.rioConectionButton.Location = new System.Drawing.Point(249, 71);
-            this.rioConectionButton.Margin = new System.Windows.Forms.Padding(0);
-            this.rioConectionButton.Name = "rioConectionButton";
-            this.rioConectionButton.Size = new System.Drawing.Size(74, 50);
-            this.rioConectionButton.TabIndex = 57;
-            this.TestTooltip.SetToolTip(this.rioConectionButton, "App Settings");
-            this.rioConectionButton.UseVisualStyleBackColor = false;
-            this.rioConectionButton.Click += new System.EventHandler(this.rioConectionButton_Click);
-            // 
-            // editProfileButton
-            // 
-            this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.editProfileButton.IconChar = FontAwesome.Sharp.IconChar.Pen;
-            this.editProfileButton.IconColor = System.Drawing.Color.Black;
-            this.editProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.editProfileButton.IconSize = 24;
-            this.editProfileButton.Location = new System.Drawing.Point(91, 679);
-            this.editProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.editProfileButton.Name = "editProfileButton";
-            this.editProfileButton.Size = new System.Drawing.Size(78, 30);
-            this.editProfileButton.TabIndex = 50;
-            this.TestTooltip.SetToolTip(this.editProfileButton, "Edit profile");
-            this.editProfileButton.UseVisualStyleBackColor = false;
-            this.editProfileButton.Click += new System.EventHandler(this.editProfileButton_Click);
-            // 
-            // deleteProfileButton
-            // 
-            this.deleteProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deleteProfileButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deleteProfileButton.IconColor = System.Drawing.Color.Firebrick;
-            this.deleteProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deleteProfileButton.IconSize = 24;
-            this.deleteProfileButton.Location = new System.Drawing.Point(247, 679);
-            this.deleteProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.deleteProfileButton.Name = "deleteProfileButton";
-            this.deleteProfileButton.Size = new System.Drawing.Size(77, 30);
-            this.deleteProfileButton.TabIndex = 49;
-            this.TestTooltip.SetToolTip(this.deleteProfileButton, "Delete selected profile");
-            this.deleteProfileButton.UseVisualStyleBackColor = false;
-            this.deleteProfileButton.Click += new System.EventHandler(this.deleteProfileButton_Click);
-            // 
-            // newProfileButton
-            // 
-            this.newProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.newProfileButton.IconChar = FontAwesome.Sharp.IconChar.Add;
-            this.newProfileButton.IconColor = System.Drawing.Color.Green;
-            this.newProfileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.newProfileButton.IconSize = 24;
-            this.newProfileButton.Location = new System.Drawing.Point(14, 679);
-            this.newProfileButton.Margin = new System.Windows.Forms.Padding(0);
-            this.newProfileButton.Name = "newProfileButton";
-            this.newProfileButton.Size = new System.Drawing.Size(77, 30);
-            this.newProfileButton.TabIndex = 48;
-            this.TestTooltip.SetToolTip(this.newProfileButton, "Create new profile");
-            this.newProfileButton.UseVisualStyleBackColor = false;
-            this.newProfileButton.Click += new System.EventHandler(this.newProfileButton_Click);
-            // 
-            // deletePathButton
-            // 
-            this.deletePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.deletePathButton.IconChar = FontAwesome.Sharp.IconChar.Trash;
-            this.deletePathButton.IconColor = System.Drawing.Color.Firebrick;
-            this.deletePathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.deletePathButton.IconSize = 20;
-            this.deletePathButton.Location = new System.Drawing.Point(1227, 321);
-            this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.deletePathButton.Name = "deletePathButton";
-            this.deletePathButton.Size = new System.Drawing.Size(46, 30);
-            this.deletePathButton.TabIndex = 47;
-            this.TestTooltip.SetToolTip(this.deletePathButton, "Delete selected path");
-            this.deletePathButton.UseVisualStyleBackColor = false;
-            this.deletePathButton.Click += new System.EventHandler(this.deletePathButton_Click);
-            // 
-            // newPathButton
-            // 
-            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
-            this.newPathButton.IconChar = FontAwesome.Sharp.IconChar.Add;
-            this.newPathButton.IconColor = System.Drawing.Color.Green;
-            this.newPathButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.newPathButton.IconSize = 20;
-            this.newPathButton.Location = new System.Drawing.Point(1039, 321);
-            this.newPathButton.Margin = new System.Windows.Forms.Padding(0);
-            this.newPathButton.Name = "newPathButton";
-            this.newPathButton.Size = new System.Drawing.Size(47, 30);
-            this.newPathButton.TabIndex = 46;
-            this.TestTooltip.SetToolTip(this.newPathButton, "Add new path");
-            this.newPathButton.UseVisualStyleBackColor = false;
-            this.newPathButton.Click += new System.EventHandler(this.newPathButton_Click);
-            // 
-            // pathOrderDown
-            // 
-            this.pathOrderDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pathOrderDown.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
-            this.pathOrderDown.ForeColor = System.Drawing.Color.DarkGray;
-            this.pathOrderDown.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
-            this.pathOrderDown.IconColor = System.Drawing.Color.Black;
-            this.pathOrderDown.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.pathOrderDown.IconSize = 20;
-            this.pathOrderDown.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.pathOrderDown.Location = new System.Drawing.Point(1180, 321);
-            this.pathOrderDown.Margin = new System.Windows.Forms.Padding(0);
-            this.pathOrderDown.Name = "pathOrderDown";
-            this.pathOrderDown.Rotation = 180D;
-            this.pathOrderDown.Size = new System.Drawing.Size(47, 30);
-            this.pathOrderDown.TabIndex = 45;
-            this.TestTooltip.SetToolTip(this.pathOrderDown, "Move path order down");
-            this.pathOrderDown.UseVisualStyleBackColor = false;
-            this.pathOrderDown.Click += new System.EventHandler(this.pathOrderDown_Click);
-            // 
-            // pathOrderUp
-            // 
-            this.pathOrderUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
-            this.pathOrderUp.IconChar = FontAwesome.Sharp.IconChar.ArrowDownLong;
-            this.pathOrderUp.IconColor = System.Drawing.Color.Black;
-            this.pathOrderUp.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.pathOrderUp.IconSize = 20;
-            this.pathOrderUp.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.pathOrderUp.Location = new System.Drawing.Point(1133, 321);
-            this.pathOrderUp.Margin = new System.Windows.Forms.Padding(0);
-            this.pathOrderUp.Name = "pathOrderUp";
-            this.pathOrderUp.Rotation = 180D;
-            this.pathOrderUp.Size = new System.Drawing.Size(47, 30);
-            this.pathOrderUp.TabIndex = 44;
-            this.TestTooltip.SetToolTip(this.pathOrderUp, "Move path order up");
-            this.pathOrderUp.UseVisualStyleBackColor = false;
-            this.pathOrderUp.Click += new System.EventHandler(this.pathOrderUp_Click);
-            // 
             // MotionProfiler
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1285, 812);
             this.Controls.Add(this.iconButton1);
@@ -1311,12 +1284,10 @@
             this.Controls.Add(this.iconButton2);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.reverseButton);
-            this.Controls.Add(this.infoButton);
             this.Controls.Add(this.mirrorPathButton);
             this.Controls.Add(this.deletePointButton);
             this.Controls.Add(this.shiftPathButton);
             this.Controls.Add(this.duplicateProfileButton);
-            this.Controls.Add(this.defaultsButton);
             this.Controls.Add(this.editPathButton);
             this.Controls.Add(this.saveAllButton);
             this.Controls.Add(this.saveFileButton);
@@ -1363,8 +1334,8 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -1400,7 +1371,6 @@
         private System.Windows.Forms.Button saveFileButton;
         private System.Windows.Forms.Button saveAllButton;
         private FontAwesome.Sharp.IconButton editPathButton;
-        private System.Windows.Forms.Button defaultsButton;
         private System.Windows.Forms.ToolTip TestTooltip;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
@@ -1409,7 +1379,6 @@
         private FontAwesome.Sharp.IconButton shiftPathButton;
         private FontAwesome.Sharp.IconButton deletePointButton;
         private FontAwesome.Sharp.IconButton mirrorPathButton;
-        private FontAwesome.Sharp.IconButton infoButton;
         private FontAwesome.Sharp.IconButton reverseButton;
         private System.Windows.Forms.TabPage Data;
         private System.Windows.Forms.DataVisualization.Charting.Chart kinematicsChart;
@@ -1450,6 +1419,7 @@
         private FontAwesome.Sharp.IconButton iconButton1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn PathTime;
+        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
     }
 }
 

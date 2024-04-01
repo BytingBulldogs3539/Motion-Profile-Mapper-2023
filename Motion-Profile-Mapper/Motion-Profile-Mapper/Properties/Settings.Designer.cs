@@ -169,7 +169,7 @@ namespace MotionProfileMapper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2.5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public double MaxCen {
             get {
                 return ((double)(this["MaxCen"]));
@@ -248,6 +248,30 @@ namespace MotionProfileMapper.Properties {
             }
             set {
                 this["autoCheckForUpdates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double InVel {
+            get {
+                return ((double)(this["InVel"]));
+            }
+            set {
+                this["InVel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double OutVel {
+            get {
+                return ((double)(this["OutVel"]));
+            }
+            set {
+                this["OutVel"] = value;
             }
         }
     }

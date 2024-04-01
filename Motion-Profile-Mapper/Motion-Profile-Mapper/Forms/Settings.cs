@@ -26,6 +26,15 @@ namespace MotionProfileMapper
             this.iniSavePath.Text = Properties.Settings.Default.iniSavePath;
             this.javaSavePath.Text = Properties.Settings.Default.javaSavePath;
             this.mpSavePath.Text = Properties.Settings.Default.mpSavePath;
+
+            this.defMaxVelInput.Text = Properties.Settings.Default.MaxVel.ToString();
+            this.defMaxAccInput.Text = Properties.Settings.Default.MaxAcc.ToString();
+            this.defMaxCenAccInput.Text = Properties.Settings.Default.MaxCen.ToString();
+            this.frameLengthInput.Text = Properties.Settings.Default.FrameLength.ToString();
+            this.frameWidthInput.Text = Properties.Settings.Default.FrameWidth.ToString();
+            this.defMaxRotVelInput.Text = Properties.Settings.Default.MaxRotVel.ToString();
+            this.defMaxRotAccInput.Text = Properties.Settings.Default.MaxRotAcc.ToString();
+            this.snapPathsCheckbox.Checked = Properties.Settings.Default.SnapNewPaths;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -48,8 +57,73 @@ namespace MotionProfileMapper
             Properties.Settings.Default.javaSavePath = javaSavePath.Text;
             Properties.Settings.Default.mpSavePath = mpSavePath.Text;
 
+            try
+            {
+                Properties.Settings.Default.MaxVel = double.Parse(defMaxVelInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            try
+            {
+                Properties.Settings.Default.FrameLength = double.Parse(this.frameLengthInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                Properties.Settings.Default.FrameWidth = double.Parse(this.frameWidthInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                Properties.Settings.Default.MaxAcc = double.Parse(defMaxAccInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            try
+            {
+                Properties.Settings.Default.MaxCen = double.Parse(defMaxCenAccInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max centripetal  acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                Properties.Settings.Default.MaxRotVel = double.Parse(defMaxRotVelInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max rotational velocity must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                Properties.Settings.Default.MaxRotAcc = double.Parse(defMaxRotAccInput.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Max rotational acceleration must be a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Properties.Settings.Default.SnapNewPaths = snapPathsCheckbox.Checked;
             Properties.Settings.Default.Save();
 
             this.Close();

@@ -23,6 +23,11 @@ namespace MotionProfile.SegmentedProfile
         private double maxVel = MotionProfileMapper.Properties.Settings.Default.MaxVel;
         private double maxAcc = MotionProfileMapper.Properties.Settings.Default.MaxAcc;
         private double maxCen = MotionProfileMapper.Properties.Settings.Default.MaxCen;
+        private double inVel = MotionProfileMapper.Properties.Settings.Default.InVel;
+        private double outVel = MotionProfileMapper.Properties.Settings.Default.OutVel;
+
+
+
         List<double> cpdistances = new List<double>();
         private bool isSpline = false;
         public SplinePath path = new SplinePath();
@@ -61,6 +66,16 @@ namespace MotionProfile.SegmentedProfile
             this.maxAcc = (double)pathJSON["maxAcceleration"];
             try
             {
+                this.inVel = (double)pathJSON["inVelocity"];
+            }
+            catch { }
+            try
+            {
+                this.outVel = (double)pathJSON["outVelocity"];
+            }
+            catch{ }
+            try
+            {
                 this.maxCen = (double)pathJSON["maxCentripetalAcceleration"];
             }
             catch
@@ -97,6 +112,8 @@ namespace MotionProfile.SegmentedProfile
             this.maxVel = other.maxVel;
             this.maxAcc = other.maxAcc;
             this.maxCen = other.maxCen;
+            this.inVel = other.inVel;
+            this.outVel = other.outVel;
 
             foreach (ControlPoint point in other.controlPoints)
             {
@@ -213,7 +230,7 @@ namespace MotionProfile.SegmentedProfile
 
         public void generate(bool quickGen = false)
         {
-            double timeSample = .05;
+            double timeSample = 0.05;
             double sampleDistance = 0.05;
             if (quickGen)
             {
@@ -224,6 +241,9 @@ namespace MotionProfile.SegmentedProfile
             if (controlPoints.Count < 2)
                 return;
 
+            TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
+
+
             if (isSpline)
             {
                 pointList.Clear();
@@ -231,23 +251,11 @@ namespace MotionProfile.SegmentedProfile
                 length = path.getLength();
 
                 cpdistances = path.getControlPointDistances();
-
-                TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
-
-                gen = new VelocityGeneration(this, constraints, sampleDistance, 0, 0);
-
-
-                for (double time = 0; time < gen.getDuration(); time += timeSample)
-                {
-                    State s = gen.calculate(time);
-
-                    pointList.Add(s);
-                }
             }
+
             else
             {
                 pointList.Clear();
-
                 length = 0;
                 List<double> distances = new List<double>();
 
@@ -273,16 +281,13 @@ namespace MotionProfile.SegmentedProfile
                 xsMap = Interpolate.Linear(distances, xs);
                 ysMap = Interpolate.Linear(distances, ys);
 
-                TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
+            }
+            gen = new VelocityGeneration(this, constraints, sampleDistance, this.inVel, this.outVel);
+            for (double time = 0; time < gen.getDuration(); time += timeSample)
+            {
+                State s = gen.calculate(time);
 
-                gen = new VelocityGeneration(this, constraints, sampleDistance, 0, 0);
-
-                for (double time = 0; time < gen.getDuration(); time += timeSample)
-                {
-                    State s = gen.calculate(time);
-
-                    pointList.Add(s);
-                }
+                pointList.Add(s);
             }
         }
 
@@ -427,6 +432,7 @@ namespace MotionProfile.SegmentedProfile
         static double TOL = 0.0000001;
         private double circleFromPoints(SplinePoint p1, SplinePoint p2, SplinePoint p3)
         {
+
             double offset = Math.Pow(p2.X, 2) + Math.Pow(p2.Y, 2);
             double bc = (Math.Pow(p1.X, 2) + Math.Pow(p1.Y, 2) - offset) / 2.0;
             double cd = (offset - Math.Pow(p3.X, 2) - Math.Pow(p3.Y, 2)) / 2.0;
@@ -456,12 +462,13 @@ namespace MotionProfile.SegmentedProfile
 
         public JObject toJSON()
         {
-
             JObject pathJSON = new JObject();
             pathJSON["name"] = this.name;
             pathJSON["id"] = this.id;
             pathJSON["isSpline"] = this.isSpline;
             pathJSON["maxVelocity"] = this.maxVel;
+            pathJSON["inVelocity"] = this.inVel;
+            pathJSON["outVelocity"] = this.outVel;
             pathJSON["maxAcceleration"] = this.maxAcc;
             pathJSON["maxCentripetalAcceleration"] = this.maxCen;
             pathJSON["snapToPrevious"] = this.snapToPrevious;
@@ -517,9 +524,10 @@ namespace MotionProfile.SegmentedProfile
         public string toTxt()
         {
             this.generate();
+            string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen} {this.inVel} {this.outVel}\n";
+
             if (isSpline)
             {
-                string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen}\n";
                 if (pointList.Count == 0)
                 {
                     MessageBox.Show("Error no points to export.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -539,7 +547,6 @@ namespace MotionProfile.SegmentedProfile
             }
             else
             {
-                string pathTxt = $"{this.maxVel} {this.maxAcc} {this.maxCen}\n";
                 foreach (ControlPoint point in this.controlPoints)
                 {
                     pathTxt += point.toTxt();
@@ -550,11 +557,13 @@ namespace MotionProfile.SegmentedProfile
 
         }
 
-        public void updateAll(string name, bool snapToPrevious, double vel, double acc, double cen)
+        public void updateAll(string name, bool snapToPrevious, double vel, double inVel, double outVel, double acc, double cen)
         {
-            if (this.name != name || this.snapToPrevious != snapToPrevious || this.maxVel != vel || this.MaxAcc != acc || this.maxCen != cen)
+            if (this.name != name || this.snapToPrevious != snapToPrevious || this.maxVel != vel || this.inVel != inVel || this.outVel != outVel || this.MaxAcc != acc || this.maxCen != cen)
                 newEdit("Path Update Settings");
             this.maxVel = vel;
+            this.inVel = inVel;
+            this.outVel = outVel;
             this.maxAcc = acc;
             this.maxCen = cen;
             this.name = name;
@@ -622,6 +631,36 @@ namespace MotionProfile.SegmentedProfile
                 {
                     newEdit("Path Max Vel Change");
                     this.maxVel = value;
+                }
+            }
+        }
+        public double InVel
+        {
+            get
+            {
+                return this.inVel;
+            }
+            set
+            {
+                if (this.inVel != value)
+                {
+                    newEdit("Path In Vel Change");
+                    this.inVel = value;
+                }
+            }
+        }
+        public double OutVel
+        {
+            get
+            {
+                return this.outVel;
+            }
+            set
+            {
+                if (this.outVel != value)
+                {
+                    newEdit("Path Out Vel Change");
+                    this.outVel = value;
                 }
             }
         }

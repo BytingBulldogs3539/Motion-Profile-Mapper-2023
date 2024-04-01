@@ -21,6 +21,8 @@ namespace MotionProfileMapper.Forms
             this.pathMaxVelInput.Text = path.MaxVel.ToString();
             this.pathMaxAccInput.Text = path.MaxAcc.ToString();
             this.pathMaxCenAccInput.Text = path.MaxCen.ToString();
+            this.pathInVelInput.Text = path.InVel.ToString();
+            this.pathOutVelInput.Text = path.OutVel.ToString();
             this.path = path;
             this.Text = path.Name + " Settings";
             this.pathNameInput.Text = path.Name;
@@ -35,17 +37,21 @@ namespace MotionProfileMapper.Forms
             double maxvel;
             double maxacc;
             double maxcen;
+            double invel;
+            double outvel;
             bool a = double.TryParse(pathMaxVelInput.Text, out maxvel);
             bool b = double.TryParse(pathMaxAccInput.Text, out maxacc);
             bool c = double.TryParse(pathMaxCenAccInput.Text, out maxcen);
+            bool d = double.TryParse(pathOutVelInput.Text, out outvel);
+            bool f = double.TryParse(pathInVelInput.Text, out invel);
 
-            if (!a || !b || !c)
+            if (!a || !b || !c || !d || !f)
             {
                 MessageBox.Show("Incorrect Data Types", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            this.path.updateAll(this.pathNameInput.Text, this.snapToPrevBox.Checked,maxvel,maxacc,maxcen);
+            this.path.updateAll(this.pathNameInput.Text, this.snapToPrevBox.Checked, maxvel, invel, outvel, maxacc, maxcen);
            
             //this.pathTableCell.Value = this.path.Name;
 

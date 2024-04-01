@@ -346,15 +346,15 @@
                 double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
                 double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
-                placingPoint.quickChangeRotation((int)(Math.Atan2(x - placingPoint.X, y - placingPoint.Y) * 180 / Math.PI));
+                placingPoint.quickChangeRotation((int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI));
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
 
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.Clear();
-                double x1 = (double)(placingPoint.X + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
-                double y1 = (double)(placingPoint.Y + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
+                double x1 = (double)(placingPoint.X + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
+                double y1 = (double)(placingPoint.Y + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x1, y1);
-                double x2 = (double)(placingPoint.X + 0.600 * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
-                double y2 = (double)(placingPoint.Y + 0.600 * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
+                double x2 = (double)(placingPoint.X + 0.600 * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
+                double y2 = (double)(placingPoint.Y + 0.600 * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x2, y2);
             }
         }
@@ -1046,7 +1046,7 @@
 
             PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.Paths.IndexOf(selectedPath)].Cells[0]);
             settings.ShowDialog();
-            DrawPath(selectedPath, false);
+            UpdateField();
         }
 
         public void updateEditTime(Profile p)
@@ -1147,13 +1147,6 @@
             }
 
             Cursor = Cursors.Default;
-        }
-
-        private void defaultsButton_Click(object sender, EventArgs e)
-        {
-            Forms.Defaults defaults = new Forms.Defaults();
-            defaults.ShowDialog();
-            UpdateField();
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
@@ -1447,6 +1440,18 @@
 
 
             timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
+        }
+
+        private void MotionProfiler_TabChange(object sender, EventArgs e)
+        {
+            // Stop any point placements
+            if(placingPoint != null)
+            {
+                placingPoint = null;
+                ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
+                UpdateField();
+            }
+            this.MotionProfiler_Resize(sender, e);
         }
 
         private void MotionProfiler_Resize(object sender, EventArgs e)
