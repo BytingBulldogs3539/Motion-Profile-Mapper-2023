@@ -14,7 +14,11 @@ namespace MotionProfileMapper.VelocityGenerate
         private readonly double duration;
         private double[] pathStateStartTimes;
 
-
+        public VelocityGeneration()
+        {
+            duration = 0;
+            pathStateStartTimes = null;
+        }
 
         public VelocityGeneration(ProfilePath path, TrajectoryConstraint[] trajectoryConstraints, double sampleDistance,
                       double trajectoryStartingVelocity, double trajectoryEndingVelocity)

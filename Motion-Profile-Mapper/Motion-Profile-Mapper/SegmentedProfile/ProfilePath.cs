@@ -31,7 +31,7 @@ namespace MotionProfile.SegmentedProfile
         List<double> cpdistances = new List<double>();
         private bool isSpline = false;
         public SplinePath path = new SplinePath();
-        public VelocityGeneration gen = null;
+        public VelocityGeneration gen = new VelocityGeneration();
 
         public IInterpolation xsMap = null;
         public IInterpolation ysMap = null;
@@ -238,15 +238,23 @@ namespace MotionProfile.SegmentedProfile
                 sampleDistance = 0.2;
             }
 
+            gen = new VelocityGeneration();
+            length = 0.0;
+            pointList.Clear();
+            cpdistances.Clear();
+
             if (controlPoints.Count < 2)
+            {
+                cpdistances.Add(0.0);
                 return;
+            }
 
             TrajectoryConstraint[] constraints = { new MaxAccelerationConstraint(this.maxAcc), new MaxVelocityConstraint(this.maxVel), new CentripetalAccelerationConstraint(this.maxCen) };
 
 
             if (isSpline)
             {
-                pointList.Clear();
+                
                 path.GenSpline(this.controlPoints);
                 length = path.getLength();
 
@@ -255,13 +263,11 @@ namespace MotionProfile.SegmentedProfile
 
             else
             {
-                pointList.Clear();
                 length = 0;
                 List<double> distances = new List<double>();
 
                 List<double> xs = new List<double>();
                 List<double> ys = new List<double>();
-                cpdistances.Clear();
 
                 cpdistances.Add(0.0);
                 for (int i = 0; i < controlPoints.Count - 1; i++)

@@ -46,10 +46,10 @@ namespace MotionProfileMapper.Forms
             this.label9.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label9.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(286, 19);
+            this.label9.Location = new System.Drawing.Point(214, 15);
             this.label9.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(51, 14);
+            this.label9.Size = new System.Drawing.Size(44, 12);
             this.label9.TabIndex = 64;
             this.label9.Text = "meters";
             // 
@@ -59,10 +59,10 @@ namespace MotionProfileMapper.Forms
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
             this.label10.Font = new System.Drawing.Font("Verdana", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(286, 45);
+            this.label10.Location = new System.Drawing.Point(214, 37);
             this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(51, 14);
+            this.label10.Size = new System.Drawing.Size(44, 12);
             this.label10.TabIndex = 63;
             this.label10.Text = "meters";
             // 
@@ -71,10 +71,9 @@ namespace MotionProfileMapper.Forms
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(16, 44);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(12, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 17);
+            this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 62;
             this.label2.Text = "Vertical shift";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -84,10 +83,9 @@ namespace MotionProfileMapper.Forms
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(16, 18);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 17);
+            this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 61;
             this.label1.Text = "Horizontal shift";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -98,10 +96,9 @@ namespace MotionProfileMapper.Forms
             this.dyInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.dyInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dyInput.ForeColor = System.Drawing.Color.Black;
-            this.dyInput.Location = new System.Drawing.Point(148, 41);
-            this.dyInput.Margin = new System.Windows.Forms.Padding(4);
+            this.dyInput.Location = new System.Drawing.Point(111, 33);
             this.dyInput.Name = "dyInput";
-            this.dyInput.Size = new System.Drawing.Size(133, 23);
+            this.dyInput.Size = new System.Drawing.Size(100, 20);
             this.dyInput.TabIndex = 60;
             this.dyInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.dyInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dyInput_KeyPress);
@@ -112,10 +109,9 @@ namespace MotionProfileMapper.Forms
             this.dxInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.dxInput.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dxInput.ForeColor = System.Drawing.Color.Black;
-            this.dxInput.Location = new System.Drawing.Point(148, 14);
-            this.dxInput.Margin = new System.Windows.Forms.Padding(4);
+            this.dxInput.Location = new System.Drawing.Point(111, 11);
             this.dxInput.Name = "dxInput";
-            this.dxInput.Size = new System.Drawing.Size(133, 23);
+            this.dxInput.Size = new System.Drawing.Size(100, 20);
             this.dxInput.TabIndex = 59;
             this.dxInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.dxInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dxInput_KeyPress);
@@ -127,10 +123,9 @@ namespace MotionProfileMapper.Forms
             this.cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancel.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancel.ForeColor = System.Drawing.Color.Black;
-            this.cancel.Location = new System.Drawing.Point(88, 76);
-            this.cancel.Margin = new System.Windows.Forms.Padding(4);
+            this.cancel.Location = new System.Drawing.Point(66, 62);
             this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(120, 31);
+            this.cancel.Size = new System.Drawing.Size(90, 25);
             this.cancel.TabIndex = 66;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = false;
@@ -143,10 +138,9 @@ namespace MotionProfileMapper.Forms
             this.shiftButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shiftButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shiftButton.ForeColor = System.Drawing.Color.Black;
-            this.shiftButton.Location = new System.Drawing.Point(216, 76);
-            this.shiftButton.Margin = new System.Windows.Forms.Padding(4);
+            this.shiftButton.Location = new System.Drawing.Point(162, 62);
             this.shiftButton.Name = "shiftButton";
-            this.shiftButton.Size = new System.Drawing.Size(120, 31);
+            this.shiftButton.Size = new System.Drawing.Size(90, 25);
             this.shiftButton.TabIndex = 65;
             this.shiftButton.Text = "Shift";
             this.shiftButton.UseVisualStyleBackColor = false;
@@ -154,10 +148,10 @@ namespace MotionProfileMapper.Forms
             // 
             // ShiftPath
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(354, 119);
+            this.ClientSize = new System.Drawing.Size(266, 97);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.shiftButton);
             this.Controls.Add(this.label9);
@@ -167,6 +161,7 @@ namespace MotionProfileMapper.Forms
             this.Controls.Add(this.dyInput);
             this.Controls.Add(this.dxInput);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ShiftPath";
             this.Text = "Shift Path";
             this.ResumeLayout(false);

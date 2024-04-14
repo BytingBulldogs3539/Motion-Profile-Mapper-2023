@@ -107,7 +107,7 @@
             this.ipaddress.ForeColor = System.Drawing.Color.Black;
             this.ipaddress.Location = new System.Drawing.Point(133, 38);
             this.ipaddress.Name = "ipaddress";
-            this.ipaddress.Size = new System.Drawing.Size(316, 23);
+            this.ipaddress.Size = new System.Drawing.Size(316, 20);
             this.ipaddress.TabIndex = 1;
             // 
             // username
@@ -120,7 +120,7 @@
             this.username.ForeColor = System.Drawing.Color.Black;
             this.username.Location = new System.Drawing.Point(133, 65);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(316, 23);
+            this.username.Size = new System.Drawing.Size(316, 20);
             this.username.TabIndex = 2;
             // 
             // password
@@ -133,7 +133,7 @@
             this.password.ForeColor = System.Drawing.Color.Black;
             this.password.Location = new System.Drawing.Point(133, 92);
             this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(316, 23);
+            this.password.Size = new System.Drawing.Size(316, 20);
             this.password.TabIndex = 3;
             // 
             // riopath
@@ -146,7 +146,7 @@
             this.riopath.ForeColor = System.Drawing.Color.Black;
             this.riopath.Location = new System.Drawing.Point(133, 119);
             this.riopath.Name = "riopath";
-            this.riopath.Size = new System.Drawing.Size(316, 23);
+            this.riopath.Size = new System.Drawing.Size(316, 20);
             this.riopath.TabIndex = 4;
             // 
             // label1
@@ -156,7 +156,7 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(14, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 17);
+            this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "IP Address";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -168,7 +168,7 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(14, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 17);
+            this.label2.Size = new System.Drawing.Size(65, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Username";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -180,7 +180,7 @@
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(14, 94);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 17);
+            this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Password";
             // 
@@ -189,7 +189,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(32, 100);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 17);
+            this.label4.Size = new System.Drawing.Size(0, 13);
             this.label4.TabIndex = 8;
             // 
             // label5
@@ -199,7 +199,7 @@
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(14, 121);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 17);
+            this.label5.Size = new System.Drawing.Size(55, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "File Path";
             // 
@@ -239,7 +239,7 @@
             this.label7.ForeColor = System.Drawing.Color.Black;
             this.label7.Location = new System.Drawing.Point(14, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(64, 17);
+            this.label7.Size = new System.Drawing.Size(54, 13);
             this.label7.TabIndex = 13;
             this.label7.Text = "INI Path";
             // 
@@ -253,7 +253,7 @@
             this.iniPath.ForeColor = System.Drawing.Color.Black;
             this.iniPath.Location = new System.Drawing.Point(133, 148);
             this.iniPath.Name = "iniPath";
-            this.iniPath.Size = new System.Drawing.Size(316, 23);
+            this.iniPath.Size = new System.Drawing.Size(316, 20);
             this.iniPath.TabIndex = 12;
             // 
             // checkBox1
@@ -264,7 +264,7 @@
             this.checkBox1.ForeColor = System.Drawing.Color.Black;
             this.checkBox1.Location = new System.Drawing.Point(283, 177);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(166, 21);
+            this.checkBox1.Size = new System.Drawing.Size(127, 17);
             this.checkBox1.TabIndex = 14;
             this.checkBox1.Text = "Default alliance is red";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -289,7 +289,7 @@
             this.label9.ForeColor = System.Drawing.Color.Black;
             this.label9.Location = new System.Drawing.Point(14, 228);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(103, 17);
+            this.label9.Size = new System.Drawing.Size(87, 13);
             this.label9.TabIndex = 17;
             this.label9.Text = "INI Save Path";
             // 
@@ -303,7 +303,7 @@
             this.iniSavePath.ForeColor = System.Drawing.Color.Black;
             this.iniSavePath.Location = new System.Drawing.Point(133, 226);
             this.iniSavePath.Name = "iniSavePath";
-            this.iniSavePath.Size = new System.Drawing.Size(281, 23);
+            this.iniSavePath.Size = new System.Drawing.Size(281, 20);
             this.iniSavePath.TabIndex = 16;
             // 
             // label10
@@ -313,7 +313,7 @@
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.Location = new System.Drawing.Point(14, 257);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(113, 17);
+            this.label10.Size = new System.Drawing.Size(95, 13);
             this.label10.TabIndex = 19;
             this.label10.Text = "Java Save Path";
             // 
@@ -327,7 +327,7 @@
             this.javaSavePath.ForeColor = System.Drawing.Color.Black;
             this.javaSavePath.Location = new System.Drawing.Point(133, 255);
             this.javaSavePath.Name = "javaSavePath";
-            this.javaSavePath.Size = new System.Drawing.Size(281, 23);
+            this.javaSavePath.Size = new System.Drawing.Size(281, 20);
             this.javaSavePath.TabIndex = 18;
             // 
             // iconButton1
@@ -379,7 +379,7 @@
             this.label11.ForeColor = System.Drawing.Color.Black;
             this.label11.Location = new System.Drawing.Point(14, 286);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(102, 17);
+            this.label11.Size = new System.Drawing.Size(85, 13);
             this.label11.TabIndex = 23;
             this.label11.Text = "MP Save Path";
             // 
@@ -393,7 +393,7 @@
             this.mpSavePath.ForeColor = System.Drawing.Color.Black;
             this.mpSavePath.Location = new System.Drawing.Point(133, 284);
             this.mpSavePath.Name = "mpSavePath";
-            this.mpSavePath.Size = new System.Drawing.Size(281, 23);
+            this.mpSavePath.Size = new System.Drawing.Size(281, 20);
             this.mpSavePath.TabIndex = 22;
             // 
             // checkBox2
@@ -404,7 +404,7 @@
             this.checkBox2.ForeColor = System.Drawing.Color.Black;
             this.checkBox2.Location = new System.Drawing.Point(273, 313);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(176, 21);
+            this.checkBox2.Size = new System.Drawing.Size(137, 17);
             this.checkBox2.TabIndex = 25;
             this.checkBox2.Text = "Auto check for updates";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -419,7 +419,7 @@
             this.label16.Location = new System.Drawing.Point(424, 502);
             this.label16.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(18, 14);
+            this.label16.Size = new System.Drawing.Size(16, 12);
             this.label16.TabIndex = 96;
             this.label16.Text = "m";
             // 
@@ -433,7 +433,7 @@
             this.label15.Location = new System.Drawing.Point(424, 471);
             this.label15.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(18, 14);
+            this.label15.Size = new System.Drawing.Size(16, 12);
             this.label15.TabIndex = 95;
             this.label15.Text = "m";
             // 
@@ -448,7 +448,7 @@
             this.frameLengthInput.Location = new System.Drawing.Point(234, 499);
             this.frameLengthInput.Margin = new System.Windows.Forms.Padding(4);
             this.frameLengthInput.Name = "frameLengthInput";
-            this.frameLengthInput.Size = new System.Drawing.Size(185, 23);
+            this.frameLengthInput.Size = new System.Drawing.Size(185, 20);
             this.frameLengthInput.TabIndex = 94;
             this.frameLengthInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -460,7 +460,7 @@
             this.label14.Location = new System.Drawing.Point(14, 501);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(105, 17);
+            this.label14.Size = new System.Drawing.Size(85, 13);
             this.label14.TabIndex = 93;
             this.label14.Text = "Frame Length";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -476,7 +476,7 @@
             this.frameWidthInput.Location = new System.Drawing.Point(234, 468);
             this.frameWidthInput.Margin = new System.Windows.Forms.Padding(4);
             this.frameWidthInput.Name = "frameWidthInput";
-            this.frameWidthInput.Size = new System.Drawing.Size(185, 23);
+            this.frameWidthInput.Size = new System.Drawing.Size(185, 20);
             this.frameWidthInput.TabIndex = 92;
             this.frameWidthInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -488,7 +488,7 @@
             this.label13.Location = new System.Drawing.Point(14, 470);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(98, 17);
+            this.label13.Size = new System.Drawing.Size(79, 13);
             this.label13.TabIndex = 91;
             this.label13.Text = "Frame Width";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -503,7 +503,7 @@
             this.label12.Location = new System.Drawing.Point(424, 440);
             this.label12.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 14);
+            this.label12.Size = new System.Drawing.Size(32, 12);
             this.label12.TabIndex = 90;
             this.label12.Text = "m/s²";
             // 
@@ -515,7 +515,7 @@
             this.label17.Location = new System.Drawing.Point(14, 439);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(206, 17);
+            this.label17.Size = new System.Drawing.Size(171, 13);
             this.label17.TabIndex = 89;
             this.label17.Text = "Max Centripetal Acceleration";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -531,7 +531,7 @@
             this.defMaxCenAccInput.Location = new System.Drawing.Point(234, 437);
             this.defMaxCenAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxCenAccInput.Name = "defMaxCenAccInput";
-            this.defMaxCenAccInput.Size = new System.Drawing.Size(184, 23);
+            this.defMaxCenAccInput.Size = new System.Drawing.Size(184, 20);
             this.defMaxCenAccInput.TabIndex = 88;
             this.defMaxCenAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -545,7 +545,7 @@
             this.label18.Location = new System.Drawing.Point(424, 565);
             this.label18.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(30, 14);
+            this.label18.Size = new System.Drawing.Size(27, 12);
             this.label18.TabIndex = 86;
             this.label18.Text = "m/s";
             // 
@@ -559,7 +559,7 @@
             this.label19.Location = new System.Drawing.Point(424, 534);
             this.label19.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(37, 14);
+            this.label19.Size = new System.Drawing.Size(32, 12);
             this.label19.TabIndex = 85;
             this.label19.Text = "m/s²";
             // 
@@ -573,7 +573,7 @@
             this.label20.Location = new System.Drawing.Point(424, 380);
             this.label20.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(30, 14);
+            this.label20.Size = new System.Drawing.Size(27, 12);
             this.label20.TabIndex = 84;
             this.label20.Text = "m/s";
             // 
@@ -587,7 +587,7 @@
             this.label21.Location = new System.Drawing.Point(424, 410);
             this.label21.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(37, 14);
+            this.label21.Size = new System.Drawing.Size(32, 12);
             this.label21.TabIndex = 83;
             this.label21.Text = "m/s²";
             // 
@@ -613,7 +613,7 @@
             this.label23.Location = new System.Drawing.Point(14, 533);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(201, 17);
+            this.label23.Size = new System.Drawing.Size(165, 13);
             this.label23.TabIndex = 80;
             this.label23.Text = "Max Rotational Acceleration";
             // 
@@ -623,7 +623,7 @@
             this.label24.Location = new System.Drawing.Point(38, 466);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(0, 17);
+            this.label24.Size = new System.Drawing.Size(0, 13);
             this.label24.TabIndex = 79;
             // 
             // label25
@@ -634,7 +634,7 @@
             this.label25.Location = new System.Drawing.Point(14, 564);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(170, 17);
+            this.label25.Size = new System.Drawing.Size(139, 13);
             this.label25.TabIndex = 78;
             this.label25.Text = "Max Rotational Velocity";
             // 
@@ -646,7 +646,7 @@
             this.label26.Location = new System.Drawing.Point(14, 409);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(125, 17);
+            this.label26.Size = new System.Drawing.Size(104, 13);
             this.label26.TabIndex = 77;
             this.label26.Text = "Max Acceleration";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -659,7 +659,7 @@
             this.label27.Location = new System.Drawing.Point(14, 379);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(94, 17);
+            this.label27.Size = new System.Drawing.Size(78, 13);
             this.label27.TabIndex = 76;
             this.label27.Text = "Max Velocity";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -676,7 +676,7 @@
             this.defMaxRotAccInput.Location = new System.Drawing.Point(234, 530);
             this.defMaxRotAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxRotAccInput.Name = "defMaxRotAccInput";
-            this.defMaxRotAccInput.Size = new System.Drawing.Size(185, 23);
+            this.defMaxRotAccInput.Size = new System.Drawing.Size(185, 20);
             this.defMaxRotAccInput.TabIndex = 75;
             this.defMaxRotAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -692,7 +692,7 @@
             this.defMaxRotVelInput.Location = new System.Drawing.Point(234, 561);
             this.defMaxRotVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxRotVelInput.Name = "defMaxRotVelInput";
-            this.defMaxRotVelInput.Size = new System.Drawing.Size(185, 23);
+            this.defMaxRotVelInput.Size = new System.Drawing.Size(185, 20);
             this.defMaxRotVelInput.TabIndex = 74;
             this.defMaxRotVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -707,7 +707,7 @@
             this.defMaxAccInput.Location = new System.Drawing.Point(234, 406);
             this.defMaxAccInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxAccInput.Name = "defMaxAccInput";
-            this.defMaxAccInput.Size = new System.Drawing.Size(184, 23);
+            this.defMaxAccInput.Size = new System.Drawing.Size(184, 20);
             this.defMaxAccInput.TabIndex = 73;
             this.defMaxAccInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -722,7 +722,7 @@
             this.defMaxVelInput.Location = new System.Drawing.Point(234, 375);
             this.defMaxVelInput.Margin = new System.Windows.Forms.Padding(4);
             this.defMaxVelInput.Name = "defMaxVelInput";
-            this.defMaxVelInput.Size = new System.Drawing.Size(184, 23);
+            this.defMaxVelInput.Size = new System.Drawing.Size(184, 20);
             this.defMaxVelInput.TabIndex = 72;
             this.defMaxVelInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -732,19 +732,19 @@
             this.snapPathsCheckbox.AutoSize = true;
             this.snapPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.2F);
             this.snapPathsCheckbox.ForeColor = System.Drawing.Color.Black;
-            this.snapPathsCheckbox.Location = new System.Drawing.Point(324, 591);
+            this.snapPathsCheckbox.Location = new System.Drawing.Point(344, 591);
             this.snapPathsCheckbox.Name = "snapPathsCheckbox";
-            this.snapPathsCheckbox.Size = new System.Drawing.Size(132, 18);
+            this.snapPathsCheckbox.Size = new System.Drawing.Size(112, 16);
             this.snapPathsCheckbox.TabIndex = 87;
             this.snapPathsCheckbox.Text = "Snap new paths";
             this.snapPathsCheckbox.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(478, 661);
+            this.ClientSize = new System.Drawing.Size(480, 669);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.frameLengthInput);
