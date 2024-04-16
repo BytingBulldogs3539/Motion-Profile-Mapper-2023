@@ -7,6 +7,7 @@
     "windows": "react-native run-windows"
   },
   "dependencies": {
+    "@react-native/metro-config": "^0.75.0-main",
     "react-native": "0.73.6",
     "react-native-windows": "0.73.11"
   },
