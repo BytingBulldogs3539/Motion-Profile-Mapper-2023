@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+#main, .menu, #page {
+  height: 100%;
+}
+
+#main {
+  display: flex;
+  flex-direction: row;
+}
+
+#page {
+  flex-grow: 1;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

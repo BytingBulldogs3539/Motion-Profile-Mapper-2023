@@ -1,26 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+import { Icon, Menu, MenuItem, Tab } from 'semantic-ui-react';
+import MotionProfiler from './Pages/MotionProfiler';
+import Home from './Pages/Home';
+
+export default function App() {
+  const [darkMode, setDarkMode] = useState(true);
+  const [menuSelection, setMenuSelection] = useState('home');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div id='main'>
+      <Menu icon vertical secondary pointing>
+        <MenuItem
+          name='home'
+          active={menuSelection === 'home'}
+          onClick={() => setMenuSelection('home')}
         >
-          Learn React
-        </a>
-      </header>
+          <Icon name='home' />
+        </MenuItem>
+
+        <MenuItem
+          name='motion profiler'
+          active={menuSelection === 'motion profiler'}
+          onClick={() => setMenuSelection('motion profiler')}
+        >
+          <Icon name='map' />
+        </MenuItem>
+
+        <MenuItem
+          name='constants'
+          active={menuSelection === 'constants'}
+          onClick={() => setMenuSelection('constants')}
+        >
+          <Icon name='key' />
+        </MenuItem>
+      </Menu>
+      {menuSelection === 'home' && <Home darkMode={darkMode} />}
+      {menuSelection === 'motion profiler' && <MotionProfiler darkMode={darkMode} />}
     </div>
   );
 }
-
-export default App;
