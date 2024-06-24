@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    public class Translation2d
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    public class Translation2d {
         private double m_x;
         private double m_y;
 
         /** Constructs a Translation2d with X and Y components equal to zero. */
-        public Translation2d()
-        {
+        public Translation2d() {
             m_x = 0.0;
             m_y = 0.0;
         }
@@ -25,8 +22,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param y The y component of the translation.
          */
 
-        public Translation2d(double x, double y)
-        {
+        public Translation2d(double x, double y) {
             m_x = x;
             m_y = y;
         }
@@ -38,8 +34,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param distance The distance from the origin to the end of the translation.
          * @param angle The angle between the x-axis and the translation vector.
          */
-        public Translation2d(double distance, Rotation2d angle)
-        {
+        public Translation2d(double distance, Rotation2d angle) {
             m_x = distance * angle.getCos();
             m_y = distance * angle.getSin();
         }
@@ -52,8 +47,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The translation to compute the distance to.
          * @return The distance between the two translations.
          */
-        public double getDistance(Translation2d other)
-        {
+        public double getDistance(Translation2d other) {
             return hypo(other.m_x - m_x, other.m_y - m_y);
         }
 
@@ -62,8 +56,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The X component of the translation.
          */
-        public double getX()
-        {
+        public double getX() {
             return m_x;
         }
 
@@ -72,8 +65,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The Y component of the translation.
          */
-        public double getY()
-        {
+        public double getY() {
             return m_y;
         }
 
@@ -82,8 +74,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The norm of the translation.
          */
-        public double getNorm()
-        {
+        public double getNorm() {
             return hypo(m_x, m_y);
         }
 
@@ -92,8 +83,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The angle of the translation
          */
-        public Rotation2d getAngle()
-        {
+        public Rotation2d getAngle() {
             return new Rotation2d(m_x, m_y);
         }
 
@@ -114,8 +104,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The rotation to rotate the translation by.
          * @return The new rotated translation.
          */
-        public Translation2d rotateBy(Rotation2d other)
-        {
+        public Translation2d rotateBy(Rotation2d other) {
             return new Translation2d(
                 m_x * other.getCos() - m_y * other.getSin(), m_x * other.getSin() + m_y * other.getCos());
         }
@@ -128,8 +117,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The translation to add.
          * @return The sum of the translations.
          */
-        public Translation2d plus(Translation2d other)
-        {
+        public Translation2d plus(Translation2d other) {
             return new Translation2d(m_x + other.m_x, m_y + other.m_y);
         }
 
@@ -141,8 +129,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The translation to subtract.
          * @return The difference between the two translations.
          */
-        public Translation2d minus(Translation2d other)
-        {
+        public Translation2d minus(Translation2d other) {
             return new Translation2d(m_x - other.m_x, m_y - other.m_y);
         }
 
@@ -152,8 +139,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The inverse of the current translation.
          */
-        public Translation2d unaryMinus()
-        {
+        public Translation2d unaryMinus() {
             return new Translation2d(-m_x, -m_y);
         }
 
@@ -165,8 +151,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar to multiply by.
          * @return The scaled translation.
          */
-        public Translation2d times(double scalar)
-        {
+        public Translation2d times(double scalar) {
             return new Translation2d(m_x * scalar, m_y * scalar);
         }
 
@@ -178,8 +163,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar to multiply by.
          * @return The reference to the new mutated object.
          */
-        public Translation2d div(double scalar)
-        {
+        public Translation2d div(double scalar) {
             return new Translation2d(m_x / scalar, m_y / scalar);
         }
 
@@ -196,8 +180,7 @@ namespace MotionProfileMapper.VelocityGenerate
             return Collections.min(translations, Comparator.comparing(this::getDistance));
         }*/
 
-        public String toString()
-        {
+        public String toString() {
             return String.Format("Translation2d(X: {0:0.00}, Y: {0:0.00})", m_x, m_y);
         }
 
@@ -207,30 +190,25 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param obj The other object.
          * @return Whether the two objects are equal or not.
          */
-        public bool equals(Object obj)
-        {
-            if (obj.GetType() == typeof(Translation2d))
-            {
-                return Math.Abs(((Translation2d)obj).m_x - m_x) < 1E-9
-                    && Math.Abs(((Translation2d)obj).m_y - m_y) < 1E-9;
+        public bool equals(Object obj) {
+            if (obj.GetType() == typeof(Translation2d)) {
+                return Math.Abs(( (Translation2d) obj ).m_x - m_x) < 1E-9
+                    && Math.Abs(( (Translation2d) obj ).m_y - m_y) < 1E-9;
             }
             return false;
         }
 
-        public double hypo(double x, double y)
-        {
+        public double hypo(double x, double y) {
             return Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
         }
-        public int hashCode()
-        {
+        public int hashCode() {
             int hash = 17;
             hash = hash * 31 + m_x.GetHashCode();
             hash = hash * 31 + m_y.GetHashCode();
             return hash;
         }
 
-        public Translation2d interpolate(Translation2d endValue, double t)
-        {
+        public Translation2d interpolate(Translation2d endValue, double t) {
             return new Translation2d(
                 MathUtil.interpolate(this.getX(), endValue.getX(), t),
                 MathUtil.interpolate(this.getY(), endValue.getY(), t));

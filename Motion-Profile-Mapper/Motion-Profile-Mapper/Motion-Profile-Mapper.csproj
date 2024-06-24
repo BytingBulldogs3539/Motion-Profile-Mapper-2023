@@ -133,12 +133,6 @@
     <Compile Include="Forms\PathSettings.Designer.cs">
       <DependentUpon>PathSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PoseVisualizer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PoseVisualizer.Designer.cs">
-      <DependentUpon>PoseVisualizer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Preview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,7 +164,6 @@
     <Compile Include="Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.cs" />
     <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,7 +183,6 @@
     <Compile Include="Spline\CubicSpline.cs" />
     <Compile Include="Spline\SplinePoint.cs" />
     <Compile Include="Spline\TriDiagonalMatrix.cs" />
-    <Compile Include="S_Curve.cs" />
     <Compile Include="Utilities\INI.cs" />
     <Compile Include="Utilities\INIVariable.cs" />
     <Compile Include="VelocityGenerate\CentripetalAccelerationConstraint.cs" />
@@ -206,7 +198,6 @@
     <Compile Include="VelocityGenerate\Translation2d.cs" />
     <Compile Include="VelocityGenerate\Units.cs" />
     <Compile Include="VelocityGenerate\VelocityGeneration.cs" />
-    <Compile Include="VelocityGenerator.cs" />
     <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,9 +217,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PathSettings.resx">
       <DependentUpon>PathSettings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PoseVisualizer.resx">
-      <DependentUpon>PoseVisualizer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Preview.resx">
       <DependentUpon>Preview.cs</DependentUpon>

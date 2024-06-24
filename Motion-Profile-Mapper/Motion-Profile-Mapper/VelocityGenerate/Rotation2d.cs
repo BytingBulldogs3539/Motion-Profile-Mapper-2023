@@ -4,17 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    public class Rotation2d
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    public class Rotation2d {
         private double m_value;
         private double m_cos;
         private double m_sin;
 
         /** Constructs a Rotation2d with a default angle of 0 degrees. */
-        public Rotation2d()
-        {
+        public Rotation2d() {
             m_value = 0.0;
             m_cos = 1.0;
             m_sin = 0.0;
@@ -25,8 +22,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @param value The value of the angle in radians.
          */
-        public Rotation2d(double value)
-        {
+        public Rotation2d(double value) {
             m_value = value;
             m_cos = Math.Cos(value);
             m_sin = Math.Sin(value);
@@ -38,16 +34,12 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param x The x component or cosine of the rotation.
          * @param y The y component or sine of the rotation.
          */
-        public Rotation2d(double x, double y)
-        {
+        public Rotation2d(double x, double y) {
             double magnitude = hypo(x, y);
-            if (magnitude > 1e-6)
-            {
+            if (magnitude > 1e-6) {
                 m_sin = y / magnitude;
                 m_cos = x / magnitude;
-            }
-            else
-            {
+            } else {
                 m_sin = 0.0;
                 m_cos = 1.0;
             }
@@ -60,8 +52,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param radians The value of the angle in radians.
          * @return The rotation object with the desired angle value.
          */
-        public static Rotation2d fromRadians(double radians)
-        {
+        public static Rotation2d fromRadians(double radians) {
             return new Rotation2d(radians);
         }
 
@@ -71,8 +62,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param degrees The value of the angle in degrees.
          * @return The rotation object with the desired angle value.
          */
-        public static Rotation2d fromDegrees(double degrees)
-        {
+        public static Rotation2d fromDegrees(double degrees) {
             return new Rotation2d(Units.degreesToRadians(degrees));
         }
 
@@ -82,8 +72,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param rotations The value of the angle in rotations.
          * @return The rotation object with the desired angle value.
          */
-        public static Rotation2d fromRotations(double rotations)
-        {
+        public static Rotation2d fromRotations(double rotations) {
             return new Rotation2d(Units.rotationsToRadians(rotations));
         }
 
@@ -96,8 +85,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The rotation to add.
          * @return The sum of the two rotations.
          */
-        public Rotation2d plus(Rotation2d other)
-        {
+        public Rotation2d plus(Rotation2d other) {
             return rotateBy(other);
         }
 
@@ -110,8 +98,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The rotation to subtract.
          * @return The difference between the two rotations.
          */
-        public Rotation2d minus(Rotation2d other)
-        {
+        public Rotation2d minus(Rotation2d other) {
             return rotateBy(other.unaryMinus());
         }
 
@@ -121,8 +108,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The inverse of the current rotation.
          */
-        public Rotation2d unaryMinus()
-        {
+        public Rotation2d unaryMinus() {
             return new Rotation2d(-m_value);
         }
 
@@ -132,8 +118,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar.
          * @return The new scaled Rotation2d.
          */
-        public Rotation2d times(double scalar)
-        {
+        public Rotation2d times(double scalar) {
             return new Rotation2d(m_value * scalar);
         }
 
@@ -143,8 +128,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar.
          * @return The new scaled Rotation2d.
          */
-        public Rotation2d div(double scalar)
-        {
+        public Rotation2d div(double scalar) {
             return times(1.0 / scalar);
         }
 
@@ -162,8 +146,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param other The rotation to rotate by.
          * @return The new rotated Rotation2d.
          */
-        public Rotation2d rotateBy(Rotation2d other)
-        {
+        public Rotation2d rotateBy(Rotation2d other) {
             return new Rotation2d(
                 m_cos * other.m_cos - m_sin * other.m_sin, m_cos * other.m_sin + m_sin * other.m_cos);
         }
@@ -174,8 +157,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @return The radian value of the Rotation2d.
          * @see edu.wpi.first.math.MathUtil#angleModulus(double) to constrain the angle within (-pi, pi]
          */
-        public double getRadians()
-        {
+        public double getRadians() {
             return m_value;
         }
 
@@ -186,8 +168,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @see edu.wpi.first.math.MathUtil#inputModulus(double, double, double) to constrain the angle
          *     within (-180, 180]
          */
-        public double getDegrees()
-        {
+        public double getDegrees() {
             return Units.radiansToDegrees(m_value);
         }
 
@@ -196,8 +177,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The number of rotations of the Rotation2d.
          */
-        public double getRotations()
-        {
+        public double getRotations() {
             return Units.radiansToRotations(m_value);
         }
 
@@ -206,8 +186,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The cosine of the Rotation2d.
          */
-        public double getCos()
-        {
+        public double getCos() {
             return m_cos;
         }
 
@@ -216,8 +195,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The sine of the Rotation2d.
          */
-        public double getSin()
-        {
+        public double getSin() {
             return m_sin;
         }
 
@@ -226,12 +204,10 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The tangent of the Rotation2d.
          */
-        public double getTan()
-        {
+        public double getTan() {
             return m_sin / m_cos;
         }
-        public String toString()
-        {
+        public String toString() {
             return String.Format("Rotation2d(Rads: {0:0.00}, Deg: {0:0.00})", m_value, Units.radiansToDegrees(m_value));
         }
 
@@ -241,28 +217,23 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param obj The other object.
          * @return Whether the two objects are equal or not.
          */
-        public bool equals(Object obj)
-        {
-            if (obj.GetType() == typeof(Rotation2d))
-            {
-                var other = (Rotation2d)obj;
+        public bool equals(Object obj) {
+            if (obj.GetType() == typeof(Rotation2d)) {
+                var other = (Rotation2d) obj;
                 return hypo(m_cos - other.m_cos, m_sin - other.m_sin) < 1E-9;
             }
             return false;
         }
 
-        public double hypo(double x, double y)
-        {
+        public double hypo(double x, double y) {
             return Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
         }
 
-        public int hashCode()
-        {
+        public int hashCode() {
             return m_value.GetHashCode();
         }
 
-        public Rotation2d interpolate(Rotation2d endValue, double t)
-        {
+        public Rotation2d interpolate(Rotation2d endValue, double t) {
             return plus(endValue.minus(this).times(MathUtil.clamp(t, 0, 1)));
         }
     }

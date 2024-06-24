@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    class MathUtil
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    class MathUtil {
 
         /**
          * Returns value clamped between low and high boundaries.
@@ -17,8 +15,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param high The higher boundary to which to clamp value.
          * @return The clamped value.
          */
-        public static int clamp(int value, int low, int high)
-        {
+        public static int clamp(int value, int low, int high) {
             return Math.Max(low, Math.Min(value, high));
         }
 
@@ -30,8 +27,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param high The higher boundary to which to clamp value.
          * @return The clamped value.
          */
-        public static double clamp(double value, double low, double high)
-        {
+        public static double clamp(double value, double low, double high) {
             return Math.Max(low, Math.Min(value, high));
         }
 
@@ -44,19 +40,15 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param maxMagnitude The maximum magnitude of the input. Can be infinite.
          * @return The value after the deadband is applied.
          */
-        public static double applyDeadband(double value, double deadband, double maxMagnitude)
-        {
-            if (Math.Abs(value) > deadband)
-            {
-                if (maxMagnitude / deadband > 1.0e12)
-                {
+        public static double applyDeadband(double value, double deadband, double maxMagnitude) {
+            if (Math.Abs(value) > deadband) {
+                if (maxMagnitude / deadband > 1.0e12) {
                     // If max magnitude is sufficiently large, the implementation encounters
                     // roundoff error.  Implementing the limiting behavior directly avoids
                     // the problem.
                     return value > 0.0 ? value - deadband : value + deadband;
                 }
-                if (value > 0.0)
-                {
+                if (value > 0.0) {
                     // Map deadband to 0 and map max to max.
                     //
                     // y - y₁ = m(x - x₁)
@@ -72,10 +64,8 @@ namespace MotionProfileMapper.VelocityGenerate
                     // y = (max - 0)/(max - deadband) (x - deadband) + 0
                     // y = max/(max - deadband) (x - deadband)
                     // y = max (x - deadband)/(max - deadband)
-                    return maxMagnitude * (value - deadband) / (maxMagnitude - deadband);
-                }
-                else
-                {
+                    return maxMagnitude * ( value - deadband ) / ( maxMagnitude - deadband );
+                } else {
                     // Map -deadband to 0 and map -max to -max.
                     //
                     // y - y₁ = m(x - x₁)
@@ -91,11 +81,9 @@ namespace MotionProfileMapper.VelocityGenerate
                     // y = (-max - 0)/(-max + deadband) (x + deadband) + 0
                     // y = max/(max - deadband) (x + deadband)
                     // y = max (x + deadband)/(max - deadband)
-                    return maxMagnitude * (value + deadband) / (maxMagnitude - deadband);
+                    return maxMagnitude * ( value + deadband ) / ( maxMagnitude - deadband );
                 }
-            }
-            else
-            {
+            } else {
                 return 0.0;
             }
         }
@@ -108,8 +96,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param deadband Range around zero.
          * @return The value after the deadband is applied.
          */
-        public static double applyDeadband(double value, double deadband)
-        {
+        public static double applyDeadband(double value, double deadband) {
             return applyDeadband(value, deadband, 1);
         }
 
@@ -121,16 +108,15 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param maximumInput The maximum value expected from the input.
          * @return The wrapped value.
          */
-        public static double inputModulus(double input, double minimumInput, double maximumInput)
-        {
+        public static double inputModulus(double input, double minimumInput, double maximumInput) {
             double modulus = maximumInput - minimumInput;
 
             // Wrap input if it's above the maximum input
-            int numMax = (int)((input - minimumInput) / modulus);
+            int numMax = (int) ( ( input - minimumInput ) / modulus );
             input -= numMax * modulus;
 
             // Wrap input if it's below the minimum input
-            int numMin = (int)((input - maximumInput) / modulus);
+            int numMin = (int) ( ( input - maximumInput ) / modulus );
             input -= numMin * modulus;
 
             return input;
@@ -142,8 +128,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param angleRadians Angle to wrap in radians.
          * @return The wrapped angle.
          */
-        public static double angleModulus(double angleRadians)
-        {
+        public static double angleModulus(double angleRadians) {
             return inputModulus(angleRadians, -Math.PI, Math.PI);
         }
 
@@ -155,9 +140,8 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param t How far between the two values to interpolate. This is clamped to [0, 1].
          * @return The interpolated value.
          */
-        public static double interpolate(double startValue, double endValue, double t)
-        {
-            return startValue + (endValue - startValue) * MathUtil.clamp(t, 0, 1);
+        public static double interpolate(double startValue, double endValue, double t) {
+            return startValue + ( endValue - startValue ) * MathUtil.clamp(t, 0, 1);
         }
     }
 }

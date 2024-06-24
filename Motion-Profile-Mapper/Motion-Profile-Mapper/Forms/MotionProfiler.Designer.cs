@@ -1,7 +1,5 @@
-﻿namespace MotionProfileMapper
-{
-    partial class MotionProfiler
-    {
+﻿namespace MotionProfileMapper {
+    partial class MotionProfiler {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && ( components != null )) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,8 +22,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -116,21 +111,21 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pathTable)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.ControlPointTable ) ).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.profileTable ) ).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.pathTable ) ).BeginInit();
             this.Data.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.kinematicsChart ) ).BeginInit();
             this.Field.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.splitContainer1 ) ).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.mainField ) ).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.trackBar ) ).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.MoreData.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -141,10 +136,10 @@
             // 
             // infoLabel
             // 
-            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoLabel.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
             this.infoLabel.Location = new System.Drawing.Point(2, 0);
             this.infoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -166,8 +161,8 @@
             this.ControlPointTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ControlPointTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.ControlPointTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ControlPointTable.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.ControlPointTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.ControlPointTable.BackgroundColor = System.Drawing.Color.White;
             this.ControlPointTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -175,7 +170,7 @@
             this.ControlPointTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
@@ -188,7 +183,7 @@
             this.Direction});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
@@ -252,7 +247,7 @@
             // label10
             // 
             this.label10.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.label10.ForeColor = System.Drawing.Color.Black;
             this.label10.Location = new System.Drawing.Point(10, 64);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -270,15 +265,15 @@
             this.profileTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.profileTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.profileTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.profileTable.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.profileTable.BackgroundColor = System.Drawing.Color.White;
             this.profileTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.profileTable.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.profileTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
@@ -290,7 +285,7 @@
             this.dataGridViewTextBoxColumn3});
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
@@ -305,7 +300,7 @@
             this.profileTable.Name = "profileTable";
             this.profileTable.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.profileTable.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.profileTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.profileTable.RowHeadersVisible = false;
             this.profileTable.RowHeadersWidth = 20;
@@ -315,7 +310,6 @@
             this.profileTable.TabIndex = 28;
             this.profileTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellDoubleClick);
             this.profileTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_CellEndEdit);
-            this.profileTable.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.profileTable_RowEnter);
             this.profileTable.SelectionChanged += new System.EventHandler(this.profileTable_SelectionChanged);
             // 
             // dataGridViewTextBoxColumn2
@@ -346,7 +340,7 @@
             this.pathTable.AllowUserToResizeRows = false;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pathTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
-            this.pathTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathTable.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.pathTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.pathTable.BackgroundColor = System.Drawing.Color.White;
             this.pathTable.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -354,7 +348,7 @@
             this.pathTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
@@ -366,7 +360,7 @@
             this.PathTime});
             dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Teal;
             dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
@@ -418,9 +412,9 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.label4.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label4.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(784, 8);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -432,9 +426,9 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.label5.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(783, 275);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -446,11 +440,11 @@
             // 
             // saveFileButton
             // 
-            this.saveFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveFileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.saveFileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveFileButton.FlatAppearance.BorderSize = 0;
             this.saveFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveFileButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.saveFileButton.ForeColor = System.Drawing.Color.Black;
             this.saveFileButton.Location = new System.Drawing.Point(10, 548);
             this.saveFileButton.Margin = new System.Windows.Forms.Padding(1);
@@ -464,11 +458,11 @@
             // 
             // saveAllButton
             // 
-            this.saveAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveAllButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.saveAllButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveAllButton.FlatAppearance.BorderSize = 0;
             this.saveAllButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveAllButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveAllButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.saveAllButton.ForeColor = System.Drawing.Color.Black;
             this.saveAllButton.Location = new System.Drawing.Point(126, 548);
             this.saveAllButton.Margin = new System.Windows.Forms.Padding(1);
@@ -524,7 +518,7 @@
             // 
             // uploadButton
             // 
-            this.uploadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.uploadButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.uploadButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.uploadButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
@@ -543,7 +537,7 @@
             // 
             // previewButton
             // 
-            this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.previewButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.previewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.previewButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
@@ -580,7 +574,7 @@
             // 
             // playButton
             // 
-            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.playButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.playButton.ForeColor = System.Drawing.SystemColors.AppWorkspace;
@@ -599,7 +593,7 @@
             // 
             // reverseButton
             // 
-            this.reverseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.reverseButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.reverseButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.reverseButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -619,7 +613,7 @@
             // 
             // mirrorPathButton
             // 
-            this.mirrorPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mirrorPathButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.mirrorPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.mirrorPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mirrorPathButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -638,7 +632,7 @@
             // 
             // deletePointButton
             // 
-            this.deletePointButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deletePointButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.deletePointButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePointButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deletePointButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -657,7 +651,7 @@
             // 
             // shiftPathButton
             // 
-            this.shiftPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.shiftPathButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.shiftPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.shiftPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shiftPathButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -676,7 +670,7 @@
             // 
             // duplicateProfileButton
             // 
-            this.duplicateProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.duplicateProfileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.duplicateProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.duplicateProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.duplicateProfileButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -695,7 +689,7 @@
             // 
             // editPathButton
             // 
-            this.editPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editPathButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.editPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.editPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editPathButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -733,7 +727,7 @@
             // 
             // editProfileButton
             // 
-            this.editProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.editProfileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.editProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.editProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editProfileButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -752,7 +746,7 @@
             // 
             // deleteProfileButton
             // 
-            this.deleteProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteProfileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.deleteProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deleteProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteProfileButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -771,7 +765,7 @@
             // 
             // newProfileButton
             // 
-            this.newProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.newProfileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.newProfileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newProfileButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -790,7 +784,7 @@
             // 
             // deletePathButton
             // 
-            this.deletePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deletePathButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.deletePathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deletePathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deletePathButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -809,7 +803,7 @@
             // 
             // newPathButton
             // 
-            this.newPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.newPathButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.newPathButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newPathButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newPathButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -828,7 +822,7 @@
             // 
             // pathOrderDown
             // 
-            this.pathOrderDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathOrderDown.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.pathOrderDown.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pathOrderDown.Flip = FontAwesome.Sharp.FlipOrientation.Vertical;
@@ -850,7 +844,7 @@
             // 
             // pathOrderUp
             // 
-            this.pathOrderUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathOrderUp.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.pathOrderUp.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pathOrderUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pathOrderUp.ForeColor = System.Drawing.Color.DarkGray;
@@ -910,7 +904,7 @@
             this.showPathsCheckbox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.showPathsCheckbox.Checked = true;
             this.showPathsCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.showPathsCheckbox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.showPathsCheckbox.ForeColor = System.Drawing.Color.Black;
             this.showPathsCheckbox.Location = new System.Drawing.Point(29, 38);
             this.showPathsCheckbox.Margin = new System.Windows.Forms.Padding(0);
@@ -929,7 +923,7 @@
             this.GridCheckBox.BackColor = System.Drawing.SystemColors.ControlLight;
             this.GridCheckBox.Checked = true;
             this.GridCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GridCheckBox.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.GridCheckBox.ForeColor = System.Drawing.Color.Black;
             this.GridCheckBox.Location = new System.Drawing.Point(42, 7);
             this.GridCheckBox.Margin = new System.Windows.Forms.Padding(0);
@@ -1123,8 +1117,8 @@
             // 
             // trackBar
             // 
-            this.trackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.trackBar.Location = new System.Drawing.Point(2, 438);
             this.trackBar.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar.Maximum = 1000;
@@ -1158,9 +1152,9 @@
             // 
             // MoreData
             // 
-            this.MoreData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MoreData.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.MoreData.Controls.Add(this.Field);
             this.MoreData.Controls.Add(this.Data);
             this.MoreData.Location = new System.Drawing.Point(245, 0);
@@ -1178,7 +1172,7 @@
             // 
             // timeSinceUpload
             // 
-            this.timeSinceUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.timeSinceUpload.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.timeSinceUpload.AutoSize = true;
             this.timeSinceUpload.ForeColor = System.Drawing.Color.Black;
             this.timeSinceUpload.Location = new System.Drawing.Point(11, 574);
@@ -1220,7 +1214,7 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.ShortcutKeys = ( (System.Windows.Forms.Keys) ( ( System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z ) ) );
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
@@ -1228,7 +1222,7 @@
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.ShortcutKeys = ( (System.Windows.Forms.Keys) ( ( System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y ) ) );
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
@@ -1242,7 +1236,7 @@
             // 
             // currentTime
             // 
-            this.currentTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.currentTime.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.currentTime.AutoSize = true;
             this.currentTime.Location = new System.Drawing.Point(11, 593);
             this.currentTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1334,9 +1328,9 @@
             this.Controls.Add(this.ControlPointTable);
             this.Controls.Add(this.MoreData);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.ForeColor = System.Drawing.Color.Black;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ( (System.Drawing.Icon) ( resources.GetObject("$this.Icon") ) );
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -1349,22 +1343,22 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             this.Resize += new System.EventHandler(this.MotionProfiler_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.ControlPointTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.profileTable)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pathTable)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.ControlPointTable ) ).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.profileTable ) ).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.pathTable ) ).EndInit();
             this.Data.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kinematicsChart)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.kinematicsChart ) ).EndInit();
             this.Field.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.splitContainer1 ) ).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mainField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.mainField ) ).EndInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.trackBar ) ).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.MoreData.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);

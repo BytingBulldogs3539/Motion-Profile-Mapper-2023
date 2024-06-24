@@ -527,14 +527,9 @@
             setStatus("Saving profiles to file system...", false);
             foreach (Profile profile in profiles) {
                 string mpPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".mp");
-                //string javaPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".java");
                 using (var writer = new StreamWriter(mpPath)) {
                     writer.Write(profile.toJSON().ToString());
                 }
-                //using (var writer = new StreamWriter(javaPath))
-                //{
-                //    writer.Write(profile.toJava());
-                //}
             }
             setStatus("Profiles saved to file system", false);
             Cursor = Cursors.Default;
@@ -551,7 +546,6 @@
             browser.FileName = selectedProfile.Name.Replace(' ', '_');
             browser.Filter = "Motion Profile|*.mp;";
             browser.Title = "Save motion profile file";
-
 
             String mpBasePath = "";
 
@@ -699,12 +693,6 @@
             UpdateField();
         }
 
-        private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e) {
-            //Console.WriteLine("row Enter");
-
-            //selectProfile(e.RowIndex);
-        }
-
         private void newProfileButton_Click(object sender, EventArgs e) {
             skipPathSelectionChange = true;
             saveUndoState("New Profile", true, null, false);
@@ -817,7 +805,10 @@
             infoLabel.Text = message;
             infoLabel.ForeColor = error ? Color.Red : Color.Black;
         }
-
+        /// <summary>
+        /// Used to determine if the user has a profile selected
+        /// </summary>
+        /// <returns>True if there is no profile selected</returns>
         private bool noSelectedProfile() {
             if (profiles.IndexOf(selectedProfile) == -1) {
                 setStatus("Create or select a profile", true);
@@ -826,6 +817,10 @@
             return false;
         }
 
+        /// <summary>
+        ///  Used to determine if the user has a path selected from a profile.
+        /// </summary>
+        /// <returns>True if there is no profile or path selected</returns>
         private bool noSelectedPath() {
             if (noSelectedProfile()) return true;
             if (selectedProfile.Paths.IndexOf(selectedPath) == -1) {
@@ -835,6 +830,10 @@
             return false;
         }
 
+        /// <summary>
+        ///  Used to tell if there are actually any points in a selected path.
+        /// </summary>
+        /// <returns>True if there are no points in the selected path</returns>
         private bool noPointsInPath() {
             if (noSelectedProfile() || noSelectedPath()) return true;
             if (selectedPath.isEmpty()) {
@@ -844,19 +843,29 @@
             return false;
         }
 
+
         private void pathTable_RowEnter(object sender, DataGridViewCellEventArgs e) {
             if (skipPathSelectionChange)
                 return;
             selectPath(e.RowIndex);
         }
 
+        /// <summary>
+        /// Select a path from the currently selected profile.
+        /// </summary>
+        /// <param name="index"> Index to select -1 reselects the current path</param>
         private void selectPath(int index = -1) {
             selectPath(true, index);
         }
 
         bool skipPathSelectionChange = false;
+
+        /// <summary>
+        /// Select a path from the currently selected profile.
+        /// </summary>
+        /// <param name="doResetTrackBar"> If true the trackbar will not be reset when the path is selected </param>
+        /// <param name="index"> Index to select -1 reselects the current path </param>
         private void selectPath(bool doResetTrackBar, int index = -1) {
-            // -1 reselects current path i think
             ControlPointTable.Rows.Clear();
 
             if (placingPoint != null) placingPoint = null;
@@ -868,8 +877,6 @@
                 setSplineMode(selectedPath.IsSpline);
                 skipUpdate = false;
             }
-
-
 
             if (!noSelectedPath()) {
                 foreach (ControlPoint point in selectedPath.ControlPoints) {

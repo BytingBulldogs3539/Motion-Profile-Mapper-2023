@@ -5,40 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MotionProfileMapper.Utilities
-{
-    class INI
-    {
+namespace MotionProfileMapper.Utilities {
+    class INI {
         public string fileName { get; set; }
         public List<INIVariable> variables;
 
-        public INI(string fileName, System.IO.StreamReader reader)
-        {
+        public INI(string fileName, System.IO.StreamReader reader) {
             this.fileName = fileName;
             this.variables = new List<INIVariable>();
-            
+
             string currentSection = "";
-            while (!reader.EndOfStream)
-            {
+            while (!reader.EndOfStream) {
                 string line = reader.ReadLine();
 
                 if (line == "") continue;
                 else if (line == $"[{fileName}]") currentSection = "Value";
                 else if (line[0] == '[') currentSection = line.Substring(1, line.Length - 2);
-                else
-                {
+                else {
                     string variable = line.Substring(0, line.IndexOf('=')).Trim();
                     string value = line.Substring(line.IndexOf('=') + 1).Trim();
 
                     int query = findVariable(variable);
-                    if (query == -1)
-                    {
+                    if (query == -1) {
                         variables.Add(new INIVariable(name: variable));
-                        query = variables.Count-1;
+                        query = variables.Count - 1;
                     }
-                    
-                    switch (currentSection)
-                    {
+
+                    switch (currentSection) {
                         case "Value":
                             updateValue(query, "Value", value);
                             break;
@@ -53,17 +46,14 @@ namespace MotionProfileMapper.Utilities
             }
         }
 
-        public INI()
-        {
+        public INI() {
             this.fileName = "temp";
             this.variables = new List<INIVariable>();
         }
 
-        public int findVariable(string name)
-        {
+        public int findVariable(string name) {
             int i = 0;
-            foreach (INIVariable var in variables)
-            {
+            foreach (INIVariable var in variables) {
                 if (var.name == name) return i;
                 i++;
 
@@ -71,19 +61,15 @@ namespace MotionProfileMapper.Utilities
             return -1;
         }
 
-        public bool isValid()
-        {
+        public bool isValid() {
             return true;
         }
 
-        public void loadTable(DataGridView table)
-        {
+        public void loadTable(DataGridView table) {
             table.Rows.Clear();
-            foreach (INIVariable variable in variables)
-            {
+            foreach (INIVariable variable in variables) {
                 int rowIndex = table.Rows.Add(variable.name, variable.type, variable.value, variable.comment);
-                if (variable.type == "boolean")
-                {
+                if (variable.type == "boolean") {
                     DataGridViewCheckBoxCell cell = new DataGridViewCheckBoxCell();
                     cell.Value = variable.value;
                     table.Rows[rowIndex].Cells[2] = cell;
@@ -91,12 +77,9 @@ namespace MotionProfileMapper.Utilities
             }
         }
 
-        public Boolean checkVariableNames(Boolean useMessagebox = true)
-        {
-            foreach (INIVariable var in variables)
-            {
-                if (tryToString(var.name) == "")
-                {
+        public Boolean checkVariableNames(Boolean useMessagebox = true) {
+            foreach (INIVariable var in variables) {
+                if (tryToString(var.name) == "") {
                     if (useMessagebox)
                         MessageBox.Show($"{this.fileName} contains a variable that does not have a valid name", "Invalid Type Or Value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
@@ -104,12 +87,9 @@ namespace MotionProfileMapper.Utilities
             }
             return false;
         }
-        public Boolean checkVariableTypes(Boolean useMessagebox = true)
-        {
-            foreach (INIVariable var in variables)
-            {
-                if (tryToString(var.type) == "")
-                {
+        public Boolean checkVariableTypes(Boolean useMessagebox = true) {
+            foreach (INIVariable var in variables) {
+                if (tryToString(var.type) == "") {
                     if (useMessagebox)
                         MessageBox.Show($"{this.fileName} contains a variable \"{var.name}\" that does not have a type ", "Invalid Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
@@ -118,12 +98,9 @@ namespace MotionProfileMapper.Utilities
             return false;
         }
 
-        public Boolean checkValues(Boolean useMessagebox = true)
-        {
-            foreach (INIVariable var in variables)
-            {
-                if ((tryToString(var.value).Trim() == "") && (tryToString(var.type).ToLower() != "string"))
-                {
+        public Boolean checkValues(Boolean useMessagebox = true) {
+            foreach (INIVariable var in variables) {
+                if (( tryToString(var.value).Trim() == "" ) && ( tryToString(var.type).ToLower() != "string" )) {
                     if (useMessagebox)
                         MessageBox.Show($"{this.fileName} contains a variable \"{var.name}\" that does not have a valid value", "Invalid Value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
@@ -131,14 +108,11 @@ namespace MotionProfileMapper.Utilities
             }
             return false;
         }
-        
-        public Boolean checkVariableNameDuplicates(Boolean useMessagebox = true)
-        {
+
+        public Boolean checkVariableNameDuplicates(Boolean useMessagebox = true) {
             List<string> names = new List<string>();
-            foreach(INIVariable var in variables)
-            {
-                if(names.Contains(var.name))
-                {
+            foreach (INIVariable var in variables) {
+                if (names.Contains(var.name)) {
                     if (useMessagebox)
                         MessageBox.Show($"There are two or more variables named {var.name} in {this.fileName}", "Duplicate Variable Names", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
@@ -148,19 +122,15 @@ namespace MotionProfileMapper.Utilities
             return false;
         }
 
-        private String tryToString(object o)
-        {
-            if (o != null)
-            {
+        private String tryToString(object o) {
+            if (o != null) {
                 return o.ToString();
             }
             return "";
         }
 
-        public void updateValue(int index, string valueType, string value)
-        {
-            switch (valueType)
-            {
+        public void updateValue(int index, string valueType, string value) {
+            switch (valueType) {
                 case "Name":
                     variables[index].name = value;
                     break;
@@ -168,8 +138,7 @@ namespace MotionProfileMapper.Utilities
                     variables[index].value = value;
                     break;
                 case "Type":
-                    switch (value.ToLower())
-                    {
+                    switch (value.ToLower()) {
                         case "int":
                             variables[index].type = "int";
                             break;
@@ -179,7 +148,7 @@ namespace MotionProfileMapper.Utilities
                         case "boolean":
                             variables[index].type = "boolean";
                             break;
-                        default :
+                        default:
                             variables[index].type = "String";
                             break;
                     }
@@ -189,8 +158,7 @@ namespace MotionProfileMapper.Utilities
                     break;
             }
         }
-        public void updateVariable(int index, string name, string type, string value, string comment)
-        {
+        public void updateVariable(int index, string name, string type, string value, string comment) {
             variables[index].name = name;
             variables[index].type = type;
             variables[index].value = value;
@@ -198,49 +166,39 @@ namespace MotionProfileMapper.Utilities
         }
 
 
-        public void addVariable(string name)
-        {
+        public void addVariable(string name) {
             this.variables.Add(new INIVariable(name: name));
         }
 
-        public void addVariable(string name, string type, string value)
-        {
+        public void addVariable(string name, string type, string value) {
             this.variables.Add(new INIVariable(name: name, type: type, value: value));
         }
 
-        public void clearVariables()
-        {
+        public void clearVariables() {
             this.variables.Clear();
         }
 
         override
-        public string ToString()
-        {
+        public string ToString() {
             return this.fileName;
         }
 
-        public void removeAt(int index)
-        {
+        public void removeAt(int index) {
             variables.RemoveAt(index);
         }
 
-        public string toIni()
-        {
+        public string toIni() {
             string ini = $"[{fileName}]\n";
-            foreach (INIVariable variable in variables)
-            {
+            foreach (INIVariable variable in variables) {
                 ini += $"{variable.name} = {variable.value}\n";
             }
 
             List<string> others = new List<string>() { "Type", "Comment" };
-            foreach (string dataType in others)
-            {
+            foreach (string dataType in others) {
                 ini += $"\n[{dataType}]\n";
 
-                foreach (INIVariable variable in variables)
-                {
-                    switch (dataType)
-                    {
+                foreach (INIVariable variable in variables) {
+                    switch (dataType) {
                         case "Type":
                             ini += $"{variable.name} = {variable.type}\n";
                             break;
@@ -248,43 +206,35 @@ namespace MotionProfileMapper.Utilities
                             ini += $"{variable.name} = {variable.comment}\n";
                             break;
                     }
-                    
+
                 }
             }
             return ini;
         }
-        public string toJava()
-        {
+        public string toJava() {
 
             string fileContent = "package frc.robot.constants;\r\n\r\nimport org.frcteam3539.BulldogLibrary.INIConfiguration.BBConstants;\r\n\r\n";
-            
-            fileContent+=$"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants "+"{"+"\r\n";
 
-            fileContent += "\tpublic " + this.fileName+ "() {\r\n\t\tsuper(\"" + Properties.Settings.Default.INILocation + this.fileName+ ".ini\", true);\r\n\t\tsave();\r\n\t}\r\n\r\n";
+            fileContent += $"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants " + "{" + "\r\n";
 
-            foreach (INIVariable variable in variables)
-            {
+            fileContent += "\tpublic " + this.fileName + "() {\r\n\t\tsuper(\"" + Properties.Settings.Default.INILocation + this.fileName + ".ini\", true);\r\n\t\tsave();\r\n\t}\r\n\r\n";
+
+            foreach (INIVariable variable in variables) {
                 string commentStr = "";
 
-                if (variable.comment.Trim() != "")
-                {
-                    commentStr = " // "+variable.comment.Trim();
+                if (variable.comment.Trim() != "") {
+                    commentStr = " // " + variable.comment.Trim();
                 }
 
                 if (variable.type.ToLower() == "string")
                     fileContent += $"\tpublic static {variable.type} {variable.name} = \"{variable.value}\";{commentStr}\r\n";
-                else if(variable.type.ToLower() == "boolean")
-                {
-                    if(variable.value.ToLower() == "true")
-                    {
+                else if (variable.type.ToLower() == "boolean") {
+                    if (variable.value.ToLower() == "true") {
                         fileContent += $"\tpublic static {variable.type} {variable.name} = true;{commentStr}\r\n";
-                    }
-                    else if (variable.value.ToLower() == "false")
-                    {
+                    } else if (variable.value.ToLower() == "false") {
                         fileContent += $"\tpublic static {variable.type} {variable.name} = false;{commentStr}\r\n";
                     }
-                }
-                else
+                } else
                     fileContent += $"\tpublic static {variable.type} {variable.name} = {variable.value};{commentStr}\r\n";
             }
 

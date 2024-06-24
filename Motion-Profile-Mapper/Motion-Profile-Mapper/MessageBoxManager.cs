@@ -10,12 +10,9 @@ using System.Security.Permissions;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms {
 
-{
-
-    public class MessageBoxManager
-    {
+    public class MessageBoxManager {
         private delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
         private delegate bool EnumChildProc(IntPtr hWnd, IntPtr lParam);
 
@@ -73,8 +70,7 @@ namespace System.Windows.Forms
 
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct CWPRETSTRUCT
-        {
+        public struct CWPRETSTRUCT {
             public IntPtr lResult;
             public IntPtr lParam;
             public IntPtr wParam;
@@ -118,8 +114,7 @@ namespace System.Windows.Forms
         /// </summary>
         public static string No = "&No";
 
-        static MessageBoxManager()
-        {
+        static MessageBoxManager() {
             hookProc = new HookProc(MessageBoxHookProc);
             enumProc = new EnumChildProc(MessageBoxEnumProc);
             hHook = IntPtr.Zero;
@@ -132,8 +127,7 @@ namespace System.Windows.Forms
         /// MessageBoxManager functionality is enabled on current thread only.
         /// Each thread that needs MessageBoxManager functionality has to call this method.
         /// </remarks>
-        public static void Register()
-        {
+        public static void Register() {
             if (hHook != IntPtr.Zero)
                 throw new NotSupportedException("One hook per thread allowed.");
             hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
@@ -145,34 +139,28 @@ namespace System.Windows.Forms
         /// <remarks>
         /// Disables MessageBoxManager functionality on current thread only.
         /// </remarks>
-        public static void Unregister()
-        {
-            if (hHook != IntPtr.Zero)
-            {
+        public static void Unregister() {
+            if (hHook != IntPtr.Zero) {
                 UnhookWindowsHookEx(hHook);
                 hHook = IntPtr.Zero;
             }
         }
 
-        private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
-        {
+        private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam) {
             if (nCode < 0)
                 return CallNextHookEx(hHook, nCode, wParam, lParam);
 
-            CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+            CWPRETSTRUCT msg = (CWPRETSTRUCT) Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
             IntPtr hook = hHook;
 
-            if (msg.message == WM_INITDIALOG)
-            {
+            if (msg.message == WM_INITDIALOG) {
                 int nLength = GetWindowTextLength(msg.hwnd);
                 StringBuilder className = new StringBuilder(10);
                 GetClassName(msg.hwnd, className, className.Capacity);
-                if (className.ToString() == "#32770")
-                {
+                if (className.ToString() == "#32770") {
                     nButton = 0;
                     EnumChildWindows(msg.hwnd, enumProc, IntPtr.Zero);
-                    if (nButton == 1)
-                    {
+                    if (nButton == 1) {
                         IntPtr hButton = GetDlgItem(msg.hwnd, MBCancel);
                         if (hButton != IntPtr.Zero)
                             SetWindowText(hButton, OK);
@@ -183,15 +171,12 @@ namespace System.Windows.Forms
             return CallNextHookEx(hook, nCode, wParam, lParam);
         }
 
-        private static bool MessageBoxEnumProc(IntPtr hWnd, IntPtr lParam)
-        {
+        private static bool MessageBoxEnumProc(IntPtr hWnd, IntPtr lParam) {
             StringBuilder className = new StringBuilder(10);
             GetClassName(hWnd, className, className.Capacity);
-            if (className.ToString() == "Button")
-            {
+            if (className.ToString() == "Button") {
                 int ctlId = GetDlgCtrlID(hWnd);
-                switch (ctlId)
-                {
+                switch (ctlId) {
                     case MBOK:
                         SetWindowText(hWnd, OK);
                         break;

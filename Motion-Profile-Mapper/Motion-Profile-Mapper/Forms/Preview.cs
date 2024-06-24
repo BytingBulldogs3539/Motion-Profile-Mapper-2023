@@ -8,12 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MotionProfileMapper.Forms
-{
-    public partial class Preview : Form
-    {
-        public Preview(string displayText)
-        {
+namespace MotionProfileMapper.Forms {
+    public partial class Preview : Form {
+        public Preview(string displayText) {
             InitializeComponent();
             this.previewBox.Text = displayText;
         }

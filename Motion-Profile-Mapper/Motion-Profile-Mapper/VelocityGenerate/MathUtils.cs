@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    class MathUtils
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    class MathUtils {
         /**
 		 * Default epsilon for {@link #epsilonEquals(double, double)}
 		 *
@@ -27,10 +25,8 @@ namespace MotionProfileMapper.VelocityGenerate
 		 *
 		 * @since 0.2
 		 */
-        public static double clamp(double value, double min, double max)
-        {
-            if (min > max)
-            {
+        public static double clamp(double value, double min, double max) {
+            if (min > max) {
                 throw new ArgumentException("min must not be greater than max");
             }
 
@@ -47,8 +43,7 @@ namespace MotionProfileMapper.VelocityGenerate
 		 *
 		 * @since 0.1
 		 */
-        public static bool epsilonEquals(double a, double b)
-        {
+        public static bool epsilonEquals(double a, double b) {
             return epsilonEquals(a, b, EPSILON);
         }
 
@@ -64,8 +59,7 @@ namespace MotionProfileMapper.VelocityGenerate
 		 *
 		 * @since 0.1
 		 */
-        public static bool epsilonEquals(double a, double b, double epsilon)
-        {
+        public static bool epsilonEquals(double a, double b, double epsilon) {
             return Math.Abs(a - b) < epsilon;
         }
 
@@ -80,8 +74,7 @@ namespace MotionProfileMapper.VelocityGenerate
 		 *
 		 * @since 0.1
 		 */
-        public static bool isInRange(double lowerBound, double upperBound, double value)
-        {
+        public static bool isInRange(double lowerBound, double upperBound, double value) {
             return lowerBound <= value && value <= upperBound;
         }
 
@@ -93,11 +86,9 @@ namespace MotionProfileMapper.VelocityGenerate
 		 * @param c the c coefficient
 		 * @return  the real roots of the equation
 		 */
-        public static double[] quadratic(double a, double b, double c)
-        {
+        public static double[] quadratic(double a, double b, double c) {
             double sqrt = Math.Sqrt(b * b - 4 * a * c);
-            if (Double.IsNaN(sqrt))
-            {
+            if (Double.IsNaN(sqrt)) {
                 // No roots
                 return new double[0];
             }
@@ -108,25 +99,19 @@ namespace MotionProfileMapper.VelocityGenerate
         };
         }
 
-        public static double lerp(double start, double end, double t)
-        {
-            return start + (end - start) * t;
+        public static double lerp(double start, double end, double t) {
+            return start + ( end - start ) * t;
         }
 
-        public static double inverseLerp(double start, double end, double query)
-        {
+        public static double inverseLerp(double start, double end, double query) {
             return inverseLerp(start, end, query, true);
         }
 
-        public static double inverseLerp(double start, double end, double query, bool shouldClamp)
-        {
-            double t = (query - start) / (end - start);
-            if (shouldClamp)
-            {
+        public static double inverseLerp(double start, double end, double query, bool shouldClamp) {
+            double t = ( query - start ) / ( end - start );
+            if (shouldClamp) {
                 return clamp(t, 0.0, 1.0);
-            }
-            else
-            {
+            } else {
                 return t;
             }
         }

@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    public class Pose2d
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    public class Pose2d {
         private Translation2d m_translation;
         private Rotation2d m_rotation;
 
         /** Constructs a pose at the origin facing toward the positive X axis. */
-        public Pose2d()
-        {
+        public Pose2d() {
             m_translation = new Translation2d();
             m_rotation = new Rotation2d();
         }
@@ -24,8 +21,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param translation The translational component of the pose.
          * @param rotation The rotational component of the pose.
          */
-        public Pose2d(Translation2d translation, Rotation2d rotation)
-        {
+        public Pose2d(Translation2d translation, Rotation2d rotation) {
             m_translation = translation;
             m_rotation = rotation;
         }
@@ -37,13 +33,11 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param y The y component of the translational component of the pose.
          * @param rotation The rotational component of the pose.
          */
-        public Pose2d(double x, double y, Rotation2d rotation)
-        {
+        public Pose2d(double x, double y, Rotation2d rotation) {
             m_translation = new Translation2d(x, y);
             m_rotation = rotation;
         }
-        public Translation2d getTranslation()
-        {
+        public Translation2d getTranslation() {
             return m_translation;
         }
 
@@ -52,8 +46,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The x component of the pose's translation.
          */
-        public double getX()
-        {
+        public double getX() {
             return m_translation.getX();
         }
 
@@ -62,8 +55,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The y component of the pose's translation.
          */
-        public double getY()
-        {
+        public double getY() {
             return m_translation.getY();
         }
 
@@ -72,8 +64,7 @@ namespace MotionProfileMapper.VelocityGenerate
          *
          * @return The rotational component of the pose.
          */
-        public Rotation2d getRotation()
-        {
+        public Rotation2d getRotation() {
             return m_rotation;
         }
 
@@ -83,8 +74,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar.
          * @return The new scaled Pose2d.
          */
-        public Pose2d times(double scalar)
-        {
+        public Pose2d times(double scalar) {
             return new Pose2d(m_translation.times(scalar), m_rotation.times(scalar));
         }
 
@@ -94,14 +84,12 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param scalar The scalar.
          * @return The new scaled Pose2d.
          */
-        public Pose2d div(double scalar)
-        {
+        public Pose2d div(double scalar) {
             return times(1.0 / scalar);
         }
 
 
-        public String toString()
-        {
+        public String toString() {
             return String.Format("Pose2d({0}, {0})", m_translation, m_rotation);
         }
 
@@ -112,18 +100,15 @@ namespace MotionProfileMapper.VelocityGenerate
          * @return Whether the two objects are equal or not.
          */
 
-        public bool equals(Object obj)
-        {
-            if (obj.GetType() == typeof(Pose2d))
-            {
-                return ((Pose2d)obj).m_translation.equals(m_translation)
-                    && ((Pose2d)obj).m_rotation.equals(m_rotation);
+        public bool equals(Object obj) {
+            if (obj.GetType() == typeof(Pose2d)) {
+                return ( (Pose2d) obj ).m_translation.equals(m_translation)
+                    && ( (Pose2d) obj ).m_rotation.equals(m_rotation);
             }
             return false;
         }
 
-        public int hashCode()
-        {
+        public int hashCode() {
             int hash = 17;
             hash = hash * 31 + m_translation.GetHashCode();
             hash = hash * 31 + m_rotation.GetHashCode();

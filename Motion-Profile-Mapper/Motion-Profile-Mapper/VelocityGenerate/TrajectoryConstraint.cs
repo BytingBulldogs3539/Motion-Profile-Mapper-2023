@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfileMapper.VelocityGenerate
-{
-    public abstract class TrajectoryConstraint
-    {
+namespace MotionProfileMapper.VelocityGenerate {
+    public abstract class TrajectoryConstraint {
         /**
          * Gets the maximum velocity this constraint allows for a path state.
          *
          * @param state the path state.
          * @return the maximum velocity.
          */
-        public virtual double getMaxVelocity(PState state)
-        {
+        public virtual double getMaxVelocity(PState state) {
             return Double.PositiveInfinity;
         }
 
@@ -26,8 +23,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param velocity the velocity.
          * @return the maximum acceleration.
          */
-        public virtual double getMaxAcceleration(PState state, double velocity)
-        {
+        public virtual double getMaxAcceleration(PState state, double velocity) {
             return Double.PositiveInfinity;
         }
 
@@ -38,8 +34,7 @@ namespace MotionProfileMapper.VelocityGenerate
          * @param velocity the velocity.
          * @return the maximum deceleration.s
          */
-        public virtual double getMaxDeceleration(PState state, double velocity)
-        {
+        public virtual double getMaxDeceleration(PState state, double velocity) {
             return getMaxAcceleration(state, velocity);
         }
     }
