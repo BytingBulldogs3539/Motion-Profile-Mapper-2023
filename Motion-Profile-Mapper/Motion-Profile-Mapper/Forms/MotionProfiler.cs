@@ -1,5 +1,4 @@
-﻿namespace MotionProfileMapper
-{
+﻿namespace MotionProfileMapper {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Renci.SshNet;
@@ -22,13 +21,12 @@
     /// <summary>
     /// Defines the <see cref="MotionProfiler" />
     /// </summary>
-    public partial class MotionProfiler : Form
-    {
+    public partial class MotionProfiler : Form {
         /// <summary>
         /// Defines the fieldWidth
         /// </summary>
         ///
-        // 2019: 8230
+        // 2019: 8.230
         // 2023: 7.908 (half field)
         // 2024: 9.01988 (> half field)
         private double fieldWidth = 9.01988;
@@ -36,16 +34,11 @@
         /// <summary>
         /// Defines the fieldHeight
         /// </summary>
-        // 2019: 8230//mm
+        // 2019: 8.230
         // 2023: 8.016
         // 2024: 8.21055
         private double fieldHeight = 8.21055;
 
-        internal int padding = 1;
-        public List<ControlPoint> controlPointArray = new List<ControlPoint>();
-        //public OutputPoints outputPoints = new OutputPoints();
-
-        // new
         public static List<Profile> profiles = new List<Profile>();
 
         static List<UndoHolder> undo = new List<UndoHolder>();
@@ -65,7 +58,6 @@
         ProfilePath clickedPointPath = null;
 
         ControlPoint preMoveClickedPoint = null;
-        ProfilePath preMoveClickedPointPath = null;
         UndoHolder preMoveHolder = null;
 
         ControlPoint snappedPoint = null;
@@ -83,8 +75,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MotionProfiler"/> class.
         /// </summary>
-        public MotionProfiler(Menu menu)
-        {
+        public MotionProfiler(Menu menu) {
             motionProfiler = this;
             this.menu = menu;
             InitializeComponent();
@@ -93,11 +84,10 @@
         /// <summary>
         /// Load Form 1
         /// </summary>
-        private void MainForm_Load(object sender, EventArgs e)
-        {
+        private void MainForm_Load(object sender, EventArgs e) {
             SetupMainField();
-            splitContainer1.SplitterDistance = splitContainer1.Height-(int)(80 * this.CurrentAutoScaleDimensions.Width/96);
-            
+            splitContainer1.SplitterDistance = splitContainer1.Height - (int) ( 80 * this.CurrentAutoScaleDimensions.Width / 96 );
+
             MotionProfiler_Resize(null, null);
 
         }
@@ -105,8 +95,7 @@
         /// <summary>
         /// Configures what the main field looks like.
         /// </summary>
-        private void SetupMainField()
-        {
+        private void SetupMainField() {
             mainField.ChartAreas["field"].Axes[0].Minimum = 0;
             mainField.ChartAreas["field"].Axes[0].Maximum = fieldWidth;
             mainField.ChartAreas["field"].Axes[0].Interval = 1;
@@ -126,43 +115,33 @@
             mainField.Series["background"].Points.AddXY(fieldWidth, fieldHeight);
 
             mainField.Images.Add(new NamedImage("red", new Bitmap(MotionProfileMapper.Properties.Resources._2024_red)));
-            //mainField.Images.Add(new NamedImage("red-colored", new Bitmap(VelocityMap.Properties.Resources._2023_red_colored)));
             mainField.Images.Add(new NamedImage("blue", new Bitmap(MotionProfileMapper.Properties.Resources._2024_blue)));
-            //mainField.Images.Add(new NamedImage("blue-colored", new Bitmap(VelocityMap.Properties.Resources._2023_blue_colored)));
             mainField.ChartAreas["field"].BackImageWrapMode = ChartImageWrapMode.Scaled;
 
-            setBackground(!MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed, false);
+            setBackground(MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed, false);
             setAllianceMode(MotionProfileMapper.Properties.Settings.Default.defaultAllianceIsRed);
-
         }
 
-        private void setBackground(bool blue, bool colored)
-        {
-            mainField.ChartAreas["field"].Axes[0].IsReversed = !blue;
-            mainField.ChartAreas["field"].Axes[1].IsReversed = !blue;
-            mainField.ChartAreas["field"].BackImage =
-                (blue ? "blue" : "red") + (colored ? "-colored" : "");
+        private void setBackground(bool isRed, bool colored) {
+            mainField.ChartAreas["field"].Axes[0].IsReversed = isRed;
+            mainField.ChartAreas["field"].Axes[1].IsReversed = isRed;
+            mainField.ChartAreas["field"].BackImage = ( isRed ? "red" : "blue" ) + ( colored ? "-colored" : "" );
         }
 
-        private void selectPoint(int index)
-        {
+        private void selectPoint(int index) {
             ControlPointTable.Rows[index].Selected = true;
-
         }
 
-        private void MainField_MouseClick(object sender, MouseEventArgs e)
-        {
+        private void MainField_MouseClick(object sender, MouseEventArgs e) {
             if (clickedPoint != null || e.Button != MouseButtons.Left) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            if (placingPoint == null)
-            {
-                Chart chart = (Chart)sender;
-                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
-                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
+            if (placingPoint == null) {
+                Chart chart = (Chart) sender;
+                double x = Math.Round((double) chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                double y = Math.Round((double) chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
-                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
-                {
+                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight) {
                     placingPoint = new ControlPoint(selectedPath, x, y, 0);
 
                     ControlPointTable.Rows.Add(Math.Round(placingPoint.X, 3), Math.Round(placingPoint.Y, 3), placingPoint.Rotation);
@@ -171,16 +150,13 @@
                     if (selectedPath.ControlPoints.Count > 0)
                         DrawPoint(selectedPath.ControlPoints.Last(), selectedPath, false);
                 }
-            }
-            else
-            {
+            } else {
 
                 selectedPath.addControlPoint(placingPoint);
                 placingPoint = null;
 
                 if (selectedPath != selectedProfile.Paths.Last()
-                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
-                {
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious) {
                     selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
                 }
                 UpdateField();
@@ -188,19 +164,15 @@
 
         }
 
-        private void mainField_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (clickedPoint != null)
-            {
-                if (!clickedPoint.Equals(preMoveClickedPoint))
-                {
-                    saveUndoState("New Point",true, preMoveHolder);
+        private void mainField_MouseUp(object sender, MouseEventArgs e) {
+            if (clickedPoint != null) {
+                if (!clickedPoint.Equals(preMoveClickedPoint)) {
+                    saveUndoState("New Point", true, preMoveHolder);
                 }
                 selectedProfile.forceEdit();
                 clickedPoint = null;
                 clickedPointPath = null;
                 preMoveClickedPoint = null;
-                preMoveClickedPointPath = null;
                 preMoveHolder = null;
                 snappedPoint = null;
                 snappedPointPath = null;
@@ -215,46 +187,40 @@
         /// <summary>
         /// Checks for a point selection for clicking and dragging.
         /// </summary>
-        private void MainField_MouseDown(object sender, MouseEventArgs e)
-        {
+        private void MainField_MouseDown(object sender, MouseEventArgs e) {
             if (placingPoint != null || !e.Button.HasFlag(MouseButtons.Left)) return;
             if (noSelectedProfile() || noSelectedPath()) return;
 
-            Chart chart = (Chart)sender;
+            Chart chart = (Chart) sender;
 
-            Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+            Point p = new Point((int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
 
             p = chart.PointToScreen(p);
 
-            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
             System.Windows.Forms.Cursor.Clip = bounds;
 
-            double clickedX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
-            double clickedY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
+            double clickedX = Math.Round((double) chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+            double clickedY = Math.Round((double) chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
             ProfilePath path = selectedPath;
 
-            foreach (ControlPoint point in path.ControlPoints)
-            {
-                if (Math.Abs(clickedX - point.X) < pointSize && Math.Abs(clickedY - point.Y) < pointSize)
-                {
+            foreach (ControlPoint point in path.ControlPoints) {
+                if (Math.Abs(clickedX - point.X) < pointSize && Math.Abs(clickedY - point.Y) < pointSize) {
                     clickedPoint = point;
                     clickedPointPath = path;
 
                     preMoveClickedPoint = new ControlPoint(point, path);
-                    preMoveClickedPointPath = new ProfilePath(path, selectedProfile);
 
                     List<Profile> ps = new List<Profile>();
-                    foreach (Profile pro in profiles)
-                    {
+                    foreach (Profile pro in profiles) {
                         ps.Add(new Profile(pro));
                     }
 
                     UndoHolder holder = new UndoHolder();
                     holder.profiles = ps;
-                    holder.reason = "Control Point Move"; 
-                    if (selectedPath != null)
-                    {
+                    holder.reason = "Control Point Move";
+                    if (selectedPath != null) {
                         holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
                         holder.selectedProfileIndex = profiles.IndexOf(selectedProfile);
                     }
@@ -264,15 +230,12 @@
                     if (clickedPointPath == selectedPath) selectPoint(path.ControlPoints.IndexOf(point));
 
                     if (clickedPoint == clickedPointPath.ControlPoints[0]
-                        && clickedPointPath.SnapToPrevious)
-                    {
+                        && clickedPointPath.SnapToPrevious) {
                         int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
                         snappedPointPath = selectedProfile.Paths[pathIndex - 1];
                         snappedPoint = snappedPointPath.ControlPoints.Last();
-                    }
-                    else if (clickedPoint == clickedPointPath.ControlPoints.Last()
-                        && clickedPointPath != selectedProfile.Paths.Last())
-                    {
+                    } else if (clickedPoint == clickedPointPath.ControlPoints.Last()
+                          && clickedPointPath != selectedProfile.Paths.Last()) {
                         int pathIndex = selectedProfile.Paths.IndexOf(clickedPointPath);
                         snappedPointPath = selectedProfile.Paths[pathIndex + 1];
                         if (selectedProfile.Paths[pathIndex + 1].SnapToPrevious)
@@ -287,38 +250,31 @@
         /// </summary>
         /// 
 
-        private void MainField_MouseMove(object sender, MouseEventArgs e)
-        {
+        private void MainField_MouseMove(object sender, MouseEventArgs e) {
 
-            Chart chart = (Chart)sender;
+            Chart chart = (Chart) sender;
 
             //if the user is holding the left button while moving the mouse allow them to move the point.
-            if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left))
-            {
+            if (clickedPoint != null && e.Button.HasFlag(MouseButtons.Left)) {
                 double newX = 0.0;
                 double newY = 0.0;
-                try
-                {
+                try {
 
-                    newX = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
-                    newY = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
+                    newX = Math.Round((double) chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                    newY = Math.Round((double) chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
-                }
-                catch
-                {
+                } catch {
                     return;
                 }
 
                 clickedPoint.quickChangeX(newX);
                 clickedPoint.quickChangeY(newY);
-                if (snappedPoint != null)
-                {
+                if (snappedPoint != null) {
                     snappedPoint.quickChangeX(newX);
                     snappedPoint.quickChangeY(newY);
                 }
 
-                if (clickedPointPath == selectedPath)
-                {
+                if (clickedPointPath == selectedPath) {
                     ControlPointTable.SelectedRows[0].Cells[0].Value = Math.Round(newX, 3);
                     ControlPointTable.SelectedRows[0].Cells[1].Value = Math.Round(newY, 3);
                 }
@@ -326,44 +282,38 @@
                 DrawPath(clickedPointPath, true);
                 resetTrackBar();
                 if (snappedPoint != null) DrawPath(snappedPointPath, true);
-            }
-            else
-            {
+            } else {
                 System.Windows.Forms.Cursor.Clip = new Rectangle();
             }
-            if (placingPoint != null)
-            {
+            if (placingPoint != null) {
 
-                Point p = new Point((int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+                Point p = new Point((int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
 
                 p = chart.PointToScreen(p);
 
-                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int)chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
+                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(p.X, p.Y, (int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(0) - (int) chart.ChartAreas[0].AxisX.ValueToPixelPosition(fieldWidth - .01), (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(0) - (int) chart.ChartAreas[0].AxisY.ValueToPixelPosition(fieldHeight - .02));
                 System.Windows.Forms.Cursor.Clip = bounds;
 
-                double x = Math.Round((double)chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
-                double y = Math.Round((double)chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
+                double x = Math.Round((double) chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X), 3);
+                double y = Math.Round((double) chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y), 3);
 
-                placingPoint.quickChangeRotation((int)(Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI));
+                placingPoint.quickChangeRotation((int) ( Math.Atan2(y - placingPoint.Y, x - placingPoint.X) * 180 / Math.PI ));
                 ControlPointTable.Rows[ControlPointTable.Rows.Count - 1].Cells[2].Value = placingPoint.Rotation;
 
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.Clear();
-                double x1 = (double)(placingPoint.X + pointSize * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
-                double y1 = (double)(placingPoint.Y + pointSize * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
+                double x1 = (double) ( placingPoint.X + pointSize * Math.Cos(( placingPoint.Rotation ) * Math.PI / 180) );
+                double y1 = (double) ( placingPoint.Y + pointSize * Math.Sin(( placingPoint.Rotation ) * Math.PI / 180) );
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x1, y1);
-                double x2 = (double)(placingPoint.X + 0.600 * Math.Cos((placingPoint.Rotation) * Math.PI / 180));
-                double y2 = (double)(placingPoint.Y + 0.600 * Math.Sin((placingPoint.Rotation) * Math.PI / 180));
+                double x2 = (double) ( placingPoint.X + 0.600 * Math.Cos(( placingPoint.Rotation ) * Math.PI / 180) );
+                double y2 = (double) ( placingPoint.Y + 0.600 * Math.Sin(( placingPoint.Rotation ) * Math.PI / 180) );
                 mainField.Series[placingPoint.Id + "-Rotation"].Points.AddXY(x2, y2);
             }
         }
 
-        private void ControlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
+        private void ControlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            try {
                 double newValue = double.Parse(ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                switch (e.ColumnIndex)
-                {
+                switch (e.ColumnIndex) {
                     case 0:
                         selectedPath.ControlPoints[e.RowIndex].X = newValue;
                         break;
@@ -371,23 +321,19 @@
                         selectedPath.ControlPoints[e.RowIndex].Y = newValue;
                         break;
                     case 2:
-                        selectedPath.ControlPoints[e.RowIndex].Rotation = (int)newValue;
+                        selectedPath.ControlPoints[e.RowIndex].Rotation = (int) newValue;
                         break;
                 }
                 if (e.RowIndex == 0 && selectedPath.SnapToPrevious)
                     selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.ControlPoints[0]);
                 if (e.RowIndex == selectedPath.ControlPoints.Count - 1 && selectedPath != selectedProfile.Paths.Last()
-                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
-                {
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious) {
                     selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
                 }
                 UpdateField();
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 setStatus("Data values must be numbers", true);
-                switch (e.ColumnIndex)
-                {
+                switch (e.ColumnIndex) {
                     case 0:
                         ControlPointTable.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
                             = Math.Round(selectedPath.ControlPoints[e.RowIndex].X, 3);
@@ -404,10 +350,7 @@
             }
         }
 
-        private void DrawPoint(ControlPoint point, ProfilePath path, bool selected = false)
-        {
-
-
+        private void DrawPoint(ControlPoint point, ProfilePath path, bool selected = false) {
             string Series = point.Id;
 
             int seriesIndex = mainField.Series.IndexOf(Series);
@@ -424,12 +367,11 @@
             mainField.Series[Series].LabelForeColor = Color.White;
 
             mainField.Series[Series].Points.AddXY(point.X, point.Y);
-            if (path == selectedPath)
-            {
+            if (path == selectedPath) {
                 if (point.Path.ControlPoints.Contains(point))
-                    mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.IndexOf(point) + 1);
+                    mainField.Series[Series].Points.Last().Label = "" + ( point.Path.ControlPoints.IndexOf(point) + 1 );
                 else
-                    mainField.Series[Series].Points.Last().Label = "" + (point.Path.ControlPoints.Count + 1);
+                    mainField.Series[Series].Points.Last().Label = "" + ( point.Path.ControlPoints.Count + 1 );
             }
 
             Series = point.Id + "-Rotation";
@@ -442,18 +384,17 @@
             mainField.Series[Series].BorderWidth = 2;
             mainField.Series[Series].Color = path == selectedPath ? Color.Red : Color.DarkRed;
 
-            double x1 = (double)(point.X + pointSize * Math.Cos((point.Rotation) * Math.PI / 180));
-            double y1 = (double)(point.Y + pointSize * Math.Sin((point.Rotation) * Math.PI / 180));
+            double x1 = (double) ( point.X + pointSize * Math.Cos(( point.Rotation ) * Math.PI / 180) );
+            double y1 = (double) ( point.Y + pointSize * Math.Sin(( point.Rotation ) * Math.PI / 180) );
             mainField.Series[Series].Points.AddXY(x1, y1);
-            double x2 = (double)(point.X + (path == selectedPath ? 0.6 : 0.3) * Math.Cos((point.Rotation) * Math.PI / 180));
-            double y2 = (double)(point.Y + (path == selectedPath ? 0.6 : 0.3) * Math.Sin((point.Rotation) * Math.PI / 180));
+            double x2 = (double) ( point.X + ( path == selectedPath ? 0.6 : 0.3 ) * Math.Cos(( point.Rotation ) * Math.PI / 180) );
+            double y2 = (double) ( point.Y + ( path == selectedPath ? 0.6 : 0.3 ) * Math.Sin(( point.Rotation ) * Math.PI / 180) );
             mainField.Series[Series].Points.AddXY(x2, y2);
 
             if (point == placingPoint) return;
             mainField.Series[path.Id + "-path"].Points.AddXY(point.X, point.Y);
 
-            if (path == selectedPath)
-            {
+            if (path == selectedPath) {
                 int seriesIndex1 = mainField.Series.IndexOf(point.Id + "Rectangle");
                 if (seriesIndex1 != -1) mainField.Series.RemoveAt(seriesIndex1);
                 mainField.Series.Add(point.Id + "Rectangle");
@@ -468,8 +409,7 @@
             }
         }
 
-        private void DrawPath(ProfilePath path, bool quickDraw)
-        {
+        private void DrawPath(ProfilePath path, bool quickDraw) {
             if (!showPathsCheckbox.Checked && path != selectedPath) return;
 
             int seriesIndex = mainField.Series.IndexOf(path.Id + "-path");
@@ -489,13 +429,11 @@
 
             List<ControlPoint> ps = new List<ControlPoint>();
             if (selectedPath == path)
-                foreach (DataGridViewRow row in ControlPointTable.SelectedRows)
-                {
+                foreach (DataGridViewRow row in ControlPointTable.SelectedRows) {
                     ps.Add(selectedPath.ControlPoints[row.Index]);
                 }
 
-            foreach (ControlPoint point in path.ControlPoints)
-            {
+            foreach (ControlPoint point in path.ControlPoints) {
                 DrawPoint(point, path, ps.Contains(point));
             }
 
@@ -505,8 +443,7 @@
             kinematicsChart.Series["Velocity"].Points.Clear();
             kinematicsChart.Series["Acceleration"].Points.Clear();
 
-            foreach (State s in path.getPoints())
-            {
+            foreach (State s in path.getPoints()) {
                 double time = s.getTime();
                 kinematicsChart.Series["Position"].Points.AddXY(time, s.getPathState().getDistance());
                 kinematicsChart.Series["Velocity"].Points.AddXY(time, s.getVelocity());
@@ -522,8 +459,7 @@
 
 
 
-        public void UpdateField(bool doResetTrackBar=true)
-        {
+        public void UpdateField(bool doResetTrackBar = true) {
             if (skipUpdate)
                 return;
 
@@ -545,24 +481,19 @@
 
             if (noSelectedProfile()) return;
 
-            if (placingPoint != null)
-            {
+            if (placingPoint != null) {
                 DrawPoint(placingPoint, selectedPath);
             }
 
-            foreach (ProfilePath path in selectedProfile.Paths)
-            {
+            foreach (ProfilePath path in selectedProfile.Paths) {
                 if (path == selectedPath) continue;
                 DrawPath(path, false);
             }
             if (!noSelectedPath()) DrawPath(selectedPath, false);
 
-            if(selectedProfile.PathCount == pathTable.Rows.Count)
-            {
-                for (int i = 0; i < pathTable.Rows.Count; i++)
-                {
-                    if (selectedProfile.Paths[i].gen != null)
-                    {
+            if (selectedProfile.PathCount == pathTable.Rows.Count) {
+                for (int i = 0; i < pathTable.Rows.Count; i++) {
+                    if (selectedProfile.Paths[i].gen != null) {
                         double time = selectedProfile.Paths[i].gen.getDuration();
                         pathTable.Rows[i].Cells[1].Value = string.Format("{0:N2}", time);
                     }
@@ -570,14 +501,13 @@
             }
 
             setStatus("", false);
-            if(doResetTrackBar)
+            if (doResetTrackBar)
                 resetTrackBar();
 
 
         }
 
-        private void SaveAllProfiles(object sender, EventArgs e)
-        {
+        private void SaveAllProfiles(object sender, EventArgs e) {
             if (profiles.Count == 0) return;
 
             FolderBrowserDialog browser = new FolderBrowserDialog();
@@ -585,25 +515,20 @@
 
             String mpBasePath = "";
 
-            if (!Directory.Exists(Properties.Settings.Default.mpSavePath))
-            {
+            if (!Directory.Exists(Properties.Settings.Default.mpSavePath)) {
                 if (browser.ShowDialog() != DialogResult.OK) return;
                 mpBasePath = System.IO.Path.GetDirectoryName(browser.SelectedPath);
-            }
-            else
-            {
+            } else {
                 mpBasePath = Properties.Settings.Default.mpSavePath;
             }
 
 
             Cursor = Cursors.WaitCursor;
             setStatus("Saving profiles to file system...", false);
-            foreach (Profile profile in profiles)
-            {
+            foreach (Profile profile in profiles) {
                 string mpPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".mp");
                 //string javaPath = System.IO.Path.Combine(mpBasePath, profile.Name.Replace(' ', '_') + ".java");
-                using (var writer = new StreamWriter(mpPath))
-                {
+                using (var writer = new StreamWriter(mpPath)) {
                     writer.Write(profile.toJSON().ToString());
                 }
                 //using (var writer = new StreamWriter(javaPath))
@@ -618,8 +543,7 @@
         /// <summary>
         /// Save the selected motion profile to a file.
         /// </summary>
-        private void SaveSelectedProfile(object sender, EventArgs e)
-        {
+        private void SaveSelectedProfile(object sender, EventArgs e) {
             if (noSelectedProfile()) return;
 
             SaveFileDialog browser = new SaveFileDialog();
@@ -631,13 +555,10 @@
 
             String mpBasePath = "";
 
-            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath))
-            {
+            if (!Directory.Exists(Properties.Settings.Default.javaSavePath) || !Directory.Exists(Properties.Settings.Default.iniSavePath)) {
                 if (browser.ShowDialog() != DialogResult.OK || browser.FileName.Trim().Length <= 3) return;
                 mpBasePath = System.IO.Path.GetDirectoryName(browser.FileName.Trim());
-            }
-            else
-            {
+            } else {
                 mpBasePath = Properties.Settings.Default.mpSavePath;
             }
 
@@ -648,20 +569,9 @@
                 mpBasePath,
                 System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".mp"
             );
-            using (var writer = new StreamWriter(filePath))
-            {
+            using (var writer = new StreamWriter(filePath)) {
                 writer.Write(selectedProfile.toJSON().ToString());
             }
-
-            // Write java file to pre-compile into robot
-            //string pointPath = System.IO.Path.Combine(
-            //    System.IO.Path.GetDirectoryName(browser.FileName.Trim()),
-            //    System.IO.Path.GetFileNameWithoutExtension(browser.FileName.Trim()) + ".java"
-            //);
-            //using (var writer = new StreamWriter(pointPath))
-            //{
-            //    writer.Write(selectedProfile.toJava());
-            //}
 
             setStatus("Profile saved to file system", false);
             Cursor = Cursors.Default;
@@ -670,8 +580,7 @@
         /// <summary>
         /// Loads profile json files into the profiler from a file dialog
         /// </summary>
-        private void LoadProfilesFromFiles(object sender, EventArgs e)
-        {
+        private void LoadProfilesFromFiles(object sender, EventArgs e) {
             openFilesDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
             openFilesDialog.FileName = "";
             openFilesDialog.Filter = "MotionProfile Data (*.mp)|*.mp";
@@ -682,19 +591,14 @@
 
             Cursor = Cursors.WaitCursor;
             setStatus("Loading profiles from local files...", false);
-            foreach (string filename in openFilesDialog.FileNames)
-            {
-                using (StreamReader fileReader = new StreamReader(filename))
-                {
-                    try
-                    {
+            foreach (string filename in openFilesDialog.FileNames) {
+                using (StreamReader fileReader = new StreamReader(filename)) {
+                    try {
                         JObject read = JObject.Parse(fileReader.ReadToEnd());
-                        saveUndoState("Load File",true,null,false);
+                        saveUndoState("Load File", true, null, false);
                         profiles.Add(new Profile(read));
                         profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
-                    }
-                    catch
-                    {
+                    } catch {
                         MessageBox.Show("Error loading file " + filename, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -704,8 +608,7 @@
             Cursor = Cursors.Default;
         }
 
-        private void LoadProfilesFromRIO(object sender, EventArgs e)
-        {
+        private void LoadProfilesFromRIO(object sender, EventArgs e) {
             Cursor = Cursors.WaitCursor;
             ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
                 Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
@@ -713,62 +616,44 @@
             info.Timeout = TimeSpan.FromSeconds(5);
 
             SftpClient sftp = new SftpClient(info);
-            /*SftpClient sftp = new SftpClient(
-                Properties.Settings.Default.IpAddress,
-                Properties.Settings.Default.Username,
-                Properties.Settings.Default.Password
-            );*/
-            try
-            {
+            try {
                 setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
 
-                if (!sftp.Exists(Properties.Settings.Default.RioLocation))
-                {
+                if (!sftp.Exists(Properties.Settings.Default.RioLocation)) {
                     sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
                     setStatus("No motion profiles found at RIO directory", false);
                     return;
                 }
 
                 bool foundFiles = false;
-                if(sftp.ListDirectory(Properties.Settings.Default.RioLocation).Count()>0)
-                    
-                foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation))
-                {
-                    if (!file.Name.Contains(".mp")) continue;
-                    foundFiles = true;
+                if (sftp.ListDirectory(Properties.Settings.Default.RioLocation).Count() > 0)
+
+                    foreach (SftpFile file in sftp.ListDirectory(Properties.Settings.Default.RioLocation)) {
+                        if (!file.Name.Contains(".mp")) continue;
+                        foundFiles = true;
                         saveUndoState("Load File", true, null, false);
-                    StreamReader reader = sftp.OpenText(file.FullName);
-                    profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
-                    profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
-                }
+                        StreamReader reader = sftp.OpenText(file.FullName);
+                        profiles.Add(new Profile(JObject.Parse(reader.ReadToEnd())));
+                        profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
+                    }
                 if (foundFiles) setStatus("Profiles loaded from RIO", false);
                 else setStatus("No motion profiles found at RIO directory", false);
 
                 sftp.Disconnect();
-            }
-            catch (Renci.SshNet.Common.SshConnectionException exception)
-            {
+            } catch (Renci.SshNet.Common.SshConnectionException exception) {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
-            }
-            catch (Renci.SshNet.Common.SshOperationTimeoutException exception)
-            {
+            } catch (Renci.SshNet.Common.SshOperationTimeoutException exception) {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
-            }
-            catch (System.Net.Sockets.SocketException exception)
-            {
+            } catch (System.Net.Sockets.SocketException exception) {
                 Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
-            }
-            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
-            {
+            } catch (Renci.SshNet.Common.SftpPermissionDeniedException exception) {
                 Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
                 setStatus("Permission denied", true);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
                 setStatus("Failed to load RIO profiles", true);
             }
@@ -776,22 +661,17 @@
             Cursor = Cursors.Default;
         }
 
-        private void GridCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (GridCheckBox.CheckState == CheckState.Unchecked)
-            {
+        private void GridCheckBox_CheckedChanged(object sender, EventArgs e) {
+            if (GridCheckBox.CheckState == CheckState.Unchecked) {
                 mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
                 mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-            }
-            else
-            {
+            } else {
                 mainField.ChartAreas[0].AxisX.MajorGrid.Enabled = true;
                 mainField.ChartAreas[0].AxisY.MajorGrid.Enabled = true;
             }
         }
         bool skipSelectProfile = false;
-        private void selectProfile(int index = -1)
-        {
+        private void selectProfile(int index = -1) {
             if (skipSelectProfile)
                 return;
             skipSelectProfile = true;
@@ -802,14 +682,12 @@
 
             if (placingPoint != null) placingPoint = null;
 
-            if (!noSelectedProfile())
-            {
+            if (!noSelectedProfile()) {
                 profileTable.ClearSelection();
-                foreach (ProfilePath path in selectedProfile.Paths)
-                {
+                foreach (ProfilePath path in selectedProfile.Paths) {
                     pathTable.Rows.Add(path.Name);
                 }
-                
+
                 profileTable.Rows[profiles.IndexOf(selectedProfile)].Selected = true;
             }
             skipSelectProfile = false;
@@ -821,17 +699,15 @@
             UpdateField();
         }
 
-        private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
+        private void profileTable_RowEnter(object sender, DataGridViewCellEventArgs e) {
             //Console.WriteLine("row Enter");
 
             //selectProfile(e.RowIndex);
         }
 
-        private void newProfileButton_Click(object sender, EventArgs e)
-        {
+        private void newProfileButton_Click(object sender, EventArgs e) {
             skipPathSelectionChange = true;
-            saveUndoState("New Profile",true, null, false);
+            saveUndoState("New Profile", true, null, false);
             profiles.Add(new Profile());
             skipSelectProfile = true;
             int index = profileTable.Rows.Add(profiles.Last().Name, profiles.Last().Edited);
@@ -842,10 +718,8 @@
             skipPathSelectionChange = false;
         }
 
-        private void deleteProfileButton_Click(object sender, EventArgs e)
-        {
-            if (profiles.Count == 0)
-            {
+        private void deleteProfileButton_Click(object sender, EventArgs e) {
+            if (profiles.Count == 0) {
                 profileTable.ClearSelection();
                 return;
             }
@@ -858,27 +732,23 @@
             selectProfile(Math.Min(profileIndex, profiles.Count - 1));
         }
 
-        private void profileTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(profileTable.CurrentCell!=null)
+        private void profileTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (profileTable.CurrentCell != null)
                 profileTable.BeginEdit(false);
         }
 
-        private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
+        private void profileTable_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
             profiles[e.RowIndex].Name = profileTable.Rows[e.RowIndex].Cells[0].Value.ToString();
         }
 
-        private void editProfileButton_Click(object sender, EventArgs e)
-        {
+        private void editProfileButton_Click(object sender, EventArgs e) {
             if (!noSelectedProfile() && profileTable.CurrentCell != null) profileTable.BeginEdit(false);
         }
 
-        private void newPathButton_Click(object sender, EventArgs e)
-        {
+        private void newPathButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile()) return;
             skipPathSelectionChange = true;
-            string newPathName = "Path " + (selectedProfile.Paths.Count + 1);
+            string newPathName = "Path " + ( selectedProfile.Paths.Count + 1 );
 
             if (Properties.Settings.Default.SnapNewPaths && selectedProfile.Paths.Count > 0)
                 selectedProfile.newPath(newPathName, splineMode, selectedProfile.Paths.Last());
@@ -894,10 +764,8 @@
             pathTable.CurrentCell = pathTable.Rows[newIndex].Cells[0];
         }
 
-        private void deletePathButton_Click(object sender, EventArgs e)
-        {
-            if (profiles.Count == 0 || profiles[profileTable.SelectedRows[0].Index].PathCount == 0)
-            {
+        private void deletePathButton_Click(object sender, EventArgs e) {
+            if (profiles.Count == 0 || profiles[profileTable.SelectedRows[0].Index].PathCount == 0) {
                 pathTable.ClearSelection();
                 return;
             }
@@ -911,14 +779,10 @@
 
         }
 
-        private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "")
-            {
+        private void pathTable_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            if (pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim() == "") {
                 pathTable.Rows[e.RowIndex].Cells[0].Value = selectedProfile.Paths[e.RowIndex].Name;
-            }
-            else
-            {
+            } else {
                 ProfilePath editedPath = selectedProfile.Paths[e.RowIndex];
                 editedPath.Name = pathTable.Rows[e.RowIndex].Cells[0].Value.ToString().Trim();
             }
@@ -926,8 +790,7 @@
 
         }
 
-        private void pathOrderUp_Click(object sender, EventArgs e)
-        {
+        private void pathOrderUp_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             ProfilePath tempPath = selectedPath;
@@ -937,8 +800,7 @@
 
         }
 
-        private void pathOrderDown_Click(object sender, EventArgs e)
-        {
+        private void pathOrderDown_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             selectedProfile.movePathOrderDown(selectedPath);
@@ -951,59 +813,49 @@
         /// <summary>
         /// Set the status message at the top of the field display
         /// </summary>
-        private void setStatus(string message, bool error)
-        {
+        private void setStatus(string message, bool error) {
             infoLabel.Text = message;
             infoLabel.ForeColor = error ? Color.Red : Color.Black;
         }
 
-        private bool noSelectedProfile()
-        {
-            if (profiles.IndexOf(selectedProfile) == -1)
-            {
+        private bool noSelectedProfile() {
+            if (profiles.IndexOf(selectedProfile) == -1) {
                 setStatus("Create or select a profile", true);
                 return true;
             }
             return false;
         }
 
-        private bool noSelectedPath()
-        {
+        private bool noSelectedPath() {
             if (noSelectedProfile()) return true;
-            if (selectedProfile.Paths.IndexOf(selectedPath) == -1)
-            {
+            if (selectedProfile.Paths.IndexOf(selectedPath) == -1) {
                 setStatus("Create or select a path", true);
                 return true;
             }
             return false;
         }
 
-        private bool noPointsInPath()
-        {
+        private bool noPointsInPath() {
             if (noSelectedProfile() || noSelectedPath()) return true;
-            if (selectedPath.isEmpty())
-            {
+            if (selectedPath.isEmpty()) {
                 setStatus("Click on the field to create points", true);
                 return true;
             }
             return false;
         }
 
-        private void pathTable_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
+        private void pathTable_RowEnter(object sender, DataGridViewCellEventArgs e) {
             if (skipPathSelectionChange)
                 return;
             selectPath(e.RowIndex);
         }
 
-        private void selectPath(int index = -1)
-        {
+        private void selectPath(int index = -1) {
             selectPath(true, index);
         }
 
         bool skipPathSelectionChange = false;
-        private void selectPath(bool doResetTrackBar, int index = -1)
-        {
+        private void selectPath(bool doResetTrackBar, int index = -1) {
             // -1 reselects current path i think
             ControlPointTable.Rows.Clear();
 
@@ -1011,19 +863,16 @@
 
             if (index != -1) selectedPath = selectedProfile.Paths[index];
 
-            if (!noSelectedPath())
-            {
+            if (!noSelectedPath()) {
                 skipUpdate = true;
                 setSplineMode(selectedPath.IsSpline);
                 skipUpdate = false;
             }
 
-           
 
-            if (!noSelectedPath())
-            {
-                foreach (ControlPoint point in selectedPath.ControlPoints)
-                {
+
+            if (!noSelectedPath()) {
+                foreach (ControlPoint point in selectedPath.ControlPoints) {
                     ControlPointTable.Rows.Add(Math.Round(point.X, 3), Math.Round(point.Y, 3), point.Rotation);
                 }
                 skipPathSelectionChange = true;
@@ -1036,25 +885,21 @@
             UpdateField(doResetTrackBar);
         }
 
-        private void pathTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(pathTable.CurrentCell!=null)
+        private void pathTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (pathTable.CurrentCell != null)
                 pathTable.BeginEdit(false);
         }
 
-        private void showPathsCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
+        private void showPathsCheckbox_CheckedChanged(object sender, EventArgs e) {
             UpdateField();
         }
 
-        private void rioConectionButton_Click(object sender, EventArgs e)
-        {
+        private void rioConectionButton_Click(object sender, EventArgs e) {
             Settings settings = new Settings();
             settings.ShowDialog();
         }
 
-        private void editPathButton_Click(object sender, EventArgs e)
-        {
+        private void editPathButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             PathSettings settings = new PathSettings(selectedPath, pathTable.Rows[selectedProfile.Paths.IndexOf(selectedPath)].Cells[0]);
@@ -1063,16 +908,13 @@
             resetTrackBar();
         }
 
-        public void updateEditTime(Profile p)
-        {
+        public void updateEditTime(Profile p) {
             if (profiles.Contains(p))
                 profileTable.Rows[profiles.IndexOf(p)].Cells[1].Value = p.Edited;
         }
 
-        private void saveToRioButton_Click(object sender, EventArgs e)
-        {
-            if (profiles.Count == 0)
-            {
+        private void saveToRioButton_Click(object sender, EventArgs e) {
+            if (profiles.Count == 0) {
                 setStatus("No profiles to save to RIO", true);
                 return;
             }
@@ -1084,18 +926,15 @@
                 Properties.Settings.Default.Password
             );
 
-            try
-            {
+            try {
                 setStatus("Establishing RIO connection...", false);
                 sftp.Connect();
 
                 if (!sftp.Exists(Properties.Settings.Default.RioLocation)) sftp.CreateDirectory(Properties.Settings.Default.RioLocation);
 
                 List<Profile> invalidProfiles = new List<Profile>();
-                foreach (Profile profile in profiles)
-                {
-                    if (!profile.isValid())
-                    {
+                foreach (Profile profile in profiles) {
+                    if (!profile.isValid()) {
                         invalidProfiles.Add(profile);
                         continue;
                     }
@@ -1115,8 +954,7 @@
 
                 setStatus("Verifying file contents...", false);
                 bool verified = true;
-                foreach (Profile profile in profiles)
-                {
+                foreach (Profile profile in profiles) {
                     if (invalidProfiles.Contains(profile)) continue;
                     StreamReader reader = sftp.OpenText(
                         System.IO.Path.Combine(Properties.Settings.Default.RioLocation, profile.Name.Replace(' ', '_') + ".txt")
@@ -1131,32 +969,22 @@
                     MessageBoxIcon.Warning
                 );
 
-                if (verified)
-                {
+                if (verified) {
                     setStatus("Profile(s) uploaded and verified successfully", false);
                     timeOfUpload = DateTime.Now;
                     timer2.Start();
-                }
-                else setStatus("Failed to verify uploaded file content", true);
+                } else setStatus("Failed to verify uploaded file content", true);
                 sftp.Disconnect();
-            }
-            catch (Renci.SshNet.Common.SshConnectionException exception)
-            {
+            } catch (Renci.SshNet.Common.SshConnectionException exception) {
                 Console.WriteLine("SshConnectionException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
-            }
-            catch (System.Net.Sockets.SocketException exception)
-            {
+            } catch (System.Net.Sockets.SocketException exception) {
                 Console.WriteLine("SocketException, source: {0}", exception.StackTrace);
                 setStatus("Failed to establish connection", true);
-            }
-            catch (Renci.SshNet.Common.SftpPermissionDeniedException exception)
-            {
+            } catch (Renci.SshNet.Common.SftpPermissionDeniedException exception) {
                 Console.WriteLine("SftpPermissionDeniedException, source: {0}", exception.StackTrace);
                 setStatus("Permission denied", true);
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 Console.WriteLine("Exception, source: {0}", exception.StackTrace);
                 setStatus("Failed to upload profile to RIO", true);
             }
@@ -1164,30 +992,25 @@
             Cursor = Cursors.Default;
         }
 
-        private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 27 && placingPoint != null)
-            {
+        private void MainForm_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == 27 && placingPoint != null) {
                 placingPoint = null;
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
             }
         }
 
-        private void radioRed_CheckedChanged(object sender, EventArgs e)
-        {
+        private void radioRed_CheckedChanged(object sender, EventArgs e) {
             if (!noSelectedProfile()) selectedProfile.isRed = radioRed.Checked;
-            setBackground(false, false);
-        }
-
-        private void radioBlue_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!noSelectedProfile()) selectedProfile.isRed = !radioBlue.Checked;
             setBackground(true, false);
         }
 
-        private void duplicateProfileButton_Click(object sender, EventArgs e)
-        {
+        private void radioBlue_CheckedChanged(object sender, EventArgs e) {
+            if (!noSelectedProfile()) selectedProfile.isRed = !radioBlue.Checked;
+            setBackground(false, false);
+        }
+
+        private void duplicateProfileButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile()) return;
 
             profiles.Add(new Profile(selectedProfile));
@@ -1195,28 +1018,24 @@
             selectProfile(profiles.Count - 1);
         }
 
-        private void shiftPathButton_Click(object sender, EventArgs e)
-        {
+        private void shiftPathButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             ShiftPath shiftPath = new ShiftPath(selectedPath, this.selectPath);
             shiftPath.ShowDialog();
         }
 
-        private void previewButton_Click(object sender, EventArgs e)
-        {
+        private void previewButton_Click(object sender, EventArgs e) {
             if (noPointsInPath()) return;
 
             Forms.Preview preview = new Forms.Preview(selectedProfile.toTxt().Replace(' ', ' '));
             preview.ShowDialog();
         }
 
-        private void deletePointButton_Click(object sender, EventArgs e)
-        {
+        private void deletePointButton_Click(object sender, EventArgs e) {
             if (noSelectedPath() || ControlPointTable.SelectedRows.Count == 0) return;
 
-            if (placingPoint != null)
-            {
+            if (placingPoint != null) {
                 placingPoint = null;
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
@@ -1228,34 +1047,29 @@
                 selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) - 1].snapLast(selectedPath.ControlPoints[0]);
             if (ControlPointTable.SelectedRows[0].Index == selectedPath.ControlPoints.Count
                         && selectedPath != selectedProfile.Paths.Last()
-                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious)
-            {
+                        && selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].SnapToPrevious) {
                 selectedProfile.Paths[selectedProfile.Paths.IndexOf(selectedPath) + 1].snap(selectedPath);
             }
             selectPath();
         }
 
-        private void mirrorPathButton_Click(object sender, EventArgs e)
-        {
+        private void mirrorPathButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             MirrorPath mirrorPath = new MirrorPath(selectedProfile, selectedPath, selectPath, fieldHeight);
             mirrorPath.ShowDialog();
         }
 
-        private void infoButton_Click(object sender, EventArgs e)
-        {
+        private void infoButton_Click(object sender, EventArgs e) {
             AboutBox about = new AboutBox();
             about.ShowDialog();
         }
 
-        private void pathTable_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
+        private void pathTable_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e) {
             var grid = sender as DataGridView;
-            var rowIdx = (e.RowIndex + 1).ToString();
+            var rowIdx = ( e.RowIndex + 1 ).ToString();
 
-            var centerFormat = new StringFormat()
-            {
+            var centerFormat = new StringFormat() {
                 // right alignment might actually make more sense for numbers
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center
@@ -1264,90 +1078,75 @@
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, pathTable.RowHeadersDefaultCellStyle.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
         }
-        private void reverseButton_Click(object sender, EventArgs e)
-        {
+        private void reverseButton_Click(object sender, EventArgs e) {
             if (noSelectedProfile() || noSelectedPath()) return;
 
             selectedPath.reverse();
             selectPath();
         }
 
-        private void setSplineMode(bool isSpline)
-        {
+        private void setSplineMode(bool isSpline) {
             radioLine.Checked = !isSpline;
             radioSpline.Checked = isSpline;
         }
-        private void setAllianceMode(bool isRed)
-        {
+        private void setAllianceMode(bool isRed) {
             radioRed.Checked = isRed;
             radioBlue.Checked = !isRed;
         }
 
-        private void radioLine_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!skipUpdate)
-            {
+        private void radioLine_CheckedChanged(object sender, EventArgs e) {
+            if (!skipUpdate) {
                 splineMode = false;
                 if (!noSelectedPath()) selectedPath.IsSpline = splineMode;
                 UpdateField();
             }
         }
 
-        private void radioSpline_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!skipUpdate)
-            {
+        private void radioSpline_CheckedChanged(object sender, EventArgs e) {
+            if (!skipUpdate) {
                 splineMode = true;
                 if (!noSelectedPath()) selectedPath.IsSpline = splineMode;
                 UpdateField();
             }
         }
 
-        private void MotionProfiler_FormClosed(object sender, FormClosedEventArgs e)
-        {
+        private void MotionProfiler_FormClosed(object sender, FormClosedEventArgs e) {
             this.menu.Close();
         }
 
-        private void resetTrackBar()
-        {
+        private void resetTrackBar() {
             trackBar_ValueChanged(null, null);
             stopTimer();
         }
 
-        private void trackBar_ValueChanged(object sender, EventArgs e)
-        {
+        private void trackBar_ValueChanged(object sender, EventArgs e) {
             if (noSelectedPath()) return;
 
-            double percent = (double)trackBar.Value / (double)trackBar.Maximum;
+            double percent = (double) trackBar.Value / (double) trackBar.Maximum;
 
-            List <ProfilePath> selectedPaths = new List<ProfilePath>();
+            List<ProfilePath> selectedPaths = new List<ProfilePath>();
 
-            foreach (ProfilePath p in selectedProfile.Paths)
-            {
-                if (!p.isEmpty())
-                {
+            foreach (ProfilePath p in selectedProfile.Paths) {
+                if (!p.isEmpty()) {
                     selectedPaths.Add(p);
                 }
             }
 
 
-            if (selectedPaths.Count == 0)
-            {
+            if (selectedPaths.Count == 0) {
                 currentTime.Text = "Current Time:";
                 return;
             }
 
-            double duration = selectedPaths.Sum(p => (p.gen.getDuration()));
+            double duration = selectedPaths.Sum(p => ( p.gen.getDuration() ));
 
             double time = duration * percent;
 
             double accumTime = 0;
             ProfilePath currentPath = null;
-            for (int i = 0; i < selectedPaths.Count; i++)
-            {
+            for (int i = 0; i < selectedPaths.Count; i++) {
                 ProfilePath p = selectedPaths[i];
-                if (p.gen.getDuration()+accumTime>=time)
-                {
+                if (p.gen.getDuration() + accumTime >= time) {
                     currentPath = p;
                     break;
                 }
@@ -1358,14 +1157,13 @@
             if (currentPath == null)
                 return;
 
-            if (currentPath != selectedPath && timer1.Enabled)
-            {
+            if (currentPath != selectedPath && timer1.Enabled) {
                 selectPath(false, selectedProfile.Paths.IndexOf(currentPath));
                 skipPathSelectionChange = true;
                 pathTable.CurrentCell = pathTable.Rows[selectedProfile.Paths.IndexOf(currentPath)].Cells[0];
                 skipPathSelectionChange = false;
             }
-                
+
 
             currentTime.Text = string.Format("Current Time: {0:N2} seconds", time);
 
@@ -1412,11 +1210,9 @@
 
         }
         DateTime startTime = DateTime.Now;
-        private void timer1_Tick(object sender, EventArgs e)
-        {
+        private void timer1_Tick(object sender, EventArgs e) {
 
-            if (noSelectedPath() || selectedPath.gen == null)
-            {
+            if (noSelectedPath() || selectedPath.gen == null) {
                 stopTimer();
                 return;
             }
@@ -1424,63 +1220,54 @@
             TimeSpan time = DateTime.Now - startTime;
 
             List<ProfilePath> selectedPaths = new List<ProfilePath>();
-            foreach (ProfilePath p in selectedProfile.Paths)
-            {
-                if (!p.isEmpty())
-                {
+            foreach (ProfilePath p in selectedProfile.Paths) {
+                if (!p.isEmpty()) {
                     selectedPaths.Add(p);
                 }
 
             }
             double duration = 0.0;
-            if (selectedPaths.Count != 0)
-            {
-                duration = selectedPaths.Sum(p => (p.gen.getDuration()));
+            if (selectedPaths.Count != 0) {
+                duration = selectedPaths.Sum(p => ( p.gen.getDuration() ));
             }
 
-            if (time.TotalSeconds + timeOffset > duration)
-            {
+            if (time.TotalSeconds + timeOffset > duration) {
                 trackBar.Value = trackBar.Maximum;
                 stopTimer();
                 return;
             }
-            int trackbarvalue = (int)(((time.TotalSeconds + timeOffset) / duration) * trackBar.Maximum);
+            int trackbarvalue = (int) ( ( ( time.TotalSeconds + timeOffset ) / duration ) * trackBar.Maximum );
 
             if (trackbarvalue <= trackBar.Maximum && trackbarvalue >= trackBar.Minimum)
                 trackBar.Value = trackbarvalue;
             trackBar_ValueChanged(null, null);
 
         }
-        private void stopTimer()
-        {
+        private void stopTimer() {
             timer1.Stop();
             playButton.IconChar = FontAwesome.Sharp.IconChar.Play;
         }
 
         private double timeOffset = 0.0;
 
-        private void startTimer()
-        {
+        private void startTimer() {
             timeOffset = 0.0;
             timer1.Start();
             playButton.IconChar = FontAwesome.Sharp.IconChar.Pause;
-            double percent = (double)trackBar.Value / (double)trackBar.Maximum;
+            double percent = (double) trackBar.Value / (double) trackBar.Maximum;
 
             if (selectedPath.gen == null) return;
 
             if (percent != 1.0) timeOffset = selectedPath.gen.getDuration() * percent;
 
         }
-        private void playButton_Click(object sender, EventArgs e)
-        {
-            if (noSelectedPath() || selectedPath.gen == null)
-            {
+        private void playButton_Click(object sender, EventArgs e) {
+            if (noSelectedPath() || selectedPath.gen == null) {
                 stopTimer();
                 return;
             }
 
-            if (playButton.IconChar == FontAwesome.Sharp.IconChar.Pause)
-            {
+            if (playButton.IconChar == FontAwesome.Sharp.IconChar.Pause) {
                 stopTimer();
                 return;
             }
@@ -1489,25 +1276,21 @@
             startTimer();
         }
 
-        private void iconButton2_Click(object sender, EventArgs e)
-        {
+        private void iconButton2_Click(object sender, EventArgs e) {
             menu.constants.Show();
             this.Hide();
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
-        {
+        private void timer2_Tick(object sender, EventArgs e) {
             TimeSpan ts = DateTime.Now - timeOfUpload;
 
 
             timeSinceUpload.Text = "Last Upload: " + ts.ToString("h'h 'm'm 's's'");
         }
 
-        private void MotionProfiler_TabChange(object sender, EventArgs e)
-        {
+        private void MotionProfiler_TabChange(object sender, EventArgs e) {
             // Stop any point placements
-            if(placingPoint != null)
-            {
+            if (placingPoint != null) {
                 placingPoint = null;
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
@@ -1515,124 +1298,103 @@
             this.MotionProfiler_Resize(sender, e);
         }
 
-        private void MotionProfiler_Resize(object sender, EventArgs e)
-        {
-            double hw = (fieldWidth / fieldHeight);
-            double wh = (fieldHeight / fieldWidth);
-            int panel1Height = (int)(panel1.Height);
-                        if (panel1.Width <= panel1Height * hw)
-                        {
-                            mainField.Width = (int)(panel1.Width);
+        private void MotionProfiler_Resize(object sender, EventArgs e) {
+            double hw = ( fieldWidth / fieldHeight );
+            double wh = ( fieldHeight / fieldWidth );
+            int panel1Height = (int) ( panel1.Height );
+            if (panel1.Width <= panel1Height * hw) {
+                mainField.Width = (int) ( panel1.Width );
 
-                            mainField.Height = (int)(panel1.Width * wh);
+                mainField.Height = (int) ( panel1.Width * wh );
 
-                            mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1Height / 2.0) - panel1Height / 2);
-                        }
-                        if (panel1Height <= panel1.Width * wh)
-                        {
-                            mainField.Height = panel1Height;
+                mainField.Location = new Point(panel1.Location.X + (int) ( panel1.Width / 2.0 ) - mainField.Width / 2, panel1.Location.Y + (int) ( panel1Height / 2.0 ) - panel1Height / 2);
+            }
+            if (panel1Height <= panel1.Width * wh) {
+                mainField.Height = panel1Height;
 
-                            mainField.Width = (int)(panel1Height * hw);
+                mainField.Width = (int) ( panel1Height * hw );
 
-                            mainField.Location = new Point(panel1.Location.X + (int)(panel1.Width / 2.0) - mainField.Width / 2, panel1.Location.Y + (int)(panel1Height / 2.0) - panel1Height / 2);
-                        }
+                mainField.Location = new Point(panel1.Location.X + (int) ( panel1.Width / 2.0 ) - mainField.Width / 2, panel1.Location.Y + (int) ( panel1Height / 2.0 ) - panel1Height / 2);
+            }
         }
 
-        public static void saveUndoState(string reason, bool clearRedo = true, UndoHolder holder = null, bool selectPOI = true)
-        {
+        public static void saveUndoState(string reason, bool clearRedo = true, UndoHolder holder = null, bool selectPOI = true) {
             if (clearRedo)
                 redo.Clear();
 
 
-            if (holder == null)
-            {
+            if (holder == null) {
                 List<Profile> profiles = MotionProfiler.profiles;
                 List<Profile> ps = new List<Profile>();
-                foreach (Profile p in profiles)
-                {
+                foreach (Profile p in profiles) {
                     ps.Add(new Profile(p));
                 }
 
                 UndoHolder h = new UndoHolder();
                 h.profiles = ps;
-                
+
                 h.usePOI = selectPOI;
                 if (reason == "Load File" || reason == "Delete Profile" || reason == "New Profile")
                     h.usePOI = false;
                 h.reason = reason;
-                if (selectedPath != null)
-                {
+                if (selectedPath != null) {
                     h.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
                     h.selectedProfileIndex = profiles.IndexOf(selectedProfile);
                 }
                 undo.Add(h);
-            }
-            else
-            {
+            } else {
 
                 undo.Add(holder);
             }
             Console.WriteLine("---UNDO---");
-            foreach (UndoHolder ho in undo)
-            {
+            foreach (UndoHolder ho in undo) {
                 Console.WriteLine(ho.reason);
             }
             Console.WriteLine("---REDO---");
-            foreach (UndoHolder ho in redo)
-            {
+            foreach (UndoHolder ho in redo) {
                 Console.WriteLine(ho.reason);
             }
 
         }
 
-        public static void saveRedoState(string reason)
-        {
+        public static void saveRedoState(string reason) {
             List<Profile> ps = new List<Profile>();
-            foreach (Profile p in profiles)
-            {
+            foreach (Profile p in profiles) {
                 ps.Add(new Profile(p));
             }
 
             UndoHolder holder = new UndoHolder();
             holder.profiles = ps;
             holder.reason = reason;
-            if (selectedPath != null)
-            {
+            if (selectedPath != null) {
                 holder.selectedPathIndex = selectedProfile.Paths.IndexOf(selectedPath);
                 holder.selectedProfileIndex = profiles.IndexOf(selectedProfile);
             }
             redo.Add(holder);
             Console.WriteLine("---UNDO---");
-            foreach (UndoHolder ho in undo)
-            {
+            foreach (UndoHolder ho in undo) {
                 Console.WriteLine(ho.reason);
             }
             Console.WriteLine("---REDO---");
-            foreach (UndoHolder ho in redo)
-            {
+            foreach (UndoHolder ho in redo) {
                 Console.WriteLine(ho.reason);
             }
         }
 
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (placingPoint != null)
-            {
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (placingPoint != null) {
                 placingPoint = null;
                 ControlPointTable.Rows.RemoveAt(ControlPointTable.RowCount - 1);
                 UpdateField();
                 return;
             }
 
-            if (undo.Count > 0)
-            {
-                if(profileTable.SelectedRows.Count == 0 && profiles.Count()> undo.Last().selectedProfileIndex && undo.Last().usePOI)
-                {
+            if (undo.Count > 0) {
+                if (profileTable.SelectedRows.Count == 0 && profiles.Count() > undo.Last().selectedProfileIndex && undo.Last().usePOI) {
                     selectProfile(undo.Last().selectedProfileIndex);
                     return;
                 }
-                if (profileTable.Rows.Count > 0 && profiles.Count() > undo.Last().selectedProfileIndex && undo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
-                {
+                if (profileTable.Rows.Count > 0 && profiles.Count() > undo.Last().selectedProfileIndex && undo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI) {
                     selectProfile(undo.Last().selectedProfileIndex);
                     return;
                 }
@@ -1643,14 +1405,12 @@
                 int selectedProfileIndex = -1;
                 int selectedPathIndex = -1;
 
-                if (pathTable.SelectedRows.Count > 0)
-                {
+                if (pathTable.SelectedRows.Count > 0) {
                     selectedPathIndex = pathTable.SelectedCells[0].RowIndex;
                     pathTable.ClearSelection();
                 }
 
-                if (profileTable.SelectedCells.Count > 0)
-                {
+                if (profileTable.SelectedCells.Count > 0) {
                     selectedProfileIndex = profileTable.SelectedCells[0].RowIndex;
                     profileTable.ClearSelection();
                 }
@@ -1658,44 +1418,29 @@
 
                 profiles = undo.Last().profiles;
 
-                foreach (Profile p in profiles)
-                {
+                foreach (Profile p in profiles) {
                     profileTable.Rows.Add(p.Name, p.Edited);
                 }
 
 
-                if (undo.Last().selectedProfileIndex != -1)
-                {
+                if (undo.Last().selectedProfileIndex != -1) {
                     selectProfile(undo.Last().selectedProfileIndex);
-                }
-                else if (profileTable.Rows.Count == 0)
-                {
+                } else if (profileTable.Rows.Count == 0) {
                     selectProfile();
-                }
-                else if (profileTable.Rows.Count - 1 >= selectedProfileIndex)
-                {
+                } else if (profileTable.Rows.Count - 1 >= selectedProfileIndex) {
                     selectProfile(selectedProfileIndex);
-                }
-                else if (profileTable.Rows.Count >= 1)
-                {
+                } else if (profileTable.Rows.Count >= 1) {
                     selectProfile(profileTable.Rows.Count - 1);
                 }
 
 
-                if (undo.Last().selectedPathIndex != -1)
-                {
+                if (undo.Last().selectedPathIndex != -1) {
                     selectPath(undo.Last().selectedPathIndex);
-                }
-                else if (pathTable.Rows.Count == 0)
-                {
+                } else if (pathTable.Rows.Count == 0) {
                     selectPath();
-                }
-                else if (pathTable.Rows.Count - 1 >= selectedPathIndex)
-                {
+                } else if (pathTable.Rows.Count - 1 >= selectedPathIndex) {
                     selectPath(selectedPathIndex);
-                }
-                else if (pathTable.Rows.Count >= 1)
-                {
+                } else if (pathTable.Rows.Count >= 1) {
                     selectPath(pathTable.Rows.Count - 1);
                 }
 
@@ -1704,41 +1449,34 @@
                 skipUpdate = false;
                 UpdateField();
                 Console.WriteLine("---UNDO---");
-                foreach (UndoHolder ho in undo)
-                {
+                foreach (UndoHolder ho in undo) {
                     Console.WriteLine(ho.reason);
                 }
                 Console.WriteLine("---REDO---");
-                foreach (UndoHolder ho in redo)
-                {
+                foreach (UndoHolder ho in redo) {
                     Console.WriteLine(ho.reason);
                 }
             }
         }
 
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e) {
             placingPoint = null;
-            if (redo.Count > 0)
-            {
-                if (profileTable.Rows.Count > 0 && redo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI)
-                {
+            if (redo.Count > 0) {
+                if (profileTable.Rows.Count > 0 && redo.Last().selectedProfileIndex != profileTable.SelectedRows[0].Index && undo.Last().selectedProfileIndex != -1 && undo.Last().usePOI) {
                     selectProfile(redo.Last().selectedProfileIndex);
                     return;
                 }
                 skipUpdate = true;
-                saveUndoState(redo.Last().reason,false);
+                saveUndoState(redo.Last().reason, false);
                 int selectedIndex = -1;
-                if (profileTable.SelectedCells.Count > 0)
-                {
+                if (profileTable.SelectedCells.Count > 0) {
                     selectedIndex = profileTable.SelectedCells[0].RowIndex;
                     profileTable.ClearSelection();
                 }
 
                 int selectedPathIndex = -1;
 
-                if (pathTable.SelectedRows.Count > 0)
-                {
+                if (pathTable.SelectedRows.Count > 0) {
                     selectedPathIndex = pathTable.SelectedCells[0].RowIndex;
                     pathTable.ClearSelection();
                 }
@@ -1749,42 +1487,27 @@
 
 
 
-                foreach (Profile p in profiles)
-                {
+                foreach (Profile p in profiles) {
                     profileTable.Rows.Add(p.Name, p.Edited);
                 }
 
-                if (redo.Last().selectedProfileIndex != -1)
-                {
+                if (redo.Last().selectedProfileIndex != -1) {
                     selectProfile(redo.Last().selectedProfileIndex);
-                }
-                else if (profileTable.Rows.Count == 0)
-                {
+                } else if (profileTable.Rows.Count == 0) {
                     selectProfile();
-                }
-                else if (profileTable.Rows.Count - 1 >= selectedIndex)
-                {
+                } else if (profileTable.Rows.Count - 1 >= selectedIndex) {
                     selectProfile(selectedIndex);
-                }
-                else if (profileTable.Rows.Count >= 1)
-                {
+                } else if (profileTable.Rows.Count >= 1) {
                     selectProfile(profileTable.Rows.Count - 1);
                 }
 
-                if (redo.Last().selectedPathIndex != -1)
-                {
+                if (redo.Last().selectedPathIndex != -1) {
                     selectPath(redo.Last().selectedPathIndex);
-                }
-                else if (pathTable.Rows.Count == 0)
-                {
+                } else if (pathTable.Rows.Count == 0) {
                     selectPath();
-                }
-                else if (pathTable.Rows.Count - 1 >= selectedPathIndex)
-                {
+                } else if (pathTable.Rows.Count - 1 >= selectedPathIndex) {
                     selectPath(selectedPathIndex);
-                }
-                else if (pathTable.Rows.Count >= 1)
-                {
+                } else if (pathTable.Rows.Count >= 1) {
                     selectPath(pathTable.Rows.Count - 1);
                 }
                 redo.Remove(redo.Last());
@@ -1792,46 +1515,39 @@
                 skipUpdate = false;
                 UpdateField();
                 Console.WriteLine("---UNDO---");
-                foreach (UndoHolder ho in undo)
-                {
+                foreach (UndoHolder ho in undo) {
                     Console.WriteLine(ho.reason);
                 }
                 Console.WriteLine("---REDO---");
-                foreach (UndoHolder ho in redo)
-                {
+                foreach (UndoHolder ho in redo) {
                     Console.WriteLine(ho.reason);
                 }
             }
         }
 
-        private void ControlPointTable_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
+        private void ControlPointTable_RowEnter(object sender, DataGridViewCellEventArgs e) {
             if (noSelectedPath())
                 return;
             DrawPath(selectedPath, false);
 
         }
 
-        private void profileTable_SelectionChanged(object sender, EventArgs e)
-        {
+        private void profileTable_SelectionChanged(object sender, EventArgs e) {
             Console.WriteLine("SelectionChange");
-            if (profileTable.SelectedRows.Count > 0)
-            {
+            if (profileTable.SelectedRows.Count > 0) {
                 skipPathSelectionChange = true;
                 selectProfile(profileTable.SelectedRows[0].Index);
                 skipPathSelectionChange = false;
             }
         }
 
-        private void ControlPointTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(ControlPointTable.CurrentCell!=null)
+        private void ControlPointTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (ControlPointTable.CurrentCell != null)
                 ControlPointTable.BeginEdit(false);
         }
 
-        private void pathTable_SelectionChanged(object sender, EventArgs e)
-        {
-            if(pathTable.CurrentCell!=null && !skipPathSelectionChange)
+        private void pathTable_SelectionChanged(object sender, EventArgs e) {
+            if (pathTable.CurrentCell != null && !skipPathSelectionChange)
                 selectPath(pathTable.CurrentCell.RowIndex);
         }
     }
