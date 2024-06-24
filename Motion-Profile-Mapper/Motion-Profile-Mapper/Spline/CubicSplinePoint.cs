@@ -4,40 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MotionProfile.Spline
-{
-    public class CubicSplinePoint
-    {
+namespace MotionProfile.Spline {
+    public class CubicSplinePoint {
         double y;
         int Num;
 
-        public double Y
-        {
-            get
-            {
+        public double Y {
+            get {
                 return y;
             }
 
-            set
-            {
+            set {
                 y = value;
             }
         }
-        public int ControlPointNum
-        {
-            get
-            {
+        public int ControlPointNum {
+            get {
                 return Num;
             }
 
-            set
-            {
+            set {
                 Num = value;
             }
         }
 
-        public CubicSplinePoint(double y, int ControlPointNum)
-        {
+        public CubicSplinePoint(double y, int ControlPointNum) {
             this.Num = ControlPointNum;
             this.y = y;
         }
