@@ -921,6 +921,7 @@
         }
 
         private void saveToRioButton_Click(object sender, EventArgs e) {
+            SaveAllProfiles(null, null);
             if (profiles.Count == 0) {
                 setStatus("No profiles to save to RIO", true);
                 return;
