@@ -1,6 +1,6 @@
 package motion.profile.mapper;
 
-import javafx.scene.chart.XYChart;
+import javafx.collections.ObservableList;
 
 // Enum to represent the type of change in the table
 enum RedoUndoChangeType {
@@ -9,18 +9,18 @@ enum RedoUndoChangeType {
 
 public class RedoUndoChange {
     private final RedoUndoChangeType type;
-    private final XYChart.Data<Number, Number> data;
+    private final ObservableList<Path> paths;
 
-    public RedoUndoChange(RedoUndoChangeType type, XYChart.Data<Number, Number> data) {
+    public RedoUndoChange(RedoUndoChangeType type, ObservableList<Path> paths) {
         this.type = type;
-        this.data = data;
+        this.paths = paths;
     }
 
     public RedoUndoChangeType getType() {
         return type;
     }
 
-    public XYChart.Data<Number, Number> getData() {
-        return data;
+    public ObservableList<Path> getPaths() {
+        return paths;
     }
 }

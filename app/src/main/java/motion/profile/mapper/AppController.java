@@ -259,7 +259,8 @@ public class AppController {
                 // Add the data point to the table
                 SplinePoint tableDataPoint = new SplinePoint(xValue, yValue, 0, selectedPath);
                 pointsTableView.getSelectionModel().select(tableDataPoint);
-                undoStack.push(dataPoint);
+                pointsTableView.scrollTo(tableDataPoint);
+                //undoStack.push(dataPoint);
                 redoStack.clear(); // Clear redo stack whenever a new point is added
             }
         });
@@ -270,20 +271,20 @@ public class AppController {
     }
 
     private void undo() {
-        if (!undoStack.isEmpty()) {
-            XYChart.Data<Number, Number> dataPoint = undoStack.pop();
-            series.getData().remove(dataPoint);
-            redoStack.push(dataPoint);
-        }
+        // if (!undoStack.isEmpty()) {
+        //     XYChart.Data<Number, Number> dataPoint = undoStack.pop();
+        //     series.getData().remove(dataPoint);
+        //     redoStack.push(dataPoint);
+        // }
     }
 
     private void redo() {
-        if (!redoStack.isEmpty()) {
-            XYChart.Data<Number, Number> dataPoint = redoStack.pop();
-            series.getData().add(dataPoint);
-            addDragHandlers(dataPoint);
-            undoStack.push(dataPoint);
-        }
+        // if (!redoStack.isEmpty()) {
+        //     XYChart.Data<Number, Number> dataPoint = redoStack.pop();
+        //     series.getData().add(dataPoint);
+        //     addDragHandlers(dataPoint);
+        //     undoStack.push(dataPoint);
+        // }
     }
 
     private void updateChartSize() {
@@ -333,6 +334,8 @@ public class AppController {
             int index = series.getData().indexOf(dataPoint);
             SplinePoint point = pointsTableView.getItems().get(index);
             pointsTableView.getSelectionModel().select(point);
+            pointsTableView.scrollTo(point);
+
             event.consume();
         });
 
@@ -356,6 +359,7 @@ public class AppController {
             int index = series.getData().indexOf(dataPoint);
             SplinePoint point = pointsTableView.getItems().get(index);
             pointsTableView.getSelectionModel().select(point);
+            pointsTableView.scrollTo(point);
             point.setX(xValue);
             point.setY(yValue);
             pointsTableView.refresh();
