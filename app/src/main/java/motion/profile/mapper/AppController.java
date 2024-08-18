@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import atlantafx.base.theme.PrimerDark;
+import atlantafx.base.theme.PrimerLight;
 import edu.wpi.first.math.util.Units;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +25,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -49,6 +53,8 @@ public class AppController {
 
     @FXML
     private NumberAxis xAxis;
+    @FXML
+    private ToggleButton themeToggleButton;
 
     @FXML
     private NumberAxis yAxis;
@@ -78,6 +84,8 @@ public class AppController {
     @FXML
     public void initialize() {
 
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+
         // Configure the scatter chart
         configureScatterChart();
 
@@ -87,19 +95,18 @@ public class AppController {
         // Configure the points table
         configurePointsTable();
 
-        addPathButton.setOnMouseClicked((MouseEvent event) -> {
-            int i = 1;
-            boolean foundName = true;
-            while (foundName) {
-                int finalI = i;
-                if (paths.stream().anyMatch(p -> p.getName().equals("Path " + finalI))) {
-                    i++;
-                } else {
-                    foundName = false;
-                }
+        themeToggleButton.setOnAction(event -> {
+            if (themeToggleButton.isSelected()) {
+                Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+                themeToggleButton.setText("Dark Mode");
+            } else {
+                Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+                themeToggleButton.setText("Light Mode");
             }
-            Path newPath = new Path("Path " + i);
-            paths.add(newPath);
+        });
+
+        addPathButton.setOnMouseClicked((MouseEvent event) -> {
+            addNewPath();
         });
 
         // Add listener to load points when a path is selected
@@ -122,24 +129,23 @@ public class AppController {
                 }
             });
         });
+    }
 
-        // Create context menu for deleting paths
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem deleteItem = new MenuItem("Delete");
-        MenuItem addItem = new MenuItem("Add");
-        contextMenu.getItems().add(deleteItem);
-        contextMenu.getItems().add(addItem);
-
-        // Set context menu on the ListView
-        pathsTableView.setContextMenu(contextMenu);
-
-        // Add event handler for delete menu item
-        deleteItem.setOnAction(event -> {
-            Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
-            if (selectedPath != null) {
-                paths.remove(selectedPath);
+    private void addNewPath() {
+        int i = 1;
+        boolean foundName = true;
+        while (foundName) {
+            int finalI = i;
+            if (paths.stream().anyMatch(p -> p.getName().equals("Path " + finalI))) {
+                i++;
+            } else {
+                foundName = false;
             }
-        });
+        }
+        Path newPath = new Path("Path " + i);
+        paths.add(newPath);
+        pathsTableView.getSelectionModel().select(newPath);
+        pathsTableView.scrollTo(newPath);
     }
 
     private void configurePointsTable() {
@@ -188,7 +194,7 @@ public class AppController {
 
                     if (oldSelection != null) {
                         int oldIndex = pointsTableView.getItems().indexOf(oldSelection);
-                        if (newSelection != null && newSelection.getPath() == oldSelection.getPath()) {
+                        if (newSelection != null && newSelection.getPath() == oldSelection.getPath() && oldIndex != -1) {
                             series.getData().get(oldIndex).getNode().setStyle(""); // Reset to default style
                         }
                     }
@@ -200,6 +206,23 @@ public class AppController {
                                                                                                            // red
                     }
                 });
+
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem deleteItem = new MenuItem("Delete");
+        contextMenu.getItems().add(deleteItem);
+
+        // Set context menu on the ListView
+        pointsTableView.setContextMenu(contextMenu);
+
+        // Add event handler for delete menu item
+        deleteItem.setOnAction(event -> {
+            SplinePoint selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
+            if (selectedPoint != null) {
+                Path path = selectedPoint.getPath();
+                path.removePoint(selectedPoint);
+                updateGraph(path);
+            }
+        });
     }
 
     private void configurePathsTable() {
@@ -214,15 +237,36 @@ public class AppController {
         });
         modifiedColumn.setCellValueFactory(cellData -> new SimpleStringProperty("")); // Placeholder for modified
                                                                                       // status
+
+        // Create context menu for deleting paths
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem deleteItem = new MenuItem("Delete");
+        MenuItem addItem = new MenuItem("Add");
+        contextMenu.getItems().add(deleteItem);
+        contextMenu.getItems().add(addItem);
+
+        // Set context menu on the ListView
+        pathsTableView.setContextMenu(contextMenu);
+
+        // Add event handler for delete menu item
+        deleteItem.setOnAction(event -> {
+            Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+            if (selectedPath != null) {
+                paths.remove(selectedPath);
+            }
+        });
+        addItem.setOnAction(event -> {
+            addNewPath();
+        });
     }
-    
-    // Configure the scatter chart 
+
+    // Configure the scatter chart
     private void configureScatterChart() {
         scatterChart.getData().add(series);
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.setAnimated(false);
 
-        //Set the axis bounds to the dimensions of the field.
+        // Set the axis bounds to the dimensions of the field.
         xAxis.setAutoRanging(false);
         yAxis.setAutoRanging(false);
         xAxis.setLowerBound(0);
@@ -230,7 +274,7 @@ public class AppController {
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(fieldHeight);
 
-        //Display grid lines every 1 unit
+        // Display grid lines every 1 unit
         xAxis.setTickUnit(1);
         yAxis.setTickUnit(1);
 
@@ -260,7 +304,7 @@ public class AppController {
                 SplinePoint tableDataPoint = new SplinePoint(xValue, yValue, 0, selectedPath);
                 pointsTableView.getSelectionModel().select(tableDataPoint);
                 pointsTableView.scrollTo(tableDataPoint);
-                //undoStack.push(dataPoint);
+                // undoStack.push(dataPoint);
                 redoStack.clear(); // Clear redo stack whenever a new point is added
             }
         });
@@ -272,18 +316,18 @@ public class AppController {
 
     private void undo() {
         // if (!undoStack.isEmpty()) {
-        //     XYChart.Data<Number, Number> dataPoint = undoStack.pop();
-        //     series.getData().remove(dataPoint);
-        //     redoStack.push(dataPoint);
+        // XYChart.Data<Number, Number> dataPoint = undoStack.pop();
+        // series.getData().remove(dataPoint);
+        // redoStack.push(dataPoint);
         // }
     }
 
     private void redo() {
         // if (!redoStack.isEmpty()) {
-        //     XYChart.Data<Number, Number> dataPoint = redoStack.pop();
-        //     series.getData().add(dataPoint);
-        //     addDragHandlers(dataPoint);
-        //     undoStack.push(dataPoint);
+        // XYChart.Data<Number, Number> dataPoint = redoStack.pop();
+        // series.getData().add(dataPoint);
+        // addDragHandlers(dataPoint);
+        // undoStack.push(dataPoint);
         // }
     }
 
@@ -319,6 +363,9 @@ public class AppController {
         for (SplinePoint point : points) {
             XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getX(), point.getY());
             series.getData().add(dataPoint);
+            if(point==pointsTableView.getSelectionModel().getSelectedItem()) {
+                dataPoint.getNode().setStyle("-fx-background-color: green;");
+            }
             addDragHandlers(dataPoint);
         }
     }

@@ -13,14 +13,21 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
 
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="motion.profile.mapper.AppController" fx:id="mainBorderPane">
     <left>
         <VBox spacing="10" alignment="center" style="-fx-padding: 10 10 10 10;">
             <HBox spacing="10"  alignment="CENTER" >
-                <Button text="Add Path" fx:id="addPathButton"/>
+                <Button text="Add Path" fx:id="addPathButton">
+                    <tooltip>
+                        <Tooltip text="Click to add a new path"/>
+                    </tooltip>
+                </Button>
                 <Button text="Button 2" fx:id="button2"/>
+                <ToggleButton text="Light Mode" fx:id="themeToggleButton"/>
             </HBox>
             <TableView fx:id="pathsTableView" VBox.vgrow="ALWAYS">
                 <columns>
