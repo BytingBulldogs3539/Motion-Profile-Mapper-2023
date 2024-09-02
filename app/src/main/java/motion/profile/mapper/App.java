@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     public static Stage primaryStage;
+    public static AppController controller;
 
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout.fxml"));
         Scene scene = new Scene(loader.load());
+        controller = loader.getController();
         stage.setTitle("Motion Profile Mapper");
         stage.setScene(scene);
 
