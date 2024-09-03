@@ -12,14 +12,14 @@ import javafx.scene.chart.XYChart;
  * Represents a point on a spline path with a translation and rotation.
  * Automatically adds the point to the path upon creation.
  */
-public class SplinePoint {
+public class ControlPoint {
     private Translation2d translation = new Translation2d();
     private Rotation2d rotation = new Rotation2d();
     private final Path path;
     private final XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(getX(), getY());
-    private SimpleStringProperty xStringProp = new SimpleStringProperty();
-    private SimpleStringProperty yStringProp = new SimpleStringProperty();
-    private SimpleStringProperty rotationStringProp = new SimpleStringProperty();
+    public SimpleStringProperty xStringProp = new SimpleStringProperty();
+    public SimpleStringProperty yStringProp = new SimpleStringProperty();
+    public SimpleStringProperty rotationStringProp = new SimpleStringProperty();
 
     /**
      * Constructs a SplinePoint with the specified coordinates, rotation, and path.
@@ -29,7 +29,7 @@ public class SplinePoint {
      * @param degrees The rotation of the point in degrees.
      * @param path    The path to which this point belongs.
      */
-    public SplinePoint(double x, double y, double degrees, Path path) {
+    public ControlPoint(double x, double y, double degrees, Path path) {
         this.path = path;
         setTranslation(new Translation2d(x, y));
         setRotation(Rotation2d.fromDegrees(degrees));
@@ -38,6 +38,14 @@ public class SplinePoint {
     }
 
     private void addDragHandlers() {
+
+         // Retrieve the node and apply the style
+         dataPoint.nodeProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                newValue.toFront();
+            }
+        });
+
         Node node = getDataPoint().getNode();
         node.setCursor(Cursor.HAND);
         node.setOnMousePressed(event -> {

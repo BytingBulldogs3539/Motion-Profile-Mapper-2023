@@ -4,52 +4,78 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.stream.Collectors;
 
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import javafx.util.Callback;
 
 public class Path {
 
-    private final ObservableList<SplinePoint> splinePoints = FXCollections.observableArrayList();
+    Callback<ControlPoint, Observable[]> extractor = new Callback<ControlPoint, Observable[]>() {
+        @Override
+        public Observable[] call(ControlPoint p) {
+            return new Observable[] {p.getXStringProp(), p.getYStringProp(), p.getRotationStringProp()};
+        }
+    };
+    private final ObservableList<ControlPoint> splinePoints = FXCollections.observableArrayList(extractor);
     private final ObservableList<XYChart.Data<Number, Number>> chartData = FXCollections.observableArrayList();
+
+    private final ObservableList<XYChart.Data<Number, Number>> splineChartData = FXCollections.observableArrayList();
+
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy HH:mm:ss a");
     private SimpleStringProperty modifiedTime = new SimpleStringProperty();
+    private ParametricSpline spline;
 
     public Path(String name) {
         setName(name);
         updateModifiedTime();
         initializeListeners();
+        
     }
 
     private void initializeListeners() {
-        splinePoints.addListener((ListChangeListener.Change<? extends SplinePoint> change) -> {
+        splinePoints.addListener((ListChangeListener.Change<? extends ControlPoint> change) -> {
             while (change.next()) {
-                    if (change.wasRemoved()) {
-                        chartData.removeAll(change.getRemoved().stream()
-                            .map(SplinePoint::getDataPoint)
+                if (change.wasRemoved()) {
+                    chartData.removeAll(change.getRemoved().stream()
+                            .map(ControlPoint::getDataPoint)
                             .collect(Collectors.toList()));
-                    }
-                    if (change.wasAdded()) {
-                        chartData.addAll(change.getAddedSubList().stream()
-                            .map(SplinePoint::getDataPoint)
+                }
+                if (change.wasAdded()) {
+                    chartData.addAll(change.getAddedSubList().stream()
+                            .map(ControlPoint::getDataPoint)
                             .collect(Collectors.toList()));
-                    }
+                }
             }
-            printChartData();
+            spline = new ParametricSpline(splinePoints);
+            splineChartData.clear();
+            for (int i = 0; i < spline.calculateLength() * 10; i++) {
+                double t = i / (spline.calculateLength() * 10);
+                XYChart.Data<Number, Number> data = new XYChart.Data<>(spline.getX(t), spline.getY(t));
+
+                // Retrieve the node and apply the style
+                data.nodeProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        newValue.setMouseTransparent(true);
+                        newValue.setStyle(
+                            "-fx-background-color: red; -fx-background-radius: 2px; -fx-padding: 2px;");
+                        newValue.toBack();
+                    }
+                });
+
+                splineChartData.add(data);
+            }
         });
     }
 
-    private void printChartData() {
-        System.out.println(chartData.size() + " points in chart data:");
-        for (XYChart.Data<Number, Number> data : chartData) {
-            Number x = data.getXValue();
-            Number y = data.getYValue();
-            System.out.println("X: " + x + ", Y: " + y);
-        }
+    public ObservableList<XYChart.Data<Number, Number>> getSplineChartData() {
+        return splineChartData;
     }
+
 
     public void updateModifiedTime() {
         modifiedTime.set(dateFormatter.format(Calendar.getInstance().getTime()));
@@ -59,7 +85,7 @@ public class Path {
         return modifiedTime;
     }
 
-    public void addPoint(SplinePoint point) {
+    public void addPoint(ControlPoint point) {
         splinePoints.add(point);
         updateModifiedTime();
     }
@@ -71,7 +97,7 @@ public class Path {
         updateModifiedTime();
     }
 
-    public void removePoint(SplinePoint point) {
+    public void removePoint(ControlPoint point) {
         splinePoints.remove(point);
         updateModifiedTime();
     }
@@ -88,7 +114,7 @@ public class Path {
         return name;
     }
 
-    public ObservableList<SplinePoint> getSplinePoints() {
+    public ObservableList<ControlPoint> getSplinePoints() {
         return splinePoints;
     }
 

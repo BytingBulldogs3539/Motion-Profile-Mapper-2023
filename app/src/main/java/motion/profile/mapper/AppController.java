@@ -56,13 +56,13 @@ public class AppController {
     @FXML
     private NumberAxis yAxis;
     @FXML
-    private TableView<SplinePoint> pointsTableView;
+    private TableView<ControlPoint> pointsTableView;
     @FXML
-    private TableColumn<SplinePoint, String> xColumn;
+    private TableColumn<ControlPoint, String> xColumn;
     @FXML
-    private TableColumn<SplinePoint, String> yColumn;
+    private TableColumn<ControlPoint, String> yColumn;
     @FXML
-    private TableColumn<SplinePoint, String> rColumn;
+    private TableColumn<ControlPoint, String> rColumn;
     @FXML
     private VBox scatterContainer;
     @FXML
@@ -71,7 +71,8 @@ public class AppController {
     public static Stack<XYChart.Data<Number, Number>> undoStack = new Stack<>();
     public static Stack<XYChart.Data<Number, Number>> redoStack = new Stack<>();
 
-    private XYChart.Series<Number, Number> series = new XYChart.Series<>();
+    private XYChart.Series<Number, Number> controlPointSeries = new XYChart.Series<>();
+    private XYChart.Series<Number, Number> pathPointsSeries = new XYChart.Series<>();
 
     private ObservableList<Path> paths = FXCollections.observableArrayList(new ArrayList<Path>());
 
@@ -146,27 +147,27 @@ public class AppController {
         rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         xColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<SplinePoint, String> data) -> data.getValue().getXStringProp());
+                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getXStringProp());
         yColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<SplinePoint, String> data) -> data.getValue().getYStringProp());
+                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getYStringProp());
         rColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<SplinePoint, String> data) -> data.getValue().getRotationStringProp());
+                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getRotationStringProp());
 
         // Add listeners to update the graph when the table is edited
         xColumn.setOnEditCommit(event -> {
-            SplinePoint point = event.getRowValue();
+            ControlPoint point = event.getRowValue();
             double newX = Double.parseDouble(event.getNewValue());
             point.setX(newX);
         });
 
         yColumn.setOnEditCommit(event -> {
-            SplinePoint point = event.getRowValue();
+            ControlPoint point = event.getRowValue();
             double newY = Double.parseDouble(event.getNewValue());
             point.setY(newY);
         });
 
         rColumn.setOnEditCommit(event -> {
-            SplinePoint point = event.getRowValue();
+            ControlPoint point = event.getRowValue();
             double newR = Double.parseDouble(event.getNewValue());
             point.setRotationDegrees(newR);
         });
@@ -177,18 +178,11 @@ public class AppController {
                 .addListener((obs, oldSelection, newSelection) -> {
 
                     if (oldSelection != null) {
-                        int oldIndex = pointsTableView.getItems().indexOf(oldSelection);
-                        if (newSelection != null && newSelection.getPath() == oldSelection.getPath()
-                                && oldIndex != -1) {
-                            series.getData().get(oldIndex).getNode().setStyle(""); // Reset to default style
-                        }
+                        oldSelection.getDataPoint().getNode().setStyle(""); // Reset to default style
                     }
                     if (newSelection != null) {
-                        int newIndex = pointsTableView.getItems().indexOf(newSelection);
-                        series.getData().get(newIndex).getNode().setStyle("-fx-background-color: green;"); // Change
-                                                                                                           // color
-                                                                                                           // to
-                                                                                                           // red
+                        newSelection.getDataPoint().getNode().setStyle("-fx-background-color: green;"); // Change color
+                                                                                                        // to red
                     }
                 });
 
@@ -201,7 +195,7 @@ public class AppController {
 
         // Add event handler for delete menu item
         deletePoint.setOnAction(event -> {
-            SplinePoint selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
+            ControlPoint selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
             if (selectedPoint != null) {
                 Path path = selectedPoint.getPath();
                 path.removePoint(selectedPoint);
@@ -232,7 +226,7 @@ public class AppController {
         pathsTableView.setContextMenu(contextMenu);
 
         pathsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                loadPointsForPath(newSelection);
+            loadPointsForPath(newSelection);
         });
 
         // Add event handler for delete menu item
@@ -250,7 +244,9 @@ public class AppController {
 
     // Configure the scatter chart
     private void configureScatterChart() {
-        scatterChart.getData().add(series);
+        scatterChart.getData().add(controlPointSeries);
+        scatterChart.getData().add(pathPointsSeries);
+
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.setAnimated(false);
 
@@ -284,7 +280,7 @@ public class AppController {
                 double yValue = yAxis.getValueForDisplay(yLocal).doubleValue();
 
                 // Add the data point to the table
-                SplinePoint tableDataPoint = new SplinePoint(xValue, yValue, 0, selectedPath);
+                ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
                 pointsTableView.getSelectionModel().select(tableDataPoint);
                 pointsTableView.scrollTo(tableDataPoint);
                 // undoStack.push(dataPoint);
@@ -347,16 +343,17 @@ public class AppController {
 
     private void loadPointsForPath(Path path) {
         // Clear existing points
-        if(path == null)
-        {
-            series.setData(null);
+        if (path == null) {
+            controlPointSeries.setData(null);
+            pathPointsSeries.setData(null);
             pointsTableView.setItems(null);
         }
         pointsTableView.setItems(path.getSplinePoints());
-        series.setData(path.getChartData());
+        controlPointSeries.setData(path.getChartData());
+        pathPointsSeries.setData(path.getSplineChartData());
     }
 
-    public boolean selectAndScrollTo(SplinePoint point) {
+    public boolean selectAndScrollTo(ControlPoint point) {
         if (pointsTableView.getItems().contains(point)) {
             pointsTableView.getSelectionModel().select(point);
             pointsTableView.scrollTo(point);
