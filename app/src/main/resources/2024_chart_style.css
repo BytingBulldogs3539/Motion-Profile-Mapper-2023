@@ -1,0 +1,5 @@
+.chart-plot-background {
+    -fx-background-image: url("2024-Field-Full.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}

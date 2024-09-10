@@ -1,6 +1,7 @@
 package motion.profile.mapper;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Stack;
 
 import atlantafx.base.theme.PrimerDark;
@@ -17,7 +18,9 @@ import javafx.scene.Node;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -178,7 +181,8 @@ public class AppController {
                 .addListener((obs, oldSelection, newSelection) -> {
 
                     if (oldSelection != null) {
-                        oldSelection.getDataPoint().getNode().setStyle(""); // Reset to default style
+                        oldSelection.getDataPoint().getNode().setStyle("-fx-background-color: blue;"); // Reset to
+                                                                                                       // default style
                     }
                     if (newSelection != null) {
                         newSelection.getDataPoint().getNode().setStyle("-fx-background-color: green;"); // Change color
@@ -233,8 +237,18 @@ public class AppController {
         deleteItem.setOnAction(event -> {
             Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
             if (selectedPath != null) {
-                // Remove the path from the chart and table
-                paths.remove(selectedPath);
+                // Create a confirmation dialog
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete Path");
+                alert.setHeaderText("Are you sure you want to delete " + selectedPath.getName().get() + "?");
+                alert.setContentText("This action cannot be undone.");
+
+                // Show the dialog and wait for the user's response
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    // Remove the path from the chart and table
+                    paths.remove(selectedPath);
+                }
             }
         });
         addItem.setOnAction(event -> {
@@ -246,7 +260,6 @@ public class AppController {
     private void configureScatterChart() {
         scatterChart.getData().add(controlPointSeries);
         scatterChart.getData().add(pathPointsSeries);
-
         scatterChart.legendVisibleProperty().set(false);
         scatterChart.setAnimated(false);
 
@@ -262,36 +275,45 @@ public class AppController {
         xAxis.setTickUnit(1);
         yAxis.setTickUnit(1);
 
+        scatterChart.getStylesheets().add(getClass().getResource("/2024_chart_style.css").toExternalForm());
+
         // Add listener to add points to the chart when clicked
-        scatterChart.setOnMouseClicked((MouseEvent event) -> {
-            // Add the data point to the selected path if there is one
-            Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
-            if (selectedPath != null) {
-                // Get the bounds of the chart plot area
-                Node plotArea = scatterChart.lookup(".chart-plot-background");
-                Bounds plotAreaBounds = plotArea.localToScene(plotArea.getBoundsInLocal());
+        scatterChart.setOnMouseClicked((
 
-                // Convert scene coordinates to local coordinates relative to the plot area
-                double xLocal = event.getSceneX() - plotAreaBounds.getMinX();
-                double yLocal = event.getSceneY() - plotAreaBounds.getMinY();
+                MouseEvent event) -> {
+            if (!isDragging()) { // Check if dragging is not in progress
 
-                // Convert local coordinates to data coordinates
-                double xValue = xAxis.getValueForDisplay(xLocal).doubleValue();
-                double yValue = yAxis.getValueForDisplay(yLocal).doubleValue();
+                // Add the data point to the selected path if there is one
+                Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+                if (selectedPath != null) {
+                    // Get the bounds of the chart plot area
+                    Node plotArea = scatterChart.lookup(".chart-plot-background");
+                    Bounds plotAreaBounds = plotArea.localToScene(plotArea.getBoundsInLocal());
 
-                // Add the data point to the table
-                ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
-                pointsTableView.getSelectionModel().select(tableDataPoint);
-                pointsTableView.scrollTo(tableDataPoint);
-                // undoStack.push(dataPoint);
-                // redoStack.clear(); // Clear redo stack whenever a new point is added
+                    // Convert scene coordinates to local coordinates relative to the plot area
+                    double xLocal = event.getSceneX() - plotAreaBounds.getMinX();
+                    double yLocal = event.getSceneY() - plotAreaBounds.getMinY();
+
+                    // Convert local coordinates to data coordinates
+                    double xValue = xAxis.getValueForDisplay(xLocal).doubleValue();
+                    double yValue = yAxis.getValueForDisplay(yLocal).doubleValue();
+
+                    // Add the data point to the table
+                    ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
+                    pointsTableView.getSelectionModel().select(tableDataPoint);
+                    pointsTableView.scrollTo(tableDataPoint);
+                    // undoStack.push(dataPoint);
+                    // redoStack.clear(); // Clear redo stack whenever a new point is added
+                }
             }
         });
-
         // Ensure the chart maintains a "1:1" ratio
-        scatterContainer.widthProperty().addListener((obs, oldWidth, newWidth) -> updateChartSize());
+        scatterContainer.widthProperty().addListener((obs, oldWidth, newWidth) ->
+
+        updateChartSize());
         scatterContainer.heightProperty().addListener((obs, oldHeight, newHeight) -> updateChartSize());
     }
+
 
     public Translation2d getChartMouseClickPosition(MouseEvent event) {
         double xValue = xAxis
@@ -303,6 +325,24 @@ public class AppController {
                         scatterChart.getYAxis().sceneToLocal(event.getSceneX(), event.getSceneY()).getY())
                 .doubleValue();
         return new Translation2d(xValue, yValue);
+    }
+
+    public NumberAxis getXAxis() {
+        return xAxis;
+    }
+
+    public NumberAxis getYAxis() {
+        return yAxis;
+    }
+
+    private boolean dragging = false;
+
+    public void setDragging(boolean dragging) {
+        this.dragging = dragging;
+    }
+
+    public boolean isDragging() {
+        return dragging;
     }
 
     private void undo() {
@@ -347,6 +387,7 @@ public class AppController {
             controlPointSeries.setData(null);
             pathPointsSeries.setData(null);
             pointsTableView.setItems(null);
+            return;
         }
         pointsTableView.setItems(path.getSplinePoints());
         controlPointSeries.setData(path.getChartData());

@@ -3,10 +3,12 @@ package motion.profile.mapper;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
+import javafx.util.Duration;
 
 /**
  * Represents a point on a spline path with a translation and rotation.
@@ -38,19 +40,14 @@ public class ControlPoint {
     }
 
     private void addDragHandlers() {
-
-         // Retrieve the node and apply the style
-         dataPoint.nodeProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                newValue.toFront();
-            }
-        });
-
         Node node = getDataPoint().getNode();
+
         node.setCursor(Cursor.HAND);
+
         node.setOnMousePressed(event -> {
             node.setCursor(Cursor.MOVE);
-
+            App.controller.setDragging(true); // Set dragging flag to true
+            event.consume();
         });
         node.setOnMouseClicked(event -> {
             App.controller.selectAndScrollTo(this);
@@ -59,13 +56,40 @@ public class ControlPoint {
 
         node.setOnMouseReleased(event -> {
             node.setCursor(Cursor.HAND);
+            PauseTransition pause = new PauseTransition(Duration.millis(20)); // Adds 20ms delay to prevent accidental
+                                                                              // double clicks
+            pause.setOnFinished(e -> App.controller.setDragging(false));
+            pause.play();
         });
 
         node.setOnMouseDragged(event -> {
-            setTranslation(App.controller.getChartMouseClickPosition(event));
+            // Get the chart's x and y axis limits
+            double xLowerBound = App.controller.getXAxis().getLowerBound();
+            double xUpperBound = App.controller.getXAxis().getUpperBound();
+            double yLowerBound = App.controller.getYAxis().getLowerBound();
+            double yUpperBound = App.controller.getYAxis().getUpperBound();
+
+            // Get the new translation
+            Translation2d newTranslation = App.controller.getChartMouseClickPosition(event);
+
+            // Bound the new translation within the axis limits
+            double boundedX = Math.max(xLowerBound, Math.min(newTranslation.getX(), xUpperBound));
+            double boundedY = Math.max(yLowerBound, Math.min(newTranslation.getY(), yUpperBound));
+
+            // Set the bounded translation
+            setTranslation(new Translation2d(boundedX, boundedY));
             // Update the corresponding table entry
             App.controller.selectAndScrollTo(this);
-            
+
+        });
+
+        node.setOnMouseDragReleased(event -> {
+        });
+
+        getDataPoint().nodeProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                newValue.setViewOrder(10);
+            }
         });
     }
 
@@ -220,7 +244,6 @@ public class ControlPoint {
     public XYChart.Data<Number, Number> getDataPoint() {
         return dataPoint;
     }
-
 
     /**
      * Gets the x-coordinate property of this point.

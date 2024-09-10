@@ -53,20 +53,17 @@ public class Path {
             }
             spline = new ParametricSpline(splinePoints);
             splineChartData.clear();
-            for (int i = 0; i < spline.calculateLength() * 10; i++) {
-                double t = i / (spline.calculateLength() * 10);
-                XYChart.Data<Number, Number> data = new XYChart.Data<>(spline.getX(t), spline.getY(t));
+            for (double i = 0; i < spline.getLength(); i+=0.1) {
+                XYChart.Data<Number, Number> data = new XYChart.Data<>(spline.getX(i), spline.getY(i));
 
                 // Retrieve the node and apply the style
                 data.nodeProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
-                        newValue.setMouseTransparent(true);
                         newValue.setStyle(
-                            "-fx-background-color: red; -fx-background-radius: 2px; -fx-padding: 2px;");
-                        newValue.toBack();
+                            "-fx-background-color: red; -fx-padding: 2px;");
+                        newValue.setViewOrder(1);
                     }
                 });
-
                 splineChartData.add(data);
             }
         });
