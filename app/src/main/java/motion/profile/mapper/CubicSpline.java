@@ -134,12 +134,16 @@ public class CubicSpline {
 
         double[] controlPointDistances;
 
-        public CubicSpline2D(double[] x, double[] y) {
-            if (x.length != y.length) {
-                throw new IllegalArgumentException("Input arrays must be the same length");
+        public CubicSpline2D(List<ControlPoint> controlPoints) {
+            double[] x = new double[controlPoints.size()];
+            double[] y = new double[controlPoints.size()];
+            for (int i = 0; i < controlPoints.size(); i++) {
+                x[i] = controlPoints.get(i).getX();
+                y[i] = controlPoints.get(i).getY();
             }
-            double[] roughControlPointDistances = new double[x.length];
-            controlPointDistances = new double[x.length];
+
+            double[] roughControlPointDistances = new double[controlPoints.size()];
+            controlPointDistances = new double[controlPoints.size()];
 
             for (int i = 1; i < x.length; i++) {
                 double dx = x[i] - x[i - 1];
@@ -171,14 +175,12 @@ public class CubicSpline {
 
             }
 
-            System.out.println(controlPointDistances[controlPointDistances.length - 1]);
 
             this.sx = new CubicSpline1D(controlPointDistances, x);
             this.sy = new CubicSpline1D(controlPointDistances, y);
         }
 
         private double integrateLength(double a, double b, int n) {
-            int counter=0;
             if (n % 2 != 0)
                 n++; // Simpson's rule requires an even number of intervals
             double h = (b - a) / n;
@@ -197,9 +199,7 @@ public class CubicSpline {
                 } else {
                     sum += 4 * ds;
                 }
-                counter++;
             }
-            System.out.println(counter);
 
             return sum * h / 3.0;
         }

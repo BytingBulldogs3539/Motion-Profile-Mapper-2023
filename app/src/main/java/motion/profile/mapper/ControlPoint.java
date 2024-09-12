@@ -4,10 +4,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import javafx.animation.PauseTransition;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.util.Duration;
 
 /**
@@ -15,13 +17,14 @@ import javafx.util.Duration;
  * Automatically adds the point to the path upon creation.
  */
 public class ControlPoint {
-    private Translation2d translation = new Translation2d();
-    private Rotation2d rotation = new Rotation2d();
-    private final Path path;
+    private final SimpleDoubleProperty x = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty y = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty rotation = new SimpleDoubleProperty(); // Stored in degrees
+    private final PathHandler path;
     private final XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(getX(), getY());
-    public SimpleStringProperty xStringProp = new SimpleStringProperty();
-    public SimpleStringProperty yStringProp = new SimpleStringProperty();
-    public SimpleStringProperty rotationStringProp = new SimpleStringProperty();
+
+    // TODO: convert this class to be just a handler. Dont store anything except the
+    // properties and datapoints and ui things.
 
     /**
      * Constructs a SplinePoint with the specified coordinates, rotation, and path.
@@ -31,15 +34,16 @@ public class ControlPoint {
      * @param degrees The rotation of the point in degrees.
      * @param path    The path to which this point belongs.
      */
-    public ControlPoint(double x, double y, double degrees, Path path) {
+    public ControlPoint(double x, double y, double degrees, PathHandler path) {
         this.path = path;
-        setTranslation(new Translation2d(x, y));
-        setRotation(Rotation2d.fromDegrees(degrees));
+        setXY(x, y);
+        setRotationDegrees(degrees);
         path.addPoint(this);
-        addDragHandlers();
+        addHandlers();
+        addContextMenu();
     }
 
-    private void addDragHandlers() {
+    private void addHandlers() {
         Node node = getDataPoint().getNode();
 
         node.setCursor(Cursor.HAND);
@@ -76,6 +80,10 @@ public class ControlPoint {
             double boundedX = Math.max(xLowerBound, Math.min(newTranslation.getX(), xUpperBound));
             double boundedY = Math.max(yLowerBound, Math.min(newTranslation.getY(), yUpperBound));
 
+            // Round the coordinates to three decimal places
+            boundedX = Math.round(boundedX * 1000.0) / 1000.0;
+            boundedY = Math.round(boundedY * 1000.0) / 1000.0;
+
             // Set the bounded translation
             setTranslation(new Translation2d(boundedX, boundedY));
             // Update the corresponding table entry
@@ -83,13 +91,26 @@ public class ControlPoint {
 
         });
 
-        node.setOnMouseDragReleased(event -> {
-        });
-
         getDataPoint().nodeProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 newValue.setViewOrder(10);
             }
+        });
+    }
+
+    private void addContextMenu() {
+        Node node = getDataPoint().getNode();
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem deleteItem = new MenuItem("Delete");
+
+        deleteItem.setOnAction(event -> {
+            path.removePoint(this);
+        });
+
+        contextMenu.getItems().add(deleteItem);
+
+        node.setOnContextMenuRequested(event -> {
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
         });
     }
 
@@ -108,7 +129,8 @@ public class ControlPoint {
      * @param y The new y-coordinate.
      */
     public void setXY(double x, double y) {
-        setTranslation(new Translation2d(x, y));
+        setX(x);
+        setY(y);
     }
 
     /**
@@ -117,7 +139,9 @@ public class ControlPoint {
      * @param x The new x-coordinate.
      */
     public void setX(double x) {
-        setTranslation(new Translation2d(x, translation.getY()));
+        this.x.set(x);
+        this.dataPoint.setXValue(getX());
+        updateModifiedTime();
     }
 
     /**
@@ -126,7 +150,9 @@ public class ControlPoint {
      * @param y The new y-coordinate.
      */
     public void setY(double y) {
-        setTranslation(new Translation2d(translation.getX(), y));
+        this.y.set(y);
+        this.dataPoint.setYValue(getY());
+        updateModifiedTime();
     }
 
     /**
@@ -135,7 +161,8 @@ public class ControlPoint {
      * @param degrees The new rotation in degrees.
      */
     public void setRotationDegrees(double degrees) {
-        setRotation(Rotation2d.fromDegrees(degrees));
+        this.rotation.set(degrees);
+        updateModifiedTime();
     }
 
     /**
@@ -144,12 +171,8 @@ public class ControlPoint {
      * @param translation The new translation.
      */
     public void setTranslation(Translation2d translation) {
-        this.translation = translation;
-        this.dataPoint.setXValue(getX());
-        this.dataPoint.setYValue(getY());
-        xStringProp.setValue(String.format("%.3f", getX()));
-        yStringProp.setValue(String.format("%.3f", getY()));
-        updateModifiedTime();
+        setX(translation.getX());
+        setY(translation.getY());
     }
 
     /**
@@ -158,9 +181,7 @@ public class ControlPoint {
      * @param rotation The new rotation.
      */
     public void setRotation(Rotation2d rotation) {
-        this.rotation = rotation;
-        rotationStringProp.setValue(String.format("%.3f", getRotationDegrees()));
-        updateModifiedTime();
+        setRotationDegrees(rotation.getDegrees());
     }
 
     /**
@@ -179,7 +200,7 @@ public class ControlPoint {
      * @return The current pose.
      */
     public Pose2d getPose() {
-        return new Pose2d(translation, rotation);
+        return new Pose2d(getTranslation(), getRotation());
     }
 
     /**
@@ -188,7 +209,7 @@ public class ControlPoint {
      * @return The current translation.
      */
     public Translation2d getTranslation() {
-        return translation;
+        return new Translation2d(getX(), getY());
     }
 
     /**
@@ -197,7 +218,7 @@ public class ControlPoint {
      * @return The current rotation.
      */
     public Rotation2d getRotation() {
-        return rotation;
+        return Rotation2d.fromDegrees(getRotationDegrees());
     }
 
     /**
@@ -205,7 +226,7 @@ public class ControlPoint {
      * 
      * @return The path.
      */
-    public Path getPath() {
+    public PathHandler getPath() {
         return path;
     }
 
@@ -215,7 +236,7 @@ public class ControlPoint {
      * @return The x-coordinate.
      */
     public double getX() {
-        return translation.getX();
+        return this.x.get();
     }
 
     /**
@@ -224,7 +245,7 @@ public class ControlPoint {
      * @return The y-coordinate.
      */
     public double getY() {
-        return translation.getY();
+        return this.y.get();
     }
 
     /**
@@ -233,7 +254,7 @@ public class ControlPoint {
      * @return The rotation in degrees.
      */
     public double getRotationDegrees() {
-        return rotation.getDegrees();
+        return this.rotation.get();
     }
 
     /**
@@ -250,8 +271,8 @@ public class ControlPoint {
      * 
      * @return The x-coordinate property.
      */
-    public SimpleStringProperty getXStringProp() {
-        return xStringProp;
+    public SimpleDoubleProperty getXProp() {
+        return x;
     }
 
     /**
@@ -259,8 +280,8 @@ public class ControlPoint {
      * 
      * @return The y-coordinate property.
      */
-    public SimpleStringProperty getYStringProp() {
-        return yStringProp;
+    public SimpleDoubleProperty getYProp() {
+        return y;
     }
 
     /**
@@ -268,8 +289,35 @@ public class ControlPoint {
      * 
      * @return The rotation property.
      */
-    public SimpleStringProperty getRotationStringProp() {
-        return rotationStringProp;
+    public SimpleDoubleProperty getRotationProp() {
+        return rotation;
     }
+
+    // /**
+    // * Gets the x-coordinate property of this point.
+    // *
+    // * @return The x-coordinate property.
+    // */
+    // public SimpleStringProperty getXStringProp() {
+    // return xStringProp;
+    // }
+
+    // /**
+    // * Gets the y-coordinate property of this point.
+    // *
+    // * @return The y-coordinate property.
+    // */
+    // public SimpleStringProperty getYStringProp() {
+    // return yStringProp;
+    // }
+
+    // /**
+    // * Gets the rotation property of this point.
+    // *
+    // * @return The rotation property.
+    // */
+    // public SimpleStringProperty getRotationStringProp() {
+    // return rotationStringProp;
+    // }
 
 }

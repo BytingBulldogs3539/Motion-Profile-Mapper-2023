@@ -9,9 +9,9 @@ enum RedoUndoChangeType {
 
 public class RedoUndoChange {
     private final RedoUndoChangeType type;
-    private final ObservableList<Path> paths;
+    private final ObservableList<PathHandler> paths;
 
-    public RedoUndoChange(RedoUndoChangeType type, ObservableList<Path> paths) {
+    public RedoUndoChange(RedoUndoChangeType type, ObservableList<PathHandler> paths) {
         this.type = type;
         this.paths = paths;
     }
@@ -20,7 +20,7 @@ public class RedoUndoChange {
         return type;
     }
 
-    public ObservableList<Path> getPaths() {
+    public ObservableList<PathHandler> getPaths() {
         return paths;
     }
 }

@@ -36,17 +36,17 @@ import javafx.scene.layout.VBox;
 public class AppController {
 
     @FXML
-    private TableView<Path> pathsTableView;
+    private TableView<PathHandler> pathsTableView;
     @FXML
-    private TableColumn<Path, String> nameColumn;
+    private TableColumn<PathHandler, String> nameColumn;
     @FXML
-    private TableColumn<Path, String> modifiedColumn;
+    private TableColumn<PathHandler, String> modifiedColumn;
 
     @FXML
     private Button addPathButton;
 
     @FXML
-    private Button button2;
+    private ToggleButton splineToggleButton;
 
     @FXML
     private ScatterChart<Number, Number> scatterChart;
@@ -77,7 +77,7 @@ public class AppController {
     private XYChart.Series<Number, Number> controlPointSeries = new XYChart.Series<>();
     private XYChart.Series<Number, Number> pathPointsSeries = new XYChart.Series<>();
 
-    private ObservableList<Path> paths = FXCollections.observableArrayList(new ArrayList<Path>());
+    private ObservableList<PathHandler> paths = FXCollections.observableArrayList(new ArrayList<PathHandler>());
 
     double fieldWidth = Units.inchesToMeters(651.223);
     double fieldHeight = Units.inchesToMeters(323.276819);
@@ -103,6 +103,13 @@ public class AppController {
             } else {
                 Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
                 themeToggleButton.setText("Light Mode");
+            }
+        });
+
+        splineToggleButton.setOnAction(event -> {
+            PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+            if (selectedPath != null) {
+                selectedPath.setIsSpline(splineToggleButton.isSelected());
             }
         });
 
@@ -136,7 +143,7 @@ public class AppController {
                 foundName = false;
             }
         }
-        Path newPath = new Path("Path " + i);
+        PathHandler newPath = new PathHandler("Path " + i);
         paths.add(newPath);
         pathsTableView.getSelectionModel().select(newPath);
         pathsTableView.scrollTo(newPath);
@@ -150,11 +157,11 @@ public class AppController {
         rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         xColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getXStringProp());
+                data -> data.getValue().getXProp().asString());
         yColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getYStringProp());
+                data -> data.getValue().getYProp().asString());
         rColumn.setCellValueFactory(
-                (TableColumn.CellDataFeatures<ControlPoint, String> data) -> data.getValue().getRotationStringProp());
+                data -> data.getValue().getRotationProp().asString());
 
         // Add listeners to update the graph when the table is edited
         xColumn.setOnEditCommit(event -> {
@@ -201,7 +208,7 @@ public class AppController {
         deletePoint.setOnAction(event -> {
             ControlPoint selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
             if (selectedPoint != null) {
-                Path path = selectedPoint.getPath();
+                PathHandler path = selectedPoint.getPath();
                 path.removePoint(selectedPoint);
             }
         });
@@ -214,7 +221,7 @@ public class AppController {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditCommit(event -> {
-            Path path = event.getRowValue();
+            PathHandler path = event.getRowValue();
             path.setName(event.getNewValue());
         });
         modifiedColumn.setCellValueFactory(cellData -> cellData.getValue().getModifiedTime());
@@ -231,11 +238,12 @@ public class AppController {
 
         pathsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             loadPointsForPath(newSelection);
+            splineToggleButton.setSelected(newSelection.getIsSpline().get());
         });
 
         // Add event handler for delete menu item
         deleteItem.setOnAction(event -> {
-            Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+            PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
             if (selectedPath != null) {
                 // Create a confirmation dialog
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -279,12 +287,11 @@ public class AppController {
 
         // Add listener to add points to the chart when clicked
         scatterChart.setOnMouseClicked((
-
                 MouseEvent event) -> {
             if (!isDragging()) { // Check if dragging is not in progress
 
                 // Add the data point to the selected path if there is one
-                Path selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+                PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
                 if (selectedPath != null) {
                     // Get the bounds of the chart plot area
                     Node plotArea = scatterChart.lookup(".chart-plot-background");
@@ -298,12 +305,18 @@ public class AppController {
                     double xValue = xAxis.getValueForDisplay(xLocal).doubleValue();
                     double yValue = yAxis.getValueForDisplay(yLocal).doubleValue();
 
-                    // Add the data point to the table
-                    ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
-                    pointsTableView.getSelectionModel().select(tableDataPoint);
-                    pointsTableView.scrollTo(tableDataPoint);
-                    // undoStack.push(dataPoint);
-                    // redoStack.clear(); // Clear redo stack whenever a new point is added
+                    // Round the coordinates to three decimal places
+                    xValue = Math.round(xValue * 1000.0) / 1000.0;
+                    yValue = Math.round(yValue * 1000.0) / 1000.0;
+
+                    if (xValue >= 0 && xValue <= fieldWidth && yValue >= 0 && yValue <= fieldHeight) {
+                        // Add the data point to the table
+                        ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
+                        pointsTableView.getSelectionModel().select(tableDataPoint);
+                        pointsTableView.scrollTo(tableDataPoint);
+                        // undoStack.push(dataPoint);
+                        // redoStack.clear(); // Clear redo stack whenever a new point is added
+                    }
                 }
             }
         });
@@ -313,7 +326,6 @@ public class AppController {
         updateChartSize());
         scatterContainer.heightProperty().addListener((obs, oldHeight, newHeight) -> updateChartSize());
     }
-
 
     public Translation2d getChartMouseClickPosition(MouseEvent event) {
         double xValue = xAxis
@@ -381,7 +393,7 @@ public class AppController {
 
     }
 
-    private void loadPointsForPath(Path path) {
+    private void loadPointsForPath(PathHandler path) {
         // Clear existing points
         if (path == null) {
             controlPointSeries.setData(null);
