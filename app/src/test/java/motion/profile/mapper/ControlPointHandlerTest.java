@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -88,6 +89,16 @@ public class ControlPointHandlerTest {
         assertEquals(10.0, controlPointHandler.getY());
         verify(mockPathHandler, times(2)).updateModifiedTime();
     }
+
+    @Test
+    public void testSetPose() {
+        controlPointHandler.setPose(new Pose2d(new Translation2d(10.0, 11.0), Rotation2d.fromDegrees(66.0)));
+        assertEquals(10.0, controlPointHandler.getX());
+        assertEquals(11.0, controlPointHandler.getY());
+        assertEquals(66.0, controlPointHandler.getRotationDegrees(), 1e-9);
+        verify(mockPathHandler, times(3)).updateModifiedTime();
+    }
+
 
     @Test
     public void testForceSetX() {
