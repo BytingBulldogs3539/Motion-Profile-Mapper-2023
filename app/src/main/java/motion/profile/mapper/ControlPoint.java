@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
  * Automatically adds the point to the path upon creation.
  */
 public class ControlPoint {
-    private Translation2d translation2d = new Translation2d(0,0);
+    private Translation2d translation2d = new Translation2d(0, 0);
     private Rotation2d rotation2d = new Rotation2d();
     private final Path path;
 
@@ -18,18 +18,16 @@ public class ControlPoint {
      * 
      * @param path The path to which this point belongs.
      */
-    public ControlPoint(Path path)
-    {
+    public ControlPoint(Path path) {
         this.path = path;
     }
-    
+
     /**
      * Constructs a SplinePoint with the specified coordinates, rotation, and path.
      * 
-     * @param x       The x-coordinate of the point.
-     * @param y       The y-coordinate of the point.
-     * @param degrees The rotation of the point in degrees.
-     * @param path    The path to which this point belongs.
+     * @param translation2d The translation of the point.
+     * @param rotation      The rotation of the point.
+     * @param path          The path to which this point belongs.
      */
     public ControlPoint(Translation2d translation2d, Rotation2d rotation, Path path) {
         this.path = path;
@@ -37,6 +35,7 @@ public class ControlPoint {
         this.rotation2d = rotation;
     }
 
+    // Setters
     /**
      * Sets the translation of this point to the specified coordinates.
      * 
@@ -62,7 +61,7 @@ public class ControlPoint {
      * @param y The new y-coordinate.
      */
     public void setY(double y) {
-         this.translation2d = new Translation2d(getX(), y);
+        this.translation2d = new Translation2d(getX(), y);
     }
 
     /**
@@ -102,6 +101,7 @@ public class ControlPoint {
         this.rotation2d = pose.getRotation();
     }
 
+    // Getters
     /**
      * Gets the pose of this point.
      * 
