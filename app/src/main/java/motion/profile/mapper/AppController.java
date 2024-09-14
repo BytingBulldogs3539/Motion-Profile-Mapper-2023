@@ -59,13 +59,13 @@ public class AppController {
     @FXML
     private NumberAxis yAxis;
     @FXML
-    private TableView<ControlPoint> pointsTableView;
+    private TableView<ControlPointHandler> pointsTableView;
     @FXML
-    private TableColumn<ControlPoint, String> xColumn;
+    private TableColumn<ControlPointHandler, String> xColumn;
     @FXML
-    private TableColumn<ControlPoint, String> yColumn;
+    private TableColumn<ControlPointHandler, String> yColumn;
     @FXML
-    private TableColumn<ControlPoint, String> rColumn;
+    private TableColumn<ControlPointHandler, String> rColumn;
     @FXML
     private VBox scatterContainer;
     @FXML
@@ -109,7 +109,7 @@ public class AppController {
         splineToggleButton.setOnAction(event -> {
             PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
             if (selectedPath != null) {
-                selectedPath.setIsSpline(splineToggleButton.isSelected());
+                selectedPath.setSplineMode(splineToggleButton.isSelected());
             }
         });
 
@@ -137,13 +137,13 @@ public class AppController {
         boolean foundName = true;
         while (foundName) {
             int finalI = i;
-            if (paths.stream().anyMatch(p -> p.getName().get().equals("Path " + finalI))) {
+            if (paths.stream().anyMatch(p -> p.getName().equals("Path " + finalI))) {
                 i++;
             } else {
                 foundName = false;
             }
         }
-        PathHandler newPath = new PathHandler("Path " + i);
+        PathHandler newPath = new PathHandler("Path " + i, splineToggleButton.isSelected());
         paths.add(newPath);
         pathsTableView.getSelectionModel().select(newPath);
         pathsTableView.scrollTo(newPath);
@@ -165,19 +165,19 @@ public class AppController {
 
         // Add listeners to update the graph when the table is edited
         xColumn.setOnEditCommit(event -> {
-            ControlPoint point = event.getRowValue();
+            ControlPointHandler point = event.getRowValue();
             double newX = Double.parseDouble(event.getNewValue());
             point.setX(newX);
         });
 
         yColumn.setOnEditCommit(event -> {
-            ControlPoint point = event.getRowValue();
+            ControlPointHandler point = event.getRowValue();
             double newY = Double.parseDouble(event.getNewValue());
             point.setY(newY);
         });
 
         rColumn.setOnEditCommit(event -> {
-            ControlPoint point = event.getRowValue();
+            ControlPointHandler point = event.getRowValue();
             double newR = Double.parseDouble(event.getNewValue());
             point.setRotationDegrees(newR);
         });
@@ -206,9 +206,9 @@ public class AppController {
 
         // Add event handler for delete menu item
         deletePoint.setOnAction(event -> {
-            ControlPoint selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
+            ControlPointHandler selectedPoint = pointsTableView.getSelectionModel().getSelectedItem();
             if (selectedPoint != null) {
-                PathHandler path = selectedPoint.getPath();
+                PathHandler path = selectedPoint.getPathHandler();
                 path.removePoint(selectedPoint);
             }
         });
@@ -218,13 +218,12 @@ public class AppController {
         pathsTableView.setItems(paths);
         pathsTableView.setEditable(true);
 
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProp());
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditCommit(event -> {
-            PathHandler path = event.getRowValue();
-            path.setName(event.getNewValue());
+            event.getRowValue().setName(event.getNewValue());
         });
-        modifiedColumn.setCellValueFactory(cellData -> cellData.getValue().getModifiedTime());
+        modifiedColumn.setCellValueFactory(cellData -> cellData.getValue().getModifiedTimeProp());
 
         // Create context menu for deleting paths
         ContextMenu contextMenu = new ContextMenu();
@@ -238,7 +237,7 @@ public class AppController {
 
         pathsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             loadPointsForPath(newSelection);
-            splineToggleButton.setSelected(newSelection.getIsSpline().get());
+            splineToggleButton.setSelected(newSelection.isSpline());
         });
 
         // Add event handler for delete menu item
@@ -248,7 +247,7 @@ public class AppController {
                 // Create a confirmation dialog
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Delete Path");
-                alert.setHeaderText("Are you sure you want to delete " + selectedPath.getName().get() + "?");
+                alert.setHeaderText("Are you sure you want to delete " + selectedPath.getName() + "?");
                 alert.setContentText("This action cannot be undone.");
 
                 // Show the dialog and wait for the user's response
@@ -311,7 +310,7 @@ public class AppController {
 
                     if (xValue >= 0 && xValue <= fieldWidth && yValue >= 0 && yValue <= fieldHeight) {
                         // Add the data point to the table
-                        ControlPoint tableDataPoint = new ControlPoint(xValue, yValue, 0, selectedPath);
+                        ControlPointHandler tableDataPoint = new ControlPointHandler(xValue, yValue, 0, selectedPath);
                         pointsTableView.getSelectionModel().select(tableDataPoint);
                         pointsTableView.scrollTo(tableDataPoint);
                         // undoStack.push(dataPoint);
@@ -401,12 +400,12 @@ public class AppController {
             pointsTableView.setItems(null);
             return;
         }
-        pointsTableView.setItems(path.getSplinePoints());
+        pointsTableView.setItems(path.getSplineControlPoints());
         controlPointSeries.setData(path.getChartData());
         pathPointsSeries.setData(path.getSplineChartData());
     }
 
-    public boolean selectAndScrollTo(ControlPoint point) {
+    public boolean selectAndScrollTo(ControlPointHandler point) {
         if (pointsTableView.getItems().contains(point)) {
             pointsTableView.getSelectionModel().select(point);
             pointsTableView.scrollTo(point);

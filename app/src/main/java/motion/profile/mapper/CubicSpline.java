@@ -234,12 +234,12 @@ public class CubicSpline {
             return Math.atan2(dy, dx);
         }
 
-        private double[] diff(double[] array) {
-            double[] diff = new double[array.length - 1];
-            for (int i = 0; i < array.length - 1; i++) {
-                diff[i] = array[i + 1] - array[i];
-            }
-            return diff;
-        }
+        // private double[] diff(double[] array) {
+        //     double[] diff = new double[array.length - 1];
+        //     for (int i = 0; i < array.length - 1; i++) {
+        //         diff[i] = array[i + 1] - array[i];
+        //     }
+        //     return diff;
+        // }
     }
 }
