@@ -2,8 +2,16 @@ package motion.profile.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import motion.profile.mapper.Path.PathType;
 
 public class PathHandlerTest {
 
@@ -11,7 +19,7 @@ public class PathHandlerTest {
 
     @BeforeEach
     public void setUp() {
-        pathHandler = new PathHandler("TestPath", true);
+        pathHandler = new PathHandler("TestPath", PathType.CUBIC);
     }
 
     @Test
@@ -19,7 +27,7 @@ public class PathHandlerTest {
         assertEquals("TestPath", pathHandler.getName());
         assertTrue(pathHandler.isSpline());
         assertNotNull(pathHandler.getSplineControlPoints());
-        assertNotNull(pathHandler.getChartData());
+        assertNotNull(pathHandler.getControlPointData());
         assertNotNull(pathHandler.getSplineChartData());
         assertNotNull(pathHandler.getModifiedTimeProp());
     }
@@ -27,8 +35,9 @@ public class PathHandlerTest {
     @Test
     public void testAddControlPoint() {
         ControlPointHandler point = new ControlPointHandler(1, 2, 3, pathHandler);
+        pathHandler.addControlPoint(point);
         assertTrue(pathHandler.getSplineControlPoints().contains(point));
-        assertTrue(pathHandler.getChartData().contains(point.getDataPoint()));
+        assertTrue(pathHandler.getControlPointData().contains(point.getDataPoint()));
     }
 
     @Test
@@ -36,7 +45,7 @@ public class PathHandlerTest {
         ControlPointHandler point = new ControlPointHandler(1, 2, 3, pathHandler);
         pathHandler.removePoint(0);
         assertFalse(pathHandler.getSplineControlPoints().contains(point));
-        assertFalse(pathHandler.getChartData().contains(point.getDataPoint()));
+        assertFalse(pathHandler.getControlPointData().contains(point.getDataPoint()));
     }
 
     @Test
@@ -44,7 +53,7 @@ public class PathHandlerTest {
         ControlPointHandler point = new ControlPointHandler(1, 2, 3, pathHandler);
         pathHandler.removePoint(point);
         assertFalse(pathHandler.getSplineControlPoints().contains(point));
-        assertFalse(pathHandler.getChartData().contains(point.getDataPoint()));
+        assertFalse(pathHandler.getControlPointData().contains(point.getDataPoint()));
     }
 
     @Test
@@ -61,7 +70,7 @@ public class PathHandlerTest {
         pathHandler.addControlPoint(point);
         pathHandler.clearPoints();
         assertTrue(pathHandler.getSplineControlPoints().isEmpty());
-        assertTrue(pathHandler.getChartData().isEmpty());
+        assertTrue(pathHandler.getControlPointData().isEmpty());
     }
 
     @Test
@@ -77,5 +86,64 @@ public class PathHandlerTest {
         pathHandler.updateModifiedTime();
         String newTime = pathHandler.getModifiedTimeProp().get();
         assertNotEquals(oldTime, newTime);
+    }
+
+        // JSON Serialization/Deserialization Test
+    @Test
+    public void testPathJsonSerialization() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Create an instance of Path
+        ControlPoint point1 = new ControlPoint(new Translation2d(1.0, 2.0), Rotation2d.fromDegrees(45.0), null);
+        ControlPoint point2 = new ControlPoint(new Translation2d(3.0, 4.0), Rotation2d.fromDegrees(90.0), null);
+        Path path = new Path(Arrays.asList(point1, point2), "TestPath", Path.PathType.CUBIC);
+        path.setModifiedTime("2021-01-01T00:00:00");
+
+        // Serialize to JSON
+        String jsonString = mapper.writeValueAsString(path);
+        System.out.println("Serialized JSON: " + jsonString);
+
+        // Deserialize from JSON
+        Path deserializedPath = mapper.readValue(jsonString, Path.class);
+        assertEquals("TestPath", deserializedPath.getName());
+        assertEquals(Path.PathType.CUBIC, deserializedPath.getType());
+        assertEquals(2, deserializedPath.getControlPoints().size());
+        assertEquals(1.0, deserializedPath.getControlPoints().get(0).getX());
+        assertEquals(2.0, deserializedPath.getControlPoints().get(0).getY());
+        assertEquals(45.0, deserializedPath.getControlPoints().get(0).getRotationDegrees(), 1e-9);
+        assertEquals(3.0, deserializedPath.getControlPoints().get(1).getX());
+        assertEquals(4.0, deserializedPath.getControlPoints().get(1).getY());
+        assertEquals(90.0, deserializedPath.getControlPoints().get(1).getRotationDegrees(), 1e-9);
+        assertEquals("2021-01-01T00:00:00", deserializedPath.getModifiedTime());
+    }
+
+    @Test
+    public void testPathHandlerJsonSerialization() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        PathHandler path = new PathHandler("TestPath", PathType.CUBIC);
+
+        // Create an instance of Path
+        ControlPointHandler point1 = new ControlPointHandler(new Translation2d(1.0, 2.0), Rotation2d.fromDegrees(45.0), path);
+        ControlPointHandler point2 = new ControlPointHandler(new Translation2d(3.0, 4.0), Rotation2d.fromDegrees(90.0), path);
+        path.addControlPoint(point1);
+        path.addControlPoint(point2);
+
+        // Serialize to JSON
+        String jsonString = mapper.writeValueAsString(path);
+        System.out.println("Serialized JSON: " + jsonString);
+
+        // Deserialize from JSON
+        Path deserializedPath = mapper.readValue(jsonString, Path.class);
+        assertEquals("TestPath", deserializedPath.getName());
+        assertEquals(Path.PathType.CUBIC, deserializedPath.getType());
+        assertEquals(path.getControlPoints().size(), deserializedPath.getControlPoints().size());
+        assertEquals(path.getControlPoints().get(0).getX(), deserializedPath.getControlPoints().get(0).getX());
+        assertEquals(path.getControlPoints().get(0).getY(), deserializedPath.getControlPoints().get(0).getY());
+        assertEquals(path.getControlPoints().get(0).getRotationDegrees(), deserializedPath.getControlPoints().get(0).getRotationDegrees(), 1e-9);
+        assertEquals(path.getControlPoints().get(1).getX(), deserializedPath.getControlPoints().get(1).getX());
+        assertEquals(path.getControlPoints().get(1).getY(), deserializedPath.getControlPoints().get(1).getY());
+        assertEquals(path.getControlPoints().get(1).getRotationDegrees(), deserializedPath.getControlPoints().get(1).getRotationDegrees(), 1e-9);
+        assertEquals(path.getModifiedTime(), deserializedPath.getModifiedTime());
     }
 }

@@ -1,8 +1,13 @@
 package motion.profile.mapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Stack;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
@@ -32,6 +37,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import motion.profile.mapper.Path.PathType;
 
 public class AppController {
 
@@ -143,7 +150,8 @@ public class AppController {
                 foundName = false;
             }
         }
-        PathHandler newPath = new PathHandler("Path " + i, splineToggleButton.isSelected());
+        PathHandler newPath = new PathHandler("Path " + i,
+                splineToggleButton.isSelected() ? PathType.CUBIC : PathType.LINEAR);
         paths.add(newPath);
         pathsTableView.getSelectionModel().select(newPath);
         pathsTableView.scrollTo(newPath);
@@ -229,38 +237,104 @@ public class AppController {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem deleteItem = new MenuItem("Delete");
         MenuItem addItem = new MenuItem("Add");
+        MenuItem saveItem = new MenuItem("Save");
+        MenuItem loadItem = new MenuItem("Load");
         contextMenu.getItems().add(deleteItem);
         contextMenu.getItems().add(addItem);
+        contextMenu.getItems().add(saveItem);
+        contextMenu.getItems().add(loadItem);
 
         // Set context menu on the ListView
         pathsTableView.setContextMenu(contextMenu);
 
         pathsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             loadPointsForPath(newSelection);
-            splineToggleButton.setSelected(newSelection.isSpline());
+            if (newSelection != null)
+                splineToggleButton.setSelected(newSelection.isSpline());
         });
 
         // Add event handler for delete menu item
         deleteItem.setOnAction(event -> {
             PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
             if (selectedPath != null) {
-                // Create a confirmation dialog
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Delete Path");
-                alert.setHeaderText("Are you sure you want to delete " + selectedPath.getName() + "?");
-                alert.setContentText("This action cannot be undone.");
+                if (selectedPath.getSplineControlPoints().size() > 0) {
+                    // Create a confirmation dialog
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete Path");
+                    alert.setHeaderText("Are you sure you want to delete " + selectedPath.getName() + "?");
+                    alert.setContentText("This action cannot be undone.");
+                    alert.initOwner(mainBorderPane.getScene().getWindow());
 
-                // Show the dialog and wait for the user's response
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    // Remove the path from the chart and table
+                    // Show the dialog and wait for the user's response
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        // Remove the path from the chart and table
+                        paths.remove(selectedPath);
+                    }
+                } else {
                     paths.remove(selectedPath);
                 }
             }
         });
+
         addItem.setOnAction(event -> {
             addNewPath();
         });
+        saveItem.setOnAction(event -> {
+            PathHandler selectedPath = pathsTableView.getSelectionModel().getSelectedItem();
+            if (selectedPath != null) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Path");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+                File file = fileChooser.showSaveDialog(mainBorderPane.getScene().getWindow());
+                if (file != null) {
+                    savePathToFile(selectedPath, file);
+                }
+            }
+        });
+        loadItem.setOnAction(event -> {
+            loadPathFromFile();
+        });
+
+    }
+
+    private void loadPathFromFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load Path");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        File file = fileChooser.showOpenDialog(mainBorderPane.getScene().getWindow());
+        if (file != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                Path path = mapper.readValue(file, Path.class);
+                PathHandler loadedPath = new PathHandler(path);
+                paths.add(loadedPath);
+                pathsTableView.getSelectionModel().select(loadedPath);
+                pathsTableView.scrollTo(loadedPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Could not load path");
+                alert.setContentText("An error occurred while loading the path from the file.");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    private void savePathToFile(PathHandler path, File file) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            mapper.writeValue(file, path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not save path");
+            alert.setContentText("An error occurred while saving the path to the file.");
+            alert.showAndWait();
+        }
     }
 
     // Configure the scatter chart
@@ -311,6 +385,7 @@ public class AppController {
                     if (xValue >= 0 && xValue <= fieldWidth && yValue >= 0 && yValue <= fieldHeight) {
                         // Add the data point to the table
                         ControlPointHandler tableDataPoint = new ControlPointHandler(xValue, yValue, 0, selectedPath);
+                        selectedPath.addControlPoint(tableDataPoint);
                         pointsTableView.getSelectionModel().select(tableDataPoint);
                         pointsTableView.scrollTo(tableDataPoint);
                         // undoStack.push(dataPoint);
@@ -401,8 +476,9 @@ public class AppController {
             return;
         }
         pointsTableView.setItems(path.getSplineControlPoints());
-        controlPointSeries.setData(path.getChartData());
         pathPointsSeries.setData(path.getSplineChartData());
+        controlPointSeries.setData(path.getControlPointData());
+
     }
 
     public boolean selectAndScrollTo(ControlPointHandler point) {

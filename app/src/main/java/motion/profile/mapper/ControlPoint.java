@@ -1,5 +1,10 @@
 package motion.profile.mapper;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -9,8 +14,14 @@ import edu.wpi.first.math.geometry.Translation2d;
  * Automatically adds the point to the path upon creation.
  */
 public class ControlPoint {
+
+    @JsonProperty("translation2d")
     private Translation2d translation2d = new Translation2d(0, 0);
+
+    @JsonProperty("rotation2d")
     private Rotation2d rotation2d = new Rotation2d();
+
+    @JsonBackReference
     private final Path path;
 
     /**
@@ -21,19 +32,23 @@ public class ControlPoint {
     public ControlPoint(Path path) {
         this.path = path;
     }
-
-    /**
+        /**
      * Constructs a SplinePoint with the specified coordinates, rotation, and path.
      * 
      * @param translation2d The translation of the point.
      * @param rotation      The rotation of the point.
      * @param path          The path to which this point belongs.
      */
-    public ControlPoint(Translation2d translation2d, Rotation2d rotation, Path path) {
+    @JsonCreator
+    public ControlPoint(
+            @JsonProperty("translation2d") Translation2d translation2d,
+            @JsonProperty("rotation2d") Rotation2d rotation,
+            @JsonProperty("path") Path path) {
         this.path = path;
         this.translation2d = translation2d;
         this.rotation2d = rotation;
     }
+
 
     // Setters
     /**
@@ -107,6 +122,7 @@ public class ControlPoint {
      * 
      * @return The current pose.
      */
+    @JsonIgnore
     public Pose2d getPose() {
         return new Pose2d(getTranslation(), getRotation());
     }
@@ -116,6 +132,7 @@ public class ControlPoint {
      * 
      * @return The current translation.
      */
+    @JsonIgnore
     public Translation2d getTranslation() {
         return translation2d;
     }
@@ -125,6 +142,7 @@ public class ControlPoint {
      * 
      * @return The current rotation.
      */
+    @JsonIgnore
     public Rotation2d getRotation() {
         return rotation2d;
     }
@@ -134,6 +152,7 @@ public class ControlPoint {
      * 
      * @return The path.
      */
+    @JsonIgnore
     public Path getPath() {
         return path;
     }
@@ -143,6 +162,7 @@ public class ControlPoint {
      * 
      * @return The x-coordinate.
      */
+    @JsonIgnore
     public double getX() {
         return this.translation2d.getX();
     }
@@ -152,6 +172,7 @@ public class ControlPoint {
      * 
      * @return The y-coordinate.
      */
+    @JsonIgnore
     public double getY() {
         return this.translation2d.getY();
     }
@@ -161,6 +182,7 @@ public class ControlPoint {
      * 
      * @return The rotation in degrees.
      */
+    @JsonIgnore
     public double getRotationDegrees() {
         return this.rotation2d.getDegrees();
     }

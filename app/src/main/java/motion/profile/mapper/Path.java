@@ -3,22 +3,39 @@ package motion.profile.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import motion.profile.mapper.CubicSpline.CubicSpline2D;
 
 public class Path {
+    @JsonIgnore
     private CubicSpline2D spline = null;
+    @JsonIgnore
     private LinearSpline2D linearSpline = null;
+
+    @JsonProperty("type")
     private PathType type;
-    private List<ControlPoint> controlPoints = new ArrayList<>();
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("modifiedTime")
     private String modifiedTime;
+
+    @JsonManagedReference
+    @JsonProperty("controlPoints")
+    private List<ControlPoint> controlPoints = new ArrayList<>();
 
     public enum PathType {
         CUBIC, LINEAR
     }
 
     // Constructors
-    public Path(List<ControlPoint> controlPoints, String name, PathType type) {
+    public Path(@Nonnull List<ControlPoint> controlPoints, String name, PathType type) {
         this.controlPoints = controlPoints;
         this.type = type;
         this.name = name;
@@ -31,23 +48,37 @@ public class Path {
         generateSpline();
     }
 
-    public Path(List<ControlPoint> controlPoints, String name) {
+    public Path(@Nonnull List<ControlPoint> controlPoints, String name) {
         this(controlPoints, name, PathType.CUBIC);
     }
 
+    public Path (String name) {
+        this(name, PathType.CUBIC);
+    }
+    
+    public Path(@JsonProperty("controlPoints") List<ControlPoint> controlPoints, @JsonProperty("name") String name,
+            @JsonProperty("type") PathType type, @JsonProperty("modifiedTime") String modifiedTime) {
+        this(controlPoints, name, type);
+        this.modifiedTime = modifiedTime;
+    }
+
     // Getters
+    @JsonIgnore
     public String getName() {
         return name;
     }
 
+    @JsonIgnore
     public String getModifiedTime() {
         return modifiedTime;
     }
 
+    @JsonIgnore
     public List<ControlPoint> getControlPoints() {
         return controlPoints;
     }
 
+    @JsonIgnore
     public double getX(double t) {
         if (spline != null) {
             if (t > getLength()) {
@@ -60,6 +91,7 @@ public class Path {
         return 0.0;
     }
 
+    @JsonIgnore
     public double getY(double t) {
         if (spline != null) {
             if (t > getLength()) {
@@ -72,6 +104,7 @@ public class Path {
         return 0.0;
     }
 
+    @JsonIgnore
     public double getLength() {
         if (spline != null) {
             return spline.getLength();
@@ -79,6 +112,11 @@ public class Path {
             return linearSpline.getLength();
         }
         return 0.0;
+    }
+
+    @JsonIgnore
+    public PathType getType() {
+        return type;
     }
 
     // Setters
@@ -99,6 +137,7 @@ public class Path {
     }
 
     // Public Methods
+    @JsonIgnore
     public boolean isSpline() {
         switch (type) {
             case CUBIC:
@@ -134,6 +173,7 @@ public class Path {
         this.controlPoints.addAll(list);
     }
 
+    @JsonIgnore
     public boolean generateSpline() {
         if (controlPoints == null || controlPoints.size() < 2) {
             return false;

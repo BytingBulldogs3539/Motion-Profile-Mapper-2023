@@ -172,9 +172,7 @@ public class CubicSpline {
                     steps = 10;
                 }
                 controlPointDistances[i] = controlPointDistances[i - 1] + integrateLength(start, end, steps);
-
             }
-
 
             this.sx = new CubicSpline1D(controlPointDistances, x);
             this.sy = new CubicSpline1D(controlPointDistances, y);
@@ -235,11 +233,11 @@ public class CubicSpline {
         }
 
         // private double[] diff(double[] array) {
-        //     double[] diff = new double[array.length - 1];
-        //     for (int i = 0; i < array.length - 1; i++) {
-        //         diff[i] = array[i + 1] - array[i];
-        //     }
-        //     return diff;
+        // double[] diff = new double[array.length - 1];
+        // for (int i = 0; i < array.length - 1; i++) {
+        // diff[i] = array[i + 1] - array[i];
+        // }
+        // return diff;
         // }
     }
 }

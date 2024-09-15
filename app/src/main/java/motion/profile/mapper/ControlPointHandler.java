@@ -1,5 +1,7 @@
 package motion.profile.mapper;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,10 +16,15 @@ import javafx.scene.control.MenuItem;
 import javafx.util.Duration;
 
 public class ControlPointHandler extends ControlPoint {
+    @JsonIgnore
     private final SimpleDoubleProperty xProp = new SimpleDoubleProperty();
+    @JsonIgnore
     private final SimpleDoubleProperty yProp = new SimpleDoubleProperty();
+    @JsonIgnore
     private final SimpleDoubleProperty rotationProp = new SimpleDoubleProperty(); // Stored in degrees
+    @JsonIgnore
     private final PathHandler pathHandler;
+    @JsonIgnore
     private final XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(getX(), getY());
 
     /**
@@ -35,7 +42,6 @@ public class ControlPointHandler extends ControlPoint {
         forceSetY(translation.getY());
         forceSetRotation(rotation.getDegrees());
         bindDataPointProperties();
-        pathHandler.addControlPoint(this);
     }
 
     /**
@@ -50,23 +56,32 @@ public class ControlPointHandler extends ControlPoint {
         this(new Translation2d(x, y), Rotation2d.fromDegrees(rotation), pathHandler);
     }
 
+    public ControlPointHandler(ControlPoint controlPoint, PathHandler pathHandler) {
+        this(controlPoint.getTranslation(), controlPoint.getRotation(), pathHandler);
+    }
+
     // Getters
+    @JsonIgnore
     public XYChart.Data<Number, Number> getDataPoint() {
         return dataPoint;
     }
 
+    @JsonIgnore
     public SimpleDoubleProperty getXProp() {
         return xProp;
     }
 
+    @JsonIgnore
     public SimpleDoubleProperty getYProp() {
         return yProp;
     }
 
+    @JsonIgnore
     public SimpleDoubleProperty getRotationProp() {
         return rotationProp;
     }
 
+    @JsonIgnore
     public PathHandler getPathHandler() {
         return pathHandler;
     }
@@ -172,12 +187,8 @@ public class ControlPointHandler extends ControlPoint {
         node.setOnMouseClicked(event -> handleMouseClicked(event));
         node.setOnMouseReleased(event -> handleMouseReleased(node));
         node.setOnMouseDragged(event -> handleMouseDragged(event));
-
-        getDataPoint().nodeProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                newValue.setViewOrder(10);
-            }
-        }));
+        node.setStyle("-fx-background-color: blue;"); // Reset to default style
+        node.toFront();
     }
 
     private void handleMousePressed(Node node, javafx.scene.input.MouseEvent event) {

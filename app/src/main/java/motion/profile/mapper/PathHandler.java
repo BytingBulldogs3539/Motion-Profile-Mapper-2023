@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,42 +19,69 @@ import javafx.util.Callback;
 
 public class PathHandler extends Path {
 
-    private final ObservableList<ControlPointHandler> splineControlPoints;
-    private final ObservableList<XYChart.Data<Number, Number>> chartData = FXCollections.observableArrayList();
+    @JsonIgnore
+    private final ObservableList<XYChart.Data<Number, Number>> controlPointData = FXCollections.observableArrayList();
+    @JsonIgnore
     private final ObservableList<XYChart.Data<Number, Number>> splineChartData = FXCollections.observableArrayList();
-    private final SimpleBooleanProperty isSpline = new SimpleBooleanProperty(false);
-    private final SimpleStringProperty name = new SimpleStringProperty();
+    @JsonIgnore
+    private final SimpleBooleanProperty isSplineProp = new SimpleBooleanProperty(false);
+    @JsonIgnore
+    private final SimpleStringProperty nameProp = new SimpleStringProperty();
+    @JsonIgnore
     private final SimpleStringProperty modifiedTimeProp = new SimpleStringProperty();
+    @JsonIgnore
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy HH:mm:ss a");
 
+    @JsonIgnore
     private final Callback<ControlPointHandler, Observable[]> extractor = p -> new Observable[] {
             p.getXProp(), p.getYProp(), p.getRotationProp()
     };
 
-    public PathHandler(String name, boolean isSpline) {
-        super(name, isSpline ? Path.PathType.CUBIC : Path.PathType.LINEAR);
-        this.name.set(name);
-        this.splineControlPoints = FXCollections.observableArrayList(extractor);
+    @JsonIgnore
+    private final ObservableList<ControlPointHandler> splineControlPoints = FXCollections
+            .observableArrayList(extractor);
+
+    public PathHandler(String name, PathType type) {
+        super(name, type);
+        this.nameProp.set(name);
         initializeListeners();
+    }
+    public PathHandler(Path path)
+    {
+        super(path.getName(), path.getType());
+        this.nameProp.set(path.getName());
+        this.modifiedTimeProp.set(path.getModifiedTime());
+        initializeListeners();
+        for(ControlPoint point : path.getControlPoints())
+        {
+            ControlPointHandler cpHandler = new ControlPointHandler(point, this);
+            this.forceAddControlPoint(cpHandler);
+        }
+
     }
 
     // Getters
+    @JsonIgnore
     public SimpleStringProperty getNameProp() {
-        return name;
+        return nameProp;
     }
 
+    @JsonIgnore
     public ObservableList<ControlPointHandler> getSplineControlPoints() {
         return splineControlPoints;
     }
 
-    public ObservableList<XYChart.Data<Number, Number>> getChartData() {
-        return chartData;
+    @JsonIgnore
+    public ObservableList<XYChart.Data<Number, Number>> getControlPointData() {
+        return controlPointData;
     }
 
+    @JsonIgnore
     public ObservableList<XYChart.Data<Number, Number>> getSplineChartData() {
         return splineChartData;
     }
 
+    @JsonIgnore
     public SimpleStringProperty getModifiedTimeProp() {
         return modifiedTimeProp;
     }
@@ -60,13 +89,13 @@ public class PathHandler extends Path {
     // Setters
     public void setName(String name) {
         super.setName(name);
-        this.name.set(name);
+        this.nameProp.set(name);
     }
 
     public void setSplineMode(boolean isSpline) {
         if (isSpline != isSpline()) {
             super.setType(isSpline ? Path.PathType.CUBIC : Path.PathType.LINEAR);
-            this.isSpline.set(isSpline);
+            this.isSplineProp.set(isSpline);
             generateSplineData();
         }
     }
@@ -82,10 +111,17 @@ public class PathHandler extends Path {
 
     // Public Methods
     public void addControlPoint(ControlPointHandler point) {
-        splineControlPoints.add(point);
-        super.addControlPoint(point);
-        generateSplineData();
+        forceAddControlPoint(point);
         updateModifiedTime();
+        generateSplineData();
+    }
+
+    /*
+     * Adds a control point to the spline without updating the modified time or generating the spline data.
+     */
+    public void forceAddControlPoint(ControlPointHandler point) {
+        super.addControlPoint(point);
+        splineControlPoints.add(point);
     }
 
     public void removePoint(int index) {
@@ -124,12 +160,12 @@ public class PathHandler extends Path {
         splineControlPoints.addListener((ListChangeListener.Change<? extends ControlPointHandler> change) -> {
             while (change.next()) {
                 if (change.wasRemoved()) {
-                    chartData.removeAll(change.getRemoved().stream()
+                    controlPointData.removeAll(change.getRemoved().stream()
                             .map(ControlPointHandler::getDataPoint)
                             .collect(Collectors.toList()));
                 }
                 if (change.wasAdded()) {
-                    chartData.addAll(change.getAddedSubList().stream()
+                    controlPointData.addAll(change.getAddedSubList().stream()
                             .map(ControlPointHandler::getDataPoint)
                             .collect(Collectors.toList()));
                 }
@@ -149,10 +185,17 @@ public class PathHandler extends Path {
                 if (newValue != null) {
                     newValue.setStyle(
                             "-fx-background-color: red; -fx-padding: 2px;");
-                    newValue.setViewOrder(1);
+                    newValue.toBack();
                 }
             }));
             splineChartData.add(data);
+        }
+        for(ControlPointHandler point : splineControlPoints)
+        {
+            if(point.getDataPoint().getNode()!=null)
+            {
+                point.getDataPoint().getNode().toFront();
+            }
         }
     }
 }
