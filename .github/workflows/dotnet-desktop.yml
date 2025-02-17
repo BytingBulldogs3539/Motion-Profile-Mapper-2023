@@ -79,7 +79,7 @@ jobs:
 
       - name: Set Tag
         id: set_tag
-        run: echo "tag=${{ github.event_name == 'push' && (github.ref == 'refs/heads/2025' ||github.ref == 'refs/heads/2024' || github.ref == 'refs/heads/2023') ? 'Dev' : 'v' }}" >> $GITHUB_ENV
+        run: echo "tag=${{ github.event_name == 'push' && (github.ref == 'refs/heads/2025' || github.ref == 'refs/heads/2024' || github.ref == 'refs/heads/2023') ? 'Dev' : 'v' }}" >> $GITHUB_ENV
 
       - name: Push to Tag
         uses: pyTooling/Actions/releaser@r0
