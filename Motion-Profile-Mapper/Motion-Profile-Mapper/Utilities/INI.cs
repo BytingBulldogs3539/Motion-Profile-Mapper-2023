@@ -47,8 +47,9 @@ namespace MotionProfileMapper.Utilities {
         }
 
         public INI() {
-            this.fileName = "temp";
+            this.fileName = "New_Configuration";
             this.variables = new List<INIVariable>();
+
         }
 
         public int findVariable(string name) {

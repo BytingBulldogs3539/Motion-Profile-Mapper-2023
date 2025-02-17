@@ -1,8 +1,6 @@
 ﻿
-namespace MotionProfileMapper.Forms
-{
-    partial class ConfigurationView
-    {
+namespace MotionProfileMapper.Forms {
+    partial class ConfigurationView {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -12,10 +10,8 @@ namespace MotionProfileMapper.Forms
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && ( components != null )) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -27,8 +23,7 @@ namespace MotionProfileMapper.Forms
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -40,6 +35,12 @@ namespace MotionProfileMapper.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationView));
             this.filenameGrid = new System.Windows.Forms.DataGridView();
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.INICellStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newFileButton = new FontAwesome.Sharp.IconButton();
             this.deleteButton = new FontAwesome.Sharp.IconButton();
             this.saveToRioButton = new System.Windows.Forms.Button();
@@ -51,18 +52,16 @@ namespace MotionProfileMapper.Forms
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.loadLocalButton = new System.Windows.Forms.Button();
             this.connectionSettingsButton = new FontAwesome.Sharp.IconButton();
-            this.saveLocalButton = new System.Windows.Forms.Button();
             this.saveAllLocalButton = new System.Windows.Forms.Button();
             this.infoLabel = new System.Windows.Forms.Label();
-            this.rowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timeSinceUpload = new System.Windows.Forms.Label();
             this.iconButton2 = new FontAwesome.Sharp.IconButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize) ( this.filenameGrid ) ).BeginInit();
+            this.INICellStrip.SuspendLayout();
             this.rowContextMenuStrip.SuspendLayout();
+            ( (System.ComponentModel.ISupportInitialize) ( this.configurationGrid ) ).BeginInit();
             this.SuspendLayout();
             // 
             // filenameGrid
@@ -73,8 +72,8 @@ namespace MotionProfileMapper.Forms
             this.filenameGrid.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.filenameGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.filenameGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.filenameGrid.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.filenameGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.filenameGrid.BackgroundColor = System.Drawing.Color.White;
             this.filenameGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -82,7 +81,7 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(( (int) ( ( (byte) ( 188 ) ) ) ), ( (int) ( ( (byte) ( 159 ) ) ) ), ( (int) ( ( (byte) ( 245 ) ) ) ));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.filenameGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
@@ -90,26 +89,29 @@ namespace MotionProfileMapper.Forms
             this.filenameGrid.ColumnHeadersVisible = false;
             this.filenameGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FileName});
+            this.filenameGrid.ContextMenuStrip = this.INICellStrip;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(( (int) ( ( (byte) ( 188 ) ) ) ), ( (int) ( ( (byte) ( 159 ) ) ) ), ( (int) ( ( (byte) ( 245 ) ) ) ));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.filenameGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            this.filenameGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.filenameGrid.GridColor = System.Drawing.Color.Silver;
-            this.filenameGrid.Location = new System.Drawing.Point(11, 90);
+            this.filenameGrid.Location = new System.Drawing.Point(14, 112);
             this.filenameGrid.Margin = new System.Windows.Forms.Padding(2);
             this.filenameGrid.MultiSelect = false;
             this.filenameGrid.Name = "filenameGrid";
             this.filenameGrid.RowHeadersVisible = false;
             this.filenameGrid.RowHeadersWidth = 51;
             this.filenameGrid.RowTemplate.Height = 24;
-            this.filenameGrid.Size = new System.Drawing.Size(205, 318);
+            this.filenameGrid.Size = new System.Drawing.Size(256, 398);
             this.filenameGrid.TabIndex = 1;
+            this.filenameGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_CellDoubleClick);
             this.filenameGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_CellEndEdit);
-            this.filenameGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_RowEnter);
+            this.filenameGrid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.filenameGrid_CellEnter);
             // 
             // FileName
             // 
@@ -117,9 +119,56 @@ namespace MotionProfileMapper.Forms
             this.FileName.MinimumWidth = 6;
             this.FileName.Name = "FileName";
             // 
+            // INICellStrip
+            // 
+            this.INICellStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.INICellStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.removeToolStripMenuItem});
+            this.INICellStrip.Name = "contextMenuStrip1";
+            this.INICellStrip.Size = new System.Drawing.Size(133, 76);
+            // 
+            // renameToolStripMenuItem
+            // 
+            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.renameToolStripMenuItem.Text = "Rename";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(132, 24);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // rowContextMenuStrip
+            // 
+            this.rowContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.rowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.rowContextMenuStrip.Name = "rowContextMenuStrip";
+            this.rowContextMenuStrip.Size = new System.Drawing.Size(123, 28);
+            this.rowContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.rowContextMenuStrip_Opening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // newFileButton
             // 
-            this.newFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.newFileButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.newFileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.newFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newFileButton.ForeColor = System.Drawing.Color.DarkGray;
@@ -127,17 +176,17 @@ namespace MotionProfileMapper.Forms
             this.newFileButton.IconColor = System.Drawing.Color.Green;
             this.newFileButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.newFileButton.IconSize = 24;
-            this.newFileButton.Location = new System.Drawing.Point(11, 415);
+            this.newFileButton.Location = new System.Drawing.Point(14, 519);
             this.newFileButton.Margin = new System.Windows.Forms.Padding(0);
             this.newFileButton.Name = "newFileButton";
-            this.newFileButton.Size = new System.Drawing.Size(101, 24);
+            this.newFileButton.Size = new System.Drawing.Size(126, 30);
             this.newFileButton.TabIndex = 49;
             this.newFileButton.UseVisualStyleBackColor = false;
             this.newFileButton.Click += new System.EventHandler(this.newFileButton_Click);
             // 
             // deleteButton
             // 
-            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.deleteButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.deleteButton.Enabled = false;
             this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -146,27 +195,27 @@ namespace MotionProfileMapper.Forms
             this.deleteButton.IconColor = System.Drawing.Color.Firebrick;
             this.deleteButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.deleteButton.IconSize = 24;
-            this.deleteButton.Location = new System.Drawing.Point(115, 415);
+            this.deleteButton.Location = new System.Drawing.Point(144, 519);
             this.deleteButton.Margin = new System.Windows.Forms.Padding(0);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(101, 24);
+            this.deleteButton.Size = new System.Drawing.Size(126, 30);
             this.deleteButton.TabIndex = 50;
             this.deleteButton.UseVisualStyleBackColor = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // saveToRioButton
             // 
-            this.saveToRioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveToRioButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.saveToRioButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveToRioButton.Enabled = false;
             this.saveToRioButton.FlatAppearance.BorderSize = 0;
             this.saveToRioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveToRioButton.Font = new System.Drawing.Font("Verdana", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.saveToRioButton.ForeColor = System.Drawing.Color.Teal;
-            this.saveToRioButton.Location = new System.Drawing.Point(11, 467);
+            this.saveToRioButton.Location = new System.Drawing.Point(14, 584);
             this.saveToRioButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveToRioButton.Name = "saveToRioButton";
-            this.saveToRioButton.Size = new System.Drawing.Size(205, 41);
+            this.saveToRioButton.Size = new System.Drawing.Size(256, 51);
             this.saveToRioButton.TabIndex = 62;
             this.saveToRioButton.Text = "Save to RIO";
             this.toolTip1.SetToolTip(this.saveToRioButton, "Save configuration files to rio. (This will overwrite any pervious version on the" +
@@ -179,12 +228,12 @@ namespace MotionProfileMapper.Forms
             this.loadRIOButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.loadRIOButton.FlatAppearance.BorderSize = 0;
             this.loadRIOButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadRIOButton.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loadRIOButton.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.loadRIOButton.ForeColor = System.Drawing.Color.Teal;
-            this.loadRIOButton.Location = new System.Drawing.Point(11, 16);
+            this.loadRIOButton.Location = new System.Drawing.Point(14, 20);
             this.loadRIOButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadRIOButton.Name = "loadRIOButton";
-            this.loadRIOButton.Size = new System.Drawing.Size(166, 37);
+            this.loadRIOButton.Size = new System.Drawing.Size(208, 46);
             this.loadRIOButton.TabIndex = 63;
             this.loadRIOButton.Text = "Load from RIO";
             this.toolTip1.SetToolTip(this.loadRIOButton, "Load the configuration files from the rio");
@@ -196,15 +245,15 @@ namespace MotionProfileMapper.Forms
             this.configurationGrid.AllowDrop = true;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.configurationGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.configurationGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.configurationGrid.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.configurationGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(( (int) ( ( (byte) ( 188 ) ) ) ), ( (int) ( ( (byte) ( 159 ) ) ) ), ( (int) ( ( (byte) ( 245 ) ) ) ));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.configurationGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
@@ -218,14 +267,14 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(( (int) ( ( (byte) ( 188 ) ) ) ), ( (int) ( ( (byte) ( 159 ) ) ) ), ( (int) ( ( (byte) ( 245 ) ) ) ));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.configurationGrid.DefaultCellStyle = dataGridViewCellStyle6;
             this.configurationGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.configurationGrid.Enabled = false;
             this.configurationGrid.EnableHeadersVisualStyles = false;
-            this.configurationGrid.Location = new System.Drawing.Point(224, 56);
+            this.configurationGrid.Location = new System.Drawing.Point(280, 70);
             this.configurationGrid.Margin = new System.Windows.Forms.Padding(2);
             this.configurationGrid.MultiSelect = false;
             this.configurationGrid.Name = "configurationGrid";
@@ -233,14 +282,14 @@ namespace MotionProfileMapper.Forms
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(159)))), ((int)(((byte)(245)))));
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(( (int) ( ( (byte) ( 188 ) ) ) ), ( (int) ( ( (byte) ( 159 ) ) ) ), ( (int) ( ( (byte) ( 245 ) ) ) ));
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.configurationGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.configurationGrid.RowHeadersWidth = 40;
             this.configurationGrid.RowTemplate.Height = 24;
             this.configurationGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.configurationGrid.Size = new System.Drawing.Size(698, 474);
+            this.configurationGrid.Size = new System.Drawing.Size(872, 592);
             this.configurationGrid.TabIndex = 65;
             this.configurationGrid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.configurationGrid_CellValidated);
             this.configurationGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.configurationGrid_CellValidating);
@@ -296,12 +345,12 @@ namespace MotionProfileMapper.Forms
             this.loadLocalButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.loadLocalButton.FlatAppearance.BorderSize = 0;
             this.loadLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loadLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.loadLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.loadLocalButton.Location = new System.Drawing.Point(11, 56);
+            this.loadLocalButton.Location = new System.Drawing.Point(14, 70);
             this.loadLocalButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadLocalButton.Name = "loadLocalButton";
-            this.loadLocalButton.Size = new System.Drawing.Size(205, 22);
+            this.loadLocalButton.Size = new System.Drawing.Size(256, 28);
             this.loadLocalButton.TabIndex = 66;
             this.loadLocalButton.Text = "Load from local files";
             this.toolTip1.SetToolTip(this.loadLocalButton, "Load files from this device");
@@ -318,47 +367,28 @@ namespace MotionProfileMapper.Forms
             this.connectionSettingsButton.IconColor = System.Drawing.Color.Teal;
             this.connectionSettingsButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.connectionSettingsButton.IconSize = 40;
-            this.connectionSettingsButton.Location = new System.Drawing.Point(179, 16);
+            this.connectionSettingsButton.Location = new System.Drawing.Point(224, 20);
             this.connectionSettingsButton.Margin = new System.Windows.Forms.Padding(0);
             this.connectionSettingsButton.Name = "connectionSettingsButton";
-            this.connectionSettingsButton.Size = new System.Drawing.Size(37, 37);
+            this.connectionSettingsButton.Size = new System.Drawing.Size(46, 46);
             this.connectionSettingsButton.TabIndex = 67;
             this.toolTip1.SetToolTip(this.connectionSettingsButton, "Roborio connection settings");
             this.connectionSettingsButton.UseVisualStyleBackColor = false;
             this.connectionSettingsButton.Click += new System.EventHandler(this.connectionSettingsButton_Click);
             // 
-            // saveLocalButton
-            // 
-            this.saveLocalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.saveLocalButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.saveLocalButton.Enabled = false;
-            this.saveLocalButton.FlatAppearance.BorderSize = 0;
-            this.saveLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.saveLocalButton.Location = new System.Drawing.Point(11, 442);
-            this.saveLocalButton.Margin = new System.Windows.Forms.Padding(1);
-            this.saveLocalButton.Name = "saveLocalButton";
-            this.saveLocalButton.Size = new System.Drawing.Size(101, 22);
-            this.saveLocalButton.TabIndex = 68;
-            this.saveLocalButton.Text = "Save to local";
-            this.toolTip1.SetToolTip(this.saveLocalButton, "Save selected configuration to the local drive.");
-            this.saveLocalButton.UseVisualStyleBackColor = false;
-            this.saveLocalButton.Click += new System.EventHandler(this.saveLocalButton_Click);
-            // 
             // saveAllLocalButton
             // 
-            this.saveAllLocalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveAllLocalButton.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.saveAllLocalButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.saveAllLocalButton.Enabled = false;
             this.saveAllLocalButton.FlatAppearance.BorderSize = 0;
             this.saveAllLocalButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveAllLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveAllLocalButton.Font = new System.Drawing.Font("Verdana", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.saveAllLocalButton.ForeColor = System.Drawing.Color.Black;
-            this.saveAllLocalButton.Location = new System.Drawing.Point(115, 442);
+            this.saveAllLocalButton.Location = new System.Drawing.Point(14, 552);
             this.saveAllLocalButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveAllLocalButton.Name = "saveAllLocalButton";
-            this.saveAllLocalButton.Size = new System.Drawing.Size(101, 22);
+            this.saveAllLocalButton.Size = new System.Drawing.Size(256, 28);
             this.saveAllLocalButton.TabIndex = 69;
             this.saveAllLocalButton.Text = "Save all local";
             this.toolTip1.SetToolTip(this.saveAllLocalButton, "Save all configuration files to the local drive.");
@@ -367,33 +397,18 @@ namespace MotionProfileMapper.Forms
             // 
             // infoLabel
             // 
-            this.infoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoLabel.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.infoLabel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte) ( 0 ) ));
             this.infoLabel.ForeColor = System.Drawing.Color.Black;
-            this.infoLabel.Location = new System.Drawing.Point(269, 6);
+            this.infoLabel.Location = new System.Drawing.Point(336, 8);
+            this.infoLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(652, 40);
+            this.infoLabel.Size = new System.Drawing.Size(815, 50);
             this.infoLabel.TabIndex = 70;
             this.infoLabel.Text = "Configure Robot Constants";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // rowContextMenuStrip
-            // 
-            this.rowContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.rowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.rowContextMenuStrip.Name = "rowContextMenuStrip";
-            this.rowContextMenuStrip.Size = new System.Drawing.Size(108, 26);
-            this.rowContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.rowContextMenuStrip_Opening);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // timer1
             // 
@@ -402,11 +417,11 @@ namespace MotionProfileMapper.Forms
             // 
             // timeSinceUpload
             // 
-            this.timeSinceUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.timeSinceUpload.Location = new System.Drawing.Point(9, 512);
+            this.timeSinceUpload.Anchor = ( (System.Windows.Forms.AnchorStyles) ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
+            this.timeSinceUpload.Location = new System.Drawing.Point(11, 640);
             this.timeSinceUpload.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.timeSinceUpload.Name = "timeSinceUpload";
-            this.timeSinceUpload.Size = new System.Drawing.Size(207, 19);
+            this.timeSinceUpload.Size = new System.Drawing.Size(259, 24);
             this.timeSinceUpload.TabIndex = 71;
             this.timeSinceUpload.Text = "Last Upload: ";
             this.timeSinceUpload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -419,10 +434,10 @@ namespace MotionProfileMapper.Forms
             this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.BezierCurve;
             this.iconButton2.IconColor = System.Drawing.Color.SlateBlue;
             this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton2.Location = new System.Drawing.Point(224, 16);
+            this.iconButton2.Location = new System.Drawing.Point(280, 20);
             this.iconButton2.Margin = new System.Windows.Forms.Padding(0);
             this.iconButton2.Name = "iconButton2";
-            this.iconButton2.Size = new System.Drawing.Size(42, 38);
+            this.iconButton2.Size = new System.Drawing.Size(52, 48);
             this.iconButton2.TabIndex = 78;
             this.toolTip1.SetToolTip(this.iconButton2, "Switch to motion profiling mode");
             this.iconButton2.UseVisualStyleBackColor = false;
@@ -430,15 +445,14 @@ namespace MotionProfileMapper.Forms
             // 
             // ConfigurationView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(933, 541);
+            this.ClientSize = new System.Drawing.Size(1166, 676);
             this.Controls.Add(this.iconButton2);
             this.Controls.Add(this.timeSinceUpload);
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.saveAllLocalButton);
-            this.Controls.Add(this.saveLocalButton);
             this.Controls.Add(this.connectionSettingsButton);
             this.Controls.Add(this.loadLocalButton);
             this.Controls.Add(this.configurationGrid);
@@ -447,16 +461,18 @@ namespace MotionProfileMapper.Forms
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.newFileButton);
             this.Controls.Add(this.filenameGrid);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ( (System.Drawing.Icon) ( resources.GetObject("$this.Icon") ) );
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(673, 360);
+            this.MinimumSize = new System.Drawing.Size(837, 438);
             this.Name = "ConfigurationView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configure Constants";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigurationView_FormClosed);
-            ((System.ComponentModel.ISupportInitialize)(this.filenameGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.configurationGrid)).EndInit();
+            this.Load += new System.EventHandler(this.ConfigurationView_Load);
+            ( (System.ComponentModel.ISupportInitialize) ( this.filenameGrid ) ).EndInit();
+            this.INICellStrip.ResumeLayout(false);
             this.rowContextMenuStrip.ResumeLayout(false);
+            ( (System.ComponentModel.ISupportInitialize) ( this.configurationGrid ) ).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -471,7 +487,6 @@ namespace MotionProfileMapper.Forms
         private System.Windows.Forms.Button loadLocalButton;
         private FontAwesome.Sharp.IconButton connectionSettingsButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.Button saveLocalButton;
         private System.Windows.Forms.Button saveAllLocalButton;
         private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.ContextMenuStrip rowContextMenuStrip;
@@ -484,5 +499,9 @@ namespace MotionProfileMapper.Forms
         private System.Windows.Forms.DataGridViewComboBoxColumn Variable_Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        private System.Windows.Forms.ContextMenuStrip INICellStrip;
+        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
     }
 }

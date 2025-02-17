@@ -14,7 +14,7 @@ namespace MotionProfileMapper {
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MotionProfileMapper.Forms.Menu());
+            Application.Run(new MotionProfileMapper.Forms.ConfigurationView());
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]

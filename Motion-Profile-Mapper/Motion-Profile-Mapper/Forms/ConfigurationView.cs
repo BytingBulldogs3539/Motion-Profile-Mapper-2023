@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MotionProfileMapper.Utilities;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.VisualStyles;
 
 namespace MotionProfileMapper.Forms {
     public partial class ConfigurationView : Form {
@@ -39,6 +40,10 @@ namespace MotionProfileMapper.Forms {
 
         public ConfigurationView(Menu menu) {
             this.menu = menu;
+            InitializeComponent();
+        }
+        public ConfigurationView() {
+            this.menu = new Menu();
             InitializeComponent();
         }
 
@@ -298,25 +303,25 @@ namespace MotionProfileMapper.Forms {
                 string path = paths[i];
                 INI ini = iniList[i];
                 string filePath = path;
-                if (File.Exists(filePath) && !yesToAll) {
-                    MessageBoxManager.Yes = "Yes";
-                    MessageBoxManager.No = "No";
-                    MessageBoxManager.Cancel = "Yes To All";
-                    MessageBoxManager.Register();
-                    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?",
-                        "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                    MessageBoxManager.Unregister();
-                    switch (result) {
-                        case DialogResult.OK:
-                            break;
-                        case DialogResult.No:
-                            continue;
-                        case DialogResult.Cancel:
-                            yesToAll = true;
-                            break;
-                    }
+                //if (File.Exists(filePath) && !yesToAll) {
+                //    MessageBoxManager.Yes = "Yes";
+                //    MessageBoxManager.No = "No";
+                //    MessageBoxManager.Cancel = "Yes To All";
+                //    MessageBoxManager.Register();
+                //    DialogResult result = MessageBox.Show($"{path} already exists. \nDo you want to replace it?",
+                //        "Confirm Save As", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                //    MessageBoxManager.Unregister();
+                //    switch (result) {
+                //        case DialogResult.OK:
+                //            break;
+                //        case DialogResult.No:
+                //            continue;
+                //        case DialogResult.Cancel:
+                //            yesToAll = true;
+                //            break;
+                //    }
 
-                }
+                //}
                 if (Path.GetExtension(path) == ".ini")
                     using (var writer = new StreamWriter(filePath)) {
                         writer.Write(ini.toIni());
@@ -412,6 +417,8 @@ namespace MotionProfileMapper.Forms {
             Cursor = Cursors.Default;
         }
         private void saveToRioButton_Click(object sender, EventArgs e) {
+            saveAllLocalButton_Click(null, null);
+
             if (validateINIS()) return;
 
             if (inis.Count == 0) {
@@ -561,6 +568,22 @@ namespace MotionProfileMapper.Forms {
             this.menu.Close();
         }
 
+        private void loadFile(string path) {
+            using (System.IO.StreamReader fileReader = new System.IO.StreamReader(path)) {
+                try {
+                    addFile(new INI(Path.GetFileNameWithoutExtension(path), fileReader));
+                } catch {
+                    MessageBox.Show("Error loading file " + path, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void loadFiles(string[] paths) {
+            foreach (string path in paths) {
+                loadFile(path);
+            }
+        }
+
         private void loadLocalButton_Click(object sender, EventArgs e) {
             fileDialog = new OpenFileDialog();
             fileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
@@ -576,28 +599,12 @@ namespace MotionProfileMapper.Forms {
             if (fileDialog.ShowDialog() != DialogResult.OK) return;
 
             Cursor = Cursors.WaitCursor;
-            foreach (string filename in fileDialog.FileNames) {
-                using (System.IO.StreamReader fileReader = new System.IO.StreamReader(filename)) {
-                    try {
-                        addFile(new INI(Path.GetFileNameWithoutExtension(filename), fileReader));
-                    } catch {
-                        MessageBox.Show("Error loading file " + filename, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            if (inis.Count > 0) {
-                inis.Last().loadTable(configurationGrid);
-                filenameGrid.ClearSelection();
-                filenameGrid.Rows[filenameGrid.Rows.Count - 1].Selected = true;
-                selectedIni = inis.Last();
-                checkEnableStatuses();
-            }
+            loadFiles(fileDialog.FileNames);
 
             Cursor = Cursors.Default;
         }
         private void checkEnableStatuses() {
             saveToRioButton.Enabled = inis.Count > 0;
-            saveLocalButton.Enabled = selectedIni != null;
             saveAllLocalButton.Enabled = inis.Count > 0;
             deleteButton.Enabled = selectedIni != null;
             configurationGrid.Enabled = filenameGrid.SelectedCells.Count > 0;
@@ -606,13 +613,6 @@ namespace MotionProfileMapper.Forms {
             else {
                 configurationGrid.Rows.Clear();
             }
-        }
-
-        private void filenameGrid_RowEnter(object sender, DataGridViewCellEventArgs e) {
-            inis[e.RowIndex].loadTable(configurationGrid);
-            selectedIni = inis[e.RowIndex];
-            checkEnableStatuses();
-
         }
 
         private void configurationGrid_CellValidated(object sender, DataGridViewCellEventArgs e) {
@@ -654,6 +654,7 @@ namespace MotionProfileMapper.Forms {
             selectedIni = inis.Last();
             filenameGrid.ClearSelection();
             filenameGrid.Rows[rowIndex].Selected = true;
+            filenameGrid.CurrentCell = filenameGrid.Rows[rowIndex].Cells[0];
             checkEnableStatuses();
         }
         private void removeFile(int index) {
@@ -675,6 +676,8 @@ namespace MotionProfileMapper.Forms {
         }
         private void newFileButton_Click(object sender, EventArgs e) {
             addFile(new INI());
+            filenameGrid.BeginEdit(true); // Enter edit mode
+
         }
         private void configurationGrid_UserDeletedRow(object sender, DataGridViewRowEventArgs e) {
             reloadVariablesFromTable();
@@ -803,5 +806,44 @@ namespace MotionProfileMapper.Forms {
             menu.mp.Show();
             this.Hide();
         }
+
+        private void ConfigurationView_Load(object sender, EventArgs e) {
+            if (Directory.Exists(Properties.Settings.Default.iniSavePath)) {
+                string[] iniFiles = Directory.GetFiles(Properties.Settings.Default.iniSavePath, "*.ini");
+                loadFiles(iniFiles);
+
+            }
+
+        }
+
+        private void filenameGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            DataGridView table = sender as DataGridView;
+            if (table != null && e.RowIndex >= 0 && e.ColumnIndex >= 0) {
+                table.BeginEdit(true); // Enter edit mode
+            }
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
+
+            filenameGrid.BeginEdit(true); // Enter edit mode
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e) {
+            addFile(new INI());
+            filenameGrid.BeginEdit(true); // Enter edit mode
+
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (filenameGrid.SelectedCells.Count > 0)
+                removeFile(filenameGrid.SelectedCells[0].RowIndex);
+        }
+
+        private void filenameGrid_CellEnter(object sender, DataGridViewCellEventArgs e) {
+            inis[e.RowIndex].loadTable(configurationGrid);
+            selectedIni = inis[e.RowIndex];
+            checkEnableStatuses();
+        }
     }
 }
+
