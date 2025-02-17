@@ -9,6 +9,10 @@ on:
     types:
       - created
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build:
     strategy:
