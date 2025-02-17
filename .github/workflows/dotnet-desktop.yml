@@ -4,7 +4,6 @@ on:
       - "2025"
       - "2024"
       - "2023"
-      
   release:
     types:
       - created
@@ -80,13 +79,13 @@ jobs:
 
       - name: Set Tag
         id: set_tag
-        run: echo "::set-output name=tag::${{ github.event_name == 'push' && (github.ref == 'refs/heads/2024' || github.ref == 'refs/heads/2023') && 'Dev' || 'v' }}"
+        run: echo "tag=${{ github.event_name == 'push' && (github.ref == 'refs/heads/2025' ||github.ref == 'refs/heads/2024' || github.ref == 'refs/heads/2023') ? 'Dev' : 'v' }}" >> $GITHUB_ENV
 
       - name: Push to Tag
         uses: pyTooling/Actions/releaser@r0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.set_tag.outputs.tag }}
+          tag: ${{ env.tag }}
           rm: true
           files: |
             **/*.msi
