@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using MotionProfileMapper.Utilities;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.VisualStyles;
+using System.Net.NetworkInformation;
 
 namespace MotionProfileMapper.Forms {
     public partial class ConfigurationView : Form {
@@ -298,7 +299,7 @@ namespace MotionProfileMapper.Forms {
                     iniList.Add(ini);
                 }
             }
-            bool yesToAll = false;
+            //bool yesToAll = false;
             for (int i = 0; i < paths.Count; i++) {
                 string path = paths[i];
                 INI ini = iniList[i];
@@ -416,6 +417,7 @@ namespace MotionProfileMapper.Forms {
 
             Cursor = Cursors.Default;
         }
+
         private void saveToRioButton_Click(object sender, EventArgs e) {
             saveAllLocalButton_Click(null, null);
 
@@ -427,8 +429,16 @@ namespace MotionProfileMapper.Forms {
             }
             Cursor = Cursors.WaitCursor;
 
+            string robotIp = Settings.GetRobotIpAddress();
+            if (robotIp == null) {
+                setStatus("Failed to find RIO", Color.Red);
+                Cursor = Cursors.Default;
+                return;
+            }
+
+
             ConnectionInfo info = new ConnectionInfo(
-               Properties.Settings.Default.IpAddress,
+               robotIp,
                Properties.Settings.Default.Username,
                new PasswordAuthenticationMethod(
                    Properties.Settings.Default.Username,
@@ -505,8 +515,16 @@ namespace MotionProfileMapper.Forms {
 
         private void loadRIOButton_Click(object sender, EventArgs e) {
             Cursor = Cursors.WaitCursor;
+
+            string robotIp = Settings.GetRobotIpAddress();
+            if (robotIp == null) {
+                setStatus("Failed to find RIO", Color.Red);
+                Cursor = Cursors.Default;
+                return;
+            }
+
             ConnectionInfo info = new ConnectionInfo(
-                Properties.Settings.Default.IpAddress,
+                robotIp,
                 Properties.Settings.Default.Username,
                 new PasswordAuthenticationMethod(
                     Properties.Settings.Default.Username,

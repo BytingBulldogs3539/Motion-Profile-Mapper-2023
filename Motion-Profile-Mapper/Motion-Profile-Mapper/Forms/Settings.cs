@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +15,7 @@ namespace MotionProfileMapper {
     public partial class Settings : Form {
         public Settings() {
             InitializeComponent();
-            this.ipaddress.Text = Properties.Settings.Default.IpAddress;
+            this.teamNumber.Text = Properties.Settings.Default.teamNumber.ToString();
             this.username.Text = Properties.Settings.Default.Username;
             this.password.Text = Properties.Settings.Default.Password;
             this.riopath.Text = Properties.Settings.Default.RioLocation;
@@ -34,13 +36,50 @@ namespace MotionProfileMapper {
             this.snapPathsCheckbox.Checked = Properties.Settings.Default.SnapNewPaths;
         }
 
+
+        public static string getRioStaticIp(int teamNumber) {
+            return String.Format("10.{0:D2}.{1:D2}.2", teamNumber / 100, teamNumber % 100);
+
+        }
+        public static string GetRobotIpAddress() {
+            string[] possibleIps = new string[]
+            {
+                getRioStaticIp(Properties.Settings.Default.teamNumber),
+                "roboRIO-"+Properties.Settings.Default.teamNumber+"-FRC.local",
+                "172.22.11.2",
+                "roboRIO-"+Properties.Settings.Default.teamNumber+"-FRC.lan",
+                "roboRIO-"+Properties.Settings.Default.teamNumber+"-FRC.frc-field.local"
+            };
+
+            Debug.WriteLine("Possible IPs:");
+            foreach (string ip in possibleIps) {
+                Debug.WriteLine(ip);
+            }
+
+            foreach (string ip in possibleIps) {
+                using (Ping ping = new Ping()) {
+                    try {
+                        PingReply reply = ping.Send(ip, 1000);
+                        if (reply.Status == IPStatus.Success) {
+                            return ip;
+                        }
+                    } catch (PingException) {
+                        // Ignore and try next IP
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
         private void save_Click(object sender, EventArgs e) {
-            if (!ValidateIPv4(this.ipaddress.Text)) {
-                MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!ValidateTeamNumber(this.teamNumber.Text)) {
+                MessageBox.Show("This team number is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            Properties.Settings.Default.IpAddress = this.ipaddress.Text;
+            Properties.Settings.Default.teamNumber = int.Parse(this.teamNumber.Text);
             Properties.Settings.Default.Username = this.username.Text;
             Properties.Settings.Default.Password = this.password.Text;
             Properties.Settings.Default.RioLocation = this.riopath.Text + ( this.riopath.Text.Last().ToString() == "/" ? "" : "/" );
@@ -104,24 +143,12 @@ namespace MotionProfileMapper {
         }
 
         /// <summary>
-        /// Used to validate the ip address of the robot to make sure that it is in an ipv4 format.
+        /// Used to validate the team number to make sure that it is up to 5 digits.
         /// </summary>
-        /// <param name="ipString">The ip string value.</param>
-        /// <returns>a boolean that tells you if the ip is in ipv4 format.</returns>
-        public bool ValidateIPv4(string ipString) {
-            // if the text contains a whitespace/space or a null value then it is clearly not a ip address.
-            if (String.IsNullOrWhiteSpace(ipString)) {
-                return false;
-            }
-            //Split the ip address into different parts
-            string[] splitValues = ipString.Split('.');
-            if (splitValues.Length != 4) {
-                return false;
-            }
-
-            byte tempForParsing;
-            //check to see if all of the values are bytes.
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+        /// <param name="teamNumberString">The team number string value.</param>
+        /// <returns>a boolean that tells you if the team number is valid.</returns>
+        public bool ValidateTeamNumber(string teamNumberString) {
+            return int.TryParse(teamNumberString, out int teamNumber) && teamNumberString.Length <= 5;
         }
 
         private void cancel_Click(object sender, EventArgs e) {

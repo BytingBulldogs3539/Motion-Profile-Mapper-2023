@@ -604,7 +604,15 @@
 
         private void LoadProfilesFromRIO(object sender, EventArgs e) {
             Cursor = Cursors.WaitCursor;
-            ConnectionInfo info = new ConnectionInfo(Properties.Settings.Default.IpAddress,
+
+            string robotIp = Settings.GetRobotIpAddress();
+            if (robotIp == null) {
+                setStatus("Failed to establish connection", true);
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            ConnectionInfo info = new ConnectionInfo(robotIp,
                 Properties.Settings.Default.Username, new PasswordAuthenticationMethod(Properties.Settings.Default.Username, Properties.Settings.Default.Password));
 
             info.Timeout = TimeSpan.FromSeconds(5);
@@ -928,8 +936,16 @@
             }
             Cursor = Cursors.WaitCursor;
 
+            string robotIp = Settings.GetRobotIpAddress();
+            if (robotIp == null) {
+                setStatus("Failed to establish connection", true);
+                Cursor = Cursors.Default;
+                return;
+            }
+
+
             SftpClient sftp = new SftpClient(
-                Properties.Settings.Default.IpAddress,
+                robotIp,
                 Properties.Settings.Default.Username,
                 Properties.Settings.Default.Password
             );

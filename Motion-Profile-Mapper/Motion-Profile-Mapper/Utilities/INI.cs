@@ -218,7 +218,7 @@ namespace MotionProfileMapper.Utilities {
 
             fileContent += $"public class {this.fileName.Replace(" ", "").Trim()} extends BBConstants " + "{" + "\r\n";
 
-            fileContent += "\tpublic " + this.fileName + "() {\r\n\t\tsuper(\"" + Properties.Settings.Default.INILocation + this.fileName + ".ini\", true);\r\n\t\tsave();\r\n\t}\r\n\r\n";
+            fileContent += "\tpublic " + this.fileName + "() {\r\n\t\tsuper(\"" + Properties.Settings.Default.INILocation + this.fileName + ".ini\", true);\r\n\t\tsave();\r\n\t\twriteToNetworkTable();\r\n\t}\r\n\r\n";
 
             foreach (INIVariable variable in variables) {
                 string commentStr = "";
