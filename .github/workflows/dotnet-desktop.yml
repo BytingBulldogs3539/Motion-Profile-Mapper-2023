@@ -1,12 +1,16 @@
 on:
   push:
     branches:
+      - "2025"
       - "2024"
       - "2023"
-      
   release:
     types:
       - created
+
+permissions:
+  contents: write
+  actions: read
 
 jobs:
   build:
@@ -75,20 +79,25 @@ jobs:
 
       - name: Set Tag
         id: set_tag
-        run: echo "::set-output name=tag::${{ github.event_name == 'push' && (github.ref == 'refs/heads/2024' || github.ref == 'refs/heads/2023') && 'Dev' || 'v' }}"
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && ( "${{ github.ref }}" == "refs/heads/2025" || "${{ github.ref }}" == "refs/heads/2024" || "${{ github.ref }}" == "refs/heads/2023" ) ]]; then
+            echo "tag=Dev" >> $GITHUB_ENV
+          else
+            echo "tag=v" >> $GITHUB_ENV
+          fi
 
       - name: Push to Tag
         uses: pyTooling/Actions/releaser@r0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.set_tag.outputs.tag }}
+          tag: ${{ env.tag }}
           rm: true
           files: |
             **/*.msi
         if: github.event_name == 'push' || github.event_name == 'release'
         
       - name: Upload release assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             **/*.msi
